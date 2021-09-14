@@ -9,6 +9,7 @@ import {
 
 import {BtnAction} from '../components/sharedComponent';
 import ListCarousel from '../components/listCarousel';
+import DewormingFilters from "./filters/Deworming";
 
 const DashBoard = ({navigation}) => {
   return (
@@ -45,16 +46,19 @@ const DashBoard = ({navigation}) => {
               <BtnAction
                 navigation={navigation}
                 title="Desparacitación"
+                action="DewormingFilter"
                 url={require('../assets/images/tabs/PARASITEICON.png')}
               />
               <BtnAction
                 navigation={navigation}
                 title="Vacunación"
+                action="VaccinateFilter"
                 url={require('../assets/images/tabs/VACCINEICON.png')}
               />
               <BtnAction
                 navigation={navigation}
                 title="Control Veterinario"
+                action="CtrVet"
                 url={require('../assets/images/tabs/DOCTORICON.png')}
               />
             </View>

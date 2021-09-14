@@ -40,6 +40,8 @@ export const BtnAction = ({navigation, title, url, action}) => {
   );
 };
 
+
+
 const style = StyleSheet.create({
   bgImage: {
     flex: 1,

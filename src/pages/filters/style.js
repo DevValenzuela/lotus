@@ -26,4 +26,26 @@ export const style = StyleSheet.create({
     height: 25,
     marginRight: 10,
   },
+  contentSearch: {
+    flexDirection: 'row',
+    padding: 10,
+  },
+  searchIcon: {
+    width: 22,
+    height: 22,
+    right: 20,
+    top: 20,
+    position: 'absolute',
+    zIndex: 999,
+  },
+  txtSearch: {
+    padding: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    backgroundColor: '#ffffff',
+    width: '100%',
+    borderRadius: 40,
+    color: '#330066',
+    fontSize: 14,
+  },
 });

@@ -20,10 +20,14 @@ import Deworming from './pages/edit/Deworming';
 import Vaccinations from './pages/edit/Vaccinations';
 import General from './pages/edit/General';
 
+import ControllerVet from './pages/filters/ControllerVet';
+import DewormingFilters from './pages/filters/Deworming';
+
 import MenuContent from './components/menuContent';
 import Notify from './shared/notify';
 
 import {options, options2} from './shared/header_config';
+import VaccinateFilters from "./pages/filters/Vaccinate";
 
 const Stack = createStackNavigator();
 
@@ -71,6 +75,32 @@ export function RouterNavigation() {
           ...options2(navigation),
         })}
       />
+      <Stack.Screen
+        name="CtrVet"
+        component={ControllerVet}
+        options={({navigation, route}) => ({
+          title: 'Veterinario',
+          ...options2(navigation),
+        })}
+      />
+      <Stack.Screen
+        name="DewormingFilter"
+        component={DewormingFilters}
+        options={({navigation, route}) => ({
+          title: 'Desparacitaciones',
+          ...options2(navigation),
+        })}
+      />
+
+      <Stack.Screen
+        name="VaccinateFilter"
+        component={VaccinateFilters}
+        options={({navigation, route}) => ({
+          title: 'Vacunaciones',
+          ...options2(navigation),
+        })}
+      />
+
       <Stack.Screen
         name="EditProfile"
         component={EditProfile}
