@@ -8,7 +8,7 @@ import {
   ImageBackground,
   Image,
   TouchableHighlight,
-  Button,
+  Platform,
 } from 'react-native';
 import {Formik} from 'formik';
 const initialValue = {
@@ -134,7 +134,7 @@ const style = StyleSheet.create({
   containerLogo: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: Platform.OS === 'ios' ? 90 : 50,
   },
   tinyLogo: {
     width: 128,

@@ -3,12 +3,11 @@ import {
   ImageBackground,
   SafeAreaView,
   FlatList,
-  StyleSheet,
   Text,
   View,
   Image,
 } from 'react-native';
-
+import {style} from './style';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -110,31 +109,5 @@ const MedicHistory = () => {
   );
 };
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#330066',
-  },
-  bgImage: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  dateTitle: {
-    color: '#fff',
-  },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#660066',
-    marginVertical: 5,
-    marginHorizontal: 10,
-    padding: 10,
-    borderRadius: 10,
-  },
-  image: {
-    width: 25,
-    height: 25,
-    marginRight: 10,
-  },
-});
+
 export default MedicHistory;

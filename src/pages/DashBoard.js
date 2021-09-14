@@ -35,14 +35,26 @@ const DashBoard = ({navigation}) => {
             />
           </View>
           <View
-            style={{flex: 3, justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+            style={{
+              flex: 3,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 20,
+            }}>
             <View style={{width: 250}}>
-              <BtnAction navigation={navigation} title="Desparacitación" url={require('../assets/images/tabs/PARASITEICON.png')} />
-              <BtnAction navigation={navigation} title="Vacunación" url={require('../assets/images/tabs/VACCINEICON.png')} />
+              <BtnAction
+                navigation={navigation}
+                title="Desparacitación"
+                url={require('../assets/images/tabs/PARASITEICON.png')}
+              />
+              <BtnAction
+                navigation={navigation}
+                title="Vacunación"
+                url={require('../assets/images/tabs/VACCINEICON.png')}
+              />
               <BtnAction
                 navigation={navigation}
                 title="Control Veterinario"
-                action="ControlMedic"
                 url={require('../assets/images/tabs/DOCTORICON.png')}
               />
             </View>
@@ -50,7 +62,7 @@ const DashBoard = ({navigation}) => {
           <View style={{flex: 2, justifyContent: 'center'}}>
             <ListCarousel navigation={navigation} />
           </View>
-          <View style={{flex: 2, alignItems: 'center', marginTop:10}}>
+          <View style={{flex: 2, alignItems: 'center', marginTop: 10}}>
             <BtnAction
               navigation={navigation}
               title="Añadir Mascota"

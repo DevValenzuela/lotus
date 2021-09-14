@@ -1,5 +1,5 @@
-import {StyleSheet, Text, TouchableHighlight, Image, View} from 'react-native';
 import React from 'react';
+import {StyleSheet, Text, TouchableHighlight, Image, View} from 'react-native';
 
 export const BtnAction = ({navigation, title, url, action}) => {
   return (

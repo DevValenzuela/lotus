@@ -28,7 +28,7 @@ const DetailsMascot = ({navigation}) => {
               marginVertical: 5,
               marginHorizontal: 12,
               borderRadius: 10,
-              marginBottom: 110,
+              marginBottom: 150,
               paddingVertical: 10,
             }}>
             <View style={{flex: 1, flexDirection: 'column', maxWidth: 500}}>
@@ -38,10 +38,12 @@ const DetailsMascot = ({navigation}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => console.log('Edit...')}>
-                    <Image
-                      source={require('./../assets/images/edit_btn.png')}
-                    />
+                    onPress={() => navigation.navigate('EditGeneral')}>
+                    <View style={{marginTop: 15}}>
+                      <Image
+                        source={require('./../assets/images/edit_btn.png')}
+                      />
+                    </View>
                   </TouchableHighlight>
                   <View style={{flex: 1, marginBottom: 10}}>
                     <Image
@@ -93,14 +95,16 @@ const DetailsMascot = ({navigation}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => console.log('Edit...')}>
-                    <Image
-                      source={require('./../assets/images/edit_btn.png')}
-                    />
+                    onPress={() => navigation.navigate('EditDeworming')}>
+                    <View style={{marginTop: 15}}>
+                      <Image
+                        source={require('./../assets/images/edit_btn.png')}
+                      />
+                    </View>
                   </TouchableHighlight>
                   <Text style={style.subtitleTxt}>Desparacitación:</Text>
                   <View style={style.containerGroup}>
-                    <Text style={style.subTxt}>Ultima desparacitación:</Text>
+                    <Text style={style.subTxt}>Última desparacitación:</Text>
                     <Text style={style.parrTxt}>26 Marzo 2018</Text>
                   </View>
                   <View style={style.containerGroup}>
@@ -123,14 +127,16 @@ const DetailsMascot = ({navigation}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => console.log('Edit...')}>
-                    <Image
-                      source={require('./../assets/images/edit_btn.png')}
-                    />
+                    onPress={() => navigation.navigate('EditVaccinations')}>
+                    <View style={{marginTop: 15}}>
+                      <Image
+                        source={require('./../assets/images/edit_btn.png')}
+                      />
+                    </View>
                   </TouchableHighlight>
                   <Text style={style.subtitleTxt}>Vacunación:</Text>
                   <View style={style.containerGroup}>
-                    <Text style={style.subTxt}>última Vacunación:</Text>
+                    <Text style={style.subTxt}>Última Vacunación:</Text>
                     <Text style={style.parrTxt}>07 Diciembre 2020</Text>
                   </View>
                   <View style={style.containerGroup}>
@@ -153,10 +159,12 @@ const DetailsMascot = ({navigation}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => console.log('Edit...')}>
-                    <Image
-                      source={require('./../assets/images/edit_btn.png')}
-                    />
+                    onPress={() => navigation.navigate('EditControlMedic')}>
+                    <View style={{marginTop: 15}}>
+                      <Image
+                        source={require('./../assets/images/edit_btn.png')}
+                      />
+                    </View>
                   </TouchableHighlight>
                   <Text style={style.subtitleTxt}>Control Médico:</Text>
                   <View style={style.containerGroup}>
@@ -237,9 +245,12 @@ const style = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 0,
+    width: 50,
+    height: 50,
+    alignItems: 'center',
     backgroundColor: 'rgba(51,0,102,0.56)',
-    padding: 10,
     borderRadius: 50,
+    zIndex: 9999
   },
 });
 export default DetailsMascot;

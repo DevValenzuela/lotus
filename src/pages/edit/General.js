@@ -1,25 +1,23 @@
 import React, {useState} from 'react';
 import {
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  View,
-  ImageBackground,
-  TextInput,
-  Image,
-  ScrollView,
   Button,
   Dimensions,
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
   TouchableHighlight,
+  View,
 } from 'react-native';
+import {style} from './style';
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
 
-const AddMascot = () => {
+const General = () => {
   const [selectedStartDate, getselectedStartDate] = useState(null);
-  const [setSterilized, getSterilized] = useState('Si');
-  const [setMicrochip, getMicrochip] = useState('No');
   const [setCalendar, getCalendar] = useState(false);
+  const [setMicrochip, getMicrochip] = useState('No');
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
 
   const onDateChange = date => {
@@ -30,10 +28,6 @@ const AddMascot = () => {
     strValue ? getCalendar(true) : getCalendar(false);
   };
 
-  const sterilized = strValue => {
-    getSterilized(strValue);
-  };
-
   const stMicrochip = strValue => {
     getMicrochip(strValue);
   };
@@ -41,43 +35,13 @@ const AddMascot = () => {
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground
-        source={require('../assets/images/bg_lotus.png')}
+        source={require('./../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView>
           <View style={style.containerForm}>
-            <View style={{flexDirection: 'row'}}>
-              <View style={{flex: 1, padding: 5, justifyContent: 'flex-end'}}>
-                <Image
-                  source={{
-                    uri: 'https://ichef.bbci.co.uk/news/640/cpsprodpb/150EA/production/_107005268_gettyimages-611696954.jpg',
-                  }}
-                  style={{width: '100%', height: 150, borderRadius: 10}}
-                  resizeMode="cover"
-                />
-              </View>
-              <View style={{flex: 2, justifyContent: 'center'}}>
-                <Text style={style.label}>Nombre mascota</Text>
-                <TextInput
-                  style={[style.inputText, {backgroundColor: '#ffffff'}]}
-                  placeholder="Ej: Bruno..."
-                />
-                <Text style={style.label}>Edad mascota</Text>
-                <TextInput
-                  style={[
-                    style.inputText,
-                    {
-                      backgroundColor: '#ffffff',
-                      borderColor: '#330066',
-                      color: '#330066',
-                    },
-                  ]}
-                  placeholder="Ej: 2 años"
-                />
-              </View>
-            </View>
             <View>
-              <Text style={style.label}>Tipo de mascota</Text>
+              <Text style={style.label}>Tipo mascota:</Text>
               <TextInput
                 style={[
                   style.inputText,
@@ -87,9 +51,9 @@ const AddMascot = () => {
                     color: '#330066',
                   },
                 ]}
-                placeholder="Ej: Pitbull"
+                placeholder="Ingresa el tipo mascota"
               />
-              <Text style={style.label}>Raza</Text>
+              <Text style={style.label}>Raza:</Text>
               <TextInput
                 style={[
                   style.inputText,
@@ -99,45 +63,9 @@ const AddMascot = () => {
                     color: '#330066',
                   },
                 ]}
-                placeholder="Ej: Pitbull"
+                placeholder="Ingresa el tipo raza"
               />
-              <Text style={style.label}>Esterilizado</Text>
-              <View style={{flexDirection: 'row', marginVertical: 5}}>
-                <View>
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => sterilized('Si')}>
-                    <Text
-                      style={
-                        setSterilized === 'Si'
-                          ? style.checkBoxActive
-                          : style.checkBox
-                      }>
-                      Sí
-                    </Text>
-                  </TouchableHighlight>
-                </View>
-                <View>
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => sterilized('No')}>
-                    <Text
-                      style={
-                        setSterilized === 'No'
-                          ? style.checkBoxActive
-                          : style.checkBox
-                      }>
-                      No
-                    </Text>
-                  </TouchableHighlight>
-                </View>
-                <TextInput
-                  style={{display: 'none'}}
-                  placeholder="Insertar esterilizado..."
-                  value={setSterilized}
-                />
-              </View>
-              <Text style={style.label}>Fecha de especialización</Text>
+              <Text style={style.label}>Fecha de esterilización</Text>
               <TextInput
                 style={[
                   style.inputText,
@@ -151,6 +79,7 @@ const AddMascot = () => {
                 showSoftInputOnFocus={false}
                 placeholder="Ingresa la fecha"
               />
+
               <Text style={style.label}>Microship</Text>
               <View style={{flexDirection: 'row', marginVertical: 5}}>
                 <View>
@@ -200,7 +129,7 @@ const AddMascot = () => {
               )}
 
               <Text style={style.label}>
-                Enfermedades o cuidados Especiales
+                Enfermedades o cuidados especiales:
               </Text>
 
               <View style={{marginHorizontal: 5, marginVertical: 2}}>
@@ -215,12 +144,11 @@ const AddMascot = () => {
                   underlineColorAndroid={'transparent'}
                 />
               </View>
+
               <View style={{marginVertical: 10}}>
-                <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => console.log('Action add Mascot...')}>
+                <TouchableHighlight>
                   <View style={style.btnSubmit}>
-                    <Text style={style.txtAction}>Añadir</Text>
+                    <Text style={style.btnSubmitxt}>Modificar</Text>
                   </View>
                 </TouchableHighlight>
               </View>
@@ -264,18 +192,14 @@ const AddMascot = () => {
               <TouchableHighlight
                 underlayColor="transparent"
                 onPress={() => enableCalendar(false)}>
-                <View style={style.btnActions}>
-                  <Text style={style.txtAction}>Cancelar</Text>
-                </View>
+                <Text style={style.btnActions}>Cancelar</Text>
               </TouchableHighlight>
             </View>
             <View style={{padding: 10, flex: 1}}>
               <TouchableHighlight
                 underlayColor="transparent"
                 onPress={() => console.log('Seleccionado')}>
-                <View style={style.btnActions}>
-                  <Text style={style.txtAction}>Seleccionar</Text>
-                </View>
+                <Text style={style.btnActions}>Seleccionar</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -284,100 +208,4 @@ const AddMascot = () => {
     </SafeAreaView>
   );
 };
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#330066',
-  },
-  bgImage: {
-    flex: 1,
-  },
-  containerForm: {
-    backgroundColor: 'rgba(102,0,102,0.69)',
-    padding: 4,
-    borderRadius: 10,
-    marginVertical: 10,
-    marginHorizontal: 10
-  },
-  label: {
-    fontSize: 14,
-    color: '#00FFFF',
-    paddingLeft: 3,
-    marginVertical: 4,
-  },
-  inputText: {
-    borderWidth: 1,
-    fontSize: 16,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    margin: 3,
-  },
-  textareaContainer: {
-    height: 120,
-    padding: 5,
-    backgroundColor: '#FFFFFF',
-    borderColor: '#330066',
-    color: '#330066',
-    borderRadius: 5,
-    marginVertical: 5,
-  },
-  textarea: {
-    textAlignVertical: 'top',
-    height: 170,
-    fontSize: 14,
-    color: '#333',
-  },
-  containerCalendar: {
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 999,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    top: 0,
-  },
-  checkBoxActive: {
-    backgroundColor: '#3C0065',
-    color: '#ffffff',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    marginHorizontal: 4,
-  },
-  checkBox: {
-    backgroundColor: '#D5D5D5',
-    color: '#3C0065',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    marginHorizontal: 4,
-  },
-  btnActions: {
-    opacity: 0.8,
-    backgroundColor: '#660066',
-    padding: 10,
-    borderRadius: 20,
-    width: '100%',
-    marginVertical: 10,
-    textTransform: 'uppercase',
-  },
-  txtAction:{
-    color: '#ffffff',
-    textAlign: 'center',
-  },
-  btnSubmit:{
-    opacity: 0.8,
-    backgroundColor: '#3C0065',
-    padding: 10,
-    borderRadius: 20,
-    width: '100%',
-    marginVertical: 10,
-    textTransform: 'uppercase',
-  }
-});
-
-export default AddMascot;
+export default General;

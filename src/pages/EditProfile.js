@@ -40,15 +40,11 @@ const EditProfile = () => {
                       style={style.inputText}
                       placeholder="Contraseña"
                     />
-
                     <TouchableHighlight
-                        underlayColor="transparent"
-                        onPress={() => handleSubmit()}>
-                      <View
-                          style={style.btnEdit}>
-                        <Text style={style.txtBtnEdit}>
-                         Editar
-                        </Text>
+                      underlayColor="transparent"
+                      onPress={() => handleSubmit()}>
+                      <View style={style.btnEdit}>
+                        <Text style={style.txtBtnEdit}>Editar</Text>
                       </View>
                     </TouchableHighlight>
                   </View>
@@ -99,23 +95,23 @@ const style = StyleSheet.create({
     backgroundColor: '#660066',
     borderRadius: 10,
   },
-  btnTxtDelete:{
+  btnTxtDelete: {
     textAlign: 'center',
     padding: 10,
     width: 200,
     color: '#66FFCC',
     textTransform: 'uppercase',
   },
-  btnEdit:{
+  btnEdit: {
     backgroundColor: '#330066',
-    borderRadius: 50
+    borderRadius: 50,
   },
-  txtBtnEdit:{
+  txtBtnEdit: {
     color: '#ffffff',
     padding: 10,
     textAlign: 'center',
     fontSize: 16,
-  }
+  },
 });
 
 export default EditProfile;

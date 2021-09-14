@@ -3,11 +3,12 @@ import {
   ImageBackground,
   SafeAreaView,
   FlatList,
-  StyleSheet,
   Text,
   View,
   Image,
 } from 'react-native';
+
+import {style} from './style';
 
 const DATA = [
   {
@@ -83,9 +84,7 @@ const Item = ({date}) => (
       resizeMode="contain"
       style={style.image}
     />
-    <Text style={style.dateTitle}>
-      {date}
-    </Text>
+    <Text style={style.dateTitle}>{date}</Text>
   </View>
 );
 
@@ -110,31 +109,5 @@ const DewormingHistory = () => {
   );
 };
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#330066',
-  },
-  bgImage: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  dateTitle: {
-    color: '#fff',
-  },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#660066',
-    marginVertical: 5,
-    marginHorizontal: 10,
-    padding: 10,
-    borderRadius: 10,
-  },
-  image: {
-    width: 25,
-    height: 25,
-    marginRight: 10
-  },
-});
+
 export default DewormingHistory;
