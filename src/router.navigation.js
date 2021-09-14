@@ -22,12 +22,12 @@ import General from './pages/edit/General';
 
 import ControllerVet from './pages/filters/ControllerVet';
 import DewormingFilters from './pages/filters/Deworming';
+import VaccinateFilters from './pages/filters/Vaccinate';
 
 import MenuContent from './components/menuContent';
 import Notify from './shared/notify';
 
 import {options, options2} from './shared/header_config';
-import VaccinateFilters from "./pages/filters/Vaccinate";
 
 const Stack = createStackNavigator();
 
@@ -57,14 +57,14 @@ export function RouterNavigation() {
       <Stack.Screen
         name="Dashboard"
         component={DashBoard}
-        options={({navigation, route}) => ({...options(navigation)})}
+        options={() => ({...options()})}
       />
       <Stack.Screen
         name="Notify"
         component={Notify}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Notificaciones',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
       <Stack.Screen
@@ -72,129 +72,129 @@ export function RouterNavigation() {
         component={ProfileUser}
         options={({navigation, route}) => ({
           title: 'Perfil',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
       <Stack.Screen
         name="CtrVet"
         component={ControllerVet}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Veterinario',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
       <Stack.Screen
         name="DewormingFilter"
         component={DewormingFilters}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Desparacitaciones',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
 
       <Stack.Screen
         name="VaccinateFilter"
         component={VaccinateFilters}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Vacunaciones',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
 
       <Stack.Screen
         name="EditProfile"
         component={EditProfile}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Editar Perfil',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
 
       <Stack.Screen
         name="DetailsMascot"
         component={DetailsMascot}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Detalles Mascota',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
 
       <Stack.Screen
         name="HistoryVaccinations"
         component={VaccinationsHistory}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Vacunaciones',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
 
       <Stack.Screen
         name="HistoryMedic"
         component={MedicHistory}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Medicos',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
 
       <Stack.Screen
         name="HistoryDeworming"
         component={DewormingHistory}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Desparacitaciones',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
 
       <Stack.Screen
         name="EditGeneral"
         component={General}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'General',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
 
       <Stack.Screen
         name="EditVaccinations"
         component={Vaccinations}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Vacunación',
-          ...options2(navigation),
+          ...options2(),
         })}
       />
 
       <Stack.Screen
         name="EditControlMedic"
         component={ControlMedic}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Control Medico',
-          ...options2(navigation),
+          ...options2(),
         })}></Stack.Screen>
 
       <Stack.Screen
         name="EditDeworming"
         component={Deworming}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Desparacitación',
-          ...options2(navigation),
+          ...options2(),
         })}></Stack.Screen>
 
       <Stack.Screen
         name="AddMascot"
         component={AddMascot}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Añadir Mascota',
-          ...options2(navigation),
+          ...options2(),
         })}></Stack.Screen>
 
       {/**Menu Drop Down**/}
       <Stack.Screen
         name="MenuDropDown"
         component={MenuContent}
-        options={({navigation, route}) => ({
+        options={() => ({
           title: 'Menu',
-          ...options2(navigation),
+          ...options2(),
         })}></Stack.Screen>
     </Stack.Navigator>
   );

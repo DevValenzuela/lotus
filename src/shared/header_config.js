@@ -6,9 +6,8 @@ import {
   TouchableHighlight,
   View,
   Dimensions,
-} from "react-native";
-
-
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 function LogoTitle() {
   return (
     <View
@@ -27,7 +26,8 @@ function LogoTitle() {
   );
 }
 
-function NotifyProfileView({navigation}) {
+function NotifyProfileView() {
+  const navigation = useNavigation();
   return (
     <>
       <TouchableHighlight
@@ -41,7 +41,6 @@ function NotifyProfileView({navigation}) {
           <View style={style.number}>
             <Text style={style.txtNumber}>3</Text>
           </View>
-
         </>
       </TouchableHighlight>
       <TouchableHighlight
@@ -56,7 +55,24 @@ function NotifyProfileView({navigation}) {
   );
 }
 
-export const options = navigation => ({
+function Headerleft() {
+  const navigation = useNavigation();
+  return (
+    <>
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={() => navigation.navigate('MenuDropDown')}>
+        <Image
+          style={style.menu}
+          source={require('../assets/images/menu.png')}
+        />
+      </TouchableHighlight>
+      <LogoTitle />
+    </>
+  );
+}
+
+export const options = () => ({
   title: '',
   headerStyle: {
     backgroundColor: '#330066',
@@ -65,28 +81,16 @@ export const options = navigation => ({
   headerTitleStyle: {
     fontWeight: 'bold',
   },
-  headerLeft: () => (
-    <>
-      <TouchableHighlight
-        underlayColor="transparent"
-        onPress={() => navigation.navigate('MenuDropDown')}>
-          <Image
-              style={style.menu}
-              source={require('../assets/images/menu.png')}
-          />
-      </TouchableHighlight>
-      <LogoTitle/>
-    </>
-  ),
+  headerLeft: () => <Headerleft />,
 
   headerRight: () => (
     <View style={{flexDirection: 'row'}}>
-      <NotifyProfileView navigation={navigation} />
+      <NotifyProfileView />
     </View>
   ),
 });
 
-export const options2 = navigation => ({
+export const options2 = () => ({
   headerStyle: {
     backgroundColor: '#330066',
   },
@@ -97,7 +101,7 @@ export const options2 = navigation => ({
 
   headerRight: () => (
     <View style={{flexDirection: 'row'}}>
-      <NotifyProfileView navigation={navigation} />
+      <NotifyProfileView />
     </View>
   ),
 });
@@ -130,7 +134,7 @@ const style = StyleSheet.create({
     top: 22,
     left: 20,
   },
-  txtNumber:{
+  txtNumber: {
     color: '#fff',
     textAlign: 'center',
     lineHeight: 14,
