@@ -8,14 +8,14 @@ import {
   Text,
   TouchableHighlight,
 } from 'react-native';
-import {BtnAction} from '../components/sharedComponent';
+import {BtnAction} from './../../components/sharedComponent';
 
 const ProfileUser = ({navigation}) => {
   return (
     <View style={style.container}>
       <ScrollView>
         <ImageBackground
-          source={require('../assets/images/bg_lotus.png')}
+          source={require('./../../assets/images/bg_lotus.png')}
           resizeMode="cover"
           style={[
             style.bgImage,
@@ -23,7 +23,7 @@ const ProfileUser = ({navigation}) => {
           ]}>
           <View style={style.contentProfile}>
             <Image
-              source={require('../assets/images/image_photo.png')}
+              source={require('./../../assets/images/image_photo.png')}
               style={style.imgProfile}
             />
             <Text style={style.name}>Andres Cooper</Text>
@@ -32,7 +32,7 @@ const ProfileUser = ({navigation}) => {
               style={style.edit}
               underlayColor="transparent"
               onPress={() => navigation.navigate('EditProfile')}>
-              <Image source={require('./../assets/images/edit_btn.png')} />
+              <Image source={require('./../../assets/images/edit_btn.png')} />
             </TouchableHighlight>
           </View>
           <BtnAction title="Cerrar Sesión" />

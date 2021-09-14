@@ -20,7 +20,7 @@ const Recovery = ({navigation}) => {
   return (
     <View style={style.container}>
       <ImageBackground
-        source={require('../assets/images/bg_lotus.png')}
+        source={require('./../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView>
@@ -34,7 +34,7 @@ const Recovery = ({navigation}) => {
               <View style={style.containerLogo}>
                 <Image
                   style={style.tinyLogo}
-                  source={require('../assets/images/lotus_logo.png')}
+                  source={require('./../../assets/images/lotus_logo.png')}
                 />
                 <Text style={{color: '#00FFFF', fontSize: 18}}>
                   pet-care app

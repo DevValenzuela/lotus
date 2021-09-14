@@ -4,11 +4,11 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import Login from './pages/Login';
-import Register from './pages/Register';
-import Recovery from './pages/Recovery';
 import DashBoard from './pages/DashBoard';
-import ProfileUser from './pages/Profile';
-import EditProfile from './pages/EditProfile';
+import ProfileUser from './pages/user/Profile';
+import Register from './pages/user/Register';
+import Recovery from './pages/user/Recovery';
+import EditProfile from './pages/user/EditProfile';
 import DetailsMascot from './pages/DetailsMascot';
 import VaccinationsHistory from './pages/history/vaccinations';
 import MedicHistory from './pages/history/medic';

@@ -6,7 +6,6 @@ import {
   StyleSheet,
   ScrollView,
   ImageBackground,
-  Button,
   TouchableHighlight,
 } from 'react-native';
 
@@ -18,7 +17,7 @@ const EditProfile = () => {
   return (
     <View style={style.container}>
       <ImageBackground
-        source={require('../assets/images/bg_lotus.png')}
+        source={require('./../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView>
