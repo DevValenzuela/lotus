@@ -17,6 +17,7 @@ function LogoTitle() {
         position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',
+        zIndex: 99,
       }}>
       <Image
         style={{width: 113, height: 32}}
@@ -60,6 +61,7 @@ function Headerleft() {
   return (
     <>
       <TouchableHighlight
+        style={{zIndex: 999}}
         underlayColor="transparent"
         onPress={() => navigation.navigate('MenuDropDown')}>
         <Image
@@ -119,6 +121,9 @@ const style = StyleSheet.create({
     width: 30,
     height: 30,
     marginHorizontal: 15,
+    zIndex: 999999,
+    position: 'relative'
+
   },
   notify: {
     width: 39,

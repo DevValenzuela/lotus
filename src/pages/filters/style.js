@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 export const style = StyleSheet.create({
   container: {
@@ -34,7 +34,7 @@ export const style = StyleSheet.create({
     width: 22,
     height: 22,
     right: 20,
-    top: 20,
+    top: Platform.OS === 'ios' ? 15 : 20,
     position: 'absolute',
     zIndex: 999,
   },
