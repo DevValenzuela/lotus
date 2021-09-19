@@ -6,8 +6,7 @@ export const style = StyleSheet.create({
     backgroundColor: '#330066',
   },
   bgImage: {
-    flex: 1,
-    justifyContent: 'center',
+    flex: 1
   },
   dateTitle: {
     color: '#fff',

@@ -18,7 +18,7 @@ const DATA = [
     date: 'Febrero 15/2021',
   },
   {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    id: '58694a0f-3da1-471f-bd96-145571e29d72ddd',
     date: 'Diciembre 12/2020',
   },
   {
@@ -97,7 +97,7 @@ const VaccinationsHistory = () => {
         source={require('../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <View style={{flex: 1, maxWidth: 500}}>
+        <View style={{flex: 1}}>
           <FlatList
             data={DATA}
             renderItem={renderItem}

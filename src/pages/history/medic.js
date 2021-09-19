@@ -97,7 +97,7 @@ const MedicHistory = () => {
         source={require('../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <View style={{flex: 1, maxWidth: 500}}>
+        <View style={{flex: 1}}>
           <FlatList
             data={DATA}
             renderItem={renderItem}

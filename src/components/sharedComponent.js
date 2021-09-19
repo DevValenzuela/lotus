@@ -6,7 +6,14 @@ export const BtnAction = ({navigation, title, url, action}) => {
     <TouchableHighlight
       underlayColor="transparent"
       onPress={() => navigation.navigate(action)}>
-      <View style={style.btnActions}>
+      <View
+        style={[
+          {
+            paddingHorizontal: url ? 10 : 40,
+            paddingVertical: url ? 10 : 20,
+          },
+          style.btnActions,
+        ]}>
         {url ? (
           <>
             <Image
@@ -40,8 +47,6 @@ export const BtnAction = ({navigation, title, url, action}) => {
   );
 };
 
-
-
 const style = StyleSheet.create({
   bgImage: {
     flex: 1,
@@ -50,7 +55,6 @@ const style = StyleSheet.create({
   btnActions: {
     opacity: 0.8,
     backgroundColor: '#660066',
-    padding: 10,
     borderRadius: 50,
     width: '100%',
     marginVertical: 4,

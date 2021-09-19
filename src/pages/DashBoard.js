@@ -9,7 +9,10 @@ import {
 
 import {BtnAction} from '../components/sharedComponent';
 import ListCarousel from '../components/listCarousel';
-import DewormingFilters from "./filters/Deworming";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const DashBoard = ({navigation}) => {
   return (
@@ -28,21 +31,21 @@ const DashBoard = ({navigation}) => {
               flexDirection: 'column',
             },
           ]}>
-          <View style={{flex: 3}}>
+          <View style={{alignItems: 'center'}}>
             <Image
               style={style.banner}
               source={require('./../assets/images/banner_canino.jpg')}
-              resizeMode="cover"
+              resizeMode="stretch"
             />
           </View>
           <View
             style={{
-              flex: 3,
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: 20,
+              width: wp('100%'),
+              height: hp('33%'),
             }}>
-            <View style={{width: 250}}>
+            <View style={{width: wp('60%')}}>
               <BtnAction
                 navigation={navigation}
                 title="Desparacitación"
@@ -63,10 +66,17 @@ const DashBoard = ({navigation}) => {
               />
             </View>
           </View>
-          <View style={{flex: 2, justifyContent: 'center'}}>
+          <View
+            style={{
+              width: wp('100%'),
+              height: hp('20%'),
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              maxWidth: 790,
+            }}>
             <ListCarousel navigation={navigation} />
           </View>
-          <View style={{flex: 2, alignItems: 'center', marginTop: 10}}>
+          <View style={{alignItems: 'center'}}>
             <BtnAction
               navigation={navigation}
               title="Añadir Mascota"
@@ -85,8 +95,9 @@ const style = StyleSheet.create({
     backgroundColor: '#330066',
   },
   banner: {
-    width: Dimensions.get('window').width,
-    height: '100%',
+    width: wp('100%'),
+    height: hp('26%'),
+    maxWidth: 560,
   },
   imageGoogle: {
     width: '100%',

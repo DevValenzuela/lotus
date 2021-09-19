@@ -11,9 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		5C23F994E572A0E5580B28FD /* libPods-lotus-lotusTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03DD9BA8B178E71E950C1BD6 /* libPods-lotus-lotusTests.a */; };
+		5552E9BC467242BAFE1593C2 /* libPods-lotus-lotusTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77060C5D2B959C9E44576907 /* libPods-lotus-lotusTests.a */; };
+		621AC015F9799709188B37D8 /* libPods-lotus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15D6939DAFD45A4DF9029ACB /* libPods-lotus.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		A0AB542A9B1F82FB40BE5011 /* libPods-lotus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDE456F8963D5FC7D530813 /* libPods-lotus.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,20 +30,20 @@
 		00E356EE1AD99517003FC87E /* lotusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lotusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* lotusTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = lotusTests.m; sourceTree = "<group>"; };
-		03DD9BA8B178E71E950C1BD6 /* libPods-lotus-lotusTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lotus-lotusTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		094BAE6D8B5F2F85CFD7662D /* Pods-lotus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lotus.release.xcconfig"; path = "Target Support Files/Pods-lotus/Pods-lotus.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* lotus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lotus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = lotus/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = lotus/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = lotus/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = lotus/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lotus/main.m; sourceTree = "<group>"; };
-		491FF8C96D9029F2F3C590C8 /* Pods-lotus-lotusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lotus-lotusTests.debug.xcconfig"; path = "Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6ECFDEC5300C903ECFDE3841 /* Pods-lotus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lotus.debug.xcconfig"; path = "Target Support Files/Pods-lotus/Pods-lotus.debug.xcconfig"; sourceTree = "<group>"; };
-		6EDE456F8963D5FC7D530813 /* libPods-lotus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lotus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		15D6939DAFD45A4DF9029ACB /* libPods-lotus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lotus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		52D3D1AC27D71D16A73327A0 /* Pods-lotus-lotusTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lotus-lotusTests.release.xcconfig"; path = "Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests.release.xcconfig"; sourceTree = "<group>"; };
+		5B6DE332D3D8625AC76B0B94 /* Pods-lotus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lotus.debug.xcconfig"; path = "Target Support Files/Pods-lotus/Pods-lotus.debug.xcconfig"; sourceTree = "<group>"; };
+		77060C5D2B959C9E44576907 /* libPods-lotus-lotusTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lotus-lotusTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lotus/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AD55AD40F0B44222EA1552AE /* Pods-lotus-lotusTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lotus-lotusTests.release.xcconfig"; path = "Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests.release.xcconfig"; sourceTree = "<group>"; };
+		8C1F204B86291E5A6ED6ACE5 /* Pods-lotus-lotusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lotus-lotusTests.debug.xcconfig"; path = "Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FEFF45CFB0032B744995DDC8 /* Pods-lotus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lotus.release.xcconfig"; path = "Target Support Files/Pods-lotus/Pods-lotus.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C23F994E572A0E5580B28FD /* libPods-lotus-lotusTests.a in Frameworks */,
+				5552E9BC467242BAFE1593C2 /* libPods-lotus-lotusTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0AB542A9B1F82FB40BE5011 /* libPods-lotus.a in Frameworks */,
+				621AC015F9799709188B37D8 /* libPods-lotus.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,15 +101,14 @@
 			children = (
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				6EDE456F8963D5FC7D530813 /* libPods-lotus.a */,
-				03DD9BA8B178E71E950C1BD6 /* libPods-lotus-lotusTests.a */,
+				15D6939DAFD45A4DF9029ACB /* libPods-lotus.a */,
+				77060C5D2B959C9E44576907 /* libPods-lotus-lotusTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -117,12 +116,11 @@
 		68D2FD3D936226B08A3CF66F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6ECFDEC5300C903ECFDE3841 /* Pods-lotus.debug.xcconfig */,
-				094BAE6D8B5F2F85CFD7662D /* Pods-lotus.release.xcconfig */,
-				491FF8C96D9029F2F3C590C8 /* Pods-lotus-lotusTests.debug.xcconfig */,
-				AD55AD40F0B44222EA1552AE /* Pods-lotus-lotusTests.release.xcconfig */,
+				5B6DE332D3D8625AC76B0B94 /* Pods-lotus.debug.xcconfig */,
+				FEFF45CFB0032B744995DDC8 /* Pods-lotus.release.xcconfig */,
+				8C1F204B86291E5A6ED6ACE5 /* Pods-lotus-lotusTests.debug.xcconfig */,
+				52D3D1AC27D71D16A73327A0 /* Pods-lotus-lotusTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -165,12 +163,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "lotusTests" */;
 			buildPhases = (
-				224C8093B1C312CD98990C9B /* [CP] Check Pods Manifest.lock */,
+				B62530DC78810725C5566152 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				5CD00B1FCF48A6BE23A8A0A6 /* [CP] Embed Pods Frameworks */,
-				31653B23588214BCE74C8000 /* [CP] Copy Pods Resources */,
+				4283B3089F543C305A37E14A /* [CP] Embed Pods Frameworks */,
+				37E24CB61166A1B71FFF3E76 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -186,14 +184,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "lotus" */;
 			buildPhases = (
-				7E0298DA8739EB303D564CDF /* [CP] Check Pods Manifest.lock */,
+				D93DFE396079410C5395C188 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				E76447E6F7213D044E0D42BD /* [CP] Embed Pods Frameworks */,
-				9876A3D09D4F9F80148BA578 /* [CP] Copy Pods Resources */,
+				C4A38CEEB2FA95CE4B1D9AFC /* [CP] Embed Pods Frameworks */,
+				FCAAB94300D727CFFB3A6501 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -274,7 +272,41 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		224C8093B1C312CD98990C9B /* [CP] Check Pods Manifest.lock */ = {
+		37E24CB61166A1B71FFF3E76 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4283B3089F543C305A37E14A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B62530DC78810725C5566152 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -296,41 +328,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		31653B23588214BCE74C8000 /* [CP] Copy Pods Resources */ = {
+		C4A38CEEB2FA95CE4B1D9AFC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5CD00B1FCF48A6BE23A8A0A6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-lotus/Pods-lotus-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-lotus/Pods-lotus-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lotus-lotusTests/Pods-lotus-lotusTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lotus/Pods-lotus-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7E0298DA8739EB303D564CDF /* [CP] Check Pods Manifest.lock */ = {
+		D93DFE396079410C5395C188 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -352,7 +367,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9876A3D09D4F9F80148BA578 /* [CP] Copy Pods Resources */ = {
+		FCAAB94300D727CFFB3A6501 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -367,23 +382,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lotus/Pods-lotus-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E76447E6F7213D044E0D42BD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lotus/Pods-lotus-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lotus/Pods-lotus-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lotus/Pods-lotus-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -438,7 +436,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 491FF8C96D9029F2F3C590C8 /* Pods-lotus-lotusTests.debug.xcconfig */;
+			baseConfigurationReference = 8C1F204B86291E5A6ED6ACE5 /* Pods-lotus-lotusTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -465,7 +463,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD55AD40F0B44222EA1552AE /* Pods-lotus-lotusTests.release.xcconfig */;
+			baseConfigurationReference = 52D3D1AC27D71D16A73327A0 /* Pods-lotus-lotusTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -489,11 +487,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ECFDEC5300C903ECFDE3841 /* Pods-lotus.debug.xcconfig */;
+			baseConfigurationReference = 5B6DE332D3D8625AC76B0B94 /* Pods-lotus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UVPWA39WAZ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = lotus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -505,21 +504,23 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.lotus.app;
 				PRODUCT_NAME = lotus;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 094BAE6D8B5F2F85CFD7662D /* Pods-lotus.release.xcconfig */;
+			baseConfigurationReference = FEFF45CFB0032B744995DDC8 /* Pods-lotus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UVPWA39WAZ;
 				INFOPLIST_FILE = lotus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -530,9 +531,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.lotus.app;
 				PRODUCT_NAME = lotus;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

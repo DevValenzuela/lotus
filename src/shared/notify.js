@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Animated,
   ImageBackground,
-  ScrollView,
+  FlatList,
   StyleSheet,
   View,
 } from 'react-native';
@@ -10,26 +10,33 @@ import BoxNotifyCation from '../components/boxNotification';
 const Notify = () => {
   return (
     <Animated.View style={style.container}>
-      <ScrollView>
-        <ImageBackground
-          source={require('../assets/images/bg_lotus.png')}
-          resizeMode="cover"
-          style={style.bgImage}>
-          <View style={{flex: 1, maxWidth: 500}}>
-            <View
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-              }}>
-              <BoxNotifyCation />
-              <BoxNotifyCation />
-              <BoxNotifyCation />
-            </View>
-          </View>
-        </ImageBackground>
-      </ScrollView>
+      <ImageBackground
+        source={require('../assets/images/bg_lotus.png')}
+        resizeMode="cover"
+        style={style.bgImage}>
+        <View style={{flex: 1}}>
+          <FlatList
+            data={[
+              {
+                tile: 'Notification',
+                type: 'Desparacitación',
+                date: '12/08/2010',
+              },
+              {
+                tile: 'Notification',
+                type: 'Desparacitación',
+                date: '12/08/2010',
+              },
+              {
+                tile: 'Notification',
+                type: 'Desparacitación',
+                date: '12/08/2010',
+              },
+            ]}
+            renderItem={({item}) => <BoxNotifyCation />}
+          />
+        </View>
+      </ImageBackground>
     </Animated.View>
   );
 };
@@ -41,8 +48,7 @@ const style = StyleSheet.create({
   },
   bgImage: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: "center"
+
   },
   containerLogo: {
     justifyContent: 'center',

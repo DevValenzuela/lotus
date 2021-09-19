@@ -5,28 +5,37 @@ import {
   ImageBackground,
   TouchableHighlight,
   StyleSheet,
-  ScrollView,
+  FlatList,
   Dimensions,
 } from 'react-native';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const LinkMenu = ({data}) => {
   return (
-    <TouchableHighlight underlayColor="transparent" onPress={() => alert('Click Here')}>
+    <TouchableHighlight
+      underlayColor="transparent"
+      onPress={() => alert('Click Here')}>
       <ImageBackground
         source={data.img}
-        imageStyle={{borderRadius: 4, opacity: 0.8}}
-        style={{width: 300, height: 120}}
-        resizeMode="contain">
+        imageStyle={{borderRadius: 10, opacity: 0.8}}
+        style={{
+          width: wp('94%'),
+          height: wp('30%'),
+          justifyContent: 'flex-end',
+          marginVertical: 5,
+        }}
+        resizeMode="cover">
         <Text
           style={{
-            width: '100%',
-            position: 'relative',
-            bottom: -75,
-            fontSize: 18,
+            width: wp('94%'),
+            fontSize: 20,
             textAlign: 'right',
             textTransform: 'uppercase',
             color: '#00FFFF',
-            paddingRight: 10,
+            paddingRight: 20,
+            paddingBottom: 10,
           }}>
           {data.title}
         </Text>
@@ -37,57 +46,55 @@ const LinkMenu = ({data}) => {
 
 const MenuContent = () => {
   return (
-    <ScrollView>
-      <View
-        style={{
-          position: 'relative',
-          backgroundColor: '#31055d',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View style={style.menuContainer}>
-          <LinkMenu
-            data={{
+    <View
+      style={{
+        flex: 1,
+        position: 'relative',
+        backgroundColor: '#31055d',
+        padding: 10
+      }}>
+      <View style={style.menuContainer}>
+        <FlatList
+          data={[
+            {
               title: 'Amar y Cuidar',
               img: require('../assets/images/menu/love_look_after.jpg'),
-            }}
-          />
-          <LinkMenu
-            data={{
+            },
+            {
               title: 'Agenda Calendario',
               img: require('../assets/images/menu/CALENDAR.jpg'),
-            }}
-          />
-          <LinkMenu
-            data={{
+            },
+            {
               title: 'Noticias',
               img: require('../assets/images/menu/NEWS2.jpg'),
-            }}
-          />
-          <LinkMenu
-            data={{
+            },
+            {
               title: 'Gatopedia',
               img: require('../assets/images/menu/GATOPEDIA.jpg'),
-            }}
-          />
-          <LinkMenu
-            data={{
+            },
+            {
               title: 'Para Amigos Caninos',
               img: require('../assets/images/menu/DOGS.jpg'),
-            }}
-          />
-        </View>
+            },
+          ]}
+          renderItem={({item}) => (
+            <LinkMenu
+              data={{
+                title: item.title,
+                img: item.img,
+              }}
+            />
+          )}
+        />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const style = StyleSheet.create({
   menuContainer: {
-    marginTop: 5,
     flex: 1,
-    maxWidth: 500,
-    height: Dimensions.get('window').height,
+    alignItems: 'center'
   },
 });
 export default MenuContent;

@@ -13,14 +13,11 @@ import {BtnAction} from './../../components/sharedComponent';
 const ProfileUser = ({navigation}) => {
   return (
     <View style={style.container}>
-      <ScrollView>
-        <ImageBackground
-          source={require('./../../assets/images/bg_lotus.png')}
-          resizeMode="cover"
-          style={[
-            style.bgImage,
-            {alignItems: 'center', justifyContent: 'center'},
-          ]}>
+      <ImageBackground
+        source={require('./../../assets/images/bg_lotus.png')}
+        resizeMode="cover"
+        style={style.bgImage}>
+        <ScrollView>
           <View style={style.contentProfile}>
             <Image
               source={require('./../../assets/images/image_photo.png')}
@@ -36,8 +33,8 @@ const ProfileUser = ({navigation}) => {
             </TouchableHighlight>
           </View>
           <BtnAction title="Cerrar Sesión" />
-        </ImageBackground>
-      </ScrollView>
+        </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -47,11 +44,18 @@ const style = StyleSheet.create({
     flex: 1,
     backgroundColor: '#330066',
   },
+  bgImage: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+  },
   contentProfile: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 100,
+    marginBottom: 30,
     backgroundColor: 'rgba(102,0,102,0.71)',
     padding: 20,
     borderRadius: 15,
@@ -69,10 +73,6 @@ const style = StyleSheet.create({
     width: 100,
     height: 100,
     marginVertical: 10,
-  },
-  bgImage: {
-    flex: 1,
-    justifyContent: 'center',
   },
   edit: {
     position: 'absolute',

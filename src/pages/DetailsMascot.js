@@ -10,7 +10,10 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import Tabs from '../components/Tabs';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const DetailsMascot = ({navigation}) => {
   return (
     <SafeAreaView style={style.container}>
@@ -25,13 +28,15 @@ const DetailsMascot = ({navigation}) => {
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: 'rgba(102,0,102,0.39)',
-              marginVertical: 5,
-              marginHorizontal: 12,
+              marginVertical: 10,
+              marginHorizontal: 15,
               borderRadius: 10,
               marginBottom: 150,
               paddingVertical: 10,
+              minWidth: wp('95%'),
+              alignSelf: 'center'
             }}>
-            <View style={{flex: 1, flexDirection: 'column', maxWidth: 500}}>
+            <View style={{flex: 1, flexDirection: 'column'}}>
               <View
                 style={{flex: 1, paddingHorizontal: 15, paddingVertical: 10}}>
                 <View style={{flexDirection: 'row'}}>

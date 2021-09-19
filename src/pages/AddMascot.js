@@ -14,6 +14,10 @@ import {
 } from 'react-native';
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const AddMascot = () => {
   const [selectedStartDate, getselectedStartDate] = useState(null);
@@ -217,8 +221,8 @@ const AddMascot = () => {
               </View>
               <View style={{marginVertical: 10}}>
                 <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => console.log('Action add Mascot...')}>
+                  underlayColor="transparent"
+                  onPress={() => console.log('Action add Mascot...')}>
                   <View style={style.btnSubmit}>
                     <Text style={style.txtAction}>Añadir</Text>
                   </View>
@@ -298,7 +302,9 @@ const style = StyleSheet.create({
     padding: 4,
     borderRadius: 10,
     marginVertical: 10,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    minWidth: wp('80%'),
+    alignSelf: 'center',
   },
   label: {
     fontSize: 14,
@@ -365,11 +371,11 @@ const style = StyleSheet.create({
     marginVertical: 10,
     textTransform: 'uppercase',
   },
-  txtAction:{
+  txtAction: {
     color: '#ffffff',
     textAlign: 'center',
   },
-  btnSubmit:{
+  btnSubmit: {
     opacity: 0.8,
     backgroundColor: '#3C0065',
     padding: 10,
@@ -377,7 +383,7 @@ const style = StyleSheet.create({
     width: '100%',
     marginVertical: 10,
     textTransform: 'uppercase',
-  }
+  },
 });
 
 export default AddMascot;

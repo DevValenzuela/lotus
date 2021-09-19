@@ -96,7 +96,7 @@ const ControllerVet = () => {
         source={require('../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <View style={{flex: 1, maxWidth: 500}}>
+        <View style={{flex: 1}}>
           <View style={style.contentSearch}>
             <Image
               style={style.searchIcon}
