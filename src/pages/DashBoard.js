@@ -5,6 +5,9 @@ import {
   ImageBackground,
   StyleSheet,
   View,
+  Text,
+  Platform,
+  TouchableHighlight,
 } from 'react-native';
 
 import {BtnAction} from '../components/sharedComponent';
@@ -42,10 +45,21 @@ const DashBoard = ({navigation}) => {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              width: wp('100%'),
-              height: hp('33%'),
+              height: hp('32%'),
             }}>
-            <View style={{width: wp('60%')}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: wp('69%'),
+                flexWrap: 'wrap',
+                marginLeft: 10,
+              }}>
+              <BtnAction
+                navigation={navigation}
+                title="Medicación"
+                action="CtrVet"
+                url={require('../assets/images/tabs/MEDICAMENT.png')}
+              />
               <BtnAction
                 navigation={navigation}
                 title="Desparacitación"
@@ -60,10 +74,11 @@ const DashBoard = ({navigation}) => {
               />
               <BtnAction
                 navigation={navigation}
-                title="Control Veterinario"
+                title="Veterinario"
                 action="CtrVet"
                 url={require('../assets/images/tabs/DOCTORICON.png')}
               />
+
             </View>
           </View>
           <View
@@ -77,11 +92,27 @@ const DashBoard = ({navigation}) => {
             <ListCarousel navigation={navigation} />
           </View>
           <View style={{alignItems: 'center'}}>
-            <BtnAction
-              navigation={navigation}
-              title="Añadir Mascota"
-              action="AddMascot"
-            />
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => navigation.navigate('AddMascot')}>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 10,
+                  backgroundColor: '#80006A',
+                  width: wp('70%'),
+                }}>
+                <Text
+                  style={{
+                    padding: Platform.OS == 'ios' ? 20 : 10,
+                    color: '#fff',
+                    textTransform: 'uppercase',
+                  }}>
+                  Añadir Mascota
+                </Text>
+              </View>
+            </TouchableHighlight>
           </View>
         </View>
       </ImageBackground>

@@ -7,8 +7,10 @@ import {
   Image,
   Text,
   TouchableHighlight,
+  Platform,
 } from 'react-native';
-import {BtnAction} from './../../components/sharedComponent';
+
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const ProfileUser = ({navigation}) => {
   return (
@@ -32,7 +34,27 @@ const ProfileUser = ({navigation}) => {
               <Image source={require('./../../assets/images/edit_btn.png')} />
             </TouchableHighlight>
           </View>
-          <BtnAction title="Cerrar Sesión" />
+          <TouchableHighlight
+            underlayColor="transparent"
+            onPress={() => console.log('Close Session ...')}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 10,
+                backgroundColor: '#80006A',
+                width: wp('70%'),
+              }}>
+              <Text
+                style={{
+                  padding: Platform.OS == 'ios' ? 20 : 10,
+                  color: '#fff',
+                  textTransform: 'uppercase',
+                }}>
+                Añadir Mascota
+              </Text>
+            </View>
+          </TouchableHighlight>
         </ScrollView>
       </ImageBackground>
     </View>
@@ -56,7 +78,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     marginTop: 100,
     marginBottom: 30,
-    backgroundColor: 'rgba(102,0,102,0.71)',
+    backgroundColor: 'rgba(86,42,140,0.84)',
     padding: 20,
     borderRadius: 15,
   },

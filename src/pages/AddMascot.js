@@ -386,7 +386,7 @@ const style = StyleSheet.create({
     opacity: 0.8,
     backgroundColor: '#80006A',
     padding: Platform.OS == 'ios' ? 15 : 10,
-    borderRadius: 20,
+    borderRadius: 10,
     width: '100%',
     marginVertical: 10,
     textTransform: 'uppercase',

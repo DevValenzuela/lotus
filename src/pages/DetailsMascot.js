@@ -8,12 +8,10 @@ import {
   Image,
   SafeAreaView,
   TouchableHighlight,
+  Platform,
 } from 'react-native';
-import Tabs from '../components/Tabs';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 const DetailsMascot = ({navigation}) => {
   return (
     <SafeAreaView style={style.container}>
@@ -30,7 +28,6 @@ const DetailsMascot = ({navigation}) => {
               marginVertical: 10,
               marginHorizontal: 15,
               borderRadius: 10,
-              marginBottom: 150,
               paddingVertical: 10,
               minWidth: wp('95%'),
               alignSelf: 'center',
@@ -114,6 +111,29 @@ const DetailsMascot = ({navigation}) => {
                     <Text style={style.parrTxt}>Ninguna</Text>
                   </View>
                 </View>
+                <View style={{alignItems: 'center', marginVertical: 10}}>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() => navigation.navigate('HistoryDeworming')}>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        width: wp('90%'),
+                      }}>
+                      <Text
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                        }}>
+                        Ver Historial
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
@@ -140,6 +160,29 @@ const DetailsMascot = ({navigation}) => {
                     <Text style={style.subTxt}>Anotaciones o reacciones:</Text>
                     <Text style={style.parrTxt}>Ninguna</Text>
                   </View>
+                </View>
+                <View style={{alignItems: 'center', marginVertical: 10}}>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() => navigation.navigate('HistoryVaccinations')}>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        width: wp('90%'),
+                      }}>
+                      <Text
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                        }}>
+                        Ver Historial
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
                 </View>
               </View>
               <View style={style.column}>
@@ -171,13 +214,33 @@ const DetailsMascot = ({navigation}) => {
                     y evitar la pérdida de peso.
                   </Text>
                 </View>
+                <View style={{alignItems: 'center', marginVertical: 10}}>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() => navigation.navigate('HistoryMedic')}>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        width: wp('90%'),
+                      }}>
+                      <Text
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                        }}>
+                        Ver Historial
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
               </View>
             </View>
           </View>
         </ScrollView>
-        <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
-          <Tabs navigation={navigation} />
-        </View>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -194,7 +257,7 @@ const style = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: 'rgba(102,0,102,0.39)',
     marginVertical: 5,
-    borderRadius: 10
+    borderRadius: 10,
   },
   image: {
     width: 100,
@@ -215,8 +278,9 @@ const style = StyleSheet.create({
   },
   subtitleTxt: {
     color: '#00FFFF',
-    fontSize: 22,
+    fontSize: 18,
     marginVertical: 10,
+    textTransform: 'uppercase',
   },
   yearsTxt: {
     color: '#00FFFF',
@@ -233,6 +297,7 @@ const style = StyleSheet.create({
   },
   parrTxt: {
     color: '#ffffff',
+    marginBottom: 10,
   },
   edit: {
     position: 'absolute',

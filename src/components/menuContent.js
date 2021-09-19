@@ -6,11 +6,9 @@ import {
   TouchableHighlight,
   StyleSheet,
   FlatList,
-  Dimensions,
 } from 'react-native';
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
+  widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
 const LinkMenu = ({data}) => {
   return (
@@ -19,7 +17,7 @@ const LinkMenu = ({data}) => {
       onPress={() => alert('Click Here')}>
       <ImageBackground
         source={data.img}
-        imageStyle={{borderRadius: 10, opacity: 0.8}}
+        imageStyle={{borderRadius: 10}}
         style={{
           width: wp('90%'),
           height: wp('30%'),
@@ -35,7 +33,8 @@ const LinkMenu = ({data}) => {
             textTransform: 'uppercase',
             color: '#00FFFF',
             paddingRight: 20,
-            paddingBottom: 10,
+            paddingVertical: 10,
+            backgroundColor: 'rgba(51,8,102,0.63)',
           }}>
           {data.title}
         </Text>
@@ -51,7 +50,7 @@ const MenuContent = () => {
         flex: 1,
         position: 'relative',
         backgroundColor: '#31055d',
-        padding: 10
+        padding: 10,
       }}>
       <View style={style.menuContainer}>
         <FlatList
@@ -94,7 +93,7 @@ const MenuContent = () => {
 const style = StyleSheet.create({
   menuContainer: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
   },
 });
 export default MenuContent;

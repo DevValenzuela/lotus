@@ -70,7 +70,7 @@ const style = StyleSheet.create({
     backgroundColor: 'rgba(51,0,102,0.95)',
   },
   editContainer: {
-    backgroundColor: '#660066',
+    backgroundColor: 'rgba(86,42,140,0.91)',
     padding: 5,
     width: 280,
     marginTop: 50,
@@ -98,7 +98,7 @@ const style = StyleSheet.create({
     textAlign: 'center',
     padding: 10,
     width: 200,
-    color: '#66FFCC',
+    color: '#ffffff',
     textTransform: 'uppercase',
   },
   btnEdit: {
@@ -110,6 +110,7 @@ const style = StyleSheet.create({
     padding: 10,
     textAlign: 'center',
     fontSize: 16,
+    textTransform: 'uppercase',
   },
 });
 

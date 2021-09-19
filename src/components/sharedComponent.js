@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableHighlight, Image, View} from 'react-native';
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 export const BtnAction = ({navigation, title, url, action}) => {
   return (
@@ -14,34 +15,20 @@ export const BtnAction = ({navigation, title, url, action}) => {
           },
           style.btnActions,
         ]}>
-        {url ? (
-          <>
-            <Image
-              source={url}
-              style={{width: 24, height: 24, marginBottom: 5}}
-              resizeMode="contain"
-            />
-            <Text
-              style={{
-                textAlign: 'center',
-                textTransform: 'uppercase',
-                color: '#00FFFF',
-                fontSize: 10,
-              }}>
-              {title}
-            </Text>
-          </>
-        ) : (
-          <Text
-            style={{
-              textAlign: 'center',
-              textTransform: 'uppercase',
-              color: '#00FFFF',
-              fontSize: 12,
-            }}>
-            {title}
-          </Text>
-        )}
+        <Image
+          source={url}
+          style={{width: 32, height: 32, marginBottom: 5}}
+          resizeMode="contain"
+        />
+        <Text
+          style={{
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            color: '#00FFFF',
+            fontSize: 10,
+          }}>
+          {title}
+        </Text>
       </View>
     </TouchableHighlight>
   );
@@ -54,10 +41,12 @@ const style = StyleSheet.create({
   },
   btnActions: {
     opacity: 0.8,
-    backgroundColor: '#660066',
-    borderRadius: 50,
-    width: '100%',
+    backgroundColor: '#562A8C',
+    borderRadius: 10,
+    width: wp('33%'),
     marginVertical: 4,
+    marginHorizontal: 2,
+    paddingVertical: 20,
     alignItems: 'center',
   },
 });
