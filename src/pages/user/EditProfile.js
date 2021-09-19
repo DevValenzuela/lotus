@@ -67,7 +67,7 @@ const EditProfile = () => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#330066',
+    backgroundColor: 'rgba(51,0,102,0.95)',
   },
   editContainer: {
     backgroundColor: '#660066',

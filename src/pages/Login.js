@@ -104,11 +104,8 @@ const Login = ({navigation}) => {
                       <TouchableHighlight
                         underlayColor="transparent"
                         onPress={() => navigation.navigate('Recovery')}>
-                        <View
-                          style={style.btnSubmit}>
-                          <Text style={style.txtSubmit}>
-                            Recuperar Cuenta
-                          </Text>
+                        <View style={style.btnSubmit}>
+                          <Text style={style.txtSubmit}>Recuperar Cuenta</Text>
                         </View>
                       </TouchableHighlight>
                     </View>
@@ -126,7 +123,7 @@ const Login = ({navigation}) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#330066',
+    backgroundColor: 'rgba(51,0,102,0.95)',
   },
   bgImage: {
     flex: 1,
@@ -156,7 +153,7 @@ const style = StyleSheet.create({
     color: '#330066',
     backgroundColor: 'rgba(255,255,255,0.35)',
     borderRadius: 10,
-    padding: Platform.OS == 'ios'? 15 : 10,
+    padding: Platform.OS == 'ios' ? 15 : 10,
     margin: 10,
   },
   buttonContainer: {
@@ -167,11 +164,11 @@ const style = StyleSheet.create({
     color: '#330066',
     fontSize: 16,
     textTransform: 'uppercase',
-    padding: Platform.OS == 'ios'? 15 : 10,
+    padding: Platform.OS == 'ios' ? 15 : 10,
   },
   btnSubmit: {
     backgroundColor: '#660066',
-    padding: Platform.OS == 'ios'? 15 : 10,
+    padding: Platform.OS == 'ios' ? 15 : 10,
     borderRadius: 10,
     width: '100%',
     marginVertical: 10,

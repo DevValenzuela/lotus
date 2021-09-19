@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   Animated,
   ImageBackground,
@@ -8,13 +8,21 @@ import {
 } from 'react-native';
 import BoxNotifyCation from '../components/boxNotification';
 const Notify = () => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  }, [fadeAnim]);
   return (
-    <Animated.View style={style.container}>
-      <ImageBackground
-        source={require('../assets/images/bg_lotus.png')}
-        resizeMode="cover"
-        style={style.bgImage}>
-        <View style={{flex: 1}}>
+    <ImageBackground
+      source={require('../assets/images/bg_lotus.png')}
+      resizeMode="cover"
+      style={style.bgImage}>
+      <View style={{flex: 1, backgroundColor: 'rgba(51,0,102,0.95)'}}>
+        <Animated.View style={[style.container, {opacity: fadeAnim}]}>
           <FlatList
             data={[
               {
@@ -35,20 +43,19 @@ const Notify = () => {
             ]}
             renderItem={({item}) => <BoxNotifyCation />}
           />
-        </View>
-      </ImageBackground>
-    </Animated.View>
+        </Animated.View>
+      </View>
+    </ImageBackground>
   );
 };
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#330066',
+    opacity: 0,
   },
   bgImage: {
     flex: 1,
-
   },
   containerLogo: {
     justifyContent: 'center',

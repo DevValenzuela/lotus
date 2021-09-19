@@ -14,7 +14,7 @@ const BoxNotifyCation = () => {
       </View>
       <View style={{flex: 2, padding: 10, paddingLeft: 20}}>
         <Text style={{color: '#00FFFF', fontWeight: 'bold'}}>MICHI 1</Text>
-        <Text style={{color: '#00FFFF', fontWeight: '200', fontSize: 12}}>
+        <Text style={{color: '#fff', fontWeight: '200', fontSize: 12}}>
           Desparasitación
         </Text>
       </View>
@@ -39,7 +39,7 @@ const BoxNotifyCation = () => {
           <Text style={{color: '#00FFFF', fontWeight: '300', fontSize: 12}}>
             Días Restantes
           </Text>
-          <Text style={{color: '#00FFFF', fontWeight: '300', fontSize: 12}}>
+          <Text style={{color: '#ffffff', fontWeight: '300', fontSize: 12}}>
             09/11/2021
           </Text>
         </View>
@@ -55,7 +55,7 @@ const style = StyleSheet.create({
     paddingVertical: 5,
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#660066',
+    backgroundColor: '#562A8C',
     marginHorizontal: 10,
     marginVertical: 5,
     borderRadius: 10,

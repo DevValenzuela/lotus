@@ -42,7 +42,7 @@ const ProfileUser = ({navigation}) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#330066',
+    backgroundColor: 'rgba(51,0,102,0.95)',
   },
   bgImage: {
     flex: 1,

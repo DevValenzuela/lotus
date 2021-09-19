@@ -27,18 +27,16 @@ const DetailsMascot = ({navigation}) => {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: 'rgba(102,0,102,0.39)',
               marginVertical: 10,
               marginHorizontal: 15,
               borderRadius: 10,
               marginBottom: 150,
               paddingVertical: 10,
               minWidth: wp('95%'),
-              alignSelf: 'center'
+              alignSelf: 'center',
             }}>
             <View style={{flex: 1, flexDirection: 'column'}}>
-              <View
-                style={{flex: 1, paddingHorizontal: 15, paddingVertical: 10}}>
+              <View style={style.column}>
                 <View style={{flexDirection: 'row'}}>
                   <TouchableHighlight
                     style={style.edit}
@@ -90,12 +88,7 @@ const DetailsMascot = ({navigation}) => {
                   </View>
                 </View>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  paddingHorizontal: 15,
-                  paddingVertical: 10,
-                }}>
+              <View style={style.column}>
                 <View style={style.containerCard}>
                   <TouchableHighlight
                     style={style.edit}
@@ -122,12 +115,7 @@ const DetailsMascot = ({navigation}) => {
                   </View>
                 </View>
               </View>
-              <View
-                style={{
-                  flex: 3,
-                  paddingHorizontal: 15,
-                  paddingVertical: 10,
-                }}>
+              <View style={style.column}>
                 <View style={style.containerCard}>
                   <TouchableHighlight
                     style={style.edit}
@@ -154,12 +142,7 @@ const DetailsMascot = ({navigation}) => {
                   </View>
                 </View>
               </View>
-              <View
-                style={{
-                  flex: 3,
-                  paddingHorizontal: 15,
-                  paddingVertical: 10,
-                }}>
+              <View style={style.column}>
                 <View style={style.containerCard}>
                   <TouchableHighlight
                     style={style.edit}
@@ -205,6 +188,14 @@ const style = StyleSheet.create({
     flex: 1,
     backgroundColor: '#330066',
   },
+  column: {
+    flex: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    backgroundColor: 'rgba(102,0,102,0.39)',
+    marginVertical: 5,
+    borderRadius: 10
+  },
   image: {
     width: 100,
     height: 100,
@@ -233,9 +224,6 @@ const style = StyleSheet.create({
   },
   containerCard: {
     flex: 1,
-    borderStyle: 'solid',
-    borderTopColor: 'rgba(255,255,255,0.71)',
-    borderTopWidth: 0.2,
   },
   containerGroup: {
     flex: 1,
@@ -255,7 +243,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(51,0,102,0.56)',
     borderRadius: 50,
-    zIndex: 9999
+    zIndex: 9999,
   },
 });
 export default DetailsMascot;
