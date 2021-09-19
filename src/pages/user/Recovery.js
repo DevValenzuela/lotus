@@ -3,6 +3,7 @@ import {
   Button,
   Image,
   ImageBackground,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -47,6 +48,7 @@ const Recovery = ({navigation}) => {
                   <>
                     <View style={style.group}>
                       <TextInput
+                        placeholderTextColor="#ffffff"
                         onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
                         value={values.email}
@@ -55,11 +57,21 @@ const Recovery = ({navigation}) => {
                       />
                     </View>
                     <View style={style.buttonContainer}>
-                      <Button
-                        onPress={handleSubmit}
-                        color="#660066"
-                        title="Recuperar Cuenta"
-                      />
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        onPress={() => handleSubmit()}>
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 10,
+                            backgroundColor: '#80006A',
+                          }}>
+                          <Text style={style.btnRegister}>
+                            Recuperar Cuenta
+                          </Text>
+                        </View>
+                      </TouchableHighlight>
                       <Text
                         style={{
                           textAlign: 'center',
@@ -75,8 +87,10 @@ const Recovery = ({navigation}) => {
                           style={{
                             justifyContent: 'center',
                             alignItems: 'center',
+                            borderRadius: 10,
+                            backgroundColor: '#00FFFF',
                           }}>
-                          <Text style={style.btnRegister}>Ingresar</Text>
+                          <Text style={style.btnLogin}>Ingresar</Text>
                         </View>
                       </TouchableHighlight>
                     </View>
@@ -122,9 +136,9 @@ const style = StyleSheet.create({
     fontSize: 16,
     borderColor: '#330066',
     color: '#330066',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'rgba(255,255,255,0.35)',
     borderRadius: 10,
-    padding: 10,
+    padding: Platform.OS == 'ios' ? 15 : 10,
     margin: 10,
   },
   buttonContainer: {
@@ -132,11 +146,16 @@ const style = StyleSheet.create({
     marginBottom: 30,
   },
   btnRegister: {
-    backgroundColor: 'transparent',
-    color: '#66FFCC',
+    color: '#ffffff',
     fontSize: 16,
     textTransform: 'uppercase',
-    padding: 10,
+    padding: Platform.OS == 'ios' ? 15 : 10,
+  },
+  btnLogin: {
+    color: '#330866',
+    fontSize: 16,
+    textTransform: 'uppercase',
+    padding: Platform.OS == 'ios' ? 15 : 10,
   },
 });
 export default Recovery;

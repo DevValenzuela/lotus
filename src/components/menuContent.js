@@ -21,7 +21,7 @@ const LinkMenu = ({data}) => {
         source={data.img}
         imageStyle={{borderRadius: 10, opacity: 0.8}}
         style={{
-          width: wp('94%'),
+          width: wp('90%'),
           height: wp('30%'),
           justifyContent: 'flex-end',
           marginVertical: 5,
@@ -29,7 +29,7 @@ const LinkMenu = ({data}) => {
         resizeMode="cover">
         <Text
           style={{
-            width: wp('94%'),
+            width: wp('90%'),
             fontSize: 20,
             textAlign: 'right',
             textTransform: 'uppercase',

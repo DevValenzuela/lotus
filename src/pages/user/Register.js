@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button,
+  Platform,
   Image,
   ImageBackground,
   ScrollView,
@@ -49,6 +49,7 @@ const Register = ({navigation}) => {
                   <>
                     <View style={style.group}>
                       <TextInput
+                        placeholderTextColor="#ffffff"
                         onChangeText={handleChange('user')}
                         onBlur={handleBlur('user')}
                         value={values.user}
@@ -56,6 +57,7 @@ const Register = ({navigation}) => {
                         placeholder="Usuario"
                       />
                       <TextInput
+                        placeholderTextColor="#ffffff"
                         onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
                         value={values.email}
@@ -63,6 +65,7 @@ const Register = ({navigation}) => {
                         placeholder="E-mail"
                       />
                       <TextInput
+                        placeholderTextColor="#ffffff"
                         onChangeText={handleChange('password')}
                         onBlur={handleBlur('password')}
                         value={values.password}
@@ -71,6 +74,7 @@ const Register = ({navigation}) => {
                         placeholder="Contraseña"
                       />
                       <TextInput
+                        placeholderTextColor="#ffffff"
                         onChangeText={handleChange('confirmPass')}
                         onBlur={handleBlur('confirmPass')}
                         value={values.confirmPass}
@@ -80,11 +84,19 @@ const Register = ({navigation}) => {
                       />
                     </View>
                     <View style={style.buttonContainer}>
-                      <Button
-                        onPress={handleSubmit}
-                        color="#660066"
-                        title="Registrar"
-                      />
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        onPress={() => handleSubmit()}>
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 10,
+                            backgroundColor: '#80006A',
+                          }}>
+                          <Text style={style.btnRegister}>Registrar</Text>
+                        </View>
+                      </TouchableHighlight>
                       <Text
                         style={{
                           textAlign: 'center',
@@ -100,6 +112,8 @@ const Register = ({navigation}) => {
                           style={{
                             justifyContent: 'center',
                             alignItems: 'center',
+                            borderRadius: 10,
+                            backgroundColor: '#80006A',
                           }}>
                           <Text style={style.btnRegister}>Ingresar</Text>
                         </View>
@@ -134,11 +148,6 @@ const style = StyleSheet.create({
     width: 128,
     height: 163,
   },
-  label: {
-    fontSize: 14,
-    color: '#676767',
-    marginBottom: 10,
-  },
   group: {
     padding: 10,
   },
@@ -146,10 +155,11 @@ const style = StyleSheet.create({
     borderWidth: 1,
     fontSize: 16,
     borderColor: '#330066',
-    color: '#330066',
-    backgroundColor: '#ffffff',
+    color: '#ffffff',
+    backgroundColor: 'rgba(255,255,255,0.35)',
     borderRadius: 10,
-    padding: 10,
+    paddingVertical: Platform.OS == 'ios' ? 20 : 10,
+    paddingHorizontal: Platform.OS == 'ios' ? 20 : 10,
     margin: 10,
   },
   buttonContainer: {
@@ -157,11 +167,11 @@ const style = StyleSheet.create({
     marginBottom: 30,
   },
   btnRegister: {
-    backgroundColor: 'transparent',
-    color: '#66FFCC',
+    color: '#ffffff',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
     fontSize: 16,
     textTransform: 'uppercase',
-    padding: 10,
   },
 });
 export default Register;

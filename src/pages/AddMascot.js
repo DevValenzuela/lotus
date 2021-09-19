@@ -8,9 +8,9 @@ import {
   TextInput,
   Image,
   ScrollView,
-  Button,
   Dimensions,
   TouchableHighlight,
+  Platform,
 } from 'react-native';
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -63,11 +63,13 @@ const AddMascot = () => {
               <View style={{flex: 2, justifyContent: 'center'}}>
                 <Text style={style.label}>Nombre mascota</Text>
                 <TextInput
+                  placeholderTextColor="#5742A2"
                   style={[style.inputText, {backgroundColor: '#ffffff'}]}
                   placeholder="Ej: Bruno..."
                 />
                 <Text style={style.label}>Edad mascota</Text>
                 <TextInput
+                  placeholderTextColor="#5742A2"
                   style={[
                     style.inputText,
                     {
@@ -83,6 +85,7 @@ const AddMascot = () => {
             <View>
               <Text style={style.label}>Tipo de mascota</Text>
               <TextInput
+                placeholderTextColor="#5742A2"
                 style={[
                   style.inputText,
                   {
@@ -95,6 +98,7 @@ const AddMascot = () => {
               />
               <Text style={style.label}>Raza</Text>
               <TextInput
+                placeholderTextColor="#5742A2"
                 style={[
                   style.inputText,
                   {
@@ -143,6 +147,7 @@ const AddMascot = () => {
               </View>
               <Text style={style.label}>Fecha de especialización</Text>
               <TextInput
+                placeholderTextColor="#5742A2"
                 style={[
                   style.inputText,
                   {
@@ -209,13 +214,13 @@ const AddMascot = () => {
 
               <View style={{marginHorizontal: 5, marginVertical: 2}}>
                 <Textarea
+                  placeholderTextColor={'#5742A2'}
                   containerStyle={style.textareaContainer}
                   style={style.textarea}
                   maxLength={120}
                   placeholder={
                     'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
                   }
-                  placeholderTextColor={'#c7c7c7'}
                   underlineColorAndroid={'transparent'}
                 />
               </View>
@@ -224,7 +229,7 @@ const AddMascot = () => {
                   underlayColor="transparent"
                   onPress={() => console.log('Action add Mascot...')}>
                   <View style={style.btnSubmit}>
-                    <Text style={style.txtAction}>Añadir</Text>
+                    <Text style={style.txtAction}>Guardar</Text>
                   </View>
                 </TouchableHighlight>
               </View>
@@ -292,14 +297,14 @@ const AddMascot = () => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#330066',
+    backgroundColor: 'rgba(51,0,102,0.93)',
   },
   bgImage: {
     flex: 1,
   },
   containerForm: {
-    backgroundColor: 'rgba(102,0,102,0.69)',
-    padding: 4,
+    backgroundColor: '#562A8C',
+    padding: 10,
     borderRadius: 10,
     marginVertical: 10,
     marginHorizontal: 10,
@@ -374,11 +379,13 @@ const style = StyleSheet.create({
   txtAction: {
     color: '#ffffff',
     textAlign: 'center',
+    fontSize: 18,
+    textTransform: 'uppercase'
   },
   btnSubmit: {
     opacity: 0.8,
-    backgroundColor: '#3C0065',
-    padding: 10,
+    backgroundColor: '#80006A',
+    padding: Platform.OS == 'ios' ? 15 : 10,
     borderRadius: 20,
     width: '100%',
     marginVertical: 10,

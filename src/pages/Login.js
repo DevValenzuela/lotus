@@ -47,6 +47,7 @@ const Login = ({navigation}) => {
                   <>
                     <View style={style.group}>
                       <TextInput
+                        placeholderTextColor="#ffffff"
                         onChangeText={handleChange('user')}
                         onBlur={handleBlur('user')}
                         value={values.user}
@@ -54,6 +55,7 @@ const Login = ({navigation}) => {
                         placeholder="Usuario"
                       />
                       <TextInput
+                        placeholderTextColor="#ffffff"
                         onChangeText={handleChange('password')}
                         onBlur={handleBlur('password')}
                         value={values.password}
@@ -64,8 +66,8 @@ const Login = ({navigation}) => {
                     </View>
                     <View style={style.buttonContainer}>
                       <TouchableHighlight
-                          underlayColor="transparent"
-                          onPress={() => handleSubmit()}>
+                        underlayColor="transparent"
+                        onPress={() => handleSubmit()}>
                         <View style={style.btnSubmit}>
                           <Text style={style.txtSubmit}>Entrar</Text>
                         </View>
@@ -85,6 +87,8 @@ const Login = ({navigation}) => {
                           style={{
                             justifyContent: 'center',
                             alignItems: 'center',
+                            backgroundColor: '#00FFFF',
+                            borderRadius: 10,
                           }}>
                           <Text style={style.btnRegister}>Registrarse</Text>
                         </View>
@@ -101,11 +105,8 @@ const Login = ({navigation}) => {
                         underlayColor="transparent"
                         onPress={() => navigation.navigate('Recovery')}>
                         <View
-                          style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}>
-                          <Text style={style.btnRegister}>
+                          style={style.btnSubmit}>
+                          <Text style={style.txtSubmit}>
                             Recuperar Cuenta
                           </Text>
                         </View>
@@ -153,9 +154,9 @@ const style = StyleSheet.create({
     fontSize: 16,
     borderColor: '#330066',
     color: '#330066',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'rgba(255,255,255,0.35)',
     borderRadius: 10,
-    padding: 10,
+    padding: Platform.OS == 'ios'? 15 : 10,
     margin: 10,
   },
   buttonContainer: {
@@ -163,27 +164,25 @@ const style = StyleSheet.create({
     marginBottom: 30,
   },
   btnRegister: {
-    backgroundColor: 'transparent',
-    color: '#66FFCC',
+    color: '#330066',
     fontSize: 16,
     textTransform: 'uppercase',
-    padding: 10,
+    padding: Platform.OS == 'ios'? 15 : 10,
   },
-  btnSubmit:{
-    opacity: 0.8,
+  btnSubmit: {
     backgroundColor: '#660066',
-    padding: 10,
-    borderRadius: 20,
+    padding: Platform.OS == 'ios'? 15 : 10,
+    borderRadius: 10,
     width: '100%',
     marginVertical: 10,
     textTransform: 'uppercase',
   },
-  txtSubmit:{
+  txtSubmit: {
     color: '#fff',
     padding: 2,
     textAlign: 'center',
     fontSize: 18,
-  }
+  },
 });
 
 export default Login;

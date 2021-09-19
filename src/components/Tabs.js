@@ -83,7 +83,7 @@ const style = StyleSheet.create({
   },
   containerChildren: {
     flexDirection: 'row',
-    backgroundColor: '#330066',
+    backgroundColor: '#1a0334',
     paddingTop: 25,
   },
   containerBtn: {
