@@ -195,6 +195,7 @@ const AddMascot = () => {
                 <View>
                   <Text style={style.label}>Número Microship</Text>
                   <TextInput
+                    placeholderTextColor="#5742A2"
                     style={[
                       style.inputText,
                       {
@@ -354,18 +355,22 @@ const style = StyleSheet.create({
   checkBoxActive: {
     backgroundColor: '#3C0065',
     color: '#ffffff',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
     borderRadius: 5,
     marginHorizontal: 4,
+    width: 50,
+    height: 50,
+    textAlign: 'center',
+    lineHeight: 50,
   },
   checkBox: {
     backgroundColor: '#D5D5D5',
     color: '#3C0065',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
     borderRadius: 5,
     marginHorizontal: 4,
+    width: 50,
+    height: 50,
+    textAlign: 'center',
+    lineHeight: 50,
   },
   btnActions: {
     opacity: 0.8,

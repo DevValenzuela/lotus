@@ -6,8 +6,8 @@ import {
   StyleSheet,
   ScrollView,
   ImageBackground,
-  TouchableHighlight,
-} from 'react-native';
+  TouchableHighlight, Platform,
+} from "react-native";
 
 import {Formik} from 'formik';
 
@@ -31,11 +31,20 @@ const EditProfile = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <View style={{flex: 1, maxWidth: 500, alignItems: 'center'}}>
+                <View style={{flex: 1, alignItems: 'center'}}>
                   <View style={style.editContainer}>
-                    <TextInput style={style.inputText} placeholder="Usuario" />
-                    <TextInput style={style.inputText} placeholder="E-mail" />
                     <TextInput
+                      placeholderTextColor="#ffffff"
+                      style={style.inputText}
+                      placeholder="Usuario"
+                    />
+                    <TextInput
+                      placeholderTextColor="#ffffff"
+                      style={style.inputText}
+                      placeholder="E-mail"
+                    />
+                    <TextInput
+                      placeholderTextColor="#ffffff"
                       style={style.inputText}
                       placeholder="Contraseña"
                     />
@@ -72,7 +81,7 @@ const style = StyleSheet.create({
   editContainer: {
     backgroundColor: 'rgba(86,42,140,0.91)',
     padding: 5,
-    width: 280,
+    width: '90%',
     marginTop: 50,
     borderRadius: 10,
   },
@@ -85,25 +94,28 @@ const style = StyleSheet.create({
     fontSize: 16,
     borderColor: '#330066',
     color: '#330066',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'rgba(255,255,255,0.35)',
     borderRadius: 10,
-    padding: 10,
+    padding: Platform.OS == 'ios' ? 15 : 10,
     margin: 10,
   },
   btnDeleteAccount: {
     backgroundColor: '#660066',
     borderRadius: 10,
+    width: '90%',
+    padding: Platform.OS == 'ios' ? 8 : 5,
   },
   btnTxtDelete: {
-    textAlign: 'center',
     padding: 10,
-    width: 200,
     color: '#ffffff',
     textTransform: 'uppercase',
+    textAlign: 'center'
   },
   btnEdit: {
     backgroundColor: '#330066',
-    borderRadius: 50,
+    borderRadius: 10,
+    marginVertical: 10,
+    padding: Platform.OS == 'ios' ? 8 : 5,
   },
   txtBtnEdit: {
     color: '#ffffff',

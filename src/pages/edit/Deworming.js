@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  Button,
   Dimensions,
   ImageBackground,
   SafeAreaView,
@@ -38,6 +37,7 @@ const Deworming = () => {
             <View>
               <Text style={style.label}>Última Desparacitación</Text>
               <TextInput
+                placeholderTextColor="#5742A2"
                 style={[
                   style.inputText,
                   {
@@ -61,7 +61,7 @@ const Deworming = () => {
                   placeholder={
                     'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
                   }
-                  placeholderTextColor={'#c7c7c7'}
+                  placeholderTextColor={'#5742A2'}
                   underlineColorAndroid={'transparent'}
                 />
               </View>
@@ -76,7 +76,7 @@ const Deworming = () => {
                   placeholder={
                     'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
                   }
-                  placeholderTextColor={'#c7c7c7'}
+                  placeholderTextColor={'#5742A2'}
                   underlineColorAndroid={'transparent'}
                 />
               </View>

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 export const style = StyleSheet.create({
   container: {
@@ -12,7 +12,7 @@ export const style = StyleSheet.create({
   },
   containerForm: {
     backgroundColor: 'rgba(102,0,102,0.69)',
-    padding: 4,
+    padding: 5,
     borderRadius: 10,
   },
   label: {
@@ -26,8 +26,8 @@ export const style = StyleSheet.create({
     borderWidth: 1,
     fontSize: 16,
     borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: Platform.OS == 'ios' ? 15 : 10,
+    paddingVertical: Platform.OS == 'ios' ? 15 : 5,
     margin: 3,
   },
   textareaContainer: {
@@ -44,6 +44,7 @@ export const style = StyleSheet.create({
     height: 170,
     fontSize: 14,
     color: '#333',
+    padding: 10,
   },
   containerCalendar: {
     backgroundColor: '#ffffff',
@@ -61,7 +62,7 @@ export const style = StyleSheet.create({
     color: '#ffffff',
     textAlign: 'center',
     backgroundColor: '#660066',
-    padding: 10,
+    padding: Platform.OS == 'ios' ? 15 : 10,
     borderRadius: 20,
     width: '100%',
     marginVertical: 10,
@@ -70,26 +71,31 @@ export const style = StyleSheet.create({
   checkBoxActive: {
     backgroundColor: '#3C0065',
     color: '#ffffff',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
     borderRadius: 5,
     marginHorizontal: 4,
+    textAlign: 'center',
+    lineHeight: 50,
+    width: 50,
+    height: 50,
   },
   checkBox: {
     backgroundColor: '#D5D5D5',
     color: '#3C0065',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
     borderRadius: 5,
     marginHorizontal: 4,
+    width: 50,
+    height: 50,
+    textAlign: 'center',
+    lineHeight: 50,
   },
   btnSubmit: {
-    padding: 10,
+    padding: Platform.OS == 'ios' ? 15 : 10,
     backgroundColor: '#3C0065',
     borderRadius: 10,
   },
   btnSubmitxt: {
     textAlign: 'center',
     color: '#ffffff',
-  }
+    textTransform: 'uppercase',
+  },
 });

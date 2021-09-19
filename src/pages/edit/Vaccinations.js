@@ -39,6 +39,7 @@ const Vaccinations = () => {
             <View>
               <Text style={style.label}>Última Vacunación</Text>
               <TextInput
+                placeholderTextColor="#5742A2"
                 style={[
                   style.inputText,
                   {
@@ -62,7 +63,7 @@ const Vaccinations = () => {
                   placeholder={
                     'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
                   }
-                  placeholderTextColor={'#c7c7c7'}
+                  placeholderTextColor={'#5742A2'}
                   underlineColorAndroid={'transparent'}
                 />
               </View>
@@ -77,7 +78,7 @@ const Vaccinations = () => {
                   placeholder={
                     'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
                   }
-                  placeholderTextColor={'#c7c7c7'}
+                  placeholderTextColor={'#5742A2'}
                   underlineColorAndroid={'transparent'}
                 />
               </View>

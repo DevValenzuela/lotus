@@ -39,6 +39,7 @@ const ControlMedic = () => {
             <View>
               <Text style={style.label}>Último Control</Text>
               <TextInput
+                placeholderTextColor="#5742A2"
                 style={[
                   style.inputText,
                   {
@@ -56,13 +57,13 @@ const ControlMedic = () => {
 
               <View style={{marginHorizontal: 5, marginVertical: 2}}>
                 <Textarea
+                  placeholderTextColor={'#5742A2'}
                   containerStyle={style.textareaContainer}
                   style={style.textarea}
                   maxLength={120}
                   placeholder={
                     'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
                   }
-                  placeholderTextColor={'#c7c7c7'}
                   underlineColorAndroid={'transparent'}
                 />
               </View>
@@ -71,13 +72,13 @@ const ControlMedic = () => {
 
               <View style={{marginHorizontal: 5, marginVertical: 2}}>
                 <Textarea
+                  placeholderTextColor={'#5742A2'}
                   containerStyle={style.textareaContainer}
                   style={style.textarea}
                   maxLength={120}
                   placeholder={
                     'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
                   }
-                  placeholderTextColor={'#c7c7c7'}
                   underlineColorAndroid={'transparent'}
                 />
               </View>

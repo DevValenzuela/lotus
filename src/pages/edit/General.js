@@ -43,6 +43,7 @@ const General = () => {
             <View>
               <Text style={style.label}>Tipo mascota:</Text>
               <TextInput
+                placeholderTextColor="#5742A2"
                 style={[
                   style.inputText,
                   {
@@ -55,6 +56,7 @@ const General = () => {
               />
               <Text style={style.label}>Raza:</Text>
               <TextInput
+                placeholderTextColor="#5742A2"
                 style={[
                   style.inputText,
                   {
@@ -67,6 +69,7 @@ const General = () => {
               />
               <Text style={style.label}>Fecha de esterilización</Text>
               <TextInput
+                placeholderTextColor="#5742A2"
                 style={[
                   style.inputText,
                   {
@@ -115,6 +118,7 @@ const General = () => {
                 <View>
                   <Text style={style.label}>Número Microship</Text>
                   <TextInput
+                    placeholderTextColor="#5742A2"
                     style={[
                       style.inputText,
                       {
@@ -140,7 +144,7 @@ const General = () => {
                   placeholder={
                     'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
                   }
-                  placeholderTextColor={'#c7c7c7'}
+                  placeholderTextColor={'#5742A2'}
                   underlineColorAndroid={'transparent'}
                 />
               </View>

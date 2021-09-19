@@ -114,7 +114,7 @@ export function RouterNavigation() {
         name="DetailsMascot"
         component={DetailsMascot}
         options={() => ({
-          title: 'Detalles Mascota',
+          title: 'Detalle Mascota',
           ...options2(),
         })}
       />

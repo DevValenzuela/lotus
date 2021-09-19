@@ -102,7 +102,9 @@ const VaccinateFilters = () => {
               style={style.searchIcon}
               source={require('../../assets/images/search.png')}
             />
-            <TextInput style={style.txtSearch} placeholder="Buscar..." />
+            <TextInput
+              placeholderTextColor="#5742A2"
+              style={style.txtSearch} placeholder="Buscar..." />
           </View>
           <FlatList
             data={DATA}
