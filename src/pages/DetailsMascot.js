@@ -90,6 +90,75 @@ const DetailsMascot = ({navigation}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
+                    onPress={() => navigation.navigate('')}>
+                    <View style={{marginTop: 15}}>
+                      <Image
+                        source={require('./../assets/images/edit_btn.png')}
+                      />
+                    </View>
+                  </TouchableHighlight>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      source={require('../assets/images/tabs/MEDICAMENT.png')}
+                      style={{width: 28, height: 28, marginHorizontal: 5}}
+                      resizeMode="contain"
+                    />
+                    <Text style={style.subtitleTxt}>Medicación:</Text>
+                  </View>
+                  <View style={style.containerGroup}>
+                    <Text style={style.subTxt}>Última Dosis:</Text>
+                    <Text style={style.parrTxt}>07 Diciembre 2020</Text>
+                  </View>
+                  <View style={style.containerGroup}>
+                    <Text style={style.subTxt}>Medicamento:</Text>
+                    <Text style={style.parrTxt}>Amoxicilina</Text>
+                  </View>
+                  <View style={style.containerGroup}>
+                    <Text style={style.subTxt}>Posología:</Text>
+                    <Text style={style.parrTxt}>Solución Oral</Text>
+                  </View>
+                  <View style={style.containerGroup}>
+                    <Text style={style.subTxt}>Dosis:</Text>
+                    <Text style={style.parrTxt}>0.5 gr/ml</Text>
+                  </View>
+                  <View style={style.containerGroup}>
+                    <Text style={style.subTxt}>Periodo:</Text>
+                    <Text style={style.parrTxt}>12 hrs</Text>
+                  </View>
+                  <View style={style.containerGroup}>
+                    <Text style={style.subTxt}>Anotaciones</Text>
+                    <Text style={style.parrTxt}>Ninguna.</Text>
+                  </View>
+                </View>
+                <View style={{alignItems: 'center', marginVertical: 10}}>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() => navigation.navigate('HistoryVaccinations')}>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        width: wp('90%'),
+                      }}>
+                      <Text
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                        }}>
+                        Ver Historial
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
+              </View>
+              <View style={style.column}>
+                <View style={style.containerCard}>
+                  <TouchableHighlight
+                    style={style.edit}
+                    underlayColor="transparent"
                     onPress={() => navigation.navigate('EditDeworming')}>
                     <View style={{marginTop: 15}}>
                       <Image
@@ -97,7 +166,15 @@ const DetailsMascot = ({navigation}) => {
                       />
                     </View>
                   </TouchableHighlight>
-                  <Text style={style.subtitleTxt}>Desparacitación:</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      source={require('../assets/images/tabs/PARASITEICON.png')}
+                      style={{width: 28, height: 28, marginHorizontal: 5}}
+                      resizeMode="contain"
+                    />
+                    <Text style={style.subtitleTxt}>Desparacitación:</Text>
+                  </View>
+
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>Última desparacitación:</Text>
                     <Text style={style.parrTxt}>26 Marzo 2018</Text>
@@ -147,7 +224,14 @@ const DetailsMascot = ({navigation}) => {
                       />
                     </View>
                   </TouchableHighlight>
-                  <Text style={style.subtitleTxt}>Vacunación:</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      source={require('../assets/images/tabs/VACCINEICON.png')}
+                      style={{width: 28, height: 28, marginHorizontal: 5}}
+                      resizeMode="contain"
+                    />
+                    <Text style={style.subtitleTxt}>Vacunación:</Text>
+                  </View>
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>Última Vacunación:</Text>
                     <Text style={style.parrTxt}>07 Diciembre 2020</Text>
@@ -197,7 +281,14 @@ const DetailsMascot = ({navigation}) => {
                       />
                     </View>
                   </TouchableHighlight>
-                  <Text style={style.subtitleTxt}>Control Médico:</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      source={require('../assets/images/tabs/DOCTORICON.png')}
+                      style={{width: 28, height: 28, marginHorizontal: 5}}
+                      resizeMode="contain"
+                    />
+                    <Text style={style.subtitleTxt}>Control Médico:</Text>
+                  </View>
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>Último control:</Text>
                     <Text style={style.parrTxt}>17 Agosto 2020</Text>
