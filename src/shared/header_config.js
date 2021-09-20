@@ -13,14 +13,14 @@ function LogoTitle() {
     <View
       style={{
         width: Dimensions.get('window').width,
-        left: -12,
+        left: 0,
         position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 99,
       }}>
       <Image
-        style={{width: 113, height: 32}}
+        style={{width: 35, height: 35 }}
         source={require('../assets/images/logo_lotus_menu.png')}
       />
     </View>
