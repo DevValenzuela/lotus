@@ -90,7 +90,7 @@ const DetailsMascot = ({navigation}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('')}>
+                    onPress={() => navigation.navigate('EditMedicament')}>
                     <View style={{marginTop: 15}}>
                       <Image
                         source={require('./../assets/images/edit_btn.png')}
@@ -100,7 +100,7 @@ const DetailsMascot = ({navigation}) => {
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image
                       source={require('../assets/images/tabs/MEDICAMENT.png')}
-                      style={{width: 28, height: 28, marginHorizontal: 5}}
+                      style={{width: 25, height: 25, marginHorizontal: 6}}
                       resizeMode="contain"
                     />
                     <Text style={style.subtitleTxt}>Medicación:</Text>

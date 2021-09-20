@@ -19,6 +19,7 @@ import ControlMedic from './pages/edit/ControlMedic';
 import Deworming from './pages/edit/Deworming';
 import Vaccinations from './pages/edit/Vaccinations';
 import General from './pages/edit/General';
+import Medicament from './pages/edit/Medicament';
 
 import MedicamentFilters from './pages/filters/Medicament';
 import ControllerVet from './pages/filters/ControllerVet';
@@ -180,6 +181,15 @@ export function RouterNavigation() {
         component={Vaccinations}
         options={() => ({
           title: 'Vacunación',
+          ...options2(),
+        })}
+      />
+
+      <Stack.Screen
+        name="EditMedicament"
+        component={Medicament}
+        options={() => ({
+          title: 'Medicación',
           ...options2(),
         })}
       />

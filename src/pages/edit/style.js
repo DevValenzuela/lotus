@@ -98,4 +98,12 @@ export const style = StyleSheet.create({
     color: '#ffffff',
     textTransform: 'uppercase',
   },
+  symbol:{
+    position: 'absolute',
+    right: 3,
+    backgroundColor: '#330066',
+    padding: 12,
+    top: 1,
+    color: '#ffffff'
+  }
 });

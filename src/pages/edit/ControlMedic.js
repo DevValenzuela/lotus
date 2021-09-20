@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   TextInput,
   TouchableHighlight,
-  Button,
   Dimensions,
 } from 'react-native';
 import Textarea from 'react-native-textarea';
