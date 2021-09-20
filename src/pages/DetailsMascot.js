@@ -133,7 +133,7 @@ const DetailsMascot = ({navigation}) => {
                 <View style={{alignItems: 'center', marginVertical: 10}}>
                   <TouchableHighlight
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('HistoryVaccinations')}>
+                    onPress={() => navigation.navigate('HistoryMedicament')}>
                     <View
                       style={{
                         justifyContent: 'center',

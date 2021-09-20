@@ -20,6 +20,7 @@ import Deworming from './pages/edit/Deworming';
 import Vaccinations from './pages/edit/Vaccinations';
 import General from './pages/edit/General';
 
+import MedicamentFilters from './pages/filters/Medicament';
 import ControllerVet from './pages/filters/ControllerVet';
 import DewormingFilters from './pages/filters/Deworming';
 import VaccinateFilters from './pages/filters/Vaccinate';
@@ -28,6 +29,7 @@ import MenuContent from './components/menuContent';
 import Notify from './shared/notify';
 
 import {options, options2} from './shared/header_config';
+import MedicamentHistory from './pages/history/medicament';
 
 const Stack = createStackNavigator();
 
@@ -93,6 +95,15 @@ export function RouterNavigation() {
       />
 
       <Stack.Screen
+        name="MedicamentFilter"
+        component={MedicamentFilters}
+        options={() => ({
+          title: 'Medicación',
+          ...options2(),
+        })}
+      />
+
+      <Stack.Screen
         name="VaccinateFilter"
         component={VaccinateFilters}
         options={() => ({
@@ -133,6 +144,15 @@ export function RouterNavigation() {
         component={MedicHistory}
         options={() => ({
           title: 'Medicos',
+          ...options2(),
+        })}
+      />
+
+      <Stack.Screen
+        name="HistoryMedicament"
+        component={MedicamentHistory}
+        options={() => ({
+          title: 'Medicamento',
           ...options2(),
         })}
       />

@@ -57,7 +57,7 @@ const DashBoard = ({navigation}) => {
               <BtnAction
                 navigation={navigation}
                 title="Medicación"
-                action="CtrVet"
+                action="MedicamentFilter"
                 url={require('../assets/images/tabs/MEDICAMENT.png')}
               />
               <BtnAction
