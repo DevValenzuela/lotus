@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  SectionList,
-  SafeAreaView,
   Image,
+  Animated,
+  SafeAreaView,
+  SectionList,
+  StyleSheet,
   FlatList,
   TouchableOpacity,
 } from 'react-native';
@@ -26,36 +27,48 @@ const ListItem = ({item}) => {
 };
 
 const ListCarousel = ({navigation}) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  }, [fadeAnim]);
+
   return (
     <SafeAreaView style={{flex: 1, marginTop: 20}}>
-      <SectionList
-        contentContainerStyle={{paddingHorizontal: 10}}
-        stickySectionHeadersEnabled={false}
-        sections={SECTIONS}
-        renderSectionHeader={({section}) => (
-          <>
-            {section.horizontal ? (
-              <FlatList
-                horizontal
-                data={section.data}
-                renderItem={({item}) => (
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('DetailsMascot')}>
-                    <ListItem item={item} parentNavigate={navigation} />
-                  </TouchableOpacity>
-                )}
-                showsHorizontalScrollIndicator={false}
-              />
-            ) : null}
-          </>
-        )}
-        renderItem={({item, section}) => {
-          if (section.horizontal) {
-            return null;
-          }
-          return <ListItem item={item} />;
-        }}
-      />
+      <Animated.View style={{opacity: fadeAnim}}>
+        <SectionList
+          contentContainerStyle={{paddingHorizontal: 10}}
+          stickySectionHeadersEnabled={false}
+          sections={SECTIONS}
+          renderSectionHeader={({section}) => (
+            <>
+              {section.horizontal ? (
+                <FlatList
+                  horizontal
+                  data={section.data}
+                  renderItem={({item}) => (
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('DetailsMascot')}>
+                      <ListItem item={item} parentNavigate={navigation} />
+                    </TouchableOpacity>
+                  )}
+                  showsHorizontalScrollIndicator={false}
+                />
+              ) : null}
+            </>
+          )}
+          renderItem={({item, section}) => {
+            if (section.horizontal) {
+              return null;
+            }
+            return <ListItem item={item} />;
+          }}
+        />
+      </Animated.View>
     </SafeAreaView>
   );
 };

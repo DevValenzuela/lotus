@@ -1,36 +1,54 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableHighlight, Image, View} from 'react-native';
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import React, {useEffect, useRef} from 'react';
+import {
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  Image,
+  View,
+  Animated,
+} from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 export const BtnAction = ({navigation, title, url, action}) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  }, [fadeAnim]);
+
   return (
-    <TouchableHighlight
-      underlayColor="transparent"
-      onPress={() => navigation.navigate(action)}>
-      <View
-        style={[
-          {
-            paddingHorizontal: url ? 10 : 40,
-            paddingVertical: url ? 10 : 20,
-          },
-          style.btnActions,
-        ]}>
-        <Image
-          source={url}
-          style={{width: 32, height: 32, marginBottom: 5}}
-          resizeMode="contain"
-        />
-        <Text
-          style={{
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            color: '#00FFFF',
-            fontSize: 10,
-          }}>
-          {title}
-        </Text>
-      </View>
-    </TouchableHighlight>
+    <Animated.View style={{opacity: fadeAnim}}>
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={() => navigation.navigate(action)}>
+        <View
+          style={[
+            {
+              paddingHorizontal: url ? 10 : 40,
+              paddingVertical: url ? 10 : 20,
+            },
+            style.btnActions,
+          ]}>
+          <Image
+            source={url}
+            style={{width: 32, height: 32, marginBottom: 5}}
+            resizeMode="contain"
+          />
+          <Text
+            style={{
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              color: '#00FFFF',
+              fontSize: 10,
+            }}>
+            {title}
+          </Text>
+        </View>
+      </TouchableHighlight>
+    </Animated.View>
   );
 };
 
