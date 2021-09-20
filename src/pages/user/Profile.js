@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -8,54 +8,65 @@ import {
   Text,
   TouchableHighlight,
   Platform,
+  Animated,
 } from 'react-native';
 
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const ProfileUser = ({navigation}) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  }, [fadeAnim]);
   return (
     <View style={style.container}>
       <ImageBackground
         source={require('./../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <ScrollView>
-          <View style={style.contentProfile}>
-            <Image
-              source={require('./../../assets/images/image_photo.png')}
-              style={style.imgProfile}
-            />
-            <Text style={style.name}>Andres Cooper</Text>
-            <Text style={style.text}>andres.cooper@interstellar.com</Text>
-            <TouchableHighlight
-              style={style.edit}
-              underlayColor="transparent"
-              onPress={() => navigation.navigate('EditProfile')}>
-              <Image source={require('./../../assets/images/edit_btn.png')} />
-            </TouchableHighlight>
-          </View>
-          <TouchableHighlight
-            underlayColor="transparent"
-            onPress={() => console.log('Close Session ...')}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 10,
-                backgroundColor: '#80006A',
-                width: wp('70%'),
-              }}>
-              <Text
-                style={{
-                  padding: Platform.OS == 'ios' ? 20 : 10,
-                  color: '#fff',
-                  textTransform: 'uppercase',
-                }}>
-                Añadir Mascota
-              </Text>
+        <Animated.View style={{opacity: fadeAnim}}>
+          <ScrollView>
+            <View style={style.contentProfile}>
+              <Image
+                source={require('./../../assets/images/image_photo.png')}
+                style={style.imgProfile}
+              />
+              <Text style={style.name}>Andres Cooper</Text>
+              <Text style={style.text}>andres.cooper@interstellar.com</Text>
+              <TouchableHighlight
+                style={style.edit}
+                underlayColor="transparent"
+                onPress={() => navigation.navigate('EditProfile')}>
+                <Image source={require('./../../assets/images/edit_btn.png')} />
+              </TouchableHighlight>
             </View>
-          </TouchableHighlight>
-        </ScrollView>
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => console.log('Close Session ...')}>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 10,
+                  backgroundColor: '#80006A',
+                  width: wp('70%'),
+                }}>
+                <Text
+                  style={{
+                    padding: Platform.OS == 'ios' ? 20 : 10,
+                    color: '#fff',
+                    textTransform: 'uppercase',
+                  }}>
+                  Añadir Mascota
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </ScrollView>
+        </Animated.View>
       </ImageBackground>
     </View>
   );

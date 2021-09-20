@@ -5,8 +5,8 @@ import {
   FlatList,
   Text,
   View,
-  Image,
-} from 'react-native';
+  Image, TouchableHighlight,
+} from "react-native";
 
 import {style} from './style';
 
@@ -97,6 +97,13 @@ const DewormingHistory = () => {
         source={require('../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
+        <TouchableHighlight
+          style={{alignItems: 'center', marginVertical: 20}}
+          underlayColor="transparent">
+          <View style={style.btnAdd}>
+            <Text style={style.btnTxtAdd}>Nueva Entrada</Text>
+          </View>
+        </TouchableHighlight>
         <View style={{flex: 1}}>
           <FlatList
             data={DATA}

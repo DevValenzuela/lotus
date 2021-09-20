@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  TouchableHighlight,
   ImageBackground,
   SafeAreaView,
   FlatList,
@@ -82,9 +83,7 @@ const Item = ({date}) => (
       resizeMode="contain"
       style={style.image}
     />
-    <Text style={style.dateTitle}>
-      {date}
-    </Text>
+    <Text style={style.dateTitle}>{date}</Text>
   </View>
 );
 
@@ -97,6 +96,13 @@ const VaccinationsHistory = () => {
         source={require('../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
+        <TouchableHighlight
+          style={{alignItems: 'center', marginVertical: 20}}
+          underlayColor="transparent">
+          <View style={style.btnAdd}>
+            <Text style={style.btnTxtAdd}>Nueva Entrada</Text>
+          </View>
+        </TouchableHighlight>
         <View style={{flex: 1}}>
           <FlatList
             data={DATA}
