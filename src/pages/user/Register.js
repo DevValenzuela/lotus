@@ -9,8 +9,13 @@ import {
   TextInput,
   TouchableHighlight,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {useMutation} from '@apollo/client';
+import {REGISTER_USER_APP} from '../apolllo/grahpql';
+
 const initialValue = {
   user: '',
   email: '',
@@ -18,7 +23,57 @@ const initialValue = {
   confirmPass: '',
 };
 
+const SignupSchema = Yup.object().shape({
+  user: Yup.string().required('El nombre usuario es requerido.'),
+  email: Yup.string()
+    .email('El email no es valido.')
+    .required('El campo email es requerido.'),
+  password: Yup.string()
+    .required('La contraseña es requerido.')
+    .matches(/[a-zA-Z]/, 'La contraseña requiere mayusculas [A].')
+    .min(6, 'La contraseña minimo de 6 caracteres'),
+  confirmPass: Yup.string()
+    .oneOf([Yup.ref('password')], 'La contraseña no coincide')
+    .required('Confirma la contraseña.'),
+});
+
 const Register = ({navigation}) => {
+  const [register, {data, loading, error}] = useMutation(REGISTER_USER_APP);
+
+  if (loading) {
+    return (
+      <View style={style.container}>
+        <ImageBackground
+          source={require('./../../assets/images/bg_lotus.png')}
+          resizeMode="cover"
+          style={style.bgImage}>
+          <ActivityIndicator size="large" color="#17E6E6" />
+        </ImageBackground>
+      </View>
+    );
+  }
+
+  if (error) {
+    console.log(error.message);
+    return null;
+  }
+
+  const handleRegister = async values => {
+    try {
+      await register({
+        variables: {
+          username: values.user,
+          email: values.email,
+          password: values.password,
+        },
+      });
+      return false;
+    } catch (e) {
+      navigation.navigate('Login');
+      return null;
+    }
+  };
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -44,11 +99,29 @@ const Register = ({navigation}) => {
               </View>
               <Formik
                 initialValues={initialValue}
-                onSubmit={values => console.log(values)}>
-                {({handleChange, handleBlur, handleSubmit, values}) => (
+                validationSchema={SignupSchema}
+                onSubmit={values => handleRegister(values)}>
+                {({
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  errors,
+                }) => (
                   <>
                     <View style={style.group}>
+                      {errors.user && touched.user ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.user}</Text>
+                        </View>
+                      ) : null}
                       <TextInput
+                        name="user"
                         placeholderTextColor="#ffffff"
                         onChangeText={handleChange('user')}
                         onBlur={handleBlur('user')}
@@ -56,7 +129,17 @@ const Register = ({navigation}) => {
                         style={style.inputText}
                         placeholder="Usuario"
                       />
+                      {errors.email && touched.email ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.email}</Text>
+                        </View>
+                      ) : null}
                       <TextInput
+                        name="email"
                         placeholderTextColor="#ffffff"
                         onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
@@ -64,7 +147,17 @@ const Register = ({navigation}) => {
                         style={style.inputText}
                         placeholder="E-mail"
                       />
+                      {errors.password && touched.password ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.password}</Text>
+                        </View>
+                      ) : null}
                       <TextInput
+                        name="password"
                         placeholderTextColor="#ffffff"
                         onChangeText={handleChange('password')}
                         onBlur={handleBlur('password')}
@@ -73,7 +166,17 @@ const Register = ({navigation}) => {
                         secureTextEntry={true}
                         placeholder="Contraseña"
                       />
+                      {errors.confirmPass && touched.confirmPass ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.confirmPass}</Text>
+                        </View>
+                      ) : null}
                       <TextInput
+                        name="confirmPass"
                         placeholderTextColor="#ffffff"
                         onChangeText={handleChange('confirmPass')}
                         onBlur={handleBlur('confirmPass')}
@@ -172,6 +275,15 @@ const style = StyleSheet.create({
     paddingHorizontal: 30,
     fontSize: 16,
     textTransform: 'uppercase',
+  },
+  error: {
+    color: '#fff',
+    backgroundColor: '#562A8C',
+    fontSize: 14,
+    padding: 10,
+    width: '90%',
+    textAlign: 'center',
+    borderRadius: 4,
   },
 });
 export default Register;

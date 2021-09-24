@@ -8,6 +8,7 @@ import {
   Text,
   Platform,
   TouchableHighlight,
+  ScrollView,
 } from 'react-native';
 
 import {BtnAction} from '../components/sharedComponent';
@@ -27,94 +28,100 @@ const DashBoard = ({navigation}) => {
           width: Dimensions.get('window').width,
           height: '100%',
         }}>
-        <View
-          style={[
-            {
-              flex: 1,
-              flexDirection: 'column',
-            },
-          ]}>
-          <View style={{alignItems: 'center'}}>
-            <Image
-              style={style.banner}
-              source={require('./../assets/images/banner_canino.jpg')}
-              resizeMode="stretch"
-            />
-          </View>
+        <ScrollView>
           <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: hp('32%'),
-            }}>
+            style={[
+              {
+                flex: 1,
+                flexDirection: 'column',
+              },
+            ]}>
             <View
               style={{
-                flexDirection: 'row',
-                width: wp('69%'),
-                flexWrap: 'wrap',
-                marginLeft: 10,
+                height: hp('29%'),
+                alignItems: 'center',
               }}>
-              <BtnAction
-                navigation={navigation}
-                title="Medicación"
-                action="MedicamentFilter"
-                url={require('../assets/images/tabs/MEDICAMENT.png')}
+              <Image
+                style={style.banner}
+                source={require('./../assets/images/banner_canino.jpg')}
+                resizeMode="stretch"
               />
-              <BtnAction
-                navigation={navigation}
-                title="Desparacitación"
-                action="DewormingFilter"
-                url={require('../assets/images/tabs/PARASITEICON.png')}
-              />
-              <BtnAction
-                navigation={navigation}
-                title="Vacunación"
-                action="VaccinateFilter"
-                url={require('../assets/images/tabs/VACCINEICON.png')}
-              />
-              <BtnAction
-                navigation={navigation}
-                title="Veterinario"
-                action="CtrVet"
-                url={require('../assets/images/tabs/DOCTORICON.png')}
-              />
-
             </View>
-          </View>
-          <View
-            style={{
-              width: wp('100%'),
-              height: hp('20%'),
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              maxWidth: 790,
-            }}>
-            <ListCarousel navigation={navigation} />
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <TouchableHighlight
-              underlayColor="transparent"
-              onPress={() => navigation.navigate('AddMascot')}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: hp('32%'),
+              }}>
               <View
                 style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 10,
-                  backgroundColor: '#80006A',
-                  width: wp('70%'),
+                  flexDirection: 'row',
+                  width: wp('69%'),
+                  flexWrap: 'wrap',
+                  marginLeft: 10,
                 }}>
-                <Text
-                  style={{
-                    padding: Platform.OS == 'ios' ? 20 : 10,
-                    color: '#fff',
-                    textTransform: 'uppercase',
-                  }}>
-                  Añadir Mascota
-                </Text>
+                <BtnAction
+                  navigation={navigation}
+                  title="Medicación"
+                  action="MedicamentFilter"
+                  url={require('../assets/images/tabs/MEDICAMENT.png')}
+                />
+                <BtnAction
+                  navigation={navigation}
+                  title="Desparacitación"
+                  action="DewormingFilter"
+                  url={require('../assets/images/tabs/PARASITEICON.png')}
+                />
+                <BtnAction
+                  navigation={navigation}
+                  title="Vacunación"
+                  action="VaccinateFilter"
+                  url={require('../assets/images/tabs/VACCINEICON.png')}
+                />
+                <BtnAction
+                  navigation={navigation}
+                  title="Veterinario"
+                  action="CtrVet"
+                  url={require('../assets/images/tabs/DOCTORICON.png')}
+                />
               </View>
-            </TouchableHighlight>
+            </View>
+            <View
+              style={{
+                width: wp('100%'),
+                height: hp('24%'),
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                maxWidth: 790,
+              }}>
+              <ListCarousel navigation={navigation} />
+            </View>
+            <View style={{alignItems: 'center'}}>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => navigation.navigate('AddMascot')}>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 10,
+                    backgroundColor: '#80006A',
+                    width: wp('70%'),
+                    marginBottom: 20,
+                  }}>
+                  <Text
+                    style={{
+                      padding: Platform.OS == 'ios' ? 20 : 10,
+                      color: '#fff',
+                      textTransform: 'uppercase',
+                    }}>
+                    Añadir Mascota
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </ImageBackground>
     </View>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   TextInput,
@@ -9,14 +9,57 @@ import {
   Image,
   TouchableHighlight,
   Platform,
+  ActivityIndicator,
+  Modal,
 } from 'react-native';
 import {Formik} from 'formik';
+import * as Yup from 'yup';
+
+import {useMutation} from '@apollo/client';
+import {LOGIN_USER_APP} from './apolllo/grahpql';
+
 const initialValue = {
   user: '',
   password: '',
 };
 
+const SignupSchema = Yup.object().shape({
+  user: Yup.string().required('Ingresa el nombre del usuario'),
+  password: Yup.string().required('Ingresa la contraseña'),
+});
+
 const Login = ({navigation}) => {
+  const [login, {data, error, loading}] = useMutation(LOGIN_USER_APP);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  if (loading) {
+    return (
+      <View style={style.container}>
+        <ImageBackground
+          source={require('../assets/images/bg_lotus.png')}
+          resizeMode="cover"
+          style={style.bgImage}>
+          <ActivityIndicator size="large" color="#17E6E6" />
+        </ImageBackground>
+      </View>
+    );
+  }
+
+  const handleLogin = async values => {
+    try {
+      await login({
+        variables: {
+          slug: values.user,
+          password: values.password,
+        },
+      });
+      console.log(data);
+    } catch (e) {
+      setModalVisible(true);
+      console.log(e);
+    }
+  };
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -24,6 +67,32 @@ const Login = ({navigation}) => {
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              console.log('Hide modal...');
+              setModalVisible(!modalVisible);
+            }}>
+            <View style={style.centeredView}>
+              <View style={style.modalView}>
+                <Text style={{color: '#fff', fontSize: 14}}>
+                  El usuario y la contraseña son incorrectos.
+                </Text>
+                <Text style={{color: '#fff', fontSize: 12, marginTop: 10}}>
+                  Intentalo de nuevo.
+                </Text>
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() => setModalVisible(false)}>
+                  <View style={style.btnModal}>
+                    <Text style={style.txtModal}>Ok</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
           <View
             style={{
               flexDirection: 'row',
@@ -42,10 +111,27 @@ const Login = ({navigation}) => {
               </View>
               <Formik
                 initialValues={initialValue}
-                onSubmit={values => navigation.navigate('Dashboard')}>
-                {({handleChange, handleBlur, handleSubmit, values}) => (
+                validationSchema={SignupSchema}
+                onSubmit={values => handleLogin(values)}>
+                {({
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  errors,
+                }) => (
                   <>
                     <View style={style.group}>
+                      {errors.user && touched.user ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.user}</Text>
+                        </View>
+                      ) : null}
                       <TextInput
                         placeholderTextColor="#ffffff"
                         onChangeText={handleChange('user')}
@@ -54,6 +140,15 @@ const Login = ({navigation}) => {
                         style={style.inputText}
                         placeholder="Usuario"
                       />
+                      {errors.password && touched.password ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.password}</Text>
+                        </View>
+                      ) : null}
                       <TextInput
                         placeholderTextColor="#ffffff"
                         onChangeText={handleChange('password')}
@@ -150,7 +245,7 @@ const style = StyleSheet.create({
     borderWidth: 1,
     fontSize: 16,
     borderColor: '#330066',
-    color: '#330066',
+    color: '#ffffff',
     backgroundColor: 'rgba(255,255,255,0.35)',
     borderRadius: 10,
     padding: Platform.OS == 'ios' ? 15 : 10,
@@ -179,6 +274,47 @@ const style = StyleSheet.create({
     padding: 2,
     textAlign: 'center',
     fontSize: 18,
+  },
+  error: {
+    color: '#fff',
+    backgroundColor: '#562A8C',
+    fontSize: 14,
+    padding: 10,
+    width: '90%',
+    textAlign: 'center',
+    borderRadius: 4,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#562A8C',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#562A8C',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  btnModal: {
+    backgroundColor: '#660066',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 10,
+    borderRadius: 10,
+    fontSize: 16,
+  },
+  txtModal: {
+    color: '#fff',
   },
 });
 
