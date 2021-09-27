@@ -20,3 +20,11 @@ export const LOGIN_USER_APP = gql`
     }
   }
 `;
+
+export const RECOVERY_USER_APP = gql`
+  mutation forgotPassword($email: String!) {
+    forgotPassword(email: $email) {
+      ok
+    }
+  }
+`;
