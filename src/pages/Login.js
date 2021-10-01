@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   TextInput,
@@ -17,10 +17,11 @@ import * as Yup from 'yup';
 
 import {useMutation} from '@apollo/client';
 import {LOGIN_USER_APP} from './apolllo/grahpql';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialValue = {
-  user: '',
-  password: '',
+  user: 'valenzuela21',
+  password: '123456',
 };
 
 const SignupSchema = Yup.object().shape({
@@ -53,10 +54,14 @@ const Login = ({navigation}) => {
           password: values.password,
         },
       });
-      console.log(data);
+      const {jwt, user} = data.login;
+      console.log('Success fully!');
+      await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
+      navigation.navigate('Dashboard');
     } catch (e) {
-      setModalVisible(true);
-      console.log(e);
+      console.log('Error Login!');
+      setModalVisible(!modalVisible);
+      await AsyncStorage.remove('token_lotus');
     }
   };
 
@@ -66,7 +71,7 @@ const Login = ({navigation}) => {
         source={require('../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <ScrollView>
+        <ScrollView >
           <Modal
             animationType="slide"
             transparent={true}

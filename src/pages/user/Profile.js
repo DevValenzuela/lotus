@@ -11,7 +11,7 @@ import {
   FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 function ListMascot({data}) {
   const navigation = useNavigation();
@@ -22,6 +22,7 @@ function ListMascot({data}) {
         alignContent: 'space-between',
         marginVertical: 2,
         flex: 1,
+
       }}>
       <View style={{flex: 1, padding: 10}}>
         <Image
@@ -192,7 +193,7 @@ const style = StyleSheet.create({
     height: '100%',
   },
   contentProfile: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Dimensions,
   Image,
@@ -9,17 +9,22 @@ import {
   Platform,
   TouchableHighlight,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 
 import {BtnAction} from '../components/sharedComponent';
 import ListCarousel from '../components/listCarousel';
+import {UserContext} from '../context/userContext';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
 const DashBoard = ({navigation}) => {
-  return (
+    const {user} = useContext(UserContext);
+    console.log(user);
+    return (
     <View style={style.container}>
       <ImageBackground
         source={require('../assets/images/bg_lotus.png')}
@@ -28,7 +33,7 @@ const DashBoard = ({navigation}) => {
           width: Dimensions.get('window').width,
           height: '100%',
         }}>
-        <ScrollView>
+        <SafeAreaView style={{flex: 1}}>
           <View
             style={[
               {
@@ -121,7 +126,7 @@ const DashBoard = ({navigation}) => {
               </TouchableHighlight>
             </View>
           </View>
-        </ScrollView>
+        </SafeAreaView>
       </ImageBackground>
     </View>
   );
