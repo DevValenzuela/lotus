@@ -12,6 +12,7 @@ import {
   TouchableHighlight,
   Platform,
   Animated,
+  Modal,
 } from 'react-native';
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -20,17 +21,22 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import moment from 'moment';
 
 import {useMutation} from '@apollo/client';
 import {ADD_MASCOT_APP} from './apolllo/grahpql';
+import {Loading} from '../components/sharedComponent';
 
 const AddMascot = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [modalVisible, setModalVisible] = useState(false);
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setSterilized, getSterilized] = useState('Si');
   const [setMicrochip, getMicrochip] = useState('No');
   const [setCalendar, getCalendar] = useState(false);
+  const [setDate, getDate] = useState('');
+  const [setImageGallery, getImageGallery] = useState('');
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
 
   const [createMascot, {data, loading, error}] = useMutation(ADD_MASCOT_APP);
@@ -74,7 +80,9 @@ const AddMascot = () => {
   };
 
   const insertDateCalendar = startDate => {
-    console.log(moment(startDate).format('DD-MM-YYYY'));
+    let date = moment(startDate).format('DD-MM-YYYY');
+    getDate(date);
+    getCalendar(false);
   };
 
   const sterilized = strValue => {
@@ -98,7 +106,41 @@ const AddMascot = () => {
     }
   };
 
-  if (loading) return null;
+  const takeCamera = () => {
+    setModalVisible(false);
+    launchCamera(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+      },
+      response => {
+        if (response.didCancel) return;
+        const uriImage = response.assets[0].uri;
+        if (uriImage) {
+          getImageGallery(uriImage);
+        }
+      },
+    );
+  };
+
+  const takePhoto = () => {
+    setModalVisible(false);
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+      },
+      response => {
+        if (response.didCancel) return;
+        const uriImage = response.assets[0].uri;
+        if (uriImage) {
+          getImageGallery(uriImage);
+        }
+      },
+    );
+  };
+
+  if (loading) return <Loading />;
 
   return (
     <SafeAreaView style={style.container}>
@@ -123,14 +165,29 @@ const AddMascot = () => {
                 <View style={style.containerForm}>
                   <View style={{flexDirection: 'row'}}>
                     <View
-                      style={{flex: 1, padding: 5, justifyContent: 'flex-end'}}>
-                      <Image
-                        source={{
-                          uri: 'https://ichef.bbci.co.uk/news/640/cpsprodpb/150EA/production/_107005268_gettyimages-611696954.jpg',
-                        }}
-                        style={{width: '100%', height: 150, borderRadius: 10}}
-                        resizeMode="cover"
-                      />
+                      style={{
+                        flex: 1,
+                        padding: 5,
+                        justifyContent: 'flex-end',
+                      }}>
+                      {setImageGallery ? (
+                        <Image
+                          source={{
+                            uri: setImageGallery,
+                          }}
+                          style={{width: '100%', height: 150, borderRadius: 10}}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => setModalVisible(!modalVisible)}>
+                          <Image
+                            style={{width: '100%'}}
+                            source={require('./../assets/images/galery_mascot.png')}
+                          />
+                        </TouchableHighlight>
+                      )}
                     </View>
                     <View style={{flex: 2, justifyContent: 'center'}}>
                       <Text style={style.label}>Nombre mascota</Text>
@@ -276,7 +333,7 @@ const AddMascot = () => {
                       onFocus={enableCalendar}
                       showSoftInputOnFocus={false}
                       placeholder="Ingresa la fecha"
-                      value={values.date_sterilized}
+                      value={setDate}
                       onChangeText={handleChange('date_sterilized')}
                       onBlur={handleBlur('date_sterilized')}
                     />
@@ -365,6 +422,43 @@ const AddMascot = () => {
               )}
             </Formik>
           </ScrollView>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              console.log('Hide modal...');
+              setModalVisible(!modalVisible);
+            }}>
+            <View style={style.centeredView}>
+              <View style={style.modalView}>
+                <Text style={{color: '#fff', fontSize: 14}}>
+                  Ingresa la opción de foto.
+                </Text>
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() => takePhoto()}>
+                  <View style={style.btnModal}>
+                    <Text style={style.txtModal}>Galeria</Text>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() => takeCamera()}>
+                  <View style={style.btnModal}>
+                    <Text style={style.txtModal}>Fotografia</Text>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() => setModalVisible(false)}>
+                  <View style={style.btnModal}>
+                    <Text style={style.txtModal}>Cancelar</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
         </Animated.View>
       </ImageBackground>
       {/*===Calendar===*/}
@@ -533,6 +627,40 @@ const style = StyleSheet.create({
     width: '98%',
     textAlign: 'center',
     borderRadius: 4,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#562A8C',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#562A8C',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  btnModal: {
+    backgroundColor: '#660066',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 10,
+    borderRadius: 10,
+    fontSize: 16,
+    width: 200,
+  },
+  txtModal: {
+    color: '#fff',
+    textAlign: 'center',
   },
 });
 
