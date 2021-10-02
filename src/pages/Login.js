@@ -9,7 +9,6 @@ import {
   Image,
   TouchableHighlight,
   Platform,
-  ActivityIndicator,
   Modal,
 } from 'react-native';
 import {Formik} from 'formik';
@@ -18,9 +17,10 @@ import * as Yup from 'yup';
 import {useMutation} from '@apollo/client';
 import {LOGIN_USER_APP} from './apolllo/grahpql';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Loading} from '../components/sharedComponent';
 
 const initialValue = {
-  user: 'valenzuela21',
+  user: 'plangraficostudio@gmail.com',
   password: '123456',
 };
 
@@ -33,37 +33,30 @@ const Login = ({navigation}) => {
   const [login, {data, error, loading}] = useMutation(LOGIN_USER_APP);
   const [modalVisible, setModalVisible] = useState(false);
 
-  if (loading) {
-    return (
-      <View style={style.container}>
-        <ImageBackground
-          source={require('../assets/images/bg_lotus.png')}
-          resizeMode="cover"
-          style={style.bgImage}>
-          <ActivityIndicator size="large" color="#17E6E6" />
-        </ImageBackground>
-      </View>
-    );
-  }
+  useEffect(() => {
+    if (data) {
+      const {jwt, user} = data.login;
+      console.log('Success fully!');
+      AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user})).then(
+        () => {
+          navigation.navigate('Dashboard');
+        },
+      );
+    }
+  }, [data, navigation]);
+
+  if (loading) return <Loading />;
 
   const handleLogin = async values => {
     try {
-      await AsyncStorage.removeItem('token_lotus');
       await login({
         variables: {
           slug: values.user,
           password: values.password,
         },
       });
-      if (data) {
-        const {jwt, user} = data.login;
-        console.log('Success fully!');
-        await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
-        navigation.navigate('Dashboard');
-      }
     } catch (e) {
-      console.log('Error Login!');
-      setModalVisible(!modalVisible);
+      setModalVisible(true);
     }
   };
 

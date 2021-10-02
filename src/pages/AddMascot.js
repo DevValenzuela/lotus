@@ -20,6 +20,8 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
+import moment from 'moment';
+
 import {useMutation} from '@apollo/client';
 import {ADD_MASCOT_APP} from './apolllo/grahpql';
 
@@ -69,6 +71,10 @@ const AddMascot = () => {
 
   const enableCalendar = strValue => {
     strValue ? getCalendar(true) : getCalendar(false);
+  };
+
+  const insertDateCalendar = startDate => {
+    console.log(moment(startDate).format('DD-MM-YYYY'));
   };
 
   const sterilized = strValue => {
@@ -405,7 +411,7 @@ const AddMascot = () => {
             <View style={{padding: 10, flex: 1}}>
               <TouchableHighlight
                 underlayColor="transparent"
-                onPress={() => console.log('Seleccionado')}>
+                onPress={() => insertDateCalendar(startDate)}>
                 <View style={style.btnActions}>
                   <Text style={style.txtAction}>Seleccionar</Text>
                 </View>
