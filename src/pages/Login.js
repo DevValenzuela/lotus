@@ -48,20 +48,22 @@ const Login = ({navigation}) => {
 
   const handleLogin = async values => {
     try {
+      await AsyncStorage.removeItem('token_lotus');
       await login({
         variables: {
           slug: values.user,
           password: values.password,
         },
       });
-      const {jwt, user} = data.login;
-      console.log('Success fully!');
-      await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
-      navigation.navigate('Dashboard');
+      if (data) {
+        const {jwt, user} = data.login;
+        console.log('Success fully!');
+        await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
+        navigation.navigate('Dashboard');
+      }
     } catch (e) {
       console.log('Error Login!');
       setModalVisible(!modalVisible);
-      await AsyncStorage.remove('token_lotus');
     }
   };
 
@@ -71,7 +73,7 @@ const Login = ({navigation}) => {
         source={require('../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <ScrollView >
+        <ScrollView>
           <Modal
             animationType="slide"
             transparent={true}

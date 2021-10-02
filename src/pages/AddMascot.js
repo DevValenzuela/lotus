@@ -17,6 +17,12 @@ import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+
+import {useMutation} from '@apollo/client';
+import {ADD_MASCOT_APP} from './apolllo/grahpql';
+
 const AddMascot = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [selectedStartDate, getselectedStartDate] = useState(null);
@@ -24,6 +30,31 @@ const AddMascot = () => {
   const [setMicrochip, getMicrochip] = useState('No');
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+
+  const [createMascot, {data, loading, error}] = useMutation(ADD_MASCOT_APP);
+
+  const initialValue = {
+    name_mascot: '',
+    age_mascot: '',
+    type_mascot: '',
+    race_mascot: '',
+    sterilized: setSterilized,
+    date_sterilized: '',
+    microchip: setMicrochip,
+    number_microchip: '',
+    description: '',
+    user: 1,
+  };
+
+  const SignupSchema = Yup.object().shape({
+    name_mascot: Yup.string().required('Ingresa el nombre de la mascota.'),
+    age_mascot: Yup.number()
+      .integer('No se aceptan puntos(.) ni comas(,)')
+      .required('Ingresa la edad mascota.'),
+    type_mascot: Yup.string().required('Ingresa el tipo de mascota.'),
+    race_mascot: Yup.string().required('Ingresa la raza de la mascota.'),
+  });
+
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -48,6 +79,21 @@ const AddMascot = () => {
     getMicrochip(strValue);
   };
 
+  const handleInsert = async values => {
+    try {
+      await createMascot({
+        variables: {
+          ...values,
+          age_mascot: Number(values.age_mascot),
+        },
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  if (loading) return null;
+
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground
@@ -56,193 +102,262 @@ const AddMascot = () => {
         style={style.bgImage}>
         <Animated.View style={{opacity: fadeAnim}}>
           <ScrollView>
-            <View style={style.containerForm}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{flex: 1, padding: 5, justifyContent: 'flex-end'}}>
-                  <Image
-                    source={{
-                      uri: 'https://ichef.bbci.co.uk/news/640/cpsprodpb/150EA/production/_107005268_gettyimages-611696954.jpg',
-                    }}
-                    style={{width: '100%', height: 150, borderRadius: 10}}
-                    resizeMode="cover"
-                  />
-                </View>
-                <View style={{flex: 2, justifyContent: 'center'}}>
-                  <Text style={style.label}>Nombre mascota</Text>
-                  <TextInput
-                    placeholderTextColor="#5742A2"
-                    style={[style.inputText, {backgroundColor: '#ffffff'}]}
-                    placeholder="Ej: Bruno..."
-                  />
-                  <Text style={style.label}>Edad mascota</Text>
-                  <TextInput
-                    placeholderTextColor="#5742A2"
-                    style={[
-                      style.inputText,
-                      {
-                        backgroundColor: '#ffffff',
-                        borderColor: '#330066',
-                        color: '#330066',
-                      },
-                    ]}
-                    placeholder="Ej: 2 años"
-                  />
-                </View>
-              </View>
-              <View>
-                <Text style={style.label}>Tipo de mascota</Text>
-                <TextInput
-                  placeholderTextColor="#5742A2"
-                  style={[
-                    style.inputText,
-                    {
-                      backgroundColor: '#ffffff',
-                      borderColor: '#330066',
-                      color: '#330066',
-                    },
-                  ]}
-                  placeholder="Ej: Pitbull"
-                />
-                <Text style={style.label}>Raza</Text>
-                <TextInput
-                  placeholderTextColor="#5742A2"
-                  style={[
-                    style.inputText,
-                    {
-                      backgroundColor: '#ffffff',
-                      borderColor: '#330066',
-                      color: '#330066',
-                    },
-                  ]}
-                  placeholder="Ej: Pitbull"
-                />
-                <Text style={style.label}>Esterilizado</Text>
-                <View style={{flexDirection: 'row', marginVertical: 5}}>
-                  <View>
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() => sterilized('Si')}>
-                      <Text
-                        style={
-                          setSterilized === 'Si'
-                            ? style.checkBoxActive
-                            : style.checkBox
-                        }>
-                        Sí
-                      </Text>
-                    </TouchableHighlight>
+            <Formik
+              initialValues={initialValue}
+              validationSchema={SignupSchema}
+              onSubmit={values => handleInsert(values)}>
+              {({
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+              }) => (
+                <View style={style.containerForm}>
+                  <View style={{flexDirection: 'row'}}>
+                    <View
+                      style={{flex: 1, padding: 5, justifyContent: 'flex-end'}}>
+                      <Image
+                        source={{
+                          uri: 'https://ichef.bbci.co.uk/news/640/cpsprodpb/150EA/production/_107005268_gettyimages-611696954.jpg',
+                        }}
+                        style={{width: '100%', height: 150, borderRadius: 10}}
+                        resizeMode="cover"
+                      />
+                    </View>
+                    <View style={{flex: 2, justifyContent: 'center'}}>
+                      <Text style={style.label}>Nombre mascota</Text>
+                      <TextInput
+                        placeholderTextColor="#5742A2"
+                        style={[style.inputText, {backgroundColor: '#ffffff'}]}
+                        placeholder="Ej: Bruno..."
+                        onChangeText={handleChange('name_mascot')}
+                        onBlur={handleBlur('name_mascot')}
+                        value={values.name_mascot}
+                      />
+                      {errors.name_mascot && touched.name_mascot ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.name_mascot}</Text>
+                        </View>
+                      ) : null}
+
+                      <Text style={style.label}>Edad mascota</Text>
+                      <TextInput
+                        placeholderTextColor="#5742A2"
+                        style={[
+                          style.inputText,
+                          {
+                            backgroundColor: '#ffffff',
+                            borderColor: '#330066',
+                            color: '#330066',
+                          },
+                        ]}
+                        placeholder="Ej: 2 años"
+                        onChangeText={handleChange('age_mascot')}
+                        onBlur={handleBlur('age_mascot')}
+                        keyboardType="numeric"
+                        value={values.age_mascot}
+                      />
+                      {errors.age_mascot && touched.age_mascot ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.age_mascot}</Text>
+                        </View>
+                      ) : null}
+                    </View>
                   </View>
                   <View>
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() => sterilized('No')}>
-                      <Text
-                        style={
-                          setSterilized === 'No'
-                            ? style.checkBoxActive
-                            : style.checkBox
-                        }>
-                        No
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                  <TextInput
-                    style={{display: 'none'}}
-                    placeholder="Insertar esterilizado..."
-                    value={setSterilized}
-                  />
-                </View>
-                <Text style={style.label}>Fecha de especialización</Text>
-                <TextInput
-                  placeholderTextColor="#5742A2"
-                  style={[
-                    style.inputText,
-                    {
-                      backgroundColor: '#ffffff',
-                      borderColor: '#330066',
-                      color: '#330066',
-                    },
-                  ]}
-                  onFocus={enableCalendar}
-                  showSoftInputOnFocus={false}
-                  placeholder="Ingresa la fecha"
-                />
-                <Text style={style.label}>Microship</Text>
-                <View style={{flexDirection: 'row', marginVertical: 5}}>
-                  <View>
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() => stMicrochip('Si')}>
-                      <Text
-                        style={
-                          setMicrochip === 'Si'
-                            ? style.checkBoxActive
-                            : style.checkBox
-                        }>
-                        Sí
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                  <View>
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() => stMicrochip('No')}>
-                      <Text
-                        style={
-                          setMicrochip === 'No'
-                            ? style.checkBoxActive
-                            : style.checkBox
-                        }>
-                        No
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-                {setMicrochip == 'Si' && (
-                  <View>
-                    <Text style={style.label}>Número Microship</Text>
+                    <Text style={style.label}>Tipo de mascota</Text>
                     <TextInput
                       placeholderTextColor="#5742A2"
                       style={[
                         style.inputText,
                         {
                           backgroundColor: '#ffffff',
-                          borderColor: '#3C0065',
-                          color: '#3C0065',
+                          borderColor: '#330066',
+                          color: '#330066',
                         },
                       ]}
-                      placeholder="Ingresa el identificador..."
+                      placeholder="Ej: Pitbull"
+                      onChangeText={handleChange('type_mascot')}
+                      onBlur={handleBlur('type_mascot')}
+                      value={values.type_mascot}
                     />
-                  </View>
-                )}
-
-                <Text style={style.label}>
-                  Enfermedades o cuidados Especiales
-                </Text>
-
-                <View style={{marginHorizontal: 5, marginVertical: 2}}>
-                  <Textarea
-                    placeholderTextColor={'#5742A2'}
-                    containerStyle={style.textareaContainer}
-                    style={style.textarea}
-                    maxLength={120}
-                    placeholder={
-                      'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
-                    }
-                    underlineColorAndroid={'transparent'}
-                  />
-                </View>
-                <View style={{marginVertical: 10}}>
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => console.log('Action add Mascot...')}>
-                    <View style={style.btnSubmit}>
-                      <Text style={style.txtAction}>Guardar</Text>
+                    {errors.type_mascot && touched.type_mascot ? (
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Text style={style.error}>{errors.type_mascot}</Text>
+                      </View>
+                    ) : null}
+                    <Text style={style.label}>Raza</Text>
+                    <TextInput
+                      placeholderTextColor="#5742A2"
+                      style={[
+                        style.inputText,
+                        {
+                          backgroundColor: '#ffffff',
+                          borderColor: '#330066',
+                          color: '#330066',
+                        },
+                      ]}
+                      placeholder="Ej: Pitbull"
+                      onChangeText={handleChange('race_mascot')}
+                      onBlur={handleBlur('race_mascot')}
+                      value={values.race_mascot}
+                    />
+                    {errors.race_mascot && touched.race_mascot ? (
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Text style={style.error}>{errors.race_mascot}</Text>
+                      </View>
+                    ) : null}
+                    <Text style={style.label}>Esterilizado</Text>
+                    <View style={{flexDirection: 'row', marginVertical: 5}}>
+                      <View>
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => sterilized('Si')}>
+                          <Text
+                            style={
+                              setSterilized === 'Si'
+                                ? style.checkBoxActive
+                                : style.checkBox
+                            }>
+                            Sí
+                          </Text>
+                        </TouchableHighlight>
+                      </View>
+                      <View>
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => sterilized('No')}>
+                          <Text
+                            style={
+                              setSterilized === 'No'
+                                ? style.checkBoxActive
+                                : style.checkBox
+                            }>
+                            No
+                          </Text>
+                        </TouchableHighlight>
+                      </View>
                     </View>
-                  </TouchableHighlight>
+                    <Text style={style.label}>Fecha de especialización</Text>
+                    <TextInput
+                      placeholderTextColor="#5742A2"
+                      style={[
+                        style.inputText,
+                        {
+                          backgroundColor: '#ffffff',
+                          borderColor: '#330066',
+                          color: '#330066',
+                        },
+                      ]}
+                      onFocus={enableCalendar}
+                      showSoftInputOnFocus={false}
+                      placeholder="Ingresa la fecha"
+                      value={values.date_sterilized}
+                      onChangeText={handleChange('date_sterilized')}
+                      onBlur={handleBlur('date_sterilized')}
+                    />
+                    <Text style={style.label}>Microship</Text>
+                    <View style={{flexDirection: 'row', marginVertical: 5}}>
+                      <View>
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => stMicrochip('Si')}>
+                          <Text
+                            style={
+                              setMicrochip === 'Si'
+                                ? style.checkBoxActive
+                                : style.checkBox
+                            }>
+                            Sí
+                          </Text>
+                        </TouchableHighlight>
+                      </View>
+                      <View>
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => stMicrochip('No')}>
+                          <Text
+                            style={
+                              setMicrochip === 'No'
+                                ? style.checkBoxActive
+                                : style.checkBox
+                            }>
+                            No
+                          </Text>
+                        </TouchableHighlight>
+                      </View>
+                    </View>
+                    {setMicrochip == 'Si' && (
+                      <View>
+                        <Text style={style.label}>Número Microship</Text>
+                        <TextInput
+                          placeholderTextColor="#5742A2"
+                          style={[
+                            style.inputText,
+                            {
+                              backgroundColor: '#ffffff',
+                              borderColor: '#3C0065',
+                              color: '#3C0065',
+                            },
+                          ]}
+                          placeholder="Ingresa el identificador..."
+                          value={values.number_microchip}
+                          onChangeText={handleChange('number_microchip')}
+                          onBlur={handleBlur('number_microchip')}
+                        />
+                      </View>
+                    )}
+
+                    <Text style={style.label}>
+                      Enfermedades o cuidados Especiales
+                    </Text>
+
+                    <View style={{marginHorizontal: 5, marginVertical: 2}}>
+                      <Textarea
+                        placeholderTextColor={'#5742A2'}
+                        containerStyle={style.textareaContainer}
+                        style={style.textarea}
+                        maxLength={120}
+                        placeholder={
+                          'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
+                        }
+                        underlineColorAndroid={'transparent'}
+                        value={values.description}
+                        onChangeText={handleChange('description')}
+                        onBlur={handleBlur('description')}
+                      />
+                    </View>
+                    <View style={{marginVertical: 10}}>
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        onPress={() => handleSubmit()}>
+                        <View style={style.btnSubmit}>
+                          <Text style={style.txtAction}>Guardar</Text>
+                        </View>
+                      </TouchableHighlight>
+                    </View>
+                  </View>
                 </View>
-              </View>
-            </View>
+              )}
+            </Formik>
           </ScrollView>
         </Animated.View>
       </ImageBackground>
@@ -403,6 +518,15 @@ const style = StyleSheet.create({
     width: '100%',
     marginVertical: 10,
     textTransform: 'uppercase',
+  },
+  error: {
+    color: '#fff',
+    backgroundColor: '#3C0065',
+    fontSize: 12,
+    padding: 10,
+    width: '98%',
+    textAlign: 'center',
+    borderRadius: 4,
   },
 });
 

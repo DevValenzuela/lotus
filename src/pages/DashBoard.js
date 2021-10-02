@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import {
   Dimensions,
   Image,
@@ -14,7 +14,6 @@ import {
 
 import {BtnAction} from '../components/sharedComponent';
 import ListCarousel from '../components/listCarousel';
-import {UserContext} from '../context/userContext';
 
 import {
   widthPercentageToDP as wp,
@@ -22,9 +21,7 @@ import {
 } from 'react-native-responsive-screen';
 
 const DashBoard = ({navigation}) => {
-    const {user} = useContext(UserContext);
-    console.log(user);
-    return (
+  return (
     <View style={style.container}>
       <ImageBackground
         source={require('../assets/images/bg_lotus.png')}

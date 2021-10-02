@@ -3,25 +3,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const UserContext = createContext();
 
+const UserProvider = props => {
+  const [user, setUser] = useState({});
 
-const UserProvider = (props) => {
-    const [user, setUser] = useState({});
+  useEffect(() => {
+    const getUser = async () => {
+      const storageUser = await AsyncStorage.getItem('token_lotus');
+      const valueJson = JSON.parse(storageUser);
+      valueJson ? setUser(valueJson) : null;
+    };
+    getUser();
+  }, []);
 
-    useEffect(()=>{
-        const getUser = async () =>{
-            const storageUser =  await AsyncStorage.getItem('token_lotus');
-            const valueJson = JSON.parse(storageUser);
-            setUser(valueJson);
-        }
-        getUser();
-    },[])
+  return (
+    <UserContext.Provider value={{user}}>{props.children}</UserContext.Provider>
+  );
+};
 
-
-    return (
-        <UserContext.Provider value={{user}}>
-            {props.children}
-        </UserContext.Provider>
-    );
-}
-
-export default UserProvider
+export default UserProvider;
