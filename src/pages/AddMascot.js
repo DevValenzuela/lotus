@@ -31,7 +31,9 @@ import {UserContext} from '../context/userContext';
 import {Loading} from '../components/sharedComponent';
 
 const AddMascot = () => {
-  const {user} = useContext(UserContext);
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedStartDate, getselectedStartDate] = useState(null);
