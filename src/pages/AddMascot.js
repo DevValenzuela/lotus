@@ -25,7 +25,9 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import moment from 'moment';
 
 import {useMutation} from '@apollo/client';
-import {ADD_MASCOT_APP} from './apolllo/grahpql';
+import {ADD_MASCOT_APP, UPLOAD_PHOTO_MASCOT} from './apolllo/grahpql';
+import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile.js';
+
 import {Loading} from '../components/sharedComponent';
 
 const AddMascot = () => {
@@ -39,8 +41,8 @@ const AddMascot = () => {
   const [setImageGallery, getImageGallery] = useState('');
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
 
-  const [createMascot, {data, loading, error}] = useMutation(ADD_MASCOT_APP);
-
+  const [createMascot, {loading: loadingA}] = useMutation(ADD_MASCOT_APP);
+  const [upload] = useMutation(UPLOAD_PHOTO_MASCOT);
   const initialValue = {
     name_mascot: '',
     age_mascot: '',
@@ -112,14 +114,10 @@ const AddMascot = () => {
       {
         mediaType: 'photo',
         quality: 0.5,
+        maxWidth: 600,
+        maxHeight: 750,
       },
-      response => {
-        if (response.didCancel) return;
-        const uriImage = response.assets[0].uri;
-        if (uriImage) {
-          getImageGallery(uriImage);
-        }
-      },
+      response => uploadImage(response),
     );
   };
 
@@ -129,18 +127,36 @@ const AddMascot = () => {
       {
         mediaType: 'photo',
         quality: 0.5,
+        maxWidth: 600,
+        maxHeight: 750,
       },
-      response => {
-        if (response.didCancel) return;
-        const uriImage = response.assets[0].uri;
-        if (uriImage) {
-          getImageGallery(uriImage);
-        }
-      },
+      response => uploadImage(response),
     );
   };
 
-  if (loading) return <Loading />;
+  const uploadImage = response => {
+    if (response.didCancel) return;
+    const {uri, fileName, fileSize, type} = response.assets[0];
+
+    const file = new ReactNativeFile({
+      uri: Platform.OS === 'ios' ? uri.replace('file://', '') : uri,
+      name: fileName,
+      type: type,
+    });
+
+    if (uri) {
+      getImageGallery(uri);
+      upload({
+        variables: {
+          file,
+        },
+      })
+        .then(resp => console.log('¡Success Fully Upload!'))
+        .catch(e => console.log(e.message));
+    }
+  };
+
+  if (loadingA) return <Loading />;
 
   return (
     <SafeAreaView style={style.container}>
@@ -433,26 +449,26 @@ const AddMascot = () => {
             <View style={style.centeredView}>
               <View style={style.modalView}>
                 <Text style={{color: '#fff', fontSize: 14}}>
-                  Ingresa la opción de foto.
+                  Ingresar Foto.
                 </Text>
                 <TouchableHighlight
                   underlayColor="transparent"
                   onPress={() => takePhoto()}>
-                  <View style={style.btnModal}>
+                  <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
                     <Text style={style.txtModal}>Galeria</Text>
                   </View>
                 </TouchableHighlight>
                 <TouchableHighlight
                   underlayColor="transparent"
                   onPress={() => takeCamera()}>
-                  <View style={style.btnModal}>
+                  <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
                     <Text style={style.txtModal}>Fotografia</Text>
                   </View>
                 </TouchableHighlight>
                 <TouchableHighlight
                   underlayColor="transparent"
                   onPress={() => setModalVisible(false)}>
-                  <View style={style.btnModal}>
+                  <View style={[style.btnModal, {backgroundColor: '#3C0065'}]}>
                     <Text style={style.txtModal}>Cancelar</Text>
                   </View>
                 </TouchableHighlight>
@@ -650,7 +666,6 @@ const style = StyleSheet.create({
     elevation: 5,
   },
   btnModal: {
-    backgroundColor: '#660066',
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginTop: 10,

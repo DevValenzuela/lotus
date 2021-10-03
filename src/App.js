@@ -11,12 +11,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {RouterNavigation} from './router.navigation';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink,
-} from '@apollo/client';
+import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
+import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
 
@@ -34,7 +30,12 @@ const App = () => {
     setToken(JsonStorage);
   };
 
-  const httpLink = new HttpLink({uri: 'http://192.168.20.22:1337/graphql'});
+  const httpLink = new createUploadLink({
+    uri: 'http://192.168.20.22:1337/graphql',
+    onError: e => {
+      console.log(e);
+    },
+  });
 
   const authLink = setContext((_, {headers}) => {
     // return the headers to the context so httpLink can read them

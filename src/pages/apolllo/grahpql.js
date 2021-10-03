@@ -77,3 +77,11 @@ export const ADD_MASCOT_APP = gql`
     }
   }
 `;
+
+export const UPLOAD_PHOTO_MASCOT = gql`
+  mutation ($file: Upload!) {
+    upload(file: $file) {
+      name
+    }
+  }
+`;
