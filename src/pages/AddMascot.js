@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   Text,
   SafeAreaView,
@@ -27,10 +27,11 @@ import moment from 'moment';
 import {useMutation} from '@apollo/client';
 import {ADD_MASCOT_APP, UPLOAD_PHOTO_MASCOT} from './apolllo/grahpql';
 import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile.js';
-
+import {UserContext} from '../context/userContext';
 import {Loading} from '../components/sharedComponent';
 
 const AddMascot = () => {
+  const {user} = useContext(UserContext);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedStartDate, getselectedStartDate] = useState(null);
@@ -42,7 +43,9 @@ const AddMascot = () => {
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
 
   const [createMascot, {loading: loadingA}] = useMutation(ADD_MASCOT_APP);
-  const [upload] = useMutation(UPLOAD_PHOTO_MASCOT);
+  const [upload, {loading: loadingB, data: dataB}] =
+    useMutation(UPLOAD_PHOTO_MASCOT);
+
   const initialValue = {
     name_mascot: '',
     age_mascot: '',
@@ -53,7 +56,8 @@ const AddMascot = () => {
     microchip: setMicrochip,
     number_microchip: '',
     description: '',
-    user: 1,
+    avatar_mascot: dataB ? dataB.upload.id : null,
+    user: user ? Number(user.id) : null,
   };
 
   const SignupSchema = Yup.object().shape({
@@ -156,7 +160,7 @@ const AddMascot = () => {
     }
   };
 
-  if (loadingA) return <Loading />;
+  if (loadingA || loadingB) return <Loading />;
 
   return (
     <SafeAreaView style={style.container}>
