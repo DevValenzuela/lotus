@@ -52,7 +52,7 @@ const AddMascot = () => {
     type_mascot: '',
     race_mascot: '',
     sterilized: setSterilized,
-    date_sterilized: '',
+    date_sterilized: setDate || '',
     microchip: setMicrochip,
     number_microchip: '',
     description: '',
@@ -86,7 +86,7 @@ const AddMascot = () => {
   };
 
   const insertDateCalendar = startDate => {
-    let date = moment(startDate).format('DD-MM-YYYY');
+    let date = moment(new Date(startDate)).format('DD-MM-YYYY');
     getDate(date);
     getCalendar(false);
   };
@@ -107,6 +107,8 @@ const AddMascot = () => {
           age_mascot: Number(values.age_mascot),
         },
       });
+      getDate('');
+      getImageGallery('');
     } catch (e) {
       console.log(e.message);
     }
