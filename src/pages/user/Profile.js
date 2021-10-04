@@ -16,6 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function ListMascot({data}) {
   const navigation = useNavigation();
@@ -82,8 +83,9 @@ const ProfileUser = ({navigation}) => {
   const {
     user: {user},
   } = useContext(UserContext);
-  console.log(user);
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -91,6 +93,11 @@ const ProfileUser = ({navigation}) => {
       useNativeDriver: false,
     }).start();
   }, [fadeAnim]);
+
+  const sessionClose = async () => {
+    await AsyncStorage.removeItem('token_lotus');
+    navigation.navigate('Login');
+  };
   return (
     <View style={style.container}>
       <ImageBackground
@@ -162,7 +169,7 @@ const ProfileUser = ({navigation}) => {
             />
             <TouchableHighlight
               underlayColor="transparent"
-              onPress={() => navigation.navigate('AddMascot')}>
+              onPress={() => sessionClose()}>
               <View
                 style={{
                   borderRadius: 10,

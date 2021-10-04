@@ -26,11 +26,11 @@ const App = () => {
   }, []);
 
   const startUser = async () => {
+    if (token) return;
     const userStorage = await AsyncStorage.getItem('token_lotus');
     const JsonStorage = JSON.parse(userStorage);
     setToken(JsonStorage);
   };
-
 
   const httpLink = new createUploadLink({
     uri: `${API_URL}/graphql`,

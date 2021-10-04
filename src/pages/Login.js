@@ -34,16 +34,26 @@ const Login = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
+    validateLogin(data);
+  }, [data]);
+
+  const validateLogin = async data => {
     if (data) {
       const {jwt, user} = data.login;
-      console.log('Success fully!');
-      AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user})).then(
-        () => {
+      await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
+      navigation.navigate('Dashboard');
+    } else {
+      try {
+        let validate = await AsyncStorage.getItem('token_lotus');
+        if (validate) {
           navigation.navigate('Dashboard');
-        },
-      );
+        }
+      } catch (e) {
+        await AsyncStorage.removeItem('token_lotus');
+        navigation.navigate('Login');
+      }
     }
-  }, [data, navigation]);
+  };
 
   if (loading) return <Loading />;
 
