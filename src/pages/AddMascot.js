@@ -54,7 +54,7 @@ const AddMascot = () => {
     type_mascot: '',
     race_mascot: '',
     sterilized: setSterilized,
-    date_sterilized: setDate || '',
+    date_sterilized: setDate,
     microchip: setMicrochip,
     number_microchip: '',
     description: '',

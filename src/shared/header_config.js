@@ -49,7 +49,7 @@ function NotifyProfileView() {
         onPress={() => navigation.navigate('Profile')}>
         <Image
           style={style.avatar}
-          source={require('../assets/images/user.jpg')}
+          source={require('../assets/images/user_avatar_notfound.png')}
         />
       </TouchableHighlight>
     </>

@@ -7,6 +7,7 @@
  */
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
+import {API_URL} from '@env';
 import {NavigationContainer} from '@react-navigation/native';
 import {RouterNavigation} from './router.navigation';
 import SplashScreen from 'react-native-splash-screen';
@@ -30,8 +31,9 @@ const App = () => {
     setToken(JsonStorage);
   };
 
+
   const httpLink = new createUploadLink({
-    uri: 'http://192.168.20.22:1337/graphql',
+    uri: `${API_URL}/graphql`,
     onError: e => {
       console.log(e);
     },

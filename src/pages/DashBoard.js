@@ -1,4 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
+import {API_URL} from '@env';
+import {useQuery} from '@apollo/client';
+import {BANNER_APP} from '../pages/apolllo/query';
 import {
   Dimensions,
   Image,
@@ -12,7 +15,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-import {BtnAction} from '../components/sharedComponent';
+import {BtnAction, Loading} from '../components/sharedComponent';
 import ListCarousel from '../components/listCarousel';
 
 import {
@@ -21,6 +24,19 @@ import {
 } from 'react-native-responsive-screen';
 
 const DashBoard = ({navigation}) => {
+  const {loading, error, data} = useQuery(BANNER_APP);
+
+  if (loading) return <Loading />;
+  if (error) console.log(error.message);
+
+  const urlBanner = () => {
+    if (data) {
+      const {banners} = data;
+      const url = banners.map((item, index) => item.ofert[index].url);
+      return url[0];
+    }
+  };
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -43,11 +59,19 @@ const DashBoard = ({navigation}) => {
                 height: hp('29%'),
                 alignItems: 'center',
               }}>
-              <Image
-                style={style.banner}
-                source={require('./../assets/images/banner_canino.jpg')}
-                resizeMode="stretch"
-              />
+              {urlBanner() ? (
+                <Image
+                  style={style.banner}
+                  source={{uri: `${API_URL}${urlBanner()}`}}
+                  resizeMode="stretch"
+                />
+              ) : (
+                <Image
+                  style={style.banner}
+                  source={require('./../assets/images/not_image_banner.jpg')}
+                  resizeMode="stretch"
+                />
+              )}
             </View>
             <View
               style={{
