@@ -1,4 +1,5 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
+import {UserContext} from './../../context/userContext';
 import {
   StyleSheet,
   ImageBackground,
@@ -11,7 +12,10 @@ import {
   FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 function ListMascot({data}) {
   const navigation = useNavigation();
@@ -22,7 +26,6 @@ function ListMascot({data}) {
         alignContent: 'space-between',
         marginVertical: 2,
         flex: 1,
-
       }}>
       <View style={{flex: 1, padding: 10}}>
         <Image
@@ -76,6 +79,10 @@ function ListMascot({data}) {
 }
 
 const ProfileUser = ({navigation}) => {
+  const {
+    user: {user},
+  } = useContext(UserContext);
+  console.log(user);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -96,8 +103,8 @@ const ProfileUser = ({navigation}) => {
               source={require('./../../assets/images/image_photo.png')}
               style={style.imgProfile}
             />
-            <Text style={style.name}>Andres Cooper</Text>
-            <Text style={style.text}>andres.cooper@interstellar.com</Text>
+            <Text style={style.name}>{user.username}</Text>
+            <Text style={style.text}>{user.email}</Text>
             <TouchableHighlight
               style={style.edit}
               underlayColor="transparent"
@@ -153,28 +160,27 @@ const ProfileUser = ({navigation}) => {
               ]}
               renderItem={({item}) => <ListMascot data={item} />}
             />
-              <TouchableHighlight
-                  underlayColor="transparent"
-                  onPress={() => navigation.navigate('AddMascot')}>
-                  <View
-                      style={{
-                          borderRadius: 10,
-                          backgroundColor: '#80006A',
-                          marginBottom: 30
-                      }}>
-                      <Text
-                          style={{
-                              padding: Platform.OS == 'ios' ? 20 : 10,
-                              color: '#fff',
-                              textTransform: 'uppercase',
-                              textAlign: 'center'
-                          }}>
-                          Cerrar Sessión
-                      </Text>
-                  </View>
-              </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => navigation.navigate('AddMascot')}>
+              <View
+                style={{
+                  borderRadius: 10,
+                  backgroundColor: '#80006A',
+                  marginBottom: 30,
+                }}>
+                <Text
+                  style={{
+                    padding: Platform.OS == 'ios' ? 20 : 10,
+                    color: '#fff',
+                    textTransform: 'uppercase',
+                    textAlign: 'center',
+                  }}>
+                  Cerrar Sessión
+                </Text>
+              </View>
+            </TouchableHighlight>
           </View>
-
         </Animated.View>
       </ImageBackground>
     </View>
