@@ -53,13 +53,13 @@ const AddMascot = () => {
     age_mascot: '',
     type_mascot: '',
     race_mascot: '',
-    sterilized: setSterilized,
-    date_sterilized: setDate,
-    microchip: setMicrochip,
+    sterilized: '',
+    date_sterilized: '',
+    microchip: '',
     number_microchip: '',
     description: '',
-    avatar_mascot: dataB ? dataB.upload.id : null,
-    user: user ? Number(user.id) : null,
+    avatar_mascot: '',
+    user: '',
   };
 
   const SignupSchema = Yup.object().shape({
@@ -107,6 +107,11 @@ const AddMascot = () => {
         variables: {
           ...values,
           age_mascot: Number(values.age_mascot),
+          sterilized: setSterilized,
+          date_sterilized: setDate,
+          microchip: setMicrochip,
+          avatar_mascot: dataB ? dataB.upload.id : null,
+          user: user ? Number(user.id) : null,
         },
       });
       getDate('');
