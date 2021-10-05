@@ -2,6 +2,7 @@ import React from 'react';
 import {API_URL} from '@env';
 import {useQuery} from '@apollo/client';
 import {BANNER_APP} from '../pages/apolllo/query';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Dimensions,
   Image,
@@ -27,7 +28,11 @@ const DashBoard = ({navigation}) => {
   const {loading, error, data} = useQuery(BANNER_APP);
 
   if (loading) return <Loading />;
-  if (error) console.log(error.message);
+  if (error) {
+    AsyncStorage.removeItem('token_lotus').then(() => {
+      navigation.navigate('Login');
+    });
+  }
 
   const urlBanner = () => {
     if (data) {

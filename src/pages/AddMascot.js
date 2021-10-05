@@ -25,7 +25,11 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import moment from 'moment';
 
 import {useMutation} from '@apollo/client';
-import {ADD_MASCOT_APP, UPLOAD_PHOTO_MASCOT} from './apolllo/grahpql';
+import {
+  ADD_MASCOT_APP,
+  DELETE_PHOTO_MASCOT,
+  UPLOAD_PHOTO_MASCOT,
+} from './apolllo/grahpql';
 import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile.js';
 import {UserContext} from '../context/userContext';
 import {Loading} from '../components/sharedComponent';
@@ -47,6 +51,8 @@ const AddMascot = () => {
   const [createMascot, {loading: loadingA}] = useMutation(ADD_MASCOT_APP);
   const [upload, {loading: loadingB, data: dataB}] =
     useMutation(UPLOAD_PHOTO_MASCOT);
+  const [deleteUpload, {loading: loadingC, data: dataC}] =
+    useMutation(DELETE_PHOTO_MASCOT);
 
   const initialValue = {
     name_mascot: '',
@@ -169,7 +175,25 @@ const AddMascot = () => {
     }
   };
 
-  if (loadingA || loadingB) return <Loading />;
+  const deleteImage = async () => {
+    if (!dataB) return;
+    try {
+      await deleteUpload({
+        variables: {
+          inputId: {
+            id: Number(dataB.upload.id),
+          },
+        },
+      });
+      getImageGallery('');
+      console.log('!Delete success fully upload!');
+    } catch (e) {
+      getImageGallery('');
+      console.log(e);
+    }
+  };
+
+  if (loadingA || loadingB || loadingC) return <Loading />;
 
   return (
     <SafeAreaView style={style.container}>
@@ -200,13 +224,23 @@ const AddMascot = () => {
                         justifyContent: 'flex-end',
                       }}>
                       {setImageGallery ? (
-                        <Image
-                          source={{
-                            uri: setImageGallery,
-                          }}
-                          style={{width: '100%', height: 150, borderRadius: 10}}
-                          resizeMode="cover"
-                        />
+                        <View>
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            onPress={() => deleteImage()}>
+                            <Image
+                              source={{
+                                uri: setImageGallery,
+                              }}
+                              style={{
+                                width: '100%',
+                                height: 150,
+                                borderRadius: 10,
+                              }}
+                              resizeMode="cover"
+                            />
+                          </TouchableHighlight>
+                        </View>
                       ) : (
                         <TouchableHighlight
                           underlayColor="transparent"

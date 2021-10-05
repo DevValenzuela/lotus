@@ -86,3 +86,13 @@ export const UPLOAD_PHOTO_MASCOT = gql`
     }
   }
 `;
+
+export const DELETE_PHOTO_MASCOT = gql`
+  mutation deleteFile($inputId: InputID) {
+    deleteFile(input: {where: $inputId}) {
+      file {
+        id
+      }
+    }
+  }
+`;
