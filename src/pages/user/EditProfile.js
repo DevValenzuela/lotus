@@ -1,4 +1,4 @@
-import React,{useRef, useEffect} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -50,12 +50,11 @@ const EditProfile = () => {
                           style={style.imgProfile}
                         />
                         <TouchableHighlight
-                          underlayColor="transparent"
-                          onPress={() => console.log('Edit mage')}>
-                          <View style={style.editImage}>
-                            <Image
-                              source={require('./../../assets/images/edit_btn.png')}
-                            />
+                          style={{alignItems: 'center'}}
+                          onPress={() => console.log('Edit photo ...')}
+                          underlayColor="transparent">
+                          <View style={style.btnEdit}>
+                            <Text style={style.txtBtnEdit}>Editar foto</Text>
                           </View>
                         </TouchableHighlight>
                       </View>
@@ -88,6 +87,7 @@ const EditProfile = () => {
             </Formik>
             <TouchableHighlight
               style={{alignItems: 'center', marginVertical: 20}}
+              onPress={() => console.log('Delete account ...')}
               underlayColor="transparent">
               <View style={style.btnDeleteAccount}>
                 <Text style={style.btnTxtDelete}>Eliminar Cuenta</Text>
@@ -152,17 +152,9 @@ const style = StyleSheet.create({
     textTransform: 'uppercase',
   },
   imgProfile: {
-    width: 100,
-    height: 100,
-    marginVertical: 40,
-  },
-  editImage: {
-    backgroundColor: '#330066',
-    padding: 10,
-    borderRadius: 50,
-    position: 'absolute',
-    top: -70,
-    left: 15,
+    width: 140,
+    height: 140,
+    marginVertical: 20,
   },
 });
 

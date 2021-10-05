@@ -12,7 +12,6 @@ import {
   TouchableHighlight,
   Platform,
   Animated,
-  Modal,
 } from 'react-native';
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -21,38 +20,27 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import moment from 'moment';
 
 import {useMutation} from '@apollo/client';
-import {
-  ADD_MASCOT_APP,
-  DELETE_PHOTO_MASCOT,
-  UPLOAD_PHOTO_MASCOT,
-} from './apolllo/grahpql';
-import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile.js';
+import {ADD_MASCOT_APP} from './apolllo/grahpql';
+
 import {UserContext} from '../context/userContext';
-import {Loading} from '../components/sharedComponent';
+import {Loading, ModalGalleryOptions} from '../components/sharedComponent';
 
 const AddMascot = () => {
   const {
-    user: {user},
+    dispatchUserEvent,
+    user: {user, idPhoto},
   } = useContext(UserContext);
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const [modalVisible, setModalVisible] = useState(false);
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setSterilized, getSterilized] = useState('Si');
   const [setMicrochip, getMicrochip] = useState('No');
   const [setCalendar, getCalendar] = useState(false);
   const [setDate, getDate] = useState('');
-  const [setImageGallery, getImageGallery] = useState('');
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
-
   const [createMascot, {loading: loadingA}] = useMutation(ADD_MASCOT_APP);
-  const [upload, {loading: loadingB, data: dataB}] =
-    useMutation(UPLOAD_PHOTO_MASCOT);
-  const [deleteUpload, {loading: loadingC, data: dataC}] =
-    useMutation(DELETE_PHOTO_MASCOT);
 
   const initialValue = {
     name_mascot: '',
@@ -83,7 +71,7 @@ const AddMascot = () => {
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  }, [fadeAnim]);
+  }, [fadeAnim, user]);
 
   const onDateChange = date => {
     getselectedStartDate(date);
@@ -116,84 +104,18 @@ const AddMascot = () => {
           sterilized: setSterilized,
           date_sterilized: setDate,
           microchip: setMicrochip,
-          avatar_mascot: dataB ? dataB.upload.id : null,
+          avatar_mascot: idPhoto ? idPhoto : null,
           user: user ? Number(user.id) : null,
         },
       });
       getDate('');
-      getImageGallery('');
+      dispatchUserEvent('ADD_URI', {idPhoto: ''});
     } catch (e) {
       console.log(e.message);
     }
   };
 
-  const takeCamera = () => {
-    setModalVisible(false);
-    launchCamera(
-      {
-        mediaType: 'photo',
-        quality: 0.5,
-        maxWidth: 600,
-        maxHeight: 750,
-      },
-      response => uploadImage(response),
-    );
-  };
-
-  const takePhoto = () => {
-    setModalVisible(false);
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        quality: 0.5,
-        maxWidth: 600,
-        maxHeight: 750,
-      },
-      response => uploadImage(response),
-    );
-  };
-
-  const uploadImage = response => {
-    if (response.didCancel) return;
-    const {uri, fileName, fileSize, type} = response.assets[0];
-
-    const file = new ReactNativeFile({
-      uri: Platform.OS === 'ios' ? uri.replace('file://', '') : uri,
-      name: fileName,
-      type: type,
-    });
-
-    if (uri) {
-      getImageGallery(uri);
-      upload({
-        variables: {
-          file,
-        },
-      })
-        .then(resp => console.log('¡Success Fully Upload!'))
-        .catch(e => console.log(e.message));
-    }
-  };
-
-  const deleteImage = async () => {
-    if (!dataB) return;
-    try {
-      await deleteUpload({
-        variables: {
-          inputId: {
-            id: Number(dataB.upload.id),
-          },
-        },
-      });
-      getImageGallery('');
-      console.log('!Delete success fully upload!');
-    } catch (e) {
-      getImageGallery('');
-      console.log(e);
-    }
-  };
-
-  if (loadingA || loadingB || loadingC) return <Loading />;
+  if (loadingA) return <Loading />;
 
   return (
     <SafeAreaView style={style.container}>
@@ -223,34 +145,7 @@ const AddMascot = () => {
                         padding: 5,
                         justifyContent: 'flex-end',
                       }}>
-                      {setImageGallery ? (
-                        <View>
-                          <TouchableHighlight
-                            underlayColor="transparent"
-                            onPress={() => deleteImage()}>
-                            <Image
-                              source={{
-                                uri: setImageGallery,
-                              }}
-                              style={{
-                                width: '100%',
-                                height: 150,
-                                borderRadius: 10,
-                              }}
-                              resizeMode="cover"
-                            />
-                          </TouchableHighlight>
-                        </View>
-                      ) : (
-                        <TouchableHighlight
-                          underlayColor="transparent"
-                          onPress={() => setModalVisible(!modalVisible)}>
-                          <Image
-                            style={{width: '100%'}}
-                            source={require('./../assets/images/galery_mascot.png')}
-                          />
-                        </TouchableHighlight>
-                      )}
+                      <ModalGalleryOptions />
                     </View>
                     <View style={{flex: 2, justifyContent: 'center'}}>
                       <Text style={style.label}>Nombre mascota</Text>
@@ -485,43 +380,6 @@ const AddMascot = () => {
               )}
             </Formik>
           </ScrollView>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              console.log('Hide modal...');
-              setModalVisible(!modalVisible);
-            }}>
-            <View style={style.centeredView}>
-              <View style={style.modalView}>
-                <Text style={{color: '#fff', fontSize: 14}}>
-                  Ingresar Foto.
-                </Text>
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  onPress={() => takePhoto()}>
-                  <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
-                    <Text style={style.txtModal}>Galeria</Text>
-                  </View>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  onPress={() => takeCamera()}>
-                  <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
-                    <Text style={style.txtModal}>Fotografia</Text>
-                  </View>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  onPress={() => setModalVisible(false)}>
-                  <View style={[style.btnModal, {backgroundColor: '#3C0065'}]}>
-                    <Text style={style.txtModal}>Cancelar</Text>
-                  </View>
-                </TouchableHighlight>
-              </View>
-            </View>
-          </Modal>
         </Animated.View>
       </ImageBackground>
       {/*===Calendar===*/}
@@ -696,33 +554,6 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: '#562A8C',
-    borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
-    shadowColor: '#562A8C',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  btnModal: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginTop: 10,
-    borderRadius: 10,
-    fontSize: 16,
-    width: 200,
-  },
-  txtModal: {
-    color: '#fff',
-    textAlign: 'center',
   },
 });
 
