@@ -78,6 +78,32 @@ export const ADD_MASCOT_APP = gql`
   }
 `;
 
+export const UPDATE_USER_PROFILE = gql`
+  mutation updateUser(
+    $idwhere: InputID!
+    $username: String
+    $email: String
+    $password: String
+    $avatar: ID
+  ) {
+    updateUser(
+      input: {
+        where: $idwhere
+        data: {
+          username: $username
+          email: $email
+          password: $password
+          avatar: $avatar
+        }
+      }
+    ) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
 export const UPLOAD_PHOTO_MASCOT = gql`
   mutation ($file: Upload!) {
     upload(file: $file) {

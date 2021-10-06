@@ -1,4 +1,5 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useContext} from 'react';
+
 import {
   View,
   Text,
@@ -8,7 +9,6 @@ import {
   ImageBackground,
   TouchableHighlight,
   Platform,
-  Image,
   Animated,
 } from 'react-native';
 
@@ -16,7 +16,6 @@ import {Formik} from 'formik';
 import {AvatarOption} from '../../components/sharedComponent';
 
 const EditProfile = () => {
-  const initialValue = {};
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -25,6 +24,13 @@ const EditProfile = () => {
       useNativeDriver: false,
     }).start();
   }, [fadeAnim]);
+
+  if (loadingA) return null;
+  if (errorA) return null;
+
+  const {url} = dataA.user;
+  console.log(dataA.user);
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -36,7 +42,14 @@ const EditProfile = () => {
             <Formik
               initialValues={initialValue}
               onSubmit={values => console.log(values)}>
-              {({handleChange, handleBlur, handleSubmit, values}) => (
+              {({
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+              }) => (
                 <View
                   style={{
                     flexDirection: 'row',
@@ -51,6 +64,15 @@ const EditProfile = () => {
                         style={style.inputText}
                         placeholder="Usuario"
                       />
+                      {errors.username && touched.username ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.username}</Text>
+                        </View>
+                      ) : null}
                       <TextInput
                         placeholderTextColor="#5742A2"
                         style={style.inputText}

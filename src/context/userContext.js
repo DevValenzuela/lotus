@@ -5,13 +5,19 @@ export const UserContext = createContext();
 
 const initialize = {
   jwt: '',
-  user: {email: '', id: '', username: '', confirmed: '', blocked: ''},
+  user: {
+    email: '',
+    id: '',
+    username: '',
+    confirmed: '',
+    blocked: '',
+    avatar: {url: ''},
+  },
   idPhoto: '',
 };
 
 const UserProvider = props => {
   const [user, setUser] = useState(initialize);
-
   const dispatchUserEvent = (actionType, payload) => {
     switch (actionType) {
       case 'ADD_URI':
