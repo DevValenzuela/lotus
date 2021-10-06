@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import {Formik} from 'formik';
+import {AvatarOption} from '../../components/sharedComponent';
 
 const EditProfile = () => {
   const initialValue = {};
@@ -44,32 +45,19 @@ const EditProfile = () => {
                   }}>
                   <View style={{flex: 1, alignItems: 'center'}}>
                     <View style={style.editContainer}>
-                      <View style={{alignItems: 'center'}}>
-                        <Image
-                          source={require('./../../assets/images/image_photo.png')}
-                          style={style.imgProfile}
-                        />
-                        <TouchableHighlight
-                          style={{alignItems: 'center'}}
-                          onPress={() => console.log('Edit photo ...')}
-                          underlayColor="transparent">
-                          <View style={style.btnEdit}>
-                            <Text style={style.txtBtnEdit}>Editar foto</Text>
-                          </View>
-                        </TouchableHighlight>
-                      </View>
+                      <AvatarOption />
                       <TextInput
-                        placeholderTextColor="#ffffff"
+                        placeholderTextColor="#5742A2"
                         style={style.inputText}
                         placeholder="Usuario"
                       />
                       <TextInput
-                        placeholderTextColor="#ffffff"
+                        placeholderTextColor="#5742A2"
                         style={style.inputText}
                         placeholder="E-mail"
                       />
                       <TextInput
-                        placeholderTextColor="#ffffff"
+                        placeholderTextColor="#5742A2"
                         style={style.inputText}
                         placeholder="Contraseña"
                       />
@@ -121,7 +109,7 @@ const style = StyleSheet.create({
     fontSize: 16,
     borderColor: '#330066',
     color: '#330066',
-    backgroundColor: 'rgba(255,255,255,0.35)',
+    backgroundColor: '#ffffff',
     borderRadius: 10,
     padding: Platform.OS == 'ios' ? 15 : 10,
     margin: 5,
