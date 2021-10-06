@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext} from 'react';
 import {API_URL} from '@env';
 import {
   Image,
@@ -37,6 +37,7 @@ function NotifyProfileView() {
   const {
     user: {user},
   } = useContext(UserContext);
+
   const {
     loading: loadingB,
     error: errorB,
@@ -48,8 +49,10 @@ function NotifyProfileView() {
   });
 
   if (loadingB) return null;
-  if (errorB) return null;
+  if (errorB) console.log(errorB);
+
   const {avatar} = dataB.user;
+
   return (
     <>
       <TouchableHighlight

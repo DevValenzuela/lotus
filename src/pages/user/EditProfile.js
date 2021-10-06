@@ -14,6 +14,7 @@ import {
 
 import {Formik} from 'formik';
 import {AvatarOption} from '../../components/sharedComponent';
+import * as Yup from 'yup';
 
 const EditProfile = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -25,11 +26,18 @@ const EditProfile = () => {
     }).start();
   }, [fadeAnim]);
 
-  if (loadingA) return null;
-  if (errorA) return null;
+  const initialValue = {
+    username: '',
+    email: '',
+    password: '',
+  };
 
-  const {url} = dataA.user;
-  console.log(dataA.user);
+  const SignupSchema = Yup.object().shape({
+    username: Yup.string().required('El nombre usuario es requerido.'),
+    email: Yup.string()
+      .email('El email no es valido.')
+      .required('El campo email es requerido.'),
+  });
 
   return (
     <View style={style.container}>
@@ -41,6 +49,7 @@ const EditProfile = () => {
           <ScrollView>
             <Formik
               initialValues={initialValue}
+              validationSchema={SignupSchema}
               onSubmit={values => console.log(values)}>
               {({
                 touched,
@@ -63,6 +72,9 @@ const EditProfile = () => {
                         placeholderTextColor="#5742A2"
                         style={style.inputText}
                         placeholder="Usuario"
+                        onChange={handleChange('username')}
+                        onBlur={handleBlur('username')}
+                        value={values.username}
                       />
                       {errors.username && touched.username ? (
                         <View
@@ -77,12 +89,28 @@ const EditProfile = () => {
                         placeholderTextColor="#5742A2"
                         style={style.inputText}
                         placeholder="E-mail"
+                        onChange={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}
                       />
+                      {errors.email && touched.email ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.email}</Text>
+                        </View>
+                      ) : null}
                       <TextInput
                         placeholderTextColor="#5742A2"
                         style={style.inputText}
                         placeholder="Contraseña"
+                        onChange={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        value={values.password}
                       />
+                      
                       <TouchableHighlight
                         underlayColor="transparent"
                         onPress={() => handleSubmit()}>
@@ -165,6 +193,15 @@ const style = StyleSheet.create({
     width: 140,
     height: 140,
     marginVertical: 20,
+  },
+  error: {
+    color: '#fff',
+    backgroundColor: '#330066',
+    fontSize: 14,
+    padding: 10,
+    width: '90%',
+    textAlign: 'center',
+    borderRadius: 4,
   },
 });
 

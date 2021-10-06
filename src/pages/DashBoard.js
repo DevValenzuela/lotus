@@ -28,11 +28,7 @@ const DashBoard = ({navigation}) => {
   const {loading, error, data} = useQuery(BANNER_APP);
 
   if (loading) return <Loading />;
-  if (error) {
-    AsyncStorage.removeItem('token_lotus').then(() => {
-      navigation.navigate('Login');
-    });
-  }
+  if (error) console.log(error);
 
   const urlBanner = () => {
     if (data) {
