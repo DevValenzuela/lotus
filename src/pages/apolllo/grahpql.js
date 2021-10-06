@@ -80,21 +80,15 @@ export const ADD_MASCOT_APP = gql`
 
 export const UPDATE_USER_PROFILE = gql`
   mutation updateUser(
-    $idwhere: InputID!
+    $id: ID!
     $username: String
     $email: String
-    $password: String
     $avatar: ID
   ) {
     updateUser(
       input: {
-        where: $idwhere
-        data: {
-          username: $username
-          email: $email
-          password: $password
-          avatar: $avatar
-        }
+        where: {id: $id}
+        data: {username: $username, email: $email, avatar: $avatar}
       }
     ) {
       user {

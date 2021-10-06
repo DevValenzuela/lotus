@@ -13,11 +13,28 @@ import {
 } from 'react-native';
 
 import {Formik} from 'formik';
-import {AvatarOption} from '../../components/sharedComponent';
 import * as Yup from 'yup';
+
+import {useMutation} from '@apollo/client';
+import {UPDATE_USER_PROFILE} from '../apolllo/grahpql';
+import {AvatarOption} from '../../components/sharedComponent';
+import {UserContext} from '../../context/userContext';
 
 const EditProfile = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const {
+    dispatchUserEvent,
+    user: {user, idPhoto},
+  } = useContext(UserContext);
+
+  const [updateUser, {loading, data, error}] = useMutation(UPDATE_USER_PROFILE);
+
+  const initialValue = {
+    username: '',
+    email: '',
+    password: '',
+  };
+
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -26,18 +43,29 @@ const EditProfile = () => {
     }).start();
   }, [fadeAnim]);
 
-  const initialValue = {
-    username: '',
-    email: '',
-    password: '',
-  };
-
   const SignupSchema = Yup.object().shape({
     username: Yup.string().required('El nombre usuario es requerido.'),
     email: Yup.string()
       .email('El email no es valido.')
       .required('El campo email es requerido.'),
   });
+
+  const handleUpdateProfile = async values => {
+    try {
+      await updateUser({
+        variables: {
+          id: user.id,
+          username: values.username,
+          email: values.email,
+          avatar: idPhoto ? idPhoto : '',
+        },
+      });
+      if (idPhoto) return;
+      dispatchUserEvent('ADD_URI', {idPhoto: ''});
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={style.container}>
@@ -50,7 +78,7 @@ const EditProfile = () => {
             <Formik
               initialValues={initialValue}
               validationSchema={SignupSchema}
-              onSubmit={values => console.log(values)}>
+              onSubmit={values => handleUpdateProfile(values)}>
               {({
                 touched,
                 handleChange,
@@ -72,7 +100,7 @@ const EditProfile = () => {
                         placeholderTextColor="#5742A2"
                         style={style.inputText}
                         placeholder="Usuario"
-                        onChange={handleChange('username')}
+                        onChangeText={handleChange('username')}
                         onBlur={handleBlur('username')}
                         value={values.username}
                       />
@@ -89,7 +117,7 @@ const EditProfile = () => {
                         placeholderTextColor="#5742A2"
                         style={style.inputText}
                         placeholder="E-mail"
-                        onChange={handleChange('email')}
+                        onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
                         value={values.email}
                       />
@@ -102,15 +130,7 @@ const EditProfile = () => {
                           <Text style={style.error}>{errors.email}</Text>
                         </View>
                       ) : null}
-                      <TextInput
-                        placeholderTextColor="#5742A2"
-                        style={style.inputText}
-                        placeholder="Contraseña"
-                        onChange={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                      />
-                      
+
                       <TouchableHighlight
                         underlayColor="transparent"
                         onPress={() => handleSubmit()}>
