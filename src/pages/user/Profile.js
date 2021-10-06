@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useRef} from 'react';
 import {UserContext} from './../../context/userContext';
+import {API_URL} from '@env';
 import {
   StyleSheet,
   ImageBackground,
@@ -17,6 +18,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useQuery} from '@apollo/client';
+import {CONSULT_APP} from '../apolllo/query';
 
 function ListMascot({data}) {
   const navigation = useNavigation();
@@ -83,6 +86,11 @@ const ProfileUser = ({navigation}) => {
   const {
     user: {user},
   } = useContext(UserContext);
+  const {data, loading, error} = useQuery(CONSULT_APP, {
+    variables: {
+      id: user.id,
+    },
+  });
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -98,6 +106,12 @@ const ProfileUser = ({navigation}) => {
     await AsyncStorage.removeItem('token_lotus');
     navigation.navigate('Login');
   };
+  if (loading) return null;
+  if (error) console.log(error);
+  const {
+    user: {avatar},
+  } = data;
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -106,10 +120,18 @@ const ProfileUser = ({navigation}) => {
         style={style.bgImage}>
         <Animated.View style={{opacity: fadeAnim}}>
           <View style={style.contentProfile}>
-            <Image
-              source={require('./../../assets/images/image_photo.png')}
-              style={style.imgProfile}
-            />
+            {avatar.url ? (
+              <Image
+                source={{uri: `${API_URL}${avatar.url}`}}
+                style={style.imgProfile}
+              />
+            ) : (
+              <Image
+                source={require('./../../assets/images/image_photo.png')}
+                style={style.imgProfile}
+              />
+            )}
+
             <Text style={style.name}>{user.username}</Text>
             <Text style={style.text}>{user.email}</Text>
             <TouchableHighlight
@@ -145,22 +167,22 @@ const ProfileUser = ({navigation}) => {
             <FlatList
               data={[
                 {
-                  id: 2139012390 - 129312 - 9393902,
+                  id: 12931290393902,
                   title: 'Michi 1',
                   img: 'https://pbs.twimg.com/profile_images/1267361661482082304/mnwkOjgz.jpg',
                 },
                 {
-                  id: 2139012390 - 129312 - 9393902,
+                  id: 21390123909393902,
                   title: 'Michi 2',
                   img: 'https://www.elgrafico.mx/sites/default/files/2021/01/13/cuida_a_tu_michi_de_enfermedades_serias.jpg',
                 },
                 {
-                  id: 2139012390 - 129312 - 9393902,
+                  id: 21390123903902,
                   title: 'Michi 3',
                   img: 'https://lh3.googleusercontent.com/proxy/rdAQ3ncNXg4SjOYnSRGmFWT0HiWhH1lMsSBQK5kht-TwbGps2_VJVAFoCeYdLur6jXaPIDjxD7n-I0sal_B7bh5M_Tiu3qTUxrxh3koX-Tf5J3XlPeJ0oBmBZDRitTtlqV5Vx0BWcDE6PUc3rnPKN8X969dmniI',
                 },
                 {
-                  id: 2139012390 - 129312 - 9393902,
+                  id: 213901239002,
                   title: 'Dog 1',
                   img: 'https://i.guim.co.uk/img/media/684c9d087dab923db1ce4057903f03293b07deac/205_132_1915_1150/master/1915.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=14a95b5026c1567b823629ba35c40aa0',
                 },
@@ -229,6 +251,7 @@ const style = StyleSheet.create({
     width: 100,
     height: 100,
     marginVertical: 10,
+    borderRadius: 50,
   },
   edit: {
     position: 'absolute',

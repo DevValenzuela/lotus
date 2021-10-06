@@ -6,7 +6,6 @@ import {
   View,
   ImageBackground,
   TextInput,
-  Image,
   ScrollView,
   Dimensions,
   TouchableHighlight,

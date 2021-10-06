@@ -44,9 +44,9 @@ export const ADD_MASCOT_APP = gql`
     $number_microchip: String
     $description: String
     $avatar_mascot: ID
-    $sterilized: String!
-    $microchip: String!
     $user: ID
+    $microchip: String!
+    $sterilized: String!
   ) {
     createMascot(
       input: {
@@ -55,8 +55,8 @@ export const ADD_MASCOT_APP = gql`
           age_mascot: $age_mascot
           type_mascot: $type_mascot
           race_mascot: $race_mascot
-          sterilized: $sterilized
           date_sterilized: $date_sterilized
+          sterilized: $sterilized
           microchip: $microchip
           number_microchip: $number_microchip
           description: $description

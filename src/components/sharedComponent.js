@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState, useContext} from 'react';
 import {UserContext} from '../context/userContext';
+import {API_URL} from '@env';
 import {
   StyleSheet,
   Text,
@@ -14,12 +15,13 @@ import {
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {useMutation} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import {
   DELETE_PHOTO_MASCOT,
   UPLOAD_PHOTO_MASCOT,
 } from '../pages/apolllo/grahpql';
 import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile';
+import {CONSULT_APP} from '../pages/apolllo/query';
 
 export const Loading = () => {
   return (
@@ -123,6 +125,7 @@ export const ModalGalleryOptions = () => {
         },
       });
       getImageGallery('');
+      dispatchUserEvent('ADD_URI', {idPhoto: ''});
       console.log('!Delete success fully upload!');
     } catch (e) {
       getImageGallery('');
@@ -225,7 +228,11 @@ export const ModalGalleryOptions = () => {
   );
 };
 export const AvatarOption = () => {
-  const {dispatchUserEvent} = useContext(UserContext);
+  const {
+    dispatchUserEvent,
+    user: {user},
+  } = useContext(UserContext);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [setImageGallery, getImageGallery] = useState('');
 
@@ -234,6 +241,16 @@ export const AvatarOption = () => {
 
   const [deleteUpload, {loading: loadingC, data: dataC}] =
     useMutation(DELETE_PHOTO_MASCOT);
+
+  const {
+    data: dataA,
+    loading: loadingA,
+    error: errorA,
+  } = useQuery(CONSULT_APP, {
+    variables: {
+      id: user.id,
+    },
+  });
 
   const uploadImage = response => {
     if (response.didCancel) return;
@@ -271,6 +288,7 @@ export const AvatarOption = () => {
         },
       });
       getImageGallery('');
+      dispatchUserEvent('ADD_URI', {idPhoto: ''});
       console.log('!Delete success fully upload!');
     } catch (e) {
       getImageGallery('');
@@ -304,6 +322,13 @@ export const AvatarOption = () => {
     );
   };
 
+  if (loadingA) return null;
+  if (errorA) console.log(errorA);
+
+  const {
+    user: {avatar},
+  } = dataA;
+
   return (
     <View>
       {setImageGallery ? (
@@ -330,16 +355,25 @@ export const AvatarOption = () => {
         </View>
       ) : (
         <View style={{alignItems: 'center', marginTop: 10}}>
-          <Image
-            source={require('../assets/images/image_photo.png')}
-            style={style.imgProfile}
-          />
+          {avatar.url ? (
+            <Image
+              source={{uri: `${API_URL}${avatar.url}`}}
+              style={style.imgProfile}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/image_photo.png')}
+              style={style.imgProfile}
+            />
+          )}
           <TouchableHighlight
             style={{alignItems: 'center'}}
             onPress={() => setModalVisible(!modalVisible)}
             underlayColor="transparent">
             <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
-              <Text style={style.txtModal}>AGREGAR FOTO</Text>
+              <Text style={style.txtModal}>
+                {avatar.url ? 'ACTUALIZAR FOTO' : 'AGREGAR FOTO'}
+              </Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -430,5 +464,11 @@ const style = StyleSheet.create({
   txtModal: {
     color: '#fff',
     textAlign: 'center',
+  },
+  imgProfile: {
+    width: 120,
+    height: 120,
+    marginVertical: 5,
+    borderRadius: 100,
   },
 });
