@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
+import {API_URL} from '@env';
 import {
   Image,
   Text,
@@ -8,6 +9,10 @@ import {
   Dimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../context/userContext';
+import {useQuery} from '@apollo/client';
+import {CONSULT_APP} from '../pages/apolllo/query';
+
 function LogoTitle() {
   return (
     <View
@@ -20,7 +25,7 @@ function LogoTitle() {
         zIndex: 99,
       }}>
       <Image
-        style={{width: 35, height: 35 }}
+        style={{width: 35, height: 35}}
         source={require('../assets/images/logo_lotus_menu.png')}
       />
     </View>
@@ -29,6 +34,22 @@ function LogoTitle() {
 
 function NotifyProfileView() {
   const navigation = useNavigation();
+  const {
+    user: {user},
+  } = useContext(UserContext);
+  const {
+    loading: loadingB,
+    error: errorB,
+    data: dataB,
+  } = useQuery(CONSULT_APP, {
+    variables: {
+      id: user.id,
+    },
+  });
+
+  if (loadingB) return null;
+  if (errorB) return null;
+  const {avatar} = dataB.user;
   return (
     <>
       <TouchableHighlight
@@ -47,10 +68,14 @@ function NotifyProfileView() {
       <TouchableHighlight
         underlayColor="transparent"
         onPress={() => navigation.navigate('Profile')}>
-        <Image
-          style={style.avatar}
-          source={require('../assets/images/user_avatar_notfound.png')}
-        />
+        {avatar.url ? (
+          <Image style={style.avatar} source={{uri: API_URL + avatar.url}} />
+        ) : (
+          <Image
+            style={style.avatar}
+            source={require('../assets/images/user_avatar_notfound.png')}
+          />
+        )}
       </TouchableHighlight>
     </>
   );
@@ -122,8 +147,7 @@ const style = StyleSheet.create({
     height: 30,
     marginHorizontal: 15,
     zIndex: 999999,
-    position: 'relative'
-
+    position: 'relative',
   },
   notify: {
     width: 39,

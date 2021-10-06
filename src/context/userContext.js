@@ -5,7 +5,7 @@ export const UserContext = createContext();
 
 const initialize = {
   jwt: '',
-  user: {email: '', id: '', username: ''},
+  user: {email: '', id: '', username: '', confirmed: '', blocked: ''},
   idPhoto: '',
 };
 

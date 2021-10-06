@@ -9,3 +9,18 @@ export const BANNER_APP = gql`
     }
   }
 `;
+
+export const CONSULT_APP = gql`
+  query user($id: ID!) {
+    user(id: $id) {
+      id
+      username
+      email
+      blocked
+      confirmed
+      avatar {
+        url
+      }
+    }
+  }
+`;

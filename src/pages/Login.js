@@ -14,10 +14,11 @@ import {
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
-import {useMutation} from '@apollo/client';
-import {LOGIN_USER_APP} from './apolllo/grahpql';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Loading} from '../components/sharedComponent';
+
+import {useMutation, useQuery} from '@apollo/client';
+import {LOGIN_USER_APP} from './apolllo/grahpql';
 
 const initialValue = {
   user: 'plangraficostudio@gmail.com',
@@ -30,12 +31,15 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Login = ({navigation}) => {
-  const [login, {data, error, loading}] = useMutation(LOGIN_USER_APP);
+
+  const [login, {data: dataA, error: errorA, loading: loadingA}] =
+    useMutation(LOGIN_USER_APP);
+
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    validateLogin(data);
-  }, [data]);
+    validateLogin(dataA);
+  }, [dataA]);
 
   const validateLogin = async data => {
     if (data) {
@@ -55,7 +59,7 @@ const Login = ({navigation}) => {
     }
   };
 
-  if (loading) return <Loading />;
+  if (loadingA) return <Loading />;
 
   const handleLogin = async values => {
     try {
