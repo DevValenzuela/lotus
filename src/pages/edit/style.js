@@ -105,5 +105,13 @@ export const style = StyleSheet.create({
     padding: 12,
     top: 1,
     color: '#ffffff'
+  },
+  error:{
+    backgroundColor: '#3C0065',
+    color: '#fff',
+    width: '98%',
+    padding: 10,
+    textAlign: 'center',
+    borderRadius: 10
   }
 });

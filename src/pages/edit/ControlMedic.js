@@ -12,12 +12,29 @@ import {
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
 
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+
 import {style} from './style';
 
 const ControlMedic = () => {
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+
+  const initialValue = {
+    last_control: '',
+  };
+
+  const SignupSchema = Yup.object().shape({
+    last_control: Yup.string().required(
+      'Ingresa el campo del ultimo de control.',
+    ),
+  });
+
+  const handleSubmitMedicament = values => {
+    console.log(values);
+  };
 
   const onDateChange = date => {
     getselectedStartDate(date);
@@ -34,63 +51,89 @@ const ControlMedic = () => {
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView>
-          <View style={style.containerForm}>
-            <View>
-              <Text style={style.label}>Último Control</Text>
-              <TextInput
-                placeholderTextColor="#5742A2"
-                style={[
-                  style.inputText,
-                  {
-                    backgroundColor: '#ffffff',
-                    borderColor: '#330066',
-                    color: '#330066',
-                  },
-                ]}
-                onFocus={enableCalendar}
-                showSoftInputOnFocus={false}
-                placeholder="Ingresa la fecha"
-              />
+          <Formik
+            initialValues={initialValue}
+            validationSchema={SignupSchema}
+            onSubmit={values => handleSubmitMedicament(values)}>
+            {({
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+            }) => (
+              <View style={style.containerForm}>
+                <View>
+                  <Text style={style.label}>Último Control</Text>
+                  <TextInput
+                    placeholderTextColor="#5742A2"
+                    onChangeText={handleChange('last_control')}
+                    onBlur={handleBlur('last_control')}
+                    value={values.last_control}
+                    style={[
+                      style.inputText,
+                      {
+                        backgroundColor: '#ffffff',
+                        borderColor: '#330066',
+                        color: '#330066',
+                      },
+                    ]}
+                    onFocus={enableCalendar}
+                    showSoftInputOnFocus={false}
+                    placeholder="Ingresa la fecha"
+                  />
+                  {errors.last_control && touched.last_control ? (
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text style={style.error}>{errors.last_control}</Text>
+                    </View>
+                  ) : null}
 
-              <Text style={style.label}>Valoración</Text>
+                  <Text style={style.label}>Valoración</Text>
 
-              <View style={{marginHorizontal: 5, marginVertical: 2}}>
-                <Textarea
-                  placeholderTextColor={'#5742A2'}
-                  containerStyle={style.textareaContainer}
-                  style={style.textarea}
-                  maxLength={120}
-                  placeholder={
-                    'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
-                  }
-                  underlineColorAndroid={'transparent'}
-                />
-              </View>
-
-              <Text style={style.label}>Presentación y anotaciones:</Text>
-
-              <View style={{marginHorizontal: 5, marginVertical: 2}}>
-                <Textarea
-                  placeholderTextColor={'#5742A2'}
-                  containerStyle={style.textareaContainer}
-                  style={style.textarea}
-                  maxLength={120}
-                  placeholder={
-                    'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
-                  }
-                  underlineColorAndroid={'transparent'}
-                />
-              </View>
-
-              <View style={{marginVertical: 10}}>
-                <TouchableHighlight>
-                  <View style={style.btnSubmit}>
-                    <Text style={style.btnSubmitxt}>Modificar</Text>
+                  <View style={{marginHorizontal: 5, marginVertical: 2}}>
+                    <Textarea
+                      placeholderTextColor={'#5742A2'}
+                      containerStyle={style.textareaContainer}
+                      style={style.textarea}
+                      maxLength={120}
+                      placeholder={
+                        'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
+                      }
+                      underlineColorAndroid={'transparent'}
+                    />
                   </View>
-                </TouchableHighlight>
+
+                  <Text style={style.label}>Presentación y anotaciones:</Text>
+
+                  <View style={{marginHorizontal: 5, marginVertical: 2}}>
+                    <Textarea
+                      placeholderTextColor={'#5742A2'}
+                      containerStyle={style.textareaContainer}
+                      style={style.textarea}
+                      maxLength={120}
+                      placeholder={
+                        'Ingresa las presentacion o anotacion de tu mascota'
+                      }
+                      underlineColorAndroid={'transparent'}
+                    />
+                  </View>
+
+                  <View style={{marginVertical: 10}}>
+                    <TouchableHighlight onPress={() => handleSubmit()}>
+                      <View style={style.btnSubmit}>
+                        <Text style={style.btnSubmitxt}>Modificar</Text>
+                      </View>
+                    </TouchableHighlight>
+                  </View>
+                </View>
               </View>
-            </View>
-          </View>
+            )}
+          </Formik>
         </ScrollView>
       </ImageBackground>
       {/*===Calendar===*/}
