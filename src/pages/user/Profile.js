@@ -39,10 +39,10 @@ function ListMascot({data}) {
           style={style.rounded}
         />
       </View>
-      <View style={{flex: 2, alignSelf: 'center'}}>
+      <View style={{flex: 3, alignSelf: 'center'}}>
         <Text style={{color: '#ffffff'}}>{data.title}</Text>
       </View>
-      <View style={{flex: 2, alignSelf: 'center', flexDirection: 'row'}}>
+      <View style={{flex: 1, alignSelf: 'center', flexDirection: 'row'}}>
         <TouchableHighlight
           activeOpacity={0.6}
           underlayColor="transparent"

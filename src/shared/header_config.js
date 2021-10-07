@@ -50,7 +50,7 @@ function NotifyProfileView() {
 
   if (loadingB) return null;
   if (errorB) console.log(errorB);
-
+  if (!dataB) return null;
   const {avatar} = dataB.user;
 
   return (

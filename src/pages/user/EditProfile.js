@@ -30,9 +30,8 @@ const EditProfile = () => {
   const [updateUser, {loading, data, error}] = useMutation(UPDATE_USER_PROFILE);
 
   const initialValue = {
-    username: '',
-    email: '',
-    password: '',
+    username: user.username,
+    email: user.email,
   };
 
   useEffect(() => {

@@ -134,7 +134,6 @@ export const ModalGalleryOptions = () => {
   };
 
   const takeCamera = () => {
-    setModalVisible(false);
     launchCamera(
       {
         mediaType: 'photo',
@@ -142,12 +141,14 @@ export const ModalGalleryOptions = () => {
         maxWidth: 600,
         maxHeight: 750,
       },
-      response => uploadImage(response),
+      response => {
+        uploadImage(response);
+        setModalVisible(false);
+      },
     );
   };
 
   const takePhoto = () => {
-    setModalVisible(false);
     launchImageLibrary(
       {
         mediaType: 'photo',
@@ -155,7 +156,10 @@ export const ModalGalleryOptions = () => {
         maxWidth: 600,
         maxHeight: 750,
       },
-      response => uploadImage(response),
+      response => {
+        uploadImage(response);
+        setModalVisible(false);
+      },
     );
   };
 
@@ -184,7 +188,7 @@ export const ModalGalleryOptions = () => {
           underlayColor="transparent"
           onPress={() => setModalVisible(!modalVisible)}>
           <Image
-            style={{width: '100%'}}
+            style={{width: '100%', resizeMode: 'contain'}}
             source={require('./../assets/images/galery_mascot.png')}
           />
         </TouchableHighlight>
@@ -297,7 +301,6 @@ export const AvatarOption = () => {
   };
 
   const takeCamera = () => {
-    setModalVisible(false);
     launchCamera(
       {
         mediaType: 'photo',
@@ -305,12 +308,14 @@ export const AvatarOption = () => {
         maxWidth: 600,
         maxHeight: 750,
       },
-      response => uploadImage(response),
+      response => {
+        uploadImage(response);
+        setModalVisible(false);
+      },
     );
   };
 
   const takePhoto = () => {
-    setModalVisible(false);
     launchImageLibrary(
       {
         mediaType: 'photo',
@@ -318,7 +323,10 @@ export const AvatarOption = () => {
         maxWidth: 600,
         maxHeight: 750,
       },
-      response => uploadImage(response),
+      response => {
+        uploadImage(response);
+        setModalVisible(false);
+      },
     );
   };
 
@@ -436,10 +444,13 @@ const style = StyleSheet.create({
     paddingVertical: 20,
     alignItems: 'center',
   },
+  centeredView:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex:1,
+  },
   modalView: {
-    marginVertical: 190,
-    marginHorizontal: 50,
-    maxWidth: 350,
+    width: 350,
     backgroundColor: '#562A8C',
     borderRadius: 10,
     padding: 20,
@@ -454,15 +465,16 @@ const style = StyleSheet.create({
     elevation: 5,
   },
   btnModal: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
     marginTop: 10,
     borderRadius: 10,
-    fontSize: 16,
-    width: 200,
+    fontSize: 14,
+    width: 250,
   },
   txtModal: {
     color: '#fff',
+    fontSize: 16,
     textAlign: 'center',
   },
   imgProfile: {
