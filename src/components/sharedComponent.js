@@ -263,7 +263,6 @@ export const AvatarOption = () => {
         user: {avatar},
       } = dataA;
       getAvatar(avatar);
-      console.log(avatar)
     }
   }, [dataA]);
 
@@ -481,7 +480,7 @@ const style = StyleSheet.create({
   },
   txtModal: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
   },
   imgProfile: {
