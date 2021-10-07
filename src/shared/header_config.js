@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {API_URL} from '@env';
 import {
   Image,
@@ -34,6 +34,7 @@ function LogoTitle() {
 
 function NotifyProfileView() {
   const navigation = useNavigation();
+  const  [getAvatar, setAvatar] = useState({});
   const {
     user: {user},
   } = useContext(UserContext);
@@ -48,10 +49,15 @@ function NotifyProfileView() {
     },
   });
 
+  useEffect(() => {
+    if (dataB){
+      const {avatar} = dataB.user;
+      setAvatar(avatar);
+    }
+  }, [dataB]);
+
   if (loadingB) return null;
   if (errorB) console.log(errorB);
-  if (!dataB) return null;
-  const {avatar} = dataB.user;
 
   return (
     <>
@@ -71,8 +77,8 @@ function NotifyProfileView() {
       <TouchableHighlight
         underlayColor="transparent"
         onPress={() => navigation.navigate('Profile')}>
-        {avatar.url ? (
-          <Image style={style.avatar} source={{uri: API_URL + avatar.url}} />
+        {getAvatar ? (
+          <Image style={style.avatar} source={{uri: API_URL + getAvatar.url}} />
         ) : (
           <Image
             style={style.avatar}

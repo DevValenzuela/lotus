@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {UserContext} from './../../context/userContext';
 import {API_URL} from '@env';
 import {
@@ -93,6 +93,10 @@ const ProfileUser = ({navigation}) => {
   });
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [getAvatar, setAvatar] = useState();
+  const {
+    user: {avatar},
+  } = data;
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -100,7 +104,10 @@ const ProfileUser = ({navigation}) => {
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  }, [fadeAnim]);
+    if (avatar) {
+      setAvatar(avatar);
+    }
+  }, [fadeAnim, avatar]);
 
   const sessionClose = async () => {
     await AsyncStorage.removeItem('token_lotus');
@@ -108,9 +115,6 @@ const ProfileUser = ({navigation}) => {
   };
   if (loading) return null;
   if (error) console.log(error);
-  const {
-    user: {avatar},
-  } = data;
 
   return (
     <View style={style.container}>
@@ -120,9 +124,9 @@ const ProfileUser = ({navigation}) => {
         style={style.bgImage}>
         <Animated.View style={{opacity: fadeAnim}}>
           <View style={style.contentProfile}>
-            {avatar.url ? (
+            {getAvatar ? (
               <Image
-                source={{uri: `${API_URL}${avatar.url}`}}
+                source={{uri: `${API_URL}${getAvatar.url}`}}
                 style={style.imgProfile}
               />
             ) : (

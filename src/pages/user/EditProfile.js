@@ -205,7 +205,7 @@ const style = StyleSheet.create({
     color: '#ffffff',
     padding: 10,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 14,
     textTransform: 'uppercase',
   },
   imgProfile: {

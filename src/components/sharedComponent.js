@@ -239,6 +239,7 @@ export const AvatarOption = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [setImageGallery, getImageGallery] = useState('');
+  const [setAvatar, getAvatar] = useState({});
 
   const [upload, {loading: loadingB, data: dataB}] =
     useMutation(UPLOAD_PHOTO_MASCOT);
@@ -255,6 +256,16 @@ export const AvatarOption = () => {
       id: user.id,
     },
   });
+
+  useEffect(() => {
+    if (dataA) {
+      const {
+        user: {avatar},
+      } = dataA;
+      getAvatar(avatar);
+      console.log(avatar)
+    }
+  }, [dataA]);
 
   const uploadImage = response => {
     if (response.didCancel) return;
@@ -333,10 +344,6 @@ export const AvatarOption = () => {
   if (loadingA) return null;
   if (errorA) console.log(errorA);
 
-  const {
-    user: {avatar},
-  } = dataA;
-
   return (
     <View>
       {setImageGallery ? (
@@ -363,9 +370,9 @@ export const AvatarOption = () => {
         </View>
       ) : (
         <View style={{alignItems: 'center', marginTop: 10}}>
-          {avatar.url ? (
+          {setAvatar ? (
             <Image
-              source={{uri: `${API_URL}${avatar.url}`}}
+              source={{uri: `${API_URL}${setAvatar.url}`}}
               style={style.imgProfile}
             />
           ) : (
@@ -380,7 +387,7 @@ export const AvatarOption = () => {
             underlayColor="transparent">
             <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
               <Text style={style.txtModal}>
-                {avatar.url ? 'ACTUALIZAR FOTO' : 'AGREGAR FOTO'}
+                {setAvatar? 'ACTUALIZAR FOTO' : 'AGREGAR FOTO'}
               </Text>
             </View>
           </TouchableHighlight>
@@ -444,10 +451,10 @@ const style = StyleSheet.create({
     paddingVertical: 20,
     alignItems: 'center',
   },
-  centeredView:{
+  centeredView: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex:1,
+    flex: 1,
   },
   modalView: {
     width: 350,

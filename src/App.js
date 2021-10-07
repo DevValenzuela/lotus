@@ -35,7 +35,7 @@ const App = () => {
   const httpLink = new createUploadLink({
     uri: `${API_URL}/graphql`,
     onError: e => {
-      console.log(e);
+      console.log('Error Server: ' + e);
     },
   });
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {API_URL} from '@env';
 import {useQuery} from '@apollo/client';
 import {BANNER_APP} from '../pages/apolllo/query';
@@ -26,18 +26,19 @@ import {
 
 const DashBoard = ({navigation}) => {
   const {loading, error, data} = useQuery(BANNER_APP);
-
+  const [getUrlBanner, setUrlBanner] = useState('');
+  useEffect(() => {
+    const urlBanner = () => {
+      if (data) {
+        const {banners} = data;
+        const url = banners.map((item, index) => item.ofert[index].url);
+        setUrlBanner(url[0]);
+      }
+    };
+    urlBanner();
+  }, [data]);
   if (loading) return <Loading />;
   if (error) console.log(error);
-
-  const urlBanner = () => {
-    if (data) {
-      const {banners} = data;
-      const url = banners.map((item, index) => item.ofert[index].url);
-      return url[0];
-    }
-  };
-
   return (
     <View style={style.container}>
       <ImageBackground
@@ -60,10 +61,10 @@ const DashBoard = ({navigation}) => {
                 height: hp('29%'),
                 alignItems: 'center',
               }}>
-              {urlBanner() ? (
+              {getUrlBanner ? (
                 <Image
                   style={style.banner}
-                  source={{uri: `${API_URL}${urlBanner()}`}}
+                  source={{uri: `${API_URL}${getUrlBanner}`}}
                   resizeMode="stretch"
                 />
               ) : (
