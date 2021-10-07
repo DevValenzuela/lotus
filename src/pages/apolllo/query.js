@@ -24,3 +24,19 @@ export const CONSULT_APP = gql`
     }
   }
 `;
+
+export const CONSULT_MASCOTS_APP = gql`
+  query mascots($id: ID!) {
+    mascots(where: {users_permissions_user: {id: $id}}) {
+      id
+      name_mascot
+      avatar_mascot {
+        id
+        url
+      }
+      users_permissions_user {
+        id
+      }
+    }
+  }
+`;

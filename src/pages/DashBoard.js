@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {API_URL} from '@env';
 import {useQuery} from '@apollo/client';
 import {BANNER_APP} from '../pages/apolllo/query';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   Dimensions,
   Image,
