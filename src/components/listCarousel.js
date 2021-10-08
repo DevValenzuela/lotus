@@ -10,6 +10,9 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+import {useQuery} from '@apollo/client';
+import {CONSULT_MASCOTS_APP} from './../pages/apolllo/query';
+import {Loading} from './sharedComponent';
 
 const ListItem = ({item}) => {
   return (
@@ -28,6 +31,11 @@ const ListItem = ({item}) => {
 
 const ListCarousel = ({navigation}) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const {data, loading, error} = useQuery(CONSULT_MASCOTS_APP, {
+    variables: {
+      id: 1,
+    },
+  });
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -36,6 +44,13 @@ const ListCarousel = ({navigation}) => {
       useNativeDriver: false,
     }).start();
   }, [fadeAnim]);
+
+  if (loading) return <Loading />;
+  if (error) console.log(error);
+
+  console.log(data);
+
+
 
   return (
     <SafeAreaView style={{flex: 1, marginTop: 20}}>

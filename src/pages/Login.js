@@ -21,7 +21,7 @@ import {useMutation} from '@apollo/client';
 import {LOGIN_USER_APP} from './apolllo/grahpql';
 
 const initialValue = {
-  user: 'vlzdavid12@outlook.com',
+  user: 'plangraficostudio@gmail.com',
   password: '123456',
 };
 
