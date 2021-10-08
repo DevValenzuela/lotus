@@ -36,6 +36,14 @@ export const Loading = () => {
   );
 };
 
+export const Loading2 = () => {
+  return (
+    <View style={{alignContent: 'flex-end', alignItems: 'center', flex: 1}}>
+      <ActivityIndicator size="large" color="#17E6E6" />
+    </View>
+  );
+};
+
 export const BtnAction = ({navigation, title, url, action}) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -386,7 +394,7 @@ export const AvatarOption = () => {
             underlayColor="transparent">
             <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
               <Text style={style.txtModal}>
-                {setAvatar? 'ACTUALIZAR FOTO' : 'AGREGAR FOTO'}
+                {setAvatar ? 'ACTUALIZAR FOTO' : 'AGREGAR FOTO'}
               </Text>
             </View>
           </TouchableHighlight>

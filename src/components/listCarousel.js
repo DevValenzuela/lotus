@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from 'react';
+import {API_URL} from '@env';
 import {
   Text,
   View,
@@ -12,19 +13,19 @@ import {
 } from 'react-native';
 import {useQuery} from '@apollo/client';
 import {CONSULT_MASCOTS_APP} from './../pages/apolllo/query';
-import {Loading} from './sharedComponent';
+import {Loading2} from './sharedComponent';
 
 const ListItem = ({item}) => {
   return (
     <View style={styles.item}>
       <Image
         source={{
-          uri: item.uri,
+          uri: `${API_URL}${item.avatar_mascot.url}`,
         }}
         style={styles.itemPhoto}
         resizeMode="cover"
       />
-      <Text style={styles.itemText}>{item.text}</Text>
+      <Text style={styles.itemText}>{item.name_mascot}</Text>
     </View>
   );
 };
@@ -45,12 +46,33 @@ const ListCarousel = ({navigation}) => {
     }).start();
   }, [fadeAnim]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading2 />;
   if (error) console.log(error);
 
-  console.log(data);
+  const {mascots} = data;
+  const data_mascot = [];
+  mascots.map(item => {
+    const {
+      id,
+      name_mascot,
+      avatar_mascot: {url},
+    } = item;
+    data_mascot.push({
+      id,
+      name_mascot,
+      avatar_mascot: {
+        url,
+      },
+    });
+  });
 
-
+  const SECTIONS = [
+    {
+      horizontal: true,
+      data: data_mascot,
+    },
+  ];
+  console.log(SECTIONS[0].data);
 
   return (
     <SafeAreaView style={{flex: 1, marginTop: 20}}>
@@ -87,40 +109,6 @@ const ListCarousel = ({navigation}) => {
     </SafeAreaView>
   );
 };
-
-const SECTIONS = [
-  {
-    horizontal: true,
-    data: [
-      {
-        key: '1',
-        text: 'Item text 1',
-        uri: 'https://cdn.mos.cms.futurecdn.net/ZvueiLL2vdwoHWHjCRuQCW-1200-80.jpg',
-      },
-      {
-        key: '2',
-        text: 'Item text 2',
-        uri: 'https://www.cdc.gov/healthypets/images/pets/cute-dog-headshot.jpg',
-      },
-
-      {
-        key: '3',
-        text: 'Item text 3',
-        uri: 'https://estaticos.muyinteresante.es/media/cache/1000x_thumb/uploads/images/gallery/59c4f5655bafe82c692a7052/gato-naranja-dormido.jpg',
-      },
-      {
-        key: '4',
-        text: 'Item text 4',
-        uri: 'https://estaticos.muyinteresante.es/media/cache/1000x_thumb/uploads/images/gallery/59c4f5655bafe82c692a7052/gato-caja_0.jpg',
-      },
-      {
-        key: '5',
-        text: 'Item text 5',
-        uri: 'https://estaticos.muyinteresante.es/media/cache/1140x_thumb/uploads/images/gallery/59c4f5655bafe82c692a7052/gato-marron_0.jpg',
-      },
-    ],
-  },
-];
 
 const styles = StyleSheet.create({
   sectionHeader: {

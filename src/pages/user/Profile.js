@@ -94,7 +94,7 @@ const ProfileUser = ({navigation}) => {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [getAvatar, setAvatar] = useState();
-  
+
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
