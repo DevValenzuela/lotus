@@ -1,4 +1,5 @@
 import React from 'react';
+import {API_URL} from '@env';
 import {
   View,
   StyleSheet,
@@ -12,8 +13,29 @@ import {
 } from 'react-native';
 
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {useQuery} from '@apollo/client';
+import {CONSULT_MASCOT_APP_ID} from './apolllo/query';
 const DetailsMascot = ({navigation, route}) => {
-  console.log(route.params.mascotId)
+  const {
+    data: general,
+    loading: loadingGeneral,
+    error: errorGeneral,
+  } = useQuery(CONSULT_MASCOT_APP_ID, {
+    variables: {
+      id: route.params.mascotId,
+    },
+  });
+  if (loadingGeneral) return null;
+  if (errorGeneral) console.log(errorGeneral);
+  if (!general) return null;
+  const {
+    name_mascot,
+    age_mascot,
+    race_mascot,
+    date_sterilized,
+    type_mascot,
+    avatar_mascot: {url},
+  } = general.mascot;
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground
@@ -47,28 +69,35 @@ const DetailsMascot = ({navigation, route}) => {
                     </View>
                   </TouchableHighlight>
                   <View style={{flex: 1, marginBottom: 10}}>
-                    <Image
-                      source={{uri: 'https://via.placeholder.com/150'}}
-                      style={style.image}
-                    />
+                    {url ? (
+                      <Image
+                        source={{uri: `${API_URL}${url}`}}
+                        style={style.image}
+                      />
+                    ) : (
+                      <Image
+                        source={require('./../assets/images/not_image_small.jpg')}
+                        style={style.image}
+                      />
+                    )}
                   </View>
                   <View style={{flex: 2, marginHorizontal: 10}}>
-                    <Text style={style.titleTxt}>Michi</Text>
-                    <Text style={style.yearsTxt}>3 años</Text>
+                    <Text style={style.titleTxt}>{name_mascot}</Text>
+                    <Text style={style.yearsTxt}>{`${age_mascot} años`}</Text>
                   </View>
                 </View>
                 <View>
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>Tipo Mascota:</Text>
-                    <Text style={style.parrTxt}>Felina</Text>
+                    <Text style={style.parrTxt}>{type_mascot}</Text>
                   </View>
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>Raza:</Text>
-                    <Text style={style.parrTxt}>Criolla</Text>
+                    <Text style={style.parrTxt}>{race_mascot}</Text>
                   </View>
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>Fecha de Esterilización:</Text>
-                    <Text style={style.parrTxt}>26 Marzo 2018</Text>
+                    <Text style={style.parrTxt}>{date_sterilized}</Text>
                   </View>
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>Microship:</Text>
@@ -367,6 +396,7 @@ const style = StyleSheet.create({
   titleTxt: {
     color: '#00FFFF',
     fontSize: 29,
+    textTransform: 'capitalize',
   },
   subtitleTxt: {
     color: '#00FFFF',

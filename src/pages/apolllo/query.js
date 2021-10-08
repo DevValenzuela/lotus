@@ -40,3 +40,26 @@ export const CONSULT_MASCOTS_APP = gql`
     }
   }
 `;
+
+export const CONSULT_MASCOT_APP_ID = gql`
+  query mascot($id: ID!) {
+    mascot(id: $id) {
+      id
+      name_mascot
+      age_mascot
+      race_mascot
+      type_mascot
+      date_sterilized
+      microchip
+      number_microchip
+      description
+      avatar_mascot {
+        id
+        url
+      }
+      users_permissions_user {
+        id
+      }
+    }
+  }
+`;

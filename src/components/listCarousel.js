@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     textAlign: 'right',
     position: 'relative',
+    textTransform: 'capitalize'
   },
 });
 
