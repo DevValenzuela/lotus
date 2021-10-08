@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-const DetailsMascot = ({navigation}) => {
+const DetailsMascot = ({navigation, route}) => {
+  console.log(route.params.mascotId)
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground

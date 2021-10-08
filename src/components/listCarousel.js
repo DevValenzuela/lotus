@@ -72,7 +72,6 @@ const ListCarousel = ({navigation}) => {
       data: data_mascot,
     },
   ];
-  console.log(SECTIONS[0].data);
 
   return (
     <SafeAreaView style={{flex: 1, marginTop: 20}}>
@@ -89,7 +88,7 @@ const ListCarousel = ({navigation}) => {
                   data={section.data}
                   renderItem={({item}) => (
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('DetailsMascot')}>
+                      onPress={() => navigation.navigate('DetailsMascot', { mascotId: item.id })}>
                       <ListItem item={item} parentNavigate={navigation} />
                     </TouchableOpacity>
                   )}
