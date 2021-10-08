@@ -18,19 +18,20 @@ import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
 
 const App = () => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     SplashScreen.hide();
-    validateToken(token);
-  }, [token]);
-  const validateToken = async () => {
     if (!token) {
-      const userStorage = await AsyncStorage.getItem('token_lotus');
-      const JsonStorage = JSON.parse(userStorage);
-      setToken(JsonStorage);
+      validateToken(token);
     }
-  };
+  }, [token]);
+
+  async function validateToken() {
+    const userStorage = await AsyncStorage.getItem('token_lotus');
+    const JsonStorage = JSON.parse(userStorage);
+    setToken(JsonStorage);
+  }
 
   const httpLink = new createUploadLink({
     uri: `${API_URL}/graphql`,

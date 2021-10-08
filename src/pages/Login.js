@@ -31,8 +31,6 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Login = ({navigation}) => {
-  let timeoutRef = useRef();
-
   const [login, {data: dataA, error: errorA, loading: loadingA}] =
     useMutation(LOGIN_USER_APP);
 
@@ -47,15 +45,14 @@ const Login = ({navigation}) => {
       const {jwt, user} = dataA.login;
       await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
       if (jwt) {
-        timeoutRef = setTimeout(() => navigation.navigate('Dashboard'), 1000);
-        clearTimeout(timeoutRef.current);
+        return navigation.navigate('Dashboard');
       }
     } else {
       let validate = await AsyncStorage.getItem('token_lotus');
       validate = JSON.parse(validate);
       if (validate) {
         if (validate.jwt) {
-          navigation.navigate('Dashboard');
+          return navigation.navigate('Dashboard');
         }
       }
     }

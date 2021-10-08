@@ -35,6 +35,7 @@ const DashBoard = ({navigation}) => {
   }, [data]);
   if (loading) return <Loading />;
   if (error) console.log(error);
+
   return (
     <View style={style.container}>
       <ImageBackground
