@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import {API_URL} from '@env';
 import {
   Text,
@@ -14,6 +14,7 @@ import {
 import {useQuery} from '@apollo/client';
 import {CONSULT_MASCOTS_APP} from './../pages/apolllo/query';
 import {Loading2} from './sharedComponent';
+import {UserContext} from "../context/userContext";
 
 const ListItem = ({item}) => {
   return (
@@ -31,10 +32,13 @@ const ListItem = ({item}) => {
 };
 
 const ListCarousel = ({navigation}) => {
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const {data, loading, error} = useQuery(CONSULT_MASCOTS_APP, {
     variables: {
-      id: 1,
+      id: Number(user.id),
     },
   });
 
@@ -55,13 +59,16 @@ const ListCarousel = ({navigation}) => {
     const {
       id,
       name_mascot,
-      avatar_mascot: {url},
+      avatar_mascot,
     } = item;
+
+    const url_image = avatar_mascot != null ? avatar_mascot.url : '';
+
     data_mascot.push({
       id,
       name_mascot,
       avatar_mascot: {
-        url,
+        url: url_image,
       },
     });
   });

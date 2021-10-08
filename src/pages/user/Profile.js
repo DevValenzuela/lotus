@@ -18,11 +18,22 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useQuery} from '@apollo/client';
-import {CONSULT_APP} from '../apolllo/query';
+import {useMutation, useQuery} from '@apollo/client';
+import {CONSULT_APP, CONSULT_MASCOTS_APP} from '../apolllo/query';
+import {DELETE_MASCOT_APP} from '../apolllo/grahpql';
 
 function ListMascot({data}) {
   const navigation = useNavigation();
+  const [removeMascot] = useMutation(DELETE_MASCOT_APP);
+  const deleteMascot = async id => {
+    await removeMascot({
+      variables: {
+        id: id,
+      },
+    });
+    console.log('¡Delete mascot!');
+  };
+
   return (
     <View
       style={{
@@ -32,21 +43,30 @@ function ListMascot({data}) {
         flex: 1,
       }}>
       <View style={{flex: 1, padding: 10}}>
-        <Image
-          source={{
-            uri: data.img,
-          }}
-          style={style.rounded}
-        />
+        {data.img ? (
+          <Image
+            source={{
+              uri: data.img,
+            }}
+            style={style.rounded}
+          />
+        ) : (
+          <Image
+            source={require('../../assets/images/not_image_small.jpg')}
+            style={style.rounded}
+          />
+        )}
       </View>
       <View style={{flex: 2, alignSelf: 'center'}}>
-        <Text style={{color: '#ffffff'}}>{data.title}</Text>
+        <Text style={{color: '#ffffff', textTransform: 'capitalize'}}>
+          {data.title}
+        </Text>
       </View>
       <View style={{flex: 1, alignSelf: 'center', flexDirection: 'row'}}>
         <TouchableHighlight
           activeOpacity={0.6}
           underlayColor="transparent"
-          onPress={() => console.log('Eliminate....')}>
+          onPress={() => deleteMascot(data.id)}>
           <View
             style={{
               padding: 10,
@@ -63,7 +83,9 @@ function ListMascot({data}) {
         <TouchableHighlight
           activeOpacity={0.6}
           underlayColor="transparent"
-          onPress={() => navigation.navigate('DetailsMascot')}>
+          onPress={() =>
+            navigation.navigate('DetailsMascot', {idMascot: data.id})
+          }>
           <View
             style={{
               padding: 10,
@@ -86,15 +108,26 @@ const ProfileUser = ({navigation}) => {
   const {
     user: {user},
   } = useContext(UserContext);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [getAvatar, setAvatar] = useState();
+  const [getList, setList] = useState([]);
+
   const {data, loading, error} = useQuery(CONSULT_APP, {
     variables: {
       id: user.id,
     },
   });
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const [getAvatar, setAvatar] = useState();
-
+  const {
+    data: listData,
+    loading: loadingData,
+    error: errorData,
+  } = useQuery(CONSULT_MASCOTS_APP, {
+    variables: {
+      id: user.id,
+    },
+  });
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -107,14 +140,34 @@ const ProfileUser = ({navigation}) => {
       } = data;
       setAvatar(avatar);
     }
-  }, [fadeAnim, data]);
+    if (listData) {
+      consultProfileMascot(listData);
+    }
+  }, [fadeAnim, data, listData]);
 
   const sessionClose = async () => {
     await AsyncStorage.removeItem('token_lotus');
     navigation.navigate('Login');
   };
-  if (loading) return null;
-  if (error) console.log(error);
+  if (loading || loadingData) return null;
+  if (error || errorData) console.log(error);
+  if (!listData) return null;
+
+  const consultProfileMascot = data => {
+    if (data) {
+      const dataMascot = [];
+      data.mascots.map(item => {
+        const url_image =
+          item.avatar_mascot != null ? API_URL + item.avatar_mascot.url : '';
+        dataMascot.push({
+          id: item.id,
+          title: item.name_mascot,
+          img: url_image,
+        });
+      });
+      setList(dataMascot);
+    }
+  };
 
   return (
     <View style={style.container}>
@@ -178,32 +231,12 @@ const ProfileUser = ({navigation}) => {
                 </View>
               </TouchableHighlight>
             </View>
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <View style={{flex: 1, width: wp('90%')}}>
                 <Text style={style.titleSub}>Mis Mascotas</Text>
                 <FlatList
-                  data={[
-                    {
-                      id: 12931290393902,
-                      title: 'Michi 1',
-                      img: 'https://pbs.twimg.com/profile_images/1267361661482082304/mnwkOjgz.jpg',
-                    },
-                    {
-                      id: 21390123909393902,
-                      title: 'Michi 2',
-                      img: 'https://www.elgrafico.mx/sites/default/files/2021/01/13/cuida_a_tu_michi_de_enfermedades_serias.jpg',
-                    },
-                    {
-                      id: 21390123903902,
-                      title: 'Michi 3',
-                      img: 'https://lh3.googleusercontent.com/proxy/rdAQ3ncNXg4SjOYnSRGmFWT0HiWhH1lMsSBQK5kht-TwbGps2_VJVAFoCeYdLur6jXaPIDjxD7n-I0sal_B7bh5M_Tiu3qTUxrxh3koX-Tf5J3XlPeJ0oBmBZDRitTtlqV5Vx0BWcDE6PUc3rnPKN8X969dmniI',
-                    },
-                    {
-                      id: 213901239002,
-                      title: 'Dog 1',
-                      img: 'https://i.guim.co.uk/img/media/684c9d087dab923db1ce4057903f03293b07deac/205_132_1915_1150/master/1915.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=14a95b5026c1567b823629ba35c40aa0',
-                    },
-                  ]}
+                  data={getList}
                   renderItem={({item}) => <ListMascot data={item} />}
                 />
                 <TouchableHighlight

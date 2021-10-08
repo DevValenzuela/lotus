@@ -34,8 +34,11 @@ const DetailsMascot = ({navigation, route}) => {
     race_mascot,
     date_sterilized,
     type_mascot,
-    avatar_mascot: {url},
+    avatar_mascot,
   } = general.mascot;
+
+  const url_image = avatar_mascot != null ? avatar_mascot.url : '';
+
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground
@@ -69,9 +72,9 @@ const DetailsMascot = ({navigation, route}) => {
                     </View>
                   </TouchableHighlight>
                   <View style={{flex: 1, marginBottom: 10}}>
-                    {url ? (
+                    {url_image ? (
                       <Image
-                        source={{uri: `${API_URL}${url}`}}
+                        source={{uri: `${API_URL}${url_image}`}}
                         style={style.image}
                       />
                     ) : (

@@ -116,3 +116,13 @@ export const DELETE_PHOTO_MASCOT = gql`
     }
   }
 `;
+
+export const DELETE_MASCOT_APP = gql`
+  mutation deleteMascot($id: ID!) {
+    deleteMascot(input: {where: {id: $id}}) {
+      mascot {
+        id
+      }
+    }
+  }
+`;
