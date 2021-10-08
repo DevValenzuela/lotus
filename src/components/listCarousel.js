@@ -14,18 +14,27 @@ import {
 import {useQuery} from '@apollo/client';
 import {CONSULT_MASCOTS_APP} from './../pages/apolllo/query';
 import {Loading2} from './sharedComponent';
-import {UserContext} from "../context/userContext";
+import {UserContext} from '../context/userContext';
 
 const ListItem = ({item}) => {
+  const img_mascot = item.avatar_mascot ? item.avatar_mascot.url : '';
   return (
     <View style={styles.item}>
-      <Image
-        source={{
-          uri: `${API_URL}${item.avatar_mascot.url}`,
-        }}
-        style={styles.itemPhoto}
-        resizeMode="cover"
-      />
+      {img_mascot ? (
+        <Image
+          source={{
+            uri: `${API_URL}${img_mascot}`,
+          }}
+          style={styles.itemPhoto}
+          resizeMode="cover"
+        />
+      ) : (
+        <Image
+          source={require('../assets/images/not_image_small.jpg')}
+          style={styles.itemPhoto}
+          resizeMode="cover"
+        />
+      )}
       <Text style={styles.itemText}>{item.name_mascot}</Text>
     </View>
   );
@@ -56,11 +65,7 @@ const ListCarousel = ({navigation}) => {
   const {mascots} = data;
   const data_mascot = [];
   mascots.map(item => {
-    const {
-      id,
-      name_mascot,
-      avatar_mascot,
-    } = item;
+    const {id, name_mascot, avatar_mascot} = item;
 
     const url_image = avatar_mascot != null ? avatar_mascot.url : '';
 
@@ -95,7 +100,11 @@ const ListCarousel = ({navigation}) => {
                   data={section.data}
                   renderItem={({item}) => (
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('DetailsMascot', { mascotId: item.id })}>
+                      onPress={() =>
+                        navigation.navigate('DetailsMascot', {
+                          mascotId: item.id,
+                        })
+                      }>
                       <ListItem item={item} parentNavigate={navigation} />
                     </TouchableOpacity>
                   )}
@@ -141,7 +150,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     textAlign: 'right',
     position: 'relative',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
 });
 
