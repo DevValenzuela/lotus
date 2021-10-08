@@ -94,9 +94,7 @@ const ProfileUser = ({navigation}) => {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [getAvatar, setAvatar] = useState();
-  const {
-    user: {avatar},
-  } = data;
+
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -104,10 +102,13 @@ const ProfileUser = ({navigation}) => {
       duration: 1000,
       useNativeDriver: false,
     }).start();
-    if (avatar) {
+    if (data) {
+      const {
+        user: {avatar},
+      } = data;
       setAvatar(avatar);
     }
-  }, [fadeAnim, avatar]);
+  }, [fadeAnim, data]);
 
   const sessionClose = async () => {
     await AsyncStorage.removeItem('token_lotus');

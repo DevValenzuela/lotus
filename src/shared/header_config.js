@@ -34,7 +34,7 @@ function LogoTitle() {
 
 function NotifyProfileView() {
   const navigation = useNavigation();
-  const  [getAvatar, setAvatar] = useState({});
+  const [getAvatar, setAvatar] = useState({});
   const {
     user: {user},
   } = useContext(UserContext);
@@ -45,14 +45,16 @@ function NotifyProfileView() {
     data: dataB,
   } = useQuery(CONSULT_APP, {
     variables: {
-      id: user.id,
+      id: Number(user.id),
     },
   });
 
   useEffect(() => {
-    if (dataB){
-      const {avatar} = dataB.user;
-      setAvatar(avatar);
+    if (dataB) {
+      if (dataB.user != null) {
+        const {avatar} = dataB.user;
+        setAvatar(avatar);
+      }
     }
   }, [dataB]);
 

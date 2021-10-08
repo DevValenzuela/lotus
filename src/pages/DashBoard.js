@@ -28,14 +28,10 @@ const DashBoard = ({navigation}) => {
   const {loading, error, data} = useQuery(BANNER_APP);
   const [getUrlBanner, setUrlBanner] = useState('');
   useEffect(() => {
-    const urlBanner = () => {
-      if (data) {
-        const {banners} = data;
-        const url = banners.map((item, index) => item.ofert[index].url);
-        setUrlBanner(url[0]);
-      }
-    };
-    urlBanner();
+    if (data) {
+      const {banners} = data;
+      setUrlBanner(banners[0].ofert.url);
+    }
   }, [data]);
   if (loading) return <Loading />;
   if (error) console.log(error);

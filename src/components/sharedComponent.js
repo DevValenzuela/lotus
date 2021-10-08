@@ -253,7 +253,7 @@ export const AvatarOption = () => {
     error: errorA,
   } = useQuery(CONSULT_APP, {
     variables: {
-      id: user.id,
+      id: Number(user.id),
     },
   });
 

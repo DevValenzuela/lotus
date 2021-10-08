@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   Text,
   TextInput,
@@ -17,11 +17,11 @@ import * as Yup from 'yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Loading} from '../components/sharedComponent';
 
-import {useMutation, useQuery} from '@apollo/client';
+import {useMutation} from '@apollo/client';
 import {LOGIN_USER_APP} from './apolllo/grahpql';
 
 const initialValue = {
-  user: 'plangraficostudio@gmail.com',
+  user: 'vlzdavid12@outlook.com',
   password: '123456',
 };
 
@@ -31,6 +31,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Login = ({navigation}) => {
+  let timeoutRef = useRef();
 
   const [login, {data: dataA, error: errorA, loading: loadingA}] =
     useMutation(LOGIN_USER_APP);
@@ -41,20 +42,21 @@ const Login = ({navigation}) => {
     validateLogin(dataA);
   }, [dataA]);
 
-  const validateLogin = async data => {
-    if (data) {
-      const {jwt, user} = data.login;
+  const validateLogin = async dataA => {
+    if (dataA) {
+      const {jwt, user} = dataA.login;
       await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
-      navigation.navigate('Dashboard');
+      if (jwt) {
+        timeoutRef = setTimeout(() => navigation.navigate('Dashboard'), 1000);
+        clearTimeout(timeoutRef.current);
+      }
     } else {
-      try {
-        let validate = await AsyncStorage.getItem('token_lotus');
-        if (validate) {
+      let validate = await AsyncStorage.getItem('token_lotus');
+      validate = JSON.parse(validate);
+      if (validate) {
+        if (validate.jwt) {
           navigation.navigate('Dashboard');
         }
-      } catch (e) {
-        await AsyncStorage.removeItem('token_lotus');
-        navigation.navigate('Login');
       }
     }
   };
