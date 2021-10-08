@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   Text,
   TextInput,
@@ -19,6 +19,7 @@ import {Loading} from '../components/sharedComponent';
 
 import {useMutation} from '@apollo/client';
 import {LOGIN_USER_APP} from './apolllo/grahpql';
+import {UserContext} from '../context/userContext';
 
 const initialValue = {
   user: 'plangraficostudio@gmail.com',
@@ -31,6 +32,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Login = ({navigation}) => {
+  const {dispatchUserEvent} = useContext(UserContext);
   const [login, {data: dataA, error: errorA, loading: loadingA}] =
     useMutation(LOGIN_USER_APP);
 
@@ -45,6 +47,7 @@ const Login = ({navigation}) => {
       const {jwt, user} = dataA.login;
       await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
       if (jwt) {
+        dispatchUserEvent('ADD_USER', {user: {jwt, user}});
         return navigation.navigate('Dashboard');
       }
     } else {

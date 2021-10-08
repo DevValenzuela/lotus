@@ -20,6 +20,9 @@ const UserProvider = props => {
       case 'ADD_URI':
         setUser({...user, idPhoto: payload.idPhoto});
         return;
+      case 'ADD_USER':
+        setUser({...user, ...payload.user});
+        return;
       default:
         return;
     }
