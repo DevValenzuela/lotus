@@ -16,6 +16,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useQuery} from '@apollo/client';
 import {CONSULT_MASCOT_APP_ID} from './apolllo/query';
 const DetailsMascot = ({navigation, route}) => {
+  console.log(route.params.mascotId);
   const {
     data: general,
     loading: loadingGeneral,

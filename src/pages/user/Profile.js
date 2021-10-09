@@ -71,7 +71,7 @@ function ListMascot({data}) {
             style={{
               padding: 10,
               backgroundColor: 'rgba(51,0,102,0.56)',
-              margin: 2,
+              marginVertical: 2,
             }}>
             <Image
               source={require('../../assets/images/deleteicon.png')}
@@ -84,13 +84,13 @@ function ListMascot({data}) {
           activeOpacity={0.6}
           underlayColor="transparent"
           onPress={() =>
-            navigation.navigate('DetailsMascot', {idMascot: data.id})
+            navigation.navigate('DetailsMascot', {mascotId: data.id})
           }>
           <View
             style={{
               padding: 10,
               backgroundColor: 'rgba(51,0,102,0.56)',
-              margin: 2,
+              marginVertical: 2,
             }}>
             <Image
               source={require('../../assets/images/detailsicon.png')}
