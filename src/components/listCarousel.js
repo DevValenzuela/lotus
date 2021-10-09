@@ -62,8 +62,6 @@ const ListCarousel = ({navigation, refresh}) => {
     if (data) {
       dataMascots(data);
     }
-    console.log(refresh)
-    console.log(data)
   }, [fadeAnim, data, refresh]);
 
   const dataMascots = data => {
@@ -92,42 +90,46 @@ const ListCarousel = ({navigation, refresh}) => {
       data: getMascots,
     },
   ];
-
+  
   return (
     <SafeAreaView style={{flex: 1, marginTop: 20}}>
       <Animated.View style={{opacity: fadeAnim}}>
-        <SectionList
-          contentContainerStyle={{paddingHorizontal: 10}}
-          stickySectionHeadersEnabled={false}
-          sections={SECTIONS}
-          renderSectionHeader={({section}) => (
-            <>
-              {section.horizontal ? (
-                <FlatList
-                  horizontal
-                  data={section.data}
-                  renderItem={({item}) => (
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate('DetailsMascot', {
-                          mascotId: item.id,
-                        })
-                      }>
-                      <ListItem item={item} parentNavigate={navigation} />
-                    </TouchableOpacity>
-                  )}
-                  showsHorizontalScrollIndicator={false}
-                />
-              ) : null}
-            </>
-          )}
-          renderItem={({item, section}) => {
-            if (section.horizontal) {
-              return null;
-            }
-            return <ListItem item={item} />;
-          }}
-        />
+        {getMascots.length > 0 ? (
+          <SectionList
+            contentContainerStyle={{paddingHorizontal: 10}}
+            stickySectionHeadersEnabled={false}
+            sections={SECTIONS}
+            renderSectionHeader={({section}) => (
+              <>
+                {section.horizontal ? (
+                  <FlatList
+                    horizontal
+                    data={section.data}
+                    renderItem={({item}) => (
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate('DetailsMascot', {
+                            mascotId: item.id,
+                          })
+                        }>
+                        <ListItem item={item} parentNavigate={navigation} />
+                      </TouchableOpacity>
+                    )}
+                    showsHorizontalScrollIndicator={false}
+                  />
+                ) : null}
+              </>
+            )}
+            renderItem={({item, section}) => {
+              if (section.horizontal) {
+                return null;
+              }
+              return <ListItem item={item} />;
+            }}
+          />
+        ) : (
+          <Text style={styles.txtNotFound}>No hay resultados.</Text>
+        )}
       </Animated.View>
     </SafeAreaView>
   );
@@ -160,6 +162,9 @@ const styles = StyleSheet.create({
     position: 'relative',
     textTransform: 'capitalize',
   },
+  txtNotFound:{
+    color: '#FFFF',
+  }
 });
 
 export default ListCarousel;

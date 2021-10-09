@@ -28,7 +28,9 @@ const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
 const DashBoard = ({navigation}) => {
-  const {loading, error, data} = useQuery(BANNER_APP);
+  const {loading, error, data} = useQuery(BANNER_APP,{
+      pollInterval: 2000
+  });
   const [getOfert, setOfert] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 
@@ -56,7 +58,8 @@ const DashBoard = ({navigation}) => {
           width: Dimensions.get('window').width,
           height: '100%',
         }}>
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView
+            style={{flex: 1}}>
           <ScrollView
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
