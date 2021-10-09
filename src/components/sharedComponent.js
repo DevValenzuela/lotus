@@ -439,6 +439,34 @@ export const AvatarOption = () => {
   );
 };
 
+export const ModalCalendarError = ({modalVisible, send}) => {
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        console.log('Hide modal...');
+        setMotal(!getModal);
+      }}>
+      <View style={style.centeredView}>
+        <View style={style.modalView}>
+          <Text style={{color: '#fff', fontSize: 14, textAlign: 'center'}}>
+            Seleccione la fecha.
+          </Text>
+          <TouchableHighlight
+            underlayColor="transparent"
+            onPress={() => send(false)}>
+            <View style={style.btnModal}>
+              <Text style={style.txtModal}>Ok</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -464,7 +492,7 @@ const style = StyleSheet.create({
     flex: 1,
   },
   modalView: {
-    width: 350,
+    width: 280,
     backgroundColor: '#562A8C',
     borderRadius: 10,
     padding: 20,
@@ -496,5 +524,13 @@ const style = StyleSheet.create({
     height: 120,
     marginVertical: 5,
     borderRadius: 100,
+  },
+  btnModal: {
+    backgroundColor: '#660066',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 10,
+    borderRadius: 10,
+    fontSize: 16,
   },
 });

@@ -25,7 +25,8 @@ import {useMutation} from '@apollo/client';
 import {ADD_MASCOT_APP} from './apolllo/grahpql';
 
 import {UserContext} from '../context/userContext';
-import {Loading, ModalGalleryOptions} from '../components/sharedComponent';
+import {Loading, ModalGalleryOptions, ModalCalendarError} from '../components/sharedComponent';
+
 
 const AddMascot = () => {
   const {
@@ -38,6 +39,7 @@ const AddMascot = () => {
   const [setMicrochip, getMicrochip] = useState('No');
   const [setCalendar, getCalendar] = useState(false);
   const [setDate, getDate] = useState('');
+  const [erroDate, setErrorDate] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [createMascot, {loading: loadingA}] = useMutation(ADD_MASCOT_APP);
 
@@ -70,6 +72,7 @@ const AddMascot = () => {
       duration: 1000,
       useNativeDriver: false,
     }).start();
+
   }, [fadeAnim, user]);
 
   const onDateChange = date => {
@@ -81,6 +84,10 @@ const AddMascot = () => {
   };
 
   const insertDateCalendar = startDate => {
+    if(!startDate){
+      setErrorDate(true)
+      return null;
+    }
     let date = moment(new Date(startDate)).format('DD-MM-YYYY');
     getDate(date);
     getCalendar(false);
@@ -382,8 +389,10 @@ const AddMascot = () => {
         </Animated.View>
       </ImageBackground>
       {/*===Calendar===*/}
+      {console.log(erroDate)}
       {setCalendar && (
         <View style={style.containerCalendar}>
+          <ModalCalendarError modalVisible={erroDate} send={(prop) => setErrorDate(prop)} />
           <CalendarPicker
             todayBackgroundColor="#330066"
             selectedDayColor="#330066"

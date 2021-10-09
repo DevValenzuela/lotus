@@ -16,7 +16,8 @@ import CalendarPicker from 'react-native-calendar-picker';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
-const General = () => {
+const General = ({route}) => {
+  console.log(route)
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const [setMicrochip, getMicrochip] = useState('No');

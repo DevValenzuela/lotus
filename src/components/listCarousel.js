@@ -90,7 +90,7 @@ const ListCarousel = ({navigation, refresh}) => {
       data: getMascots,
     },
   ];
-  
+
   return (
     <SafeAreaView style={{flex: 1, marginTop: 20}}>
       <Animated.View style={{opacity: fadeAnim}}>
