@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {API_URL} from '@env';
 import {
   Text,
@@ -44,6 +44,7 @@ const ListCarousel = ({navigation}) => {
   const {
     user: {user},
   } = useContext(UserContext);
+  const [getMascots, setMascots] = useState('');
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const {data, loading, error} = useQuery(CONSULT_MASCOTS_APP, {
     variables: {
@@ -57,31 +58,35 @@ const ListCarousel = ({navigation}) => {
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  }, [fadeAnim]);
+    if (data) {
+      dataMascots(data);
+    }
+  }, [fadeAnim, data]);
+
+  const dataMascots = data => {
+    const data_mascot = [];
+    const {mascots} = data;
+    mascots.map(item => {
+      const {id, name_mascot, avatar_mascot} = item;
+      const url_image = avatar_mascot != null ? avatar_mascot.url : '';
+      data_mascot.push({
+        id,
+        name_mascot,
+        avatar_mascot: {
+          url: url_image,
+        },
+      });
+    });
+    setMascots(data_mascot);
+  };
 
   if (loading) return <Loading2 />;
   if (error) console.log(error);
 
-  const {mascots} = data;
-  const data_mascot = [];
-  mascots.map(item => {
-    const {id, name_mascot, avatar_mascot} = item;
-
-    const url_image = avatar_mascot != null ? avatar_mascot.url : '';
-
-    data_mascot.push({
-      id,
-      name_mascot,
-      avatar_mascot: {
-        url: url_image,
-      },
-    });
-  });
-
   const SECTIONS = [
     {
       horizontal: true,
-      data: data_mascot,
+      data: getMascots,
     },
   ];
 

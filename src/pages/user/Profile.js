@@ -111,7 +111,6 @@ const ProfileUser = ({navigation}) => {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [getAvatar, setAvatar] = useState();
-  const [getList, setList] = useState([]);
 
   const {data, loading, error} = useQuery(CONSULT_APP, {
     variables: {
@@ -140,10 +139,7 @@ const ProfileUser = ({navigation}) => {
       } = data;
       setAvatar(avatar);
     }
-    if (listData) {
-      consultProfileMascot(listData);
-    }
-  }, [fadeAnim, data, listData]);
+  }, [fadeAnim, data]);
 
   const sessionClose = async () => {
     await AsyncStorage.removeItem('token_lotus');
@@ -165,9 +161,12 @@ const ProfileUser = ({navigation}) => {
           img: url_image,
         });
       });
-      setList(dataMascot);
+      return dataMascot;
     }
   };
+
+  let resultList = consultProfileMascot(listData);
+  console.log(resultList);
 
   return (
     <View style={style.container}>
@@ -236,7 +235,7 @@ const ProfileUser = ({navigation}) => {
               <View style={{flex: 1, width: wp('90%')}}>
                 <Text style={style.titleSub}>Mis Mascotas</Text>
                 <FlatList
-                  data={getList}
+                  data={resultList}
                   renderItem={({item}) => <ListMascot data={item} />}
                 />
                 <TouchableHighlight

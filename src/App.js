@@ -18,7 +18,6 @@ import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
 
 const App = () => {
-
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -32,12 +31,12 @@ const App = () => {
 
   const authLink = setContext(async (_, {headers}) => {
     // return the headers to the context so httpLink can read them
-    const userStorage = await AsyncStorage.getItem('token_lotus');
-    const token = JSON.parse(userStorage);
+    const jsonValue = await AsyncStorage.getItem('token_lotus');
+    const json = jsonValue != null ? JSON.parse(jsonValue) : null;
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token.jwt.toString()}` : '',
+        authorization: json ? `Bearer ${json.jwt}` : '',
       },
     };
   });

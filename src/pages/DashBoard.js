@@ -26,13 +26,15 @@ import {
 
 const DashBoard = ({navigation}) => {
   const {loading, error, data} = useQuery(BANNER_APP);
-  const [getUrlBanner, setUrlBanner] = useState('');
+  const [getOfert, setOfert] = useState('');
+
   useEffect(() => {
     if (data) {
       const {banners} = data;
-      setUrlBanner(banners[0].ofert.url);
+      setOfert(banners[0]?.ofert);
     }
   }, [data]);
+
   if (loading) return <Loading />;
   if (error) console.log(error);
 
@@ -58,10 +60,10 @@ const DashBoard = ({navigation}) => {
                 height: hp('29%'),
                 alignItems: 'center',
               }}>
-              {getUrlBanner ? (
+              {getOfert ? (
                 <Image
                   style={style.banner}
-                  source={{uri: `${API_URL}${getUrlBanner}`}}
+                  source={{uri: `${API_URL}${getOfert.url}`}}
                   resizeMode="stretch"
                 />
               ) : (

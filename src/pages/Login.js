@@ -22,8 +22,8 @@ import {LOGIN_USER_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
 
 const initialValue = {
-  user: 'plangraficostudio@gmail.com',
-  password: '123456',
+  user: 'vlzdavid12@outlook.com',
+  password: 'VALENZUELA21',
 };
 
 const SignupSchema = Yup.object().shape({
@@ -46,10 +46,10 @@ const Login = ({navigation}) => {
     if (dataA) {
       const {jwt, user} = dataA.login;
       await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
-      if (jwt) {
-        dispatchUserEvent('ADD_USER', {user: {jwt, user}});
-        return navigation.navigate('Dashboard');
-      }
+      dispatchUserEvent('ADD_USER', {user: {jwt, user}});
+      setTimeout(() => {
+        navigation.navigate('Dashboard');
+      }, 2000);
     } else {
       let validate = await AsyncStorage.getItem('token_lotus');
       validate = JSON.parse(validate);
@@ -60,8 +60,6 @@ const Login = ({navigation}) => {
       }
     }
   };
-
-  if (loadingA) return <Loading />;
 
   const handleLogin = async values => {
     try {
@@ -75,6 +73,9 @@ const Login = ({navigation}) => {
       setModalVisible(true);
     }
   };
+
+  if (loadingA) return <Loading />;
+  if (errorA) console.log(errorA);
 
   return (
     <View style={style.container}>
