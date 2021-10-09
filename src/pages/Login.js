@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useRef} from 'react';
 import {
   Text,
   TextInput,
@@ -37,17 +37,21 @@ const Login = ({navigation}) => {
     useMutation(LOGIN_USER_APP);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const timer = useRef(null);
 
   useEffect(() => {
-    validateLogin(dataA);
+    validateLogin(dataA,timer);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [dataA]);
 
-  const validateLogin = async dataA => {
+  const validateLogin = async (dataA, timer)=> {
     if (dataA) {
       const {jwt, user} = dataA.login;
       await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
       dispatchUserEvent('ADD_USER', {user: {jwt, user}});
-      setTimeout(() => {
+      timer = setTimeout(() => {
         navigation.navigate('Dashboard');
       }, 2000);
     } else {

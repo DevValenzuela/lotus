@@ -40,7 +40,7 @@ const ListItem = ({item}) => {
   );
 };
 
-const ListCarousel = ({navigation}) => {
+const ListCarousel = ({navigation, refresh}) => {
   const {
     user: {user},
   } = useContext(UserContext);
@@ -50,6 +50,7 @@ const ListCarousel = ({navigation}) => {
     variables: {
       id: Number(user.id),
     },
+    pollInterval: 2000,
   });
 
   useEffect(() => {
@@ -61,7 +62,9 @@ const ListCarousel = ({navigation}) => {
     if (data) {
       dataMascots(data);
     }
-  }, [fadeAnim, data]);
+    console.log(refresh)
+    console.log(data)
+  }, [fadeAnim, data, refresh]);
 
   const dataMascots = data => {
     const data_mascot = [];

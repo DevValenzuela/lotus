@@ -21,7 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMutation, useQuery} from '@apollo/client';
 import {CONSULT_APP, CONSULT_MASCOTS_APP} from '../apolllo/query';
 import {DELETE_MASCOT_APP} from '../apolllo/grahpql';
-
+import {Loading} from '../../components/sharedComponent'
 function ListMascot({data}) {
   const navigation = useNavigation();
   const [removeMascot] = useMutation(DELETE_MASCOT_APP);
@@ -126,6 +126,7 @@ const ProfileUser = ({navigation}) => {
     variables: {
       id: user.id,
     },
+    pollInterval: 2000,
   });
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -145,7 +146,7 @@ const ProfileUser = ({navigation}) => {
     await AsyncStorage.removeItem('token_lotus');
     navigation.navigate('Login');
   };
-  if (loading || loadingData) return null;
+  if (loading || loadingData) return <Loading />;
   if (error || errorData) console.log(error);
   if (!listData) return null;
 
