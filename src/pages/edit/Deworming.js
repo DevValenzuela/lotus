@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -16,8 +16,19 @@ import moment from 'moment';
 import {style} from './style';
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
+import {useMutation} from '@apollo/client';
+import {UserContext} from '../../context/userContext';
 import {ModalCalendarError} from '../../components/sharedComponent';
-const Deworming = () => {
+import {CREATE_DESPARACITACION_APP} from '../../pages/apolllo/grahpql';
+import {Loading} from '../../components/sharedComponent';
+
+const Deworming = ({route}) => {
+  const idMascot = route.params.idMascot;
+  const [createDesparacitacion, {data, error, loading}] = useMutation(CREATE_DESPARACITACION_APP);
+  const {
+    user: {user},
+  } = useContext(UserContext);
+
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
@@ -37,8 +48,23 @@ const Deworming = () => {
     medicament: Yup.string().required('Ingrese el campo del medicamento.'),
   });
 
-  const handlerSubmitDeworming = values => {
-    console.log(values);
+  const handlerSubmitDeworming = async values => {
+    if(!values) return null;
+    const {last_deworming, medicament, note} = values
+    try{
+     await createDesparacitacion({
+      variables:{
+        last_deworming,
+        medicament,
+        note,
+        mascot: idMascot,
+        user: Number(user.id)
+      }})
+      getDate('')
+    }catch (error){
+      console.log(error)
+    }
+
   };
 
   const onDateChange = date => {
@@ -58,6 +84,9 @@ const Deworming = () => {
     getDate(dateFormat);
     getCalendar(false);
   };
+
+  if(loading) return  <Loading />
+  if(error) console.log(error)
 
   return (
     <SafeAreaView style={style.container}>

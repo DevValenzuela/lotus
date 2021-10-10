@@ -128,58 +128,85 @@ export const DELETE_MASCOT_APP = gql`
 `;
 
 export const CREATE_MEDICAMENT_APP = gql`
-mutation createMedicament(
-  $last_dose: String!,
-  $medicament: String!,
-  $posologia: String,
-  $dosis: String,
-  $period: String,
-  $note: String,
-  $mascot: ID,
-  $user: ID,
-){
-  createMedicament(
-    input:{
-      data:{
-        last_dose: $last_dose,
-        medicament: $medicament,
-        users_permissions_user: $user,
-        period: $period,
-        note: $note,
-        mascot: $mascot,
-        posologia: $posologia,
-        dosis: $dosis,
+  mutation createMedicament(
+    $last_dose: String!
+    $medicament: String!
+    $posologia: String
+    $dosis: String
+    $period: String
+    $note: String
+    $mascot: ID
+    $user: ID
+  ) {
+    createMedicament(
+      input: {
+        data: {
+          last_dose: $last_dose
+          medicament: $medicament
+          users_permissions_user: $user
+          period: $period
+          note: $note
+          mascot: $mascot
+          posologia: $posologia
+          dosis: $dosis
+        }
+      }
+    ) {
+      medicament {
+        id
       }
     }
-  ){
-    medicament{
-      id
-    }
   }
-}
-`
+`;
 
 export const CREATE_CONTROLLER_MEDIC_APP = gql`
-mutation createControllerMedict(
-  $last_control: String!, 
-  $assesment: String, 
-  $note: String, 
-  $mascot: ID, 
-  $user: ID ){
-  createControllerMedict(
-    input:{
-      data:{
-        last_control: $last_control,
-        assesment:  $assesment,
-        note:  $note,
-        mascot: $mascot,
-        users_permissions_user:   $user
+  mutation createControllerMedict(
+    $last_control: String!
+    $assesment: String
+    $note: String
+    $mascot: ID
+    $user: ID
+  ) {
+    createControllerMedict(
+      input: {
+        data: {
+          last_control: $last_control
+          assesment: $assesment
+          note: $note
+          mascot: $mascot
+          users_permissions_user: $user
+        }
+      }
+    ) {
+      controllerMedict {
+        id
       }
     }
-  ){
-    controllerMedict{
-      id
+  }
+`;
+
+export const CREATE_DESPARACITACION_APP = gql`
+  mutation createDesparacitacion(
+    $last_deworming: String!
+    $medicament: String
+    $note: String
+    $mascot: ID
+    $user: ID
+  ) {
+   createDesparacitacion(
+      input: {
+        data: {
+          last_deworming: $last_deworming
+          medicament: $medicament
+          note: $note
+          users_permissions_user: $user
+          mascot: $mascot
+        }
+      }
+    ) {
+      desparacitacion {
+        id
+      }
     }
   }
-}
 `;
