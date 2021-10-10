@@ -158,3 +158,28 @@ mutation createMedicament(
   }
 }
 `
+
+export const CREATE_CONTROLLER_MEDIC_APP = gql`
+mutation createControllerMedict(
+  $last_control: String!, 
+  $assesment: String, 
+  $note: String, 
+  $mascot: ID, 
+  $user: ID ){
+  createControllerMedict(
+    input:{
+      data:{
+        last_control: $last_control,
+        assesment:  $assesment,
+        note:  $note,
+        mascot: $mascot,
+        users_permissions_user:   $user
+      }
+    }
+  ){
+    controllerMedict{
+      id
+    }
+  }
+}
+`;

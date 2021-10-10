@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   Text,
   View,
@@ -17,15 +17,30 @@ import * as Yup from 'yup';
 import moment from 'moment';
 import {style} from './style';
 
-const ControlMedic = () => {
+import {useMutation} from '@apollo/client';
+import {CREATE_CONTROLLER_MEDIC_APP} from '../../pages/apolllo/grahpql';
+import {ModalCalendarError, Loading} from '../../components/sharedComponent';
+import {UserContext} from '../../context/userContext';
+
+const ControlMedic = ({route}) => {
+  const idMascot = route.params.idMascot;
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
 
+  const [createControllerMedict, {data, error, loading}] = useMutation(
+    CREATE_CONTROLLER_MEDIC_APP,
+  );
+
   const initialValue = {
     last_control: '',
+    valoration: '',
+    note: '',
   };
 
   const SignupSchema = Yup.object().shape({
@@ -34,8 +49,24 @@ const ControlMedic = () => {
     ),
   });
 
-  const handleSubmitMedicament = values => {
-    console.log(values);
+
+  const handleSubmitMedicament = async values => {
+    if(!values) return;
+    const {last_control, valoration, note} = values;
+    try {
+      await createControllerMedict({
+        variables: {
+          last_control: last_control,
+          assesment: valoration,
+          note: note,
+          mascot: idMascot,
+          user: Number(user.id),
+        },
+      });
+      getDate('');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onDateChange = date => {
@@ -55,6 +86,9 @@ const ControlMedic = () => {
     getDate(dateFormat);
     getCalendar(false);
   };
+
+  if (loading) return <Loading />;
+  if (error) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>
@@ -82,7 +116,7 @@ const ControlMedic = () => {
                     placeholderTextColor="#5742A2"
                     onChangeText={handleChange('last_control')}
                     onBlur={handleBlur('last_control')}
-                    value={values.last_control = setDate}
+                    value={(values.last_control = setDate)}
                     style={[
                       style.inputText,
                       {
@@ -117,6 +151,9 @@ const ControlMedic = () => {
                         'Ingresa los cuidados especiales de tu mascota o cualquier sugerencia.'
                       }
                       underlineColorAndroid={'transparent'}
+                      onChangeText={handleChange('valoration')}
+                      onBlur={handleBlur('valoration')}
+                      value={values.valoration}
                     />
                   </View>
 
@@ -132,6 +169,9 @@ const ControlMedic = () => {
                         'Ingresa las presentacion o anotacion de tu mascota'
                       }
                       underlineColorAndroid={'transparent'}
+                      onChangeText={handleChange('note')}
+                      onBlur={handleBlur('note')}
+                      value={values.note}
                     />
                   </View>
 
@@ -151,6 +191,10 @@ const ControlMedic = () => {
       {/*===Calendar===*/}
       {setCalendar && (
         <View style={style.containerCalendar}>
+          <ModalCalendarError
+            modalVisible={erroDate}
+            send={prop => setErrorDate(prop)}
+          />
           <CalendarPicker
             todayBackgroundColor="#330066"
             selectedDayColor="#330066"

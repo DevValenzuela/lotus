@@ -308,7 +308,7 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('EditControlMedic')}>
+                    onPress={() => navigation.navigate('EditControlMedic', {idMascot})}>
                     <View style={{marginTop: 15}}>
                       <Image
                         source={require('./../assets/images/edit_btn.png')}

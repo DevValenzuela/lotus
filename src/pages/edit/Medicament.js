@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import {useMutation} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {CREATE_MEDICAMENT_APP} from '../../pages/apolllo/grahpql'
+import {Loading} from '../../components/sharedComponent';
 const Medicament = ({route}) => {
   const idMascot = route.params.idMascot;
   const [createMedicament, {data, error, loading}] = useMutation(CREATE_MEDICAMENT_APP);
@@ -44,8 +45,8 @@ const Medicament = ({route}) => {
   });
 
   const handleSubmitMedicament = async values => {
-    const {last_dose, medicament, posologia, dosis, period, note } = values;
     if(!values) return;
+    const {last_dose, medicament, posologia, dosis, period, note } = values;
     try{
       await createMedicament({
         variables:{
@@ -64,7 +65,7 @@ const Medicament = ({route}) => {
     }
   };
 
-  if(loading) return null;
+  if(loading) return <Loading/>;
   if(error) console.log(error);
 
   return (

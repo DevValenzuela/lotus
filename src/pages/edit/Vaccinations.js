@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
+import {ModalCalendarError} from '../../components/sharedComponent';
 import moment from 'moment';
 import {style} from './style';
 import {Formik} from 'formik';
@@ -168,6 +169,10 @@ const Vaccinations = () => {
       {/*===Calendar===*/}
       {setCalendar && (
         <View style={style.containerCalendar}>
+          <ModalCalendarError
+              modalVisible={erroDate}
+              send={prop => setErrorDate(prop)}
+          />
           <CalendarPicker
             todayBackgroundColor="#330066"
             selectedDayColor="#330066"
