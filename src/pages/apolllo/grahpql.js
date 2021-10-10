@@ -126,3 +126,35 @@ export const DELETE_MASCOT_APP = gql`
     }
   }
 `;
+
+export const CREATE_MEDICAMENT_APP = gql`
+mutation createMedicament(
+  $last_dose: String!,
+  $medicament: String!,
+  $posologia: String,
+  $dosis: String,
+  $period: String,
+  $note: String,
+  $mascot: ID,
+  $user: ID,
+){
+  createMedicament(
+    input:{
+      data:{
+        last_dose: $last_dose,
+        medicament: $medicament,
+        users_permissions_user: $user,
+        period: $period,
+        note: $note,
+        mascot: $mascot,
+        posologia: $posologia,
+        dosis: $dosis,
+      }
+    }
+  ){
+    medicament{
+      id
+    }
+  }
+}
+`
