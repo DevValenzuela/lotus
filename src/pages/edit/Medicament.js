@@ -12,18 +12,18 @@ import Textarea from 'react-native-textarea';
 import {style} from './style';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-
+import {useMutation} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
-
+import {CREATE_MEDICAMENT_APP} from '../../pages/apolllo/grahpql'
 const Medicament = ({route}) => {
   const idMascot = route.params.idMascot;
+  const [createMedicament, {data, error, loading}] = useMutation(CREATE_MEDICAMENT_APP);
   const {
     user: {user},
   } = useContext(UserContext);
   const initialValue = {
     last_dose: '',
     medicament: '',
-    estado: '',
     posologia: '',
     dosis: '',
     notation: '',
@@ -40,13 +40,32 @@ const Medicament = ({route}) => {
     dosis: Yup.number('Solo se acepta números.')
         .required('Ingresa el campo ultima dosis.')
         .positive('Ingresa numeros positivos.'),
-    estado: Yup.string().required('Ingresa el campo del estado.'),
     period: Yup.string().required('Ingresa el campo de periodo.'),
   });
 
-  const handleSubmitMedicament = values => {
-    console.log(values);
+  const handleSubmitMedicament = async values => {
+    const {last_dose, medicament, posologia, dosis, period, note } = values;
+    if(!values) return;
+    try{
+      await createMedicament({
+        variables:{
+          last_dose,
+          medicament,
+          posologia,
+          dosis,
+          period,
+          note,
+          mascot: idMascot,
+          user: Number(user.id),
+        }
+      })
+    }catch (error){
+      console.log(error)
+    }
   };
+
+  if(loading) return null;
+  if(error) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>
@@ -136,6 +155,9 @@ const Medicament = ({route}) => {
                       },
                     ]}
                     placeholder="Ej: Solución oral."
+                    onChangeText={handleChange('posologia')}
+                    onBlur={handleBlur('posologia')}
+                    value={values.poslogia}
                   />
                   {errors.posologia && touched.posologia ? (
                     <View

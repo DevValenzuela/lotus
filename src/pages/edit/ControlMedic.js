@@ -14,13 +14,15 @@ import CalendarPicker from 'react-native-calendar-picker';
 
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-
+import moment from 'moment';
 import {style} from './style';
 
 const ControlMedic = () => {
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+  const [setDate, getDate] = useState('');
+  const [erroDate, setErrorDate] = useState(false);
 
   const initialValue = {
     last_control: '',
@@ -42,6 +44,16 @@ const ControlMedic = () => {
 
   const enableCalendar = strValue => {
     strValue ? getCalendar(true) : getCalendar(false);
+  };
+
+  const insertDateCalendar = date => {
+    if (!date) {
+      setErrorDate(true);
+      return null;
+    }
+    let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
+    getDate(dateFormat);
+    getCalendar(false);
   };
 
   return (
@@ -70,7 +82,7 @@ const ControlMedic = () => {
                     placeholderTextColor="#5742A2"
                     onChangeText={handleChange('last_control')}
                     onBlur={handleBlur('last_control')}
-                    value={values.last_control}
+                    value={values.last_control = setDate}
                     style={[
                       style.inputText,
                       {
@@ -178,7 +190,7 @@ const ControlMedic = () => {
             <View style={{padding: 10, flex: 1}}>
               <TouchableHighlight
                 underlayColor="transparent"
-                onPress={() => console.log('Seleccionado')}>
+                onPress={() => insertDateCalendar(startDate)}>
                 <Text style={style.btnActions}>Seleccionar</Text>
               </TouchableHighlight>
             </View>

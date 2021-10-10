@@ -12,15 +12,17 @@ import {
 
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-
+import moment from 'moment';
 import {style} from './style';
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
-
+import {ModalCalendarError} from '../../components/sharedComponent';
 const Deworming = () => {
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+  const [setDate, getDate] = useState('');
+  const [erroDate, setErrorDate] = useState(false);
 
   const initialState = {
     last_deworming: '',
@@ -45,6 +47,16 @@ const Deworming = () => {
 
   const enableCalendar = strValue => {
     strValue ? getCalendar(true) : getCalendar(false);
+  };
+
+  const insertDateCalendar = date => {
+    if (!date) {
+      setErrorDate(true);
+      return null;
+    }
+    let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
+    getDate(dateFormat);
+    getCalendar(false);
   };
 
   return (
@@ -82,9 +94,9 @@ const Deworming = () => {
                     onFocus={enableCalendar}
                     showSoftInputOnFocus={false}
                     placeholder="Ingresa la fecha"
+                    value={values.last_deworming = setDate}
                     onChangeText={handleChange('last_deworming')}
                     onBlur={handleBlur('last_deworming')}
-                    value={values.last_deworming}
                   />
 
                   {errors.last_deworming && touched.last_deworming ? (
@@ -158,6 +170,10 @@ const Deworming = () => {
       {/*===Calendar===*/}
       {setCalendar && (
         <View style={style.containerCalendar}>
+          <ModalCalendarError
+            modalVisible={erroDate}
+            send={prop => setErrorDate(prop)}
+          />
           <CalendarPicker
             todayBackgroundColor="#330066"
             selectedDayColor="#330066"
@@ -197,7 +213,7 @@ const Deworming = () => {
             <View style={{padding: 10, flex: 1}}>
               <TouchableHighlight
                 underlayColor="transparent"
-                onPress={() => console.log('Seleccionado')}>
+                onPress={() => insertDateCalendar(startDate)}>
                 <Text style={style.btnActions}>Seleccionar</Text>
               </TouchableHighlight>
             </View>
