@@ -16,14 +16,14 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useQuery} from '@apollo/client';
 import {CONSULT_MASCOT_APP_ID} from './apolllo/query';
 const DetailsMascot = ({navigation, route}) => {
-  console.log(route.params.mascotId);
+  const idMascot = route.params.mascotId
   const {
     data: general,
     loading: loadingGeneral,
     error: errorGeneral,
   } = useQuery(CONSULT_MASCOT_APP_ID, {
     variables: {
-      id: route.params.mascotId,
+      id: idMascot,
     },
   });
   if (loadingGeneral) return null;
@@ -124,7 +124,7 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('EditMedicament')}>
+                    onPress={() => navigation.navigate('EditMedicament', {idMascot})}>
                     <View style={{marginTop: 15}}>
                       <Image
                         source={require('./../assets/images/edit_btn.png')}

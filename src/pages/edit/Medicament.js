@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, {useContext} from 'react';
 import {
   Text,
   View,
@@ -12,7 +12,14 @@ import Textarea from 'react-native-textarea';
 import {style} from './style';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-const Medicament = () => {
+
+import {UserContext} from '../../context/userContext';
+
+const Medicament = ({route}) => {
+  const idMascot = route.params.idMascot;
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const initialValue = {
     last_dose: '',
     medicament: '',
@@ -24,10 +31,15 @@ const Medicament = () => {
   };
 
   const SignupSchema = Yup.object().shape({
-    last_dose: Yup.string().required('Ingresa el campo ultima dosis.'),
+    last_dose: Yup.number('Solo se acepta números.')
+      .required('Ingresa el campo ultima dosis.')
+      .positive('Ingresa numeros positivos.')
+      .integer('No se acepta ni puntos (.), ni comas (,).'),
     medicament: Yup.string().required('Ingresa el campo medicamento.'),
     posologia: Yup.string().required('Ingresa el campo posología.'),
-    dosis: Yup.string().required('Ingresa el campo dosis.'),
+    dosis: Yup.number('Solo se acepta números.')
+        .required('Ingresa el campo ultima dosis.')
+        .positive('Ingresa numeros positivos.'),
     estado: Yup.string().required('Ingresa el campo del estado.'),
     period: Yup.string().required('Ingresa el campo de periodo.'),
   });
@@ -60,6 +72,7 @@ const Medicament = () => {
                   <Text style={style.label}>Último Dosis</Text>
                   <View>
                     <TextInput
+                      keyboardType="number-pad"
                       placeholderTextColor="#5742A2"
                       onChangeText={handleChange('last_dose')}
                       onBlur={handleBlur('last_dose')}
@@ -145,6 +158,9 @@ const Medicament = () => {
                           color: '#330066',
                         },
                       ]}
+                      onChangeText={handleChange('dosis')}
+                      onBlur={handleBlur('dosis')}
+                      value={values.dosis}
                       placeholder="Ej: 0,5"
                     />
                     <Text style={style.symbol}>gr/ml</Text>
@@ -171,6 +187,9 @@ const Medicament = () => {
                         },
                       ]}
                       placeholder="Ej: 12"
+                      onChangeText={handleChange('period')}
+                      onBlur={handleBlur('period')}
+                      value={values.period}
                     />
                     <Text style={style.symbol}>Hrs</Text>
                   </View>
@@ -194,6 +213,9 @@ const Medicament = () => {
                       maxLength={120}
                       placeholder={'Ingresa algún comentario o anotación.'}
                       underlineColorAndroid={'transparent'}
+                      onChangeText={handleChange('note')}
+                      onBlur={handleBlur('note')}
+                      value={values.note}
                     />
                   </View>
 

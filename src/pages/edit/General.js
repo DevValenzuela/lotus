@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -17,19 +17,34 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 const General = ({route}) => {
-  console.log(route)
+  const {
+    name_mascot,
+    age_mascot,
+    race_mascot,
+    date_sterilized,
+    type_mascot,
+    avatar_mascot,
+    microchip,
+    description
+  } = route.params.data;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const [setMicrochip, getMicrochip] = useState('No');
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
 
   const initialValue = {
-    type_mascot: '',
-    race: '',
-    date_sterilized: '',
-    microchip: '',
-    note: '',
+    type_mascot: type_mascot,
+    race: race_mascot,
+    date_sterilized:  date_sterilized,
+    microchip: microchip,
+    note: description,
   };
+
+  useEffect(()=>{
+    if(microchip){
+      getMicrochip(microchip);
+    }
+  },[microchip])
 
   const SignupSchema = Yup.object().shape({
     type_mascot: Yup.string().required('Ingresa el campo ultima dosis.'),
