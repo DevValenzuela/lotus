@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Text,
   View,
@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TextInput,
   TouchableHighlight,
+  Dimensions,
 } from 'react-native';
 import Textarea from 'react-native-textarea';
 import {style} from './style';
@@ -14,11 +15,21 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {useMutation} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
-import {CREATE_MEDICAMENT_APP} from '../../pages/apolllo/grahpql'
-import {Loading} from '../../components/sharedComponent';
+import {CREATE_MEDICAMENT_APP} from '../../pages/apolllo/grahpql';
+import {Loading, ModalCalendarError} from '../../components/sharedComponent';
+import CalendarPicker from 'react-native-calendar-picker';
+import moment from "moment";
+
 const Medicament = ({route}) => {
   const idMascot = route.params.idMascot;
-  const [createMedicament, {data, error, loading}] = useMutation(CREATE_MEDICAMENT_APP);
+  const [selectedStartDate, getselectedStartDate] = useState(null);
+  const [setCalendar, getCalendar] = useState(false);
+  const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+  const [setDate, getDate] = useState('');
+  const [erroDate, setErrorDate] = useState(false);
+  const [createMedicament, {data, error, loading}] = useMutation(
+    CREATE_MEDICAMENT_APP,
+  );
   const {
     user: {user},
   } = useContext(UserContext);
@@ -39,17 +50,17 @@ const Medicament = ({route}) => {
     medicament: Yup.string().required('Ingresa el campo medicamento.'),
     posologia: Yup.string().required('Ingresa el campo posología.'),
     dosis: Yup.number('Solo se acepta números.')
-        .required('Ingresa el campo ultima dosis.')
-        .positive('Ingresa numeros positivos.'),
+      .required('Ingresa el campo ultima dosis.')
+      .positive('Ingresa numeros positivos.'),
     period: Yup.string().required('Ingresa el campo de periodo.'),
   });
 
   const handleSubmitMedicament = async values => {
-    if(!values) return;
-    const {last_dose, medicament, posologia, dosis, period, note } = values;
-    try{
+    if (!values) return;
+    const {last_dose, medicament, posologia, dosis, period, note} = values;
+    try {
       await createMedicament({
-        variables:{
+        variables: {
           last_dose,
           medicament,
           posologia,
@@ -58,15 +69,33 @@ const Medicament = ({route}) => {
           note,
           mascot: idMascot,
           user: Number(user.id),
-        }
-      })
-    }catch (error){
-      console.log(error)
+        },
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  if(loading) return <Loading/>;
-  if(error) console.log(error);
+  const onDateChange = date => {
+    getselectedStartDate(date);
+  };
+
+  const enableCalendar = strValue => {
+    strValue ? getCalendar(true) : getCalendar(false);
+  };
+
+  const insertDateCalendar = date => {
+    if (!date) {
+      setErrorDate(true);
+      return null;
+    }
+    let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
+    getDate(dateFormat);
+    getCalendar(false);
+  };
+
+  if (loading) return <Loading />;
+  if (error) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>
@@ -94,9 +123,11 @@ const Medicament = ({route}) => {
                     <TextInput
                       keyboardType="number-pad"
                       placeholderTextColor="#5742A2"
-                      onChangeText={handleChange('last_dose')}
-                      onBlur={handleBlur('last_dose')}
-                      value={values.last_dose}
+                      onChangeText={handleChange('last_vaccination')}
+                      onBlur={handleBlur('last_vaccination')}
+                      value={(values.last_vaccination = setDate)}
+                      showSoftInputOnFocus={false}
+                      onFocus={enableCalendar}
                       style={[
                         style.inputText,
                         {
@@ -105,9 +136,8 @@ const Medicament = ({route}) => {
                           color: '#330066',
                         },
                       ]}
-                      placeholder="Ej: 12"
+                      placeholder="Ej: 12-03-2021"
                     />
-                    <Text style={style.symbol}>Hrs</Text>
                   </View>
                   {errors.last_dose && touched.last_dose ? (
                     <View
@@ -255,6 +285,59 @@ const Medicament = ({route}) => {
           </Formik>
         </ScrollView>
       </ImageBackground>
+      {/*===Calendar===*/}
+      {setCalendar && (
+        <View style={style.containerCalendar}>
+          <ModalCalendarError
+            modalVisible={erroDate}
+            send={prop => setErrorDate(prop)}
+          />
+          <CalendarPicker
+            todayBackgroundColor="#330066"
+            selectedDayColor="#330066"
+            selectedDayTextColor="#ffffff"
+            onDateChange={onDateChange}
+            weekdays={['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']}
+            months={[
+              'Enero',
+              'Febrero',
+              'Marzo',
+              'Abril',
+              'Mayo',
+              'Junio',
+              'Julio',
+              'Agosto',
+              'Septiembre',
+              'Octubre',
+              'Noviembre',
+              'Diciembre',
+            ]}
+            nextTitle="Siguiente"
+            previousTitle="Anterior"
+            width={Dimensions.get('window').width / 1}
+          />
+          <View style={{marginVertical: 20}}>
+            <Text style={{textAlign: 'center'}}>Fecha Seleccionada:</Text>
+            <Text style={{textAlign: 'center'}}>{startDate}</Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <View style={{padding: 10, flex: 1}}>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => enableCalendar(false)}>
+                <Text style={style.btnActions}>Cancelar</Text>
+              </TouchableHighlight>
+            </View>
+            <View style={{padding: 10, flex: 1}}>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => insertDateCalendar(startDate)}>
+                <Text style={style.btnActions}>Seleccionar</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

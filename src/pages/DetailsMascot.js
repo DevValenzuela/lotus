@@ -459,8 +459,7 @@ const DetailsMascot = ({navigation, route}) => {
                   ) : (
                     <View style={{flex: 1}}>
                       <Text style={style.txtNotfound}>
-                        {' '}
-                        No hay resultados.{' '}
+                        No hay resultados.
                       </Text>
                     </View>
                   )}
