@@ -38,7 +38,7 @@ const ControlMedic = ({route}) => {
   );
 
   const initialValue = new Object();
-  
+
   if (edit) {
     initialValue.last_control = '';
     initialValue.valoration = controllerMedicts[0].assesment;

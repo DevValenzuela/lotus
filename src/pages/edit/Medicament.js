@@ -90,6 +90,10 @@ const Medicament = ({route}) => {
     }
   };
 
+  const handleUpdateMedicament = (values) =>{
+    console.log(values);
+  }
+
   const onDateChange = date => {
     getselectedStartDate(date);
   };
@@ -121,7 +125,11 @@ const Medicament = ({route}) => {
           <Formik
             initialValues={initialValue}
             validationSchema={SignupSchema}
-            onSubmit={values => handleSubmitMedicament(values)}>
+            onSubmit={values =>
+              edit
+                ? handleUpdateMedicament(values)
+                : handleSubmitMedicament(values)
+            }>
             {({
               touched,
               handleChange,
@@ -289,7 +297,11 @@ const Medicament = ({route}) => {
                   <View style={{marginVertical: 10}}>
                     <TouchableHighlight onPress={() => handleSubmit()}>
                       <View style={style.btnSubmit}>
-                        <Text style={style.btnSubmitxt}>Modificar</Text>
+                        {edit ? (
+                          <Text style={style.btnSubmitxt}>Modificar</Text>
+                        ) : (
+                          <Text style={style.btnSubmitxt}>Insertar</Text>
+                        )}
                       </View>
                     </TouchableHighlight>
                   </View>

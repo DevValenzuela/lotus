@@ -81,6 +81,10 @@ const Deworming = ({route}) => {
     }
   };
 
+  const handleUpdateDeworming = values => {
+    console.log(values);
+  };
+
   const onDateChange = date => {
     getselectedStartDate(date);
   };
@@ -112,7 +116,11 @@ const Deworming = ({route}) => {
           <Formik
             initialValues={initialState}
             validationSchema={SignupSchema}
-            onSubmit={values => handlerSubmitDeworming(values)}>
+            onSubmit={values =>
+              edit
+                ? handleUpdateDeworming(values)
+                : handlerSubmitDeworming(values)
+            }>
             {({
               touched,
               handleChange,
@@ -200,7 +208,11 @@ const Deworming = ({route}) => {
                   <View style={{marginVertical: 10}}>
                     <TouchableHighlight onPress={() => handleSubmit()}>
                       <View style={style.btnSubmit}>
-                        <Text style={style.btnSubmitxt}>Modificar</Text>
+                        {edit ? (
+                          <Text style={style.btnSubmitxt}>Modificar</Text>
+                        ) : (
+                          <Text style={style.btnSubmitxt}>Insertar</Text>
+                        )}
                       </View>
                     </TouchableHighlight>
                   </View>

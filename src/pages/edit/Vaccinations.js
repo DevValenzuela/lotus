@@ -87,6 +87,10 @@ const Vaccinations = ({route}) => {
     }
   };
 
+  const handleUpdateVaccinations = values => {
+    console.log(values);
+  };
+
   const enableCalendar = strValue => {
     strValue ? getCalendar(true) : getCalendar(false);
   };
@@ -114,7 +118,11 @@ const Vaccinations = ({route}) => {
           <Formik
             initialValues={initialValue}
             validationSchema={SignupSchema}
-            onSubmit={values => handleSubmitVaccinations(values)}>
+            onSubmit={values =>
+              edit
+                ? handleUpdateVaccinations(values)
+                : handleSubmitVaccinations(values)
+            }>
             {({
               touched,
               handleChange,
@@ -201,7 +209,11 @@ const Vaccinations = ({route}) => {
                   <View style={{marginVertical: 10}}>
                     <TouchableHighlight onPress={() => handleSubmit()}>
                       <View style={style.btnSubmit}>
-                        <Text style={style.btnSubmitxt}>Modificar</Text>
+                        {edit ? (
+                          <Text style={style.btnSubmitxt}>Modificar</Text>
+                        ) : (
+                          <Text style={style.btnSubmitxt}>Editar</Text>
+                        )}
                       </View>
                     </TouchableHighlight>
                   </View>
