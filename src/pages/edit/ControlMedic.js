@@ -80,6 +80,10 @@ const ControlMedic = ({route}) => {
     }
   };
 
+  const handleUpdateMedicament = values => {
+    console.log(values);
+  };
+
   const onDateChange = date => {
     getselectedStartDate(date);
   };
@@ -111,7 +115,11 @@ const ControlMedic = ({route}) => {
           <Formik
             initialValues={initialValue}
             validationSchema={SignupSchema}
-            onSubmit={values => handleSubmitMedicament(values)}>
+            onSubmit={values =>
+              edit
+                ? handleUpdateMedicament(values)
+                : handleSubmitMedicament(values)
+            }>
             {({
               touched,
               handleChange,
