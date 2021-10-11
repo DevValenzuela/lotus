@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   TouchableHighlight,
   ImageBackground,
@@ -9,11 +9,16 @@ import {
   Image,
 } from 'react-native';
 import {style} from './style';
+import {useQuery} from '@apollo/client';
+import {UserContext} from '../../context/userContext';
+import {Loading} from '../../components/sharedComponent';
+import {CONSULT_HISTORY_VACCINATIONS_APP} from '../../pages/apolllo/query';
+
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     date: 'Julio 15/2021',
-  }
+  },
 ];
 
 const Item = ({date}) => (
@@ -28,8 +33,28 @@ const Item = ({date}) => (
 );
 
 const VaccinationsHistory = ({navigation, route}) => {
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const idMascot = route.params.idMascot;
-  const renderItem = ({item}) => <Item date={item.date} />;
+  const {data, error, loading} = useQuery(CONSULT_HISTORY_VACCINATIONS_APP, {
+    variables: {
+      user: Number(user.id),
+      mascot: idMascot,
+    },
+  });
+
+  if (loading) return <Loading />;
+  if (error) console.log(error);
+
+  const DATA = [];
+  if (data) {
+    data.vacunacions.map(item => {
+      DATA.push(item);
+    });
+  }
+
+  const renderItem = ({item}) => <Item date={item.last_vaccination} />;
 
   return (
     <SafeAreaView style={style.container}>
@@ -39,7 +64,9 @@ const VaccinationsHistory = ({navigation, route}) => {
         style={style.bgImage}>
         <TouchableHighlight
           style={{alignItems: 'center', marginVertical: 20}}
-          onPress={()=>navigation.navigate('EditVaccinations', {idMascot, edit:false})}
+          onPress={() =>
+            navigation.navigate('EditVaccinations', {idMascot, edit: false})
+          }
           underlayColor="transparent">
           <View style={style.btnAdd}>
             <Text style={style.btnTxtAdd}>Nueva Entrada</Text>

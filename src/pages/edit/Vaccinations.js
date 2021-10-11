@@ -39,7 +39,6 @@ const Vaccinations = ({route}) => {
   const [erroDate, setErrorDate] = useState(false);
 
   const initialValue = new Object();
-  console.log(vacunacions);
 
   if (edit) {
     initialValue.last_vaccination = '';

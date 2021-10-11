@@ -236,3 +236,5 @@ export const CREATE_VACCINATION_APP = gql`
     }
   }
 `;
+
+

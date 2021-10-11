@@ -197,7 +197,11 @@ const ControlMedic = ({route}) => {
                   <View style={{marginVertical: 10}}>
                     <TouchableHighlight onPress={() => handleSubmit()}>
                       <View style={style.btnSubmit}>
-                        <Text style={style.btnSubmitxt}>Modificar</Text>
+                        {edit ? (
+                          <Text style={style.btnSubmitxt}>Modificar</Text>
+                        ) : (
+                          <Text style={style.btnSubmitxt}>Insertar</Text>
+                        )}
                       </View>
                     </TouchableHighlight>
                   </View>

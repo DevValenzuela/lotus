@@ -125,3 +125,27 @@ export const CONSULT_MEDICAMENT_APP = gql`
     }
   }
 `;
+
+export const CONSULT_HYSTORY_MEDICAMENTS_APP = gql`
+  query medicaments($user: ID!, $mascot: ID!) {
+    medicaments(
+      sort: "last_dose:desc"
+      where: {mascot: $mascot, users_permissions_user: $user}
+    ) {
+      id
+      last_dose
+    }
+  }
+`;
+
+export const CONSULT_HISTORY_VACCINATIONS_APP = gql`
+  query vacunacions($user: ID!, $mascot: ID!) {
+    vacunacions(
+      sort: "last_vaccination:desc"
+      where: {mascot: $mascot, users_permissions_user: $user}
+    ) {
+      id
+      last_vaccination
+    }
+  }
+`;
