@@ -69,6 +69,7 @@ const Medicament = ({route}) => {
           user: Number(user.id),
         },
       });
+      getDate('');
     } catch (error) {
       console.log(error);
     }

@@ -97,6 +97,7 @@ export const CONSULT_VACCINATIONS_APP = gql`
 export const CONSULT_CONTROLLER_MEDICS_APP = gql`
   query ControllerMedicts($user: ID!, $mascot: ID!) {
     controllerMedicts(
+      sort: "last_control:desc"
       limit: 1
       where: {users_permissions_user: $user, mascot: $mascot}
     ) {
@@ -104,6 +105,23 @@ export const CONSULT_CONTROLLER_MEDICS_APP = gql`
       last_control
       assesment
       note
+    }
+  }
+`;
+
+export const CONSULT_MEDICAMENT_APP = gql`
+  query mediacemnts($user: ID!, $mascot: ID!) {
+    medicaments(
+      sort: "last_dose:desc"
+      where: {users_permissions_user: $user, mascot: $mascot}
+    ) {
+      id
+      last_dose
+      medicament
+      posologia
+      dosis
+      period
+      notation
     }
   }
 `;

@@ -19,6 +19,7 @@ import {
   CONSULT_MASCOT_APP_ID,
   CONSULT_VACCINATIONS_APP,
   CONSULT_CONTROLLER_MEDICS_APP,
+  CONSULT_MEDICAMENT_APP,
 } from './apolllo/query';
 import {UserContext} from '../context/userContext';
 const DetailsMascot = ({navigation, route}) => {
@@ -69,15 +70,32 @@ const DetailsMascot = ({navigation, route}) => {
     },
   });
 
+  const {
+    data: medicament,
+    loading: loadingMedicament,
+    error: errorMedicament,
+  } = useQuery(CONSULT_MEDICAMENT_APP, {
+    variables: {
+      user: Number(user.id),
+      mascot: idMascot,
+    },
+  });
+
   if (
     loadingGeneral ||
     loadingDeworming ||
     loadingVaccinations ||
-    loadingMedics
+    loadingMedics ||
+    loadingMedicament
   )
     return null;
-  if (errorGeneral || errorDeworming || errorVaccinations || errorMedics)
-    console.log(errorGeneral);
+  if (
+    errorGeneral ||
+    errorDeworming ||
+    errorVaccinations ||
+    errorMedics ||
+    errorMedicament
+  ) console.log(errorGeneral);
   if (!general) return null;
 
   const {
@@ -92,6 +110,7 @@ const DetailsMascot = ({navigation, route}) => {
   const {desparacitacions} = deworming;
   const {vacunacions} = vaccinations;
   const {controllerMedicts} = medics;
+  const {medicaments} = medicament;
 
   const url_image = avatar_mascot != null ? avatar_mascot.url : '';
 
@@ -201,30 +220,38 @@ const DetailsMascot = ({navigation, route}) => {
                     />
                     <Text style={style.subtitleTxt}>Medicación:</Text>
                   </View>
-                  <View style={style.containerGroup}>
-                    <Text style={style.subTxt}>Última Dosis:</Text>
-                    <Text style={style.parrTxt}>07 Diciembre 2020</Text>
-                  </View>
-                  <View style={style.containerGroup}>
-                    <Text style={style.subTxt}>Medicamento:</Text>
-                    <Text style={style.parrTxt}>Amoxicilina</Text>
-                  </View>
-                  <View style={style.containerGroup}>
-                    <Text style={style.subTxt}>Posología:</Text>
-                    <Text style={style.parrTxt}>Solución Oral</Text>
-                  </View>
-                  <View style={style.containerGroup}>
-                    <Text style={style.subTxt}>Dosis:</Text>
-                    <Text style={style.parrTxt}>0.5 gr/ml</Text>
-                  </View>
-                  <View style={style.containerGroup}>
-                    <Text style={style.subTxt}>Periodo:</Text>
-                    <Text style={style.parrTxt}>12 hrs</Text>
-                  </View>
-                  <View style={style.containerGroup}>
-                    <Text style={style.subTxt}>Anotaciones</Text>
-                    <Text style={style.parrTxt}>Ninguna.</Text>
-                  </View>
+                  {medicaments.length > 0 ? (
+                    <View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Última Dosis:</Text>
+                        <Text style={style.parrTxt}>{medicaments[0].last_dose}</Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Medicamento:</Text>
+                        <Text style={style.parrTxt}>{medicaments[0].medicament}</Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Posología:</Text>
+                        <Text style={style.parrTxt}>{medicaments[0].posologia}</Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Dosis:</Text>
+                        <Text style={style.parrTxt}>{medicaments[0].dosis} gr/ml</Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Periodo:</Text>
+                        <Text style={style.parrTxt}>{medicaments[0].period} hrs</Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Anotaciones</Text>
+                        <Text style={style.parrTxt}>{medicaments[0].notation}</Text>
+                      </View>
+                    </View>
+                  ) : (
+                    <View style={{flex: 1}}>
+                      <Text style={style.txtNotfound}>No hay resultados.</Text>
+                    </View>
+                  )}
                 </View>
                 <View style={{alignItems: 'center', marginVertical: 10}}>
                   <TouchableHighlight
@@ -458,9 +485,7 @@ const DetailsMascot = ({navigation, route}) => {
                     </View>
                   ) : (
                     <View style={{flex: 1}}>
-                      <Text style={style.txtNotfound}>
-                        No hay resultados.
-                      </Text>
+                      <Text style={style.txtNotfound}>No hay resultados.</Text>
                     </View>
                   )}
                 </View>
