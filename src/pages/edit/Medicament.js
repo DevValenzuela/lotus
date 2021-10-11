@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -21,7 +21,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 
 const Medicament = ({route}) => {
-  const idMascot = route.params.idMascot;
+  const {idMascot, edit, medicaments} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
@@ -33,14 +33,30 @@ const Medicament = ({route}) => {
   const {
     user: {user},
   } = useContext(UserContext);
-  const initialValue = {
-    last_dose: '',
-    medicament: '',
-    posologia: '',
-    dosis: '',
-    notation: '',
-    period: '',
-  };
+
+  const initialValue = new Object();
+
+  if (edit) {
+    initialValue.last_dose = '';
+    initialValue.medicament = medicaments[0].medicament;
+    initialValue.posologia = medicaments[0].posologia;
+    initialValue.dosis = medicaments[0].dosis;
+    initialValue.period = medicaments[0].period;
+    initialValue.notation = medicaments[0].notation;
+  } else {
+    initialValue.last_dose = '';
+    initialValue.medicament = '';
+    initialValue.posologia = '';
+    initialValue.dosis = '';
+    initialValue.notation = '';
+    initialValue.period = '';
+  }
+
+  useEffect(() => {
+    if (edit && medicaments) {
+      getDate(medicaments[0].last_dose);
+    }
+  }, [edit, medicaments]);
 
   const SignupSchema = Yup.object().shape({
     last_dose: Yup.string().required('Ingresa el campo ultima dosis.'),
@@ -53,7 +69,6 @@ const Medicament = ({route}) => {
   });
 
   const handleSubmitMedicament = async values => {
-    console.log(values)
     if (!values) return;
     const {last_dose, medicament, posologia, dosis, period, notation} = values;
     try {
@@ -187,7 +202,7 @@ const Medicament = ({route}) => {
                     placeholder="Ej: Solución oral."
                     onChangeText={handleChange('posologia')}
                     onBlur={handleBlur('posologia')}
-                    value={values.poslogia}
+                    value={values.posologia}
                   />
                   {errors.posologia && touched.posologia ? (
                     <View

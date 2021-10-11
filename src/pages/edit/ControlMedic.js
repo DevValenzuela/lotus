@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   Text,
   View,
@@ -23,7 +23,7 @@ import {ModalCalendarError, Loading} from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
 
 const ControlMedic = ({route}) => {
-  const idMascot = route.params.idMascot;
+  const {idMascot, controllerMedicts, edit} = route.params;
   const {
     user: {user},
   } = useContext(UserContext);
@@ -37,11 +37,17 @@ const ControlMedic = ({route}) => {
     CREATE_CONTROLLER_MEDIC_APP,
   );
 
-  const initialValue = {
-    last_control: '',
-    valoration: '',
-    note: '',
-  };
+  const initialValue = new Object();
+  
+  if (edit) {
+    initialValue.last_control = '';
+    initialValue.valoration = controllerMedicts[0].assesment;
+    initialValue.note = controllerMedicts[0].note;
+  } else {
+    initialValue.last_control = '';
+    initialValue.valoration = '';
+    initialValue.note = '';
+  }
 
   const SignupSchema = Yup.object().shape({
     last_control: Yup.string().required(
@@ -49,9 +55,14 @@ const ControlMedic = ({route}) => {
     ),
   });
 
+  useEffect(() => {
+    if (edit && controllerMedicts) {
+      getDate(controllerMedicts[0].last_control);
+    }
+  }, [controllerMedicts, edit]);
 
   const handleSubmitMedicament = async values => {
-    if(!values) return;
+    if (!values) return;
     const {last_control, valoration, note} = values;
     try {
       await createControllerMedict({

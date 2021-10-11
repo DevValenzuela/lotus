@@ -95,7 +95,8 @@ const DetailsMascot = ({navigation, route}) => {
     errorVaccinations ||
     errorMedics ||
     errorMedicament
-  ) console.log(errorGeneral);
+  )
+    console.log(errorGeneral);
   if (!general) return null;
 
   const {
@@ -197,21 +198,24 @@ const DetailsMascot = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  <TouchableHighlight
-                    style={style.edit}
-                    underlayColor="transparent"
-                    onPress={() =>
-                      navigation.navigate('EditMedicament', {
-                        idMascot,
-                        edit: true,
-                      })
-                    }>
-                    <View style={{marginTop: 15}}>
-                      <Image
-                        source={require('./../assets/images/edit_btn.png')}
-                      />
-                    </View>
-                  </TouchableHighlight>
+                  {medicaments.length > 0 && (
+                    <TouchableHighlight
+                      style={style.edit}
+                      underlayColor="transparent"
+                      onPress={() =>
+                        navigation.navigate('EditMedicament', {
+                          idMascot,
+                          edit: true,
+                          medicaments,
+                        })
+                      }>
+                      <View style={{marginTop: 15}}>
+                        <Image
+                          source={require('./../assets/images/edit_btn.png')}
+                        />
+                      </View>
+                    </TouchableHighlight>
+                  )}
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image
                       source={require('../assets/images/tabs/MEDICAMENT.png')}
@@ -224,27 +228,39 @@ const DetailsMascot = ({navigation, route}) => {
                     <View>
                       <View style={style.containerGroup}>
                         <Text style={style.subTxt}>Última Dosis:</Text>
-                        <Text style={style.parrTxt}>{medicaments[0].last_dose}</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].last_dose}
+                        </Text>
                       </View>
                       <View style={style.containerGroup}>
                         <Text style={style.subTxt}>Medicamento:</Text>
-                        <Text style={style.parrTxt}>{medicaments[0].medicament}</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].medicament}
+                        </Text>
                       </View>
                       <View style={style.containerGroup}>
                         <Text style={style.subTxt}>Posología:</Text>
-                        <Text style={style.parrTxt}>{medicaments[0].posologia}</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].posologia}
+                        </Text>
                       </View>
                       <View style={style.containerGroup}>
                         <Text style={style.subTxt}>Dosis:</Text>
-                        <Text style={style.parrTxt}>{medicaments[0].dosis} gr/ml</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].dosis} gr/ml
+                        </Text>
                       </View>
                       <View style={style.containerGroup}>
                         <Text style={style.subTxt}>Periodo:</Text>
-                        <Text style={style.parrTxt}>{medicaments[0].period} hrs</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].period} hrs
+                        </Text>
                       </View>
                       <View style={style.containerGroup}>
                         <Text style={style.subTxt}>Anotaciones</Text>
-                        <Text style={style.parrTxt}>{medicaments[0].notation}</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].notation}
+                        </Text>
                       </View>
                     </View>
                   ) : (
@@ -281,21 +297,25 @@ const DetailsMascot = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  <TouchableHighlight
-                    style={style.edit}
-                    underlayColor="transparent"
-                    onPress={() =>
-                      navigation.navigate('EditDeworming', {
-                        idMascot,
-                        edit: true,
-                      })
-                    }>
-                    <View style={{marginTop: 15}}>
-                      <Image
-                        source={require('./../assets/images/edit_btn.png')}
-                      />
-                    </View>
-                  </TouchableHighlight>
+                  {desparacitacions.length > 0 && (
+                    <TouchableHighlight
+                      style={style.edit}
+                      underlayColor="transparent"
+                      onPress={() =>
+                        navigation.navigate('EditDeworming', {
+                          idMascot,
+                          edit: true,
+                          desparacitacions,
+                        })
+                      }>
+                      <View style={{marginTop: 15}}>
+                        <Image
+                          source={require('./../assets/images/edit_btn.png')}
+                        />
+                      </View>
+                    </TouchableHighlight>
+                  )}
+
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image
                       source={require('../assets/images/tabs/PARASITEICON.png')}
@@ -363,21 +383,25 @@ const DetailsMascot = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  <TouchableHighlight
-                    style={style.edit}
-                    underlayColor="transparent"
-                    onPress={() =>
-                      navigation.navigate('EditVaccinations', {
-                        idMascot,
-                        edit: true,
-                      })
-                    }>
-                    <View style={{marginTop: 15}}>
-                      <Image
-                        source={require('./../assets/images/edit_btn.png')}
-                      />
-                    </View>
-                  </TouchableHighlight>
+                  {vacunacions.length > 0 && (
+                    <TouchableHighlight
+                      style={style.edit}
+                      underlayColor="transparent"
+                      onPress={() =>
+                        navigation.navigate('EditVaccinations', {
+                          idMascot,
+                          edit: true,
+                          vacunacions,
+                        })
+                      }>
+                      <View style={{marginTop: 15}}>
+                        <Image
+                          source={require('./../assets/images/edit_btn.png')}
+                        />
+                      </View>
+                    </TouchableHighlight>
+                  )}
+
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image
                       source={require('../assets/images/tabs/VACCINEICON.png')}
@@ -414,6 +438,7 @@ const DetailsMascot = ({navigation, route}) => {
                   )}
                 </View>
                 <View style={{alignItems: 'center', marginVertical: 10}}>
+                  {}
                   <TouchableHighlight
                     underlayColor="transparent"
                     onPress={() =>
@@ -441,21 +466,24 @@ const DetailsMascot = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  <TouchableHighlight
-                    style={style.edit}
-                    underlayColor="transparent"
-                    onPress={() =>
-                      navigation.navigate('EditControlMedic', {
-                        idMascot,
-                        edit: true,
-                      })
-                    }>
-                    <View style={{marginTop: 15}}>
-                      <Image
-                        source={require('./../assets/images/edit_btn.png')}
-                      />
-                    </View>
-                  </TouchableHighlight>
+                  {controllerMedicts.length > 0 && (
+                    <TouchableHighlight
+                      style={style.edit}
+                      underlayColor="transparent"
+                      onPress={() =>
+                        navigation.navigate('EditControlMedic', {
+                          idMascot,
+                          edit: true,
+                          controllerMedicts
+                        })
+                      }>
+                      <View style={{marginTop: 15}}>
+                        <Image
+                          source={require('./../assets/images/edit_btn.png')}
+                        />
+                      </View>
+                    </TouchableHighlight>
+                  )}
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image
                       source={require('../assets/images/tabs/DOCTORICON.png')}

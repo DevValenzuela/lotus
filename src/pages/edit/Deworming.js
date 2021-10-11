@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -23,8 +23,10 @@ import {CREATE_DESPARACITACION_APP} from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 
 const Deworming = ({route}) => {
-  const idMascot = route.params.idMascot;
-  const [createDesparacitacion, {data, error, loading}] = useMutation(CREATE_DESPARACITACION_APP);
+  const {idMascot, edit, desparacitacions} = route.params;
+  const [createDesparacitacion, {data, error, loading}] = useMutation(
+    CREATE_DESPARACITACION_APP,
+  );
   const {
     user: {user},
   } = useContext(UserContext);
@@ -35,11 +37,17 @@ const Deworming = ({route}) => {
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
 
-  const initialState = {
-    last_deworming: '',
-    medicament: '',
-    note: '',
-  };
+  const initialState = new Object();
+
+  if (edit) {
+    initialState.last_deworming = '';
+    initialState.medicament = desparacitacions[0].medicament;
+    initialState.note = desparacitacions[0].note;
+  } else {
+    initialState.last_deworming = '';
+    initialState.medicament = '';
+    initialState.note = '';
+  }
 
   const SignupSchema = Yup.object().shape({
     last_deworming: Yup.string().required(
@@ -48,23 +56,29 @@ const Deworming = ({route}) => {
     medicament: Yup.string().required('Ingrese el campo del medicamento.'),
   });
 
-  const handlerSubmitDeworming = async values => {
-    if(!values) return null;
-    const {last_deworming, medicament, note} = values
-    try{
-     await createDesparacitacion({
-      variables:{
-        last_deworming,
-        medicament,
-        note,
-        mascot: idMascot,
-        user: Number(user.id)
-      }})
-      getDate('')
-    }catch (error){
-      console.log(error)
+  useEffect(() => {
+    if (edit && desparacitacions) {
+      getDate(desparacitacions[0].last_deworming);
     }
+  }, [edit, desparacitacions]);
 
+  const handlerSubmitDeworming = async values => {
+    if (!values) return null;
+    const {last_deworming, medicament, note} = values;
+    try {
+      await createDesparacitacion({
+        variables: {
+          last_deworming,
+          medicament,
+          note,
+          mascot: idMascot,
+          user: Number(user.id),
+        },
+      });
+      getDate('');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onDateChange = date => {
@@ -85,8 +99,8 @@ const Deworming = ({route}) => {
     getCalendar(false);
   };
 
-  if(loading) return  <Loading />
-  if(error) console.log(error)
+  if (loading) return <Loading />;
+  if (error) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>
@@ -123,7 +137,7 @@ const Deworming = ({route}) => {
                     onFocus={enableCalendar}
                     showSoftInputOnFocus={false}
                     placeholder="Ingresa la fecha"
-                    value={values.last_deworming = setDate}
+                    value={(values.last_deworming = setDate)}
                     onChangeText={handleChange('last_deworming')}
                     onBlur={handleBlur('last_deworming')}
                   />

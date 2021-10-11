@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -19,13 +19,14 @@ import * as Yup from 'yup';
 
 import {useMutation} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
-import { CREATE_VACCINATION_APP } from '../../pages/apolllo/grahpql';
+import {CREATE_VACCINATION_APP} from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 
 const Vaccinations = ({route}) => {
-  const idMascot = route.params.idMascot;
+  const {idMascot, edit, vacunacions} = route.params;
+
   const [createVacunacion, {data, error, loading}] = useMutation(
-    CREATE_VACCINATION_APP
+    CREATE_VACCINATION_APP,
   );
   const {
     user: {user},
@@ -37,11 +38,18 @@ const Vaccinations = ({route}) => {
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
 
-  const initialValue = {
-    last_vaccination: '',
-    medicament: '',
-    note_reaction: '',
-  };
+  const initialValue = new Object();
+  console.log(vacunacions);
+
+  if (edit) {
+    initialValue.last_vaccination = '';
+    initialValue.medicament = vacunacions[0].medicaments;
+    initialValue.note_reaction = vacunacions[0].note;
+  } else {
+    initialValue.last_vaccination = '';
+    initialValue.medicament = '';
+    initialValue.note_reaction = '';
+  }
 
   const SignupSchema = Yup.object().shape({
     last_vaccination: Yup.string().required(
@@ -50,13 +58,19 @@ const Vaccinations = ({route}) => {
     medicament: Yup.string().required('Ingresa el campo del medicamento.'),
   });
 
+  useEffect(() => {
+    if (edit && vacunacions) {
+      getDate(vacunacions[0].last_vaccination);
+    }
+  }, [edit, vacunacions]);
+
   const onDateChange = date => {
     getselectedStartDate(date);
   };
 
   const handleSubmitVaccinations = async values => {
     if (!values) return null;
-    const {last_vaccination, medicament, note_reaction } = values
+    const {last_vaccination, medicament, note_reaction} = values;
     try {
       await createVacunacion({
         variables: {
