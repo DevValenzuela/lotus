@@ -5,14 +5,15 @@ import {
   FlatList,
   Text,
   View,
-  Image, TouchableHighlight,
-} from "react-native";
+  Image,
+  TouchableHighlight,
+} from 'react-native';
 import {style} from './style';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     date: 'Julio 15/2021',
-  }
+  },
 ];
 
 const Item = ({date}) => (
@@ -22,13 +23,12 @@ const Item = ({date}) => (
       resizeMode="contain"
       style={style.image}
     />
-    <Text style={style.dateTitle}>
-      {date}
-    </Text>
+    <Text style={style.dateTitle}>{date}</Text>
   </View>
 );
 
-const MedicHistory = () => {
+const MedicHistory = ({navigation, route}) => {
+  const idMascot = route.params.idMascot;
   const renderItem = ({item}) => <Item date={item.date} />;
 
   return (
@@ -39,6 +39,9 @@ const MedicHistory = () => {
         style={style.bgImage}>
         <TouchableHighlight
           style={{alignItems: 'center', marginVertical: 20}}
+          onPress={() =>
+            navigation.navigate('EditControlMedic', {idMascot, edit: false})
+          }
           underlayColor="transparent">
           <View style={style.btnAdd}>
             <Text style={style.btnTxtAdd}>Nueva Entrada</Text>
@@ -55,6 +58,5 @@ const MedicHistory = () => {
     </SafeAreaView>
   );
 };
-
 
 export default MedicHistory;

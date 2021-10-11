@@ -27,7 +27,8 @@ const Item = ({date}) => (
   </View>
 );
 
-const MedicamentHistory = () => {
+const MedicamentHistory = ({navigation, route}) => {
+  const idMascot = route.params.idMascot;
   const renderItem = ({item}) => <Item date={item.date} />;
 
   return (
@@ -38,6 +39,7 @@ const MedicamentHistory = () => {
         style={style.bgImage}>
         <TouchableHighlight
           style={{alignItems: 'center', marginVertical: 20}}
+          onPress={()=>navigation.navigate('EditMedicament', {idMascot, edit:false})}
           underlayColor="transparent">
           <View style={style.btnAdd}>
             <Text style={style.btnTxtAdd}>Nueva Entrada</Text>

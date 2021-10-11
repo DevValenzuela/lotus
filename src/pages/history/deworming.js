@@ -31,7 +31,6 @@ const Item = ({date}) => (
 const DewormingHistory = ({navigation, route}) => {
   const idMascot = route.params.idMascot;
   const renderItem = ({item}) => <Item date={item.date} />;
-console.log(idMascot )
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground
