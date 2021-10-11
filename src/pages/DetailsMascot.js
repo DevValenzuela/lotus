@@ -124,7 +124,7 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('EditMedicament', {idMascot})}>
+                    onPress={() => navigation.navigate('EditMedicament', {idMascot, edit: true})}>
                     <View style={{marginTop: 15}}>
                       <Image
                         source={require('./../assets/images/edit_btn.png')}
@@ -167,7 +167,7 @@ const DetailsMascot = ({navigation, route}) => {
                 <View style={{alignItems: 'center', marginVertical: 10}}>
                   <TouchableHighlight
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('HistoryMedicament')}>
+                    onPress={() => navigation.navigate('HistoryMedicament',  {idMascot})}>
                     <View
                       style={{
                         justifyContent: 'center',
@@ -193,7 +193,7 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('EditDeworming', {idMascot})}>
+                    onPress={() => navigation.navigate('EditDeworming', {idMascot, edit: true})}>
                     <View style={{marginTop: 15}}>
                       <Image
                         source={require('./../assets/images/edit_btn.png')}
@@ -225,7 +225,7 @@ const DetailsMascot = ({navigation, route}) => {
                 <View style={{alignItems: 'center', marginVertical: 10}}>
                   <TouchableHighlight
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('HistoryDeworming')}>
+                    onPress={() => navigation.navigate('HistoryDeworming', {idMascot})}>
                     <View
                       style={{
                         justifyContent: 'center',
@@ -251,7 +251,7 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('EditVaccinations', {idMascot})}>
+                    onPress={() => navigation.navigate('EditVaccinations', {idMascot, edit: true})}>
                     <View style={{marginTop: 15}}>
                       <Image
                         source={require('./../assets/images/edit_btn.png')}
@@ -282,7 +282,7 @@ const DetailsMascot = ({navigation, route}) => {
                 <View style={{alignItems: 'center', marginVertical: 10}}>
                   <TouchableHighlight
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('HistoryVaccinations')}>
+                    onPress={() => navigation.navigate('HistoryVaccinations', {idMascot})}>
                     <View
                       style={{
                         justifyContent: 'center',
@@ -308,7 +308,7 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     style={style.edit}
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('EditControlMedic', {idMascot})}>
+                    onPress={() => navigation.navigate('EditControlMedic', {idMascot, edit: true})}>
                     <View style={{marginTop: 15}}>
                       <Image
                         source={require('./../assets/images/edit_btn.png')}
@@ -342,7 +342,7 @@ const DetailsMascot = ({navigation, route}) => {
                 <View style={{alignItems: 'center', marginVertical: 10}}>
                   <TouchableHighlight
                     underlayColor="transparent"
-                    onPress={() => navigation.navigate('HistoryMedic')}>
+                    onPress={() => navigation.navigate('HistoryMedic', {idMascot})}>
                     <View
                       style={{
                         justifyContent: 'center',

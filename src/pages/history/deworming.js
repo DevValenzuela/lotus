@@ -88,7 +88,8 @@ const Item = ({date}) => (
   </View>
 );
 
-const DewormingHistory = () => {
+const DewormingHistory = ({navigation, route}) => {
+  const idMascot = route.params.mascotId;
   const renderItem = ({item}) => <Item date={item.date} />;
 
   return (
@@ -99,6 +100,7 @@ const DewormingHistory = () => {
         style={style.bgImage}>
         <TouchableHighlight
           style={{alignItems: 'center', marginVertical: 20}}
+          onPress={()=>navigation.navigate('EditDeworming', {idMascot, edit:false})}
           underlayColor="transparent">
           <View style={style.btnAdd}>
             <Text style={style.btnTxtAdd}>Nueva Entrada</Text>
