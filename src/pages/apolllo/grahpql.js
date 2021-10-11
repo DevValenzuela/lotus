@@ -210,3 +210,26 @@ export const CREATE_DESPARACITACION_APP = gql`
     }
   }
 `;
+
+
+export const CREATE_VACCINATION_APP = gql`
+mutation createVacunacion(
+  $last_vaccination: String!,
+  $medicament: String,
+  $note: String,
+  $mascot: ID,
+  $user: ID
+){
+  createVacunacion(input:{
+    data:{
+      last_vaccination: $last_vaccination,
+      medicaments: $medicament,
+      note: $note,
+      mascot: $mascot,
+      users_permissions_user: $user,
+    }
+  }){
+    vacunacion{id}
+  }
+}
+`

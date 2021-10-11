@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -17,7 +17,20 @@ import {style} from './style';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
-const Vaccinations = () => {
+import {useMutation} from '@apollo/client';
+import {UserContext} from '../../context/userContext';
+import { CREATE_VACCINATION_APP } from '../../pages/apolllo/grahpql';
+import {Loading} from '../../components/sharedComponent';
+
+const Vaccinations = ({route}) => {
+  const idMascot = route.params.idMascot;
+  const [createVacunacion, {data, error, loading}] = useMutation(
+    CREATE_VACCINATION_APP
+  );
+  const {
+    user: {user},
+  } = useContext(UserContext);
+
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
@@ -41,8 +54,23 @@ const Vaccinations = () => {
     getselectedStartDate(date);
   };
 
-  const handleSubmitVaccinations = values => {
-    console.log(values);
+  const handleSubmitVaccinations = async values => {
+    if (!values) return null;
+    const {last_vaccination, medicament, note_reaction } = values
+    try {
+      await createVacunacion({
+        variables: {
+          last_vaccination,
+          medicament,
+          note: note_reaction,
+          mascot: idMascot,
+          user: Number(user.id),
+        },
+      });
+      getDate('');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const enableCalendar = strValue => {
@@ -58,6 +86,9 @@ const Vaccinations = () => {
     getDate(dateFormat);
     getCalendar(false);
   };
+
+  if (loading) return <Loading />;
+  if (error) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>
@@ -96,7 +127,7 @@ const Vaccinations = () => {
                     placeholder="Ingresa la fecha"
                     onChangeText={handleChange('last_vaccination')}
                     onBlur={handleBlur('last_vaccination')}
-                    value={values.last_vaccination = setDate}
+                    value={(values.last_vaccination = setDate)}
                   />
                   {errors.last_vaccination && touched.last_vaccination ? (
                     <View
@@ -170,8 +201,8 @@ const Vaccinations = () => {
       {setCalendar && (
         <View style={style.containerCalendar}>
           <ModalCalendarError
-              modalVisible={erroDate}
-              send={prop => setErrorDate(prop)}
+            modalVisible={erroDate}
+            send={prop => setErrorDate(prop)}
           />
           <CalendarPicker
             todayBackgroundColor="#330066"
