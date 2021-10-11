@@ -63,3 +63,47 @@ export const CONSULT_MASCOT_APP_ID = gql`
     }
   }
 `;
+
+export const CONSULT_DEWORMING_APP = gql`
+  query desparacitacions($user: ID!, $mascot: ID!) {
+    desparacitacions(
+      sort: "last_deworming:desc"
+      limit: 1
+      where: {users_permissions_user: $user, mascot: $mascot}
+    ) {
+      id
+      last_deworming
+      medicament
+      note
+    }
+  }
+`;
+
+export const CONSULT_VACCINATIONS_APP = gql`
+  query Vacunacions($user: ID!, $mascot: ID!) {
+    vacunacions(
+      sort: "last_vaccination:desc"
+      limit: 1
+      where: {users_permissions_user: $user, mascot: $mascot}
+    ) {
+      id
+      last_vaccination
+      medicaments
+      note
+    }
+  }
+`;
+
+export const CONSULT_CONTROLLER_MEDICS_APP = gql`
+  query ControllerMedicts($user: ID!, $mascot: ID!) {
+    controllerMedicts(
+      limit: 1
+      where: {users_permissions_user: $user, mascot: $mascot}
+    ) {
+      id
+      last_control
+      assesment
+      note
+    }
+  }
+`;
