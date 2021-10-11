@@ -134,7 +134,7 @@ export const CREATE_MEDICAMENT_APP = gql`
     $posologia: String
     $dosis: String
     $period: String
-    $note: String
+    $notation: String
     $mascot: ID
     $user: ID
   ) {
@@ -143,12 +143,12 @@ export const CREATE_MEDICAMENT_APP = gql`
         data: {
           last_dose: $last_dose
           medicament: $medicament
-          users_permissions_user: $user
-          period: $period
-          note: $note
-          mascot: $mascot
           posologia: $posologia
           dosis: $dosis
+          period: $period
+          notation: $notation
+          mascot: $mascot
+          users_permissions_user: $user
         }
       }
     ) {
@@ -236,5 +236,3 @@ export const CREATE_VACCINATION_APP = gql`
     }
   }
 `;
-
-

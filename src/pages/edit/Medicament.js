@@ -18,7 +18,7 @@ import {UserContext} from '../../context/userContext';
 import {CREATE_MEDICAMENT_APP} from '../../pages/apolllo/grahpql';
 import {Loading, ModalCalendarError} from '../../components/sharedComponent';
 import CalendarPicker from 'react-native-calendar-picker';
-import moment from "moment";
+import moment from 'moment';
 
 const Medicament = ({route}) => {
   const idMascot = route.params.idMascot;
@@ -43,10 +43,7 @@ const Medicament = ({route}) => {
   };
 
   const SignupSchema = Yup.object().shape({
-    last_dose: Yup.number('Solo se acepta números.')
-      .required('Ingresa el campo ultima dosis.')
-      .positive('Ingresa numeros positivos.')
-      .integer('No se acepta ni puntos (.), ni comas (,).'),
+    last_dose: Yup.string().required('Ingresa el campo ultima dosis.'),
     medicament: Yup.string().required('Ingresa el campo medicamento.'),
     posologia: Yup.string().required('Ingresa el campo posología.'),
     dosis: Yup.number('Solo se acepta números.')
@@ -56,8 +53,9 @@ const Medicament = ({route}) => {
   });
 
   const handleSubmitMedicament = async values => {
+    console.log(values)
     if (!values) return;
-    const {last_dose, medicament, posologia, dosis, period, note} = values;
+    const {last_dose, medicament, posologia, dosis, period, notation} = values;
     try {
       await createMedicament({
         variables: {
@@ -66,7 +64,7 @@ const Medicament = ({route}) => {
           posologia,
           dosis,
           period,
-          note,
+          notation,
           mascot: idMascot,
           user: Number(user.id),
         },
@@ -123,9 +121,9 @@ const Medicament = ({route}) => {
                     <TextInput
                       keyboardType="number-pad"
                       placeholderTextColor="#5742A2"
-                      onChangeText={handleChange('last_vaccination')}
-                      onBlur={handleBlur('last_vaccination')}
-                      value={(values.last_vaccination = setDate)}
+                      onChangeText={handleChange('last_dose')}
+                      onBlur={handleBlur('last_dose')}
+                      value={(values.last_dose = setDate)}
                       showSoftInputOnFocus={false}
                       onFocus={enableCalendar}
                       style={[
@@ -266,9 +264,9 @@ const Medicament = ({route}) => {
                       maxLength={120}
                       placeholder={'Ingresa algún comentario o anotación.'}
                       underlineColorAndroid={'transparent'}
-                      onChangeText={handleChange('note')}
-                      onBlur={handleBlur('note')}
-                      value={values.note}
+                      onChangeText={handleChange('notation')}
+                      onBlur={handleBlur('notation')}
+                      value={values.notation}
                     />
                   </View>
 
