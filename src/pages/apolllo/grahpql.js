@@ -346,3 +346,33 @@ export const UPDATE_PHOTO_MASCOT = gql`
     }
   }
 `;
+
+export const UPDATE_GENERAL_MASCOT = gql`
+  mutation updateMascot(
+    $id: ID!
+    $type_mascot: String
+    $race_mascot: String
+    $date_sterilized: String
+    $number_microchip: String
+    $description: String
+    $microchip: String
+  ) {
+    updateMascot(
+      input: {
+        data: {
+          type_mascot: $type_mascot
+          race_mascot: $race_mascot
+          date_sterilized: $date_sterilized
+          number_microchip: $number_microchip
+          description: $description
+          microchip: $microchip
+        }
+        where: {id: $id}
+      }
+    ) {
+      mascot {
+        id
+      }
+    }
+  }
+`;

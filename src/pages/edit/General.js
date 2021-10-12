@@ -16,7 +16,9 @@ import CalendarPicker from 'react-native-calendar-picker';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {AvatarMascotOption} from '../../components/sharedComponent';
-
+import {useMutation} from '@apollo/client';
+import {UPDATE_GENERAL_MASCOT} from '../apolllo/grahpql';
+import {Loading} from '../../components/sharedComponent';
 const General = ({route}) => {
   const {
     id,
@@ -28,12 +30,18 @@ const General = ({route}) => {
     avatar_mascot,
     microchip,
     description,
+    number_microchip,
   } = route.params.data;
+
   const edit = route.params.edit;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const [setMicrochip, getMicrochip] = useState('No');
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+
+  const [updateMascot, {data, loading, error}] = useMutation(
+    UPDATE_GENERAL_MASCOT,
+  );
 
   const initialValue = {
     type_mascot: type_mascot,
@@ -41,6 +49,7 @@ const General = ({route}) => {
     date_sterilized: date_sterilized,
     microchip: microchip,
     note: description,
+    number_microchip: number_microchip,
   };
 
   useEffect(() => {
@@ -56,7 +65,26 @@ const General = ({route}) => {
   });
 
   const handleSubmitGeneral = values => {
-    console.log(values);
+    if (!values) return null;
+    const {
+      date_sterilized,
+      microchip,
+      note,
+      race,
+      type_mascot,
+      number_microchip,
+    } = values;
+    updateMascot({
+      variables: {
+        id,
+        type_mascot,
+        race_mascot: race,
+        date_sterilized,
+        number_microchip,
+        description: note,
+        microchip,
+      },
+    });
   };
 
   const onDateChange = date => {
@@ -70,6 +98,9 @@ const General = ({route}) => {
   const stMicrochip = strValue => {
     getMicrochip(strValue);
   };
+
+  if (loading) return <Loading />;
+  if (error) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>
@@ -223,6 +254,9 @@ const General = ({route}) => {
                           },
                         ]}
                         placeholder="Ingresa el identificador..."
+                        onChangeText={handleChange('number_microchip')}
+                        onBlur={handleBlur('number_microchip')}
+                        value={values.number_microchip}
                       />
                     </View>
                   )}

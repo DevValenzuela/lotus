@@ -1,6 +1,7 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {API_URL} from '@env';
 import {
+  RefreshControl,
   View,
   StyleSheet,
   ScrollView,
@@ -11,7 +12,7 @@ import {
   TouchableHighlight,
   Platform,
 } from 'react-native';
-
+import {Loading} from '../components/sharedComponent';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useQuery} from '@apollo/client';
 import {
@@ -22,16 +23,29 @@ import {
   CONSULT_MEDICAMENT_APP,
 } from './apolllo/query';
 import {UserContext} from '../context/userContext';
+
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 const DetailsMascot = ({navigation, route}) => {
   const {
     user: {user},
   } = useContext(UserContext);
   const idMascot = route.params.mascotId;
+
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   const {
     data: general,
     loading: loadingGeneral,
     error: errorGeneral,
   } = useQuery(CONSULT_MASCOT_APP_ID, {
+    pollInterval: 2000,
     variables: {
       id: idMascot,
     },
@@ -42,6 +56,7 @@ const DetailsMascot = ({navigation, route}) => {
     loading: loadingDeworming,
     error: errorDeworming,
   } = useQuery(CONSULT_DEWORMING_APP, {
+    pollInterval: 2000,
     variables: {
       user: Number(user.id),
       mascot: idMascot,
@@ -53,6 +68,7 @@ const DetailsMascot = ({navigation, route}) => {
     loading: loadingVaccinations,
     error: errorVaccinations,
   } = useQuery(CONSULT_VACCINATIONS_APP, {
+    pollInterval: 2000,
     variables: {
       user: Number(user.id),
       mascot: idMascot,
@@ -64,6 +80,7 @@ const DetailsMascot = ({navigation, route}) => {
     loading: loadingMedics,
     error: errorMedics,
   } = useQuery(CONSULT_CONTROLLER_MEDICS_APP, {
+    pollInterval: 2000,
     variables: {
       user: Number(user.id),
       mascot: idMascot,
@@ -75,11 +92,19 @@ const DetailsMascot = ({navigation, route}) => {
     loading: loadingMedicament,
     error: errorMedicament,
   } = useQuery(CONSULT_MEDICAMENT_APP, {
+    pollInterval: 2000,
     variables: {
       user: Number(user.id),
       mascot: idMascot,
     },
   });
+
+
+  useEffect(() => {
+    if (refreshing) {
+      console.log('Refresh...');
+    }
+  }, [refreshing]);
 
   if (
     loadingGeneral ||
@@ -88,7 +113,7 @@ const DetailsMascot = ({navigation, route}) => {
     loadingMedics ||
     loadingMedicament
   )
-    return null;
+    return <Loading />;
   if (
     errorGeneral ||
     errorDeworming ||
@@ -96,8 +121,7 @@ const DetailsMascot = ({navigation, route}) => {
     errorMedics ||
     errorMedicament
   )
-    console.log(errorGeneral);
-  if (!general) return null;
+    if (!general) return null;
 
   const {
     name_mascot,
@@ -113,6 +137,8 @@ const DetailsMascot = ({navigation, route}) => {
   const {controllerMedicts} = medics;
   const {medicaments} = medicament;
 
+
+
   const url_image = avatar_mascot != null ? avatar_mascot.url : '';
 
   return (
@@ -121,7 +147,10 @@ const DetailsMascot = ({navigation, route}) => {
         source={require('../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           <View
             style={{
               flexDirection: 'row',
@@ -141,7 +170,10 @@ const DetailsMascot = ({navigation, route}) => {
                     style={style.edit}
                     underlayColor="transparent"
                     onPress={() =>
-                      navigation.navigate('EditGeneral', {data: general.mascot, edit: true})
+                      navigation.navigate('EditGeneral', {
+                        data: general.mascot,
+                        edit: true,
+                      })
                     }>
                     <View style={{marginTop: 15}}>
                       <Image
@@ -474,7 +506,7 @@ const DetailsMascot = ({navigation, route}) => {
                         navigation.navigate('EditControlMedic', {
                           idMascot,
                           edit: true,
-                          controllerMedicts
+                          controllerMedicts,
                         })
                       }>
                       <View style={{marginTop: 15}}>
