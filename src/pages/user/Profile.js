@@ -21,7 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMutation, useQuery} from '@apollo/client';
 import {CONSULT_APP, CONSULT_MASCOTS_APP} from '../apolllo/query';
 import {DELETE_MASCOT_APP} from '../apolllo/grahpql';
-import {Loading} from '../../components/sharedComponent'
+import {Loading} from '../../components/sharedComponent';
 function ListMascot({data}) {
   const navigation = useNavigation();
   const [removeMascot] = useMutation(DELETE_MASCOT_APP);
@@ -135,7 +135,7 @@ const ProfileUser = ({navigation}) => {
       duration: 1000,
       useNativeDriver: false,
     }).start();
-    if (data) {
+    if (data && !loading) {
       const {
         user: {avatar},
       } = data;
@@ -168,7 +168,6 @@ const ProfileUser = ({navigation}) => {
   };
 
   let resultList = consultProfileMascot(listData);
-  console.log(resultList);
 
   return (
     <View style={style.container}>

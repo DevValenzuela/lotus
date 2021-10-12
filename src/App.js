@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {API_URL} from '@env';
 import {NavigationContainer} from '@react-navigation/native';
 import {RouterNavigation} from './router.navigation';
@@ -18,6 +18,7 @@ import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
 
 const App = () => {
+
   useEffect(() => {
     SplashScreen.hide();
   }, []);

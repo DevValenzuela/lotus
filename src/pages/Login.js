@@ -22,8 +22,8 @@ import {LOGIN_USER_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
 
 const initialValue = {
-  user: 'vlzdavid12@outlook.com',
-  password: '123456',
+  user: 'plangraficostudio@gmail.com',
+  password: 'valenzuela21',
 };
 
 const SignupSchema = Yup.object().shape({
@@ -37,16 +37,16 @@ const Login = ({navigation}) => {
     useMutation(LOGIN_USER_APP);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const timer = useRef(null);
+  let timer = useRef(null);
 
   useEffect(() => {
-    validateLogin(dataA, timer);
+    validateLogin(dataA).then(() => console.log('Validate...'));
     return () => {
       clearTimeout(timer);
     };
   }, [dataA]);
 
-  const validateLogin = async (dataA, timer) => {
+  const validateLogin = async dataA => {
     if (dataA) {
       const {jwt, user} = dataA.login;
       await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));

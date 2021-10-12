@@ -40,11 +40,11 @@ const DashBoard = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    if (data) {
+    if (data && !loading) {
       const {banners} = data;
       setOfert(banners[0]?.ofert);
     }
-  }, [data]);
+  }, [data, loading]);
 
   if (loading) return <Loading />;
   if (error) console.log(error);

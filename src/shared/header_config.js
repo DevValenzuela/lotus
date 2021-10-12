@@ -35,7 +35,7 @@ function LogoTitle() {
 function NotifyProfileView() {
   const navigation = useNavigation();
 
-  const [getAvatar, setAvatar] = useState('');
+  const [getAvatar, setAvatar] = useState({});
 
   const {
     user: {user},
@@ -53,11 +53,11 @@ function NotifyProfileView() {
   });
 
   useEffect(() => {
-    if (dataB != null) {
+    if (dataB && !loadingB) {
       const {user} = dataB;
       setAvatar(user?.avatar);
     }
-  }, [dataB]);
+  }, [dataB, loadingB]);
 
   if (loadingB) return null;
   if (errorB) console.log(errorB);
