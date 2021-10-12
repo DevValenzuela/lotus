@@ -31,7 +31,7 @@ const DashBoard = ({navigation}) => {
   const {loading, error, data} = useQuery(BANNER_APP, {
     pollInterval: 2000,
   });
-  const [getOfert, setOfert] = useState('');
+  const [getOfert, setOfert] = useState({});
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {

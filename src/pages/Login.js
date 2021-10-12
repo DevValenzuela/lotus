@@ -22,7 +22,7 @@ import {LOGIN_USER_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
 
 const initialValue = {
-  user: 'plangraficostudio@gmail.com',
+  user: 'vlzdavid12@outlook.com',
   password: '123456',
 };
 
@@ -40,7 +40,7 @@ const Login = ({navigation}) => {
   const timer = useRef(null);
 
   useEffect(() => {
-    validateLogin(dataA, timer).then(r => console.log('Verificando...'));
+    validateLogin(dataA, timer);
     return () => {
       clearTimeout(timer);
     };
@@ -74,6 +74,7 @@ const Login = ({navigation}) => {
         },
       });
     } catch (e) {
+      await AsyncStorage.removeItem('token_lotus');
       setModalVisible(true);
     }
   };

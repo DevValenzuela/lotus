@@ -50,7 +50,7 @@ const App = () => {
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
     },
-  }
+  };
   const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),

@@ -113,6 +113,7 @@ const ProfileUser = ({navigation}) => {
   const [getAvatar, setAvatar] = useState();
 
   const {data, loading, error} = useQuery(CONSULT_APP, {
+    pollInterval: 2000,
     variables: {
       id: user.id,
     },
@@ -123,11 +124,10 @@ const ProfileUser = ({navigation}) => {
     loading: loadingData,
     error: errorData,
   } = useQuery(CONSULT_MASCOTS_APP, {
-    fetchPolicy: 'network-only',
+    pollInterval: 2000,
     variables: {
       id: user.id,
     },
-    pollInterval: 2000,
   });
   useEffect(() => {
     Animated.timing(fadeAnim, {

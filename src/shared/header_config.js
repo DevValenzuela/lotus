@@ -35,7 +35,7 @@ function LogoTitle() {
 function NotifyProfileView() {
   const navigation = useNavigation();
 
-  const [getAvatar, setAvatar] = useState();
+  const [getAvatar, setAvatar] = useState('');
 
   const {
     user: {user},
@@ -46,6 +46,7 @@ function NotifyProfileView() {
     error: errorB,
     data: dataB,
   } = useQuery(CONSULT_APP, {
+    pollInterval: 2000,
     variables: {
       id: Number(user.id),
     },

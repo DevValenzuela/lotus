@@ -110,12 +110,11 @@ export const CONSULT_CONTROLLER_MEDICS_APP = gql`
 `;
 
 export const CONSULT_MEDICAMENT_APP = gql`
-  query mediacemnts($user: ID!, $mascot: ID!) {
+  query medicaments($user: ID!, $mascot: ID!) {
     medicaments(
       sort: "last_dose:desc"
       where: {users_permissions_user: $user, mascot: $mascot}
     ) {
-      id
       last_dose
       medicament
       posologia
