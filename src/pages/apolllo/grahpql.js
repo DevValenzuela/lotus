@@ -334,3 +334,15 @@ export const UPDATE_DEWORMING_MEDIC = gql`
     }
   }
 `;
+
+export const UPDATE_PHOTO_MASCOT = gql`
+  mutation updateMascot($id: ID!, $avatar_mascot: ID) {
+    updateMascot(
+      input: {data: {avatar_mascot: $avatar_mascot}, where: {id: $id}}
+    ) {
+      mascot {
+        id
+      }
+    }
+  }
+`;

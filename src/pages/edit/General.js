@@ -15,9 +15,11 @@ import CalendarPicker from 'react-native-calendar-picker';
 
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {AvatarMascotOption} from '../../components/sharedComponent';
 
 const General = ({route}) => {
   const {
+    id,
     name_mascot,
     age_mascot,
     race_mascot,
@@ -25,8 +27,9 @@ const General = ({route}) => {
     type_mascot,
     avatar_mascot,
     microchip,
-    description
+    description,
   } = route.params.data;
+  const edit = route.params.edit;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const [setMicrochip, getMicrochip] = useState('No');
@@ -35,16 +38,16 @@ const General = ({route}) => {
   const initialValue = {
     type_mascot: type_mascot,
     race: race_mascot,
-    date_sterilized:  date_sterilized,
+    date_sterilized: date_sterilized,
     microchip: microchip,
     note: description,
   };
 
-  useEffect(()=>{
-    if(microchip){
+  useEffect(() => {
+    if (microchip) {
       getMicrochip(microchip);
     }
-  },[microchip])
+  }, [microchip]);
 
   const SignupSchema = Yup.object().shape({
     type_mascot: Yup.string().required('Ingresa el campo ultima dosis.'),
@@ -75,6 +78,11 @@ const General = ({route}) => {
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView>
+          {edit && (
+            <View style={{marginBottom: 20}}>
+              <AvatarMascotOption idMascot={id} />
+            </View>
+          )}
           <Formik
             initialValues={initialValue}
             validationSchema={SignupSchema}

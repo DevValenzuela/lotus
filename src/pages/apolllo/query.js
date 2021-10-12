@@ -25,6 +25,17 @@ export const CONSULT_APP = gql`
   }
 `;
 
+export const CONSULT_MASCOT_APP = gql`
+  query mascot($id: ID!) {
+    mascot(id: $id) {
+      id
+      avatar_mascot {
+        url
+      }
+    }
+  }
+`;
+
 export const CONSULT_MASCOTS_APP = gql`
   query mascots($id: ID!) {
     mascots(where: {users_permissions_user: {id: $id}}) {
@@ -173,5 +184,3 @@ export const CONSULT_HISTORY_MEDICAMENT_APP = gql`
     }
   }
 `;
-
-

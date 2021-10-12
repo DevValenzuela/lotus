@@ -18,10 +18,15 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {useMutation, useQuery} from '@apollo/client';
 import {
   DELETE_PHOTO_MASCOT,
+  UPDATE_PHOTO_MASCOT,
   UPLOAD_PHOTO_MASCOT,
 } from '../pages/apolllo/grahpql';
 import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile';
-import {CONSULT_APP} from '../pages/apolllo/query';
+import {
+  CONSULT_APP,
+  CONSULT_MASCOT_APP,
+  CONSULT_MASCOT_APP_ID,
+} from '../pages/apolllo/query';
 
 export const Loading = () => {
   return (
@@ -260,19 +265,20 @@ export const AvatarOption = () => {
     loading: loadingA,
     error: errorA,
   } = useQuery(CONSULT_APP, {
+    pollInterval: 2000,
     variables: {
       id: Number(user.id),
     },
   });
 
   useEffect(() => {
-    if (dataA) {
+    if (dataA || !loadingA) {
       const {
         user: {avatar},
       } = dataA;
       getAvatar(avatar);
     }
-  }, [dataA]);
+  }, [dataA, loadingA]);
 
   const uploadImage = response => {
     if (response.didCancel) return;
@@ -439,6 +445,220 @@ export const AvatarOption = () => {
   );
 };
 
+export const AvatarMascotOption = ({idMascot}) => {
+  const [setDeleteAvatar, getDeleteAvatar] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [setImageGallery, getImageGallery] = useState('');
+  const [setAvatar, getAvatar] = useState(null);
+
+  const [upload, {loading: loadingB, data: dataB}] =
+    useMutation(UPLOAD_PHOTO_MASCOT);
+
+  const [deleteUpload, {loading: loadingC, data: dataC}] =
+    useMutation(DELETE_PHOTO_MASCOT);
+
+  const [updateUpload, {data: dataD, loading: loadingD, error: errorD}] =
+    useMutation(UPDATE_PHOTO_MASCOT);
+
+  const {
+    data: dataA,
+    loading: loadingA,
+    error: errorA,
+  } = useQuery(CONSULT_MASCOT_APP, {
+    variables: {
+      id: idMascot,
+    },
+  });
+
+  useEffect(() => {
+    if (dataA || !loadingA) {
+      const {
+        mascot: {avatar_mascot},
+      } = dataA;
+      getAvatar(avatar_mascot);
+    }
+  }, [dataA, loadingA]);
+
+  const uploadImage = response => {
+    if (response.didCancel) return;
+    const {uri, fileName, fileSize, type} = response.assets[0];
+
+    const file = new ReactNativeFile({
+      uri: Platform.OS === 'ios' ? uri.replace('file://', '') : uri,
+      name: fileName,
+      type: type,
+    });
+
+    if (uri) {
+      getImageGallery(uri);
+      upload({
+        variables: {
+          file,
+        },
+      })
+        .then(async resp => {
+          const {upload} = resp.data;
+          await updateUpload({
+            variables: {
+              id: idMascot,
+              avatar_mascot: Number(upload.id),
+            },
+          });
+        })
+        .catch(e => console.log(e.message));
+    }
+  };
+
+  const deleteImage = async () => {
+    if (!dataB) return;
+    try {
+      let [deleteResult, updateResult] = await Promise.all([
+        deleteUpload({
+          variables: {
+            inputId: {
+              id: Number(dataB.upload.id),
+            },
+          },
+        }),
+        updateUpload({
+          variables: {
+            id: idMascot,
+            avatar_mascot: Number(upload.id),
+          },
+        }),
+      ]);
+      if (deleteResult && updateResult) {
+        getImageGallery('');
+        getDeleteAvatar(true);
+        console.log('!Delete success fully upload!');
+      }
+    } catch (e) {
+      getImageGallery('');
+      console.log(e);
+    }
+  };
+
+  const takeCamera = () => {
+    launchCamera(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+        maxWidth: 600,
+        maxHeight: 750,
+      },
+      response => {
+        uploadImage(response);
+        setModalVisible(false);
+      },
+    );
+  };
+
+  const takePhoto = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+        maxWidth: 600,
+        maxHeight: 750,
+      },
+      response => {
+        uploadImage(response);
+        setModalVisible(false);
+      },
+    );
+  };
+
+  if (loadingA) return null;
+  if (errorA) console.log(errorA);
+
+  return (
+    <View>
+      {setImageGallery ? (
+        <View style={{alignItems: 'center', marginTop: 10}}>
+          <Image
+            source={{
+              uri: setImageGallery,
+            }}
+            style={{
+              width: 120,
+              height: 120,
+              borderRadius: 100,
+              shadowColor: '#660066',
+            }}
+          />
+          <TouchableHighlight
+            style={{alignItems: 'center'}}
+            onPress={() => deleteImage()}
+            underlayColor="transparent">
+            <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
+              <Text style={style.txtModal}> ELIMINAR FOTO </Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      ) : (
+        <View style={{alignItems: 'center', marginTop: 10}}>
+          {setAvatar && !setDeleteAvatar ? (
+            <Image
+              source={{uri: `${API_URL}${setAvatar.url}`}}
+              style={style.imgProfile}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/not_image_small.jpg')}
+              style={style.imgProfile}
+            />
+          )}
+          <TouchableHighlight
+            style={{alignItems: 'center'}}
+            onPress={() => setModalVisible(!modalVisible)}
+            underlayColor="transparent">
+            <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
+              <Text style={style.txtModal}>
+                {setAvatar != null ? 'CAMBIAR FOTO' : 'AGREGAR FOTO'}
+              </Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          console.log('Hide modal...');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={style.centeredView}>
+          <View style={style.modalView}>
+            <Text style={{color: '#fff', fontSize: 14}}>Ingresar Foto.</Text>
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => takePhoto()}>
+              <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
+                <Text style={style.txtModal}>Galeria</Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => takeCamera()}>
+              <View style={[style.btnModal, {backgroundColor: '#660066'}]}>
+                <Text style={style.txtModal}>Fotografia</Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => setModalVisible(false)}>
+              <View style={[style.btnModal, {backgroundColor: '#3C0065'}]}>
+                <Text style={style.txtModal}>Cancelar</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
 export const ModalCalendarError = ({modalVisible, send}) => {
   return (
     <Modal
@@ -447,7 +667,7 @@ export const ModalCalendarError = ({modalVisible, send}) => {
       visible={modalVisible}
       onRequestClose={() => {
         console.log('Hide modal...');
-        setMotal(!getModal);
+        send(false);
       }}>
       <View style={style.centeredView}>
         <View style={style.modalView}>
@@ -507,6 +727,7 @@ const style = StyleSheet.create({
     elevation: 5,
   },
   btnModal: {
+    backgroundColor: '#660066',
     paddingVertical: 15,
     paddingHorizontal: 10,
     marginTop: 10,
@@ -524,13 +745,5 @@ const style = StyleSheet.create({
     height: 120,
     marginVertical: 5,
     borderRadius: 100,
-  },
-  btnModal: {
-    backgroundColor: '#660066',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginTop: 10,
-    borderRadius: 10,
-    fontSize: 16,
   },
 });

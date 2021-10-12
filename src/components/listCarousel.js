@@ -47,10 +47,10 @@ const ListCarousel = ({navigation, refresh}) => {
   const [getMascots, setMascots] = useState('');
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const {data, loading, error} = useQuery(CONSULT_MASCOTS_APP, {
+    pollInterval: 2000,
     variables: {
       id: Number(user.id),
     },
-    pollInterval: 2000,
   });
 
   useEffect(() => {

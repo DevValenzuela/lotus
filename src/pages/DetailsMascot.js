@@ -141,7 +141,7 @@ const DetailsMascot = ({navigation, route}) => {
                     style={style.edit}
                     underlayColor="transparent"
                     onPress={() =>
-                      navigation.navigate('EditGeneral', {data: general.mascot})
+                      navigation.navigate('EditGeneral', {data: general.mascot, edit: true})
                     }>
                     <View style={{marginTop: 15}}>
                       <Image
