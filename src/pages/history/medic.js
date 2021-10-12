@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -9,12 +9,12 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import {style} from './style';
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    date: 'Julio 15/2021',
-  },
-];
+import {useQuery} from '@apollo/client';
+import {UserContext} from '../../context/userContext';
+import {Loading} from '../../components/sharedComponent';
+import {CONSULT_HYSTORY_MEDICAMENTS_APP} from '../../pages/apolllo/query';
+
+
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -28,8 +28,28 @@ const Item = ({date}) => (
 );
 
 const MedicHistory = ({navigation, route}) => {
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const idMascot = route.params.idMascot;
-  const renderItem = ({item}) => <Item date={item.date} />;
+
+  const {data, error, loading} = useQuery(CONSULT_HYSTORY_MEDICAMENTS_APP, {
+    variables: {
+      user: Number(user.id),
+      mascot: idMascot,
+    },
+  });
+
+  if (loading) return <Loading />;
+  if (error) console.log(error);
+
+  const DATA = [];
+  if (data) {
+    data.medicaments.map(item => {
+      DATA.push(item);
+    });
+  }
+  const renderItem = ({item}) => <Item date={item.last_dose} />;
 
   return (
     <SafeAreaView style={style.container}>

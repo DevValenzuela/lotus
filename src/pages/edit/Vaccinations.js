@@ -211,7 +211,7 @@ const Vaccinations = ({route}) => {
                         {edit ? (
                           <Text style={style.btnSubmitxt}>Modificar</Text>
                         ) : (
-                          <Text style={style.btnSubmitxt}>Editar</Text>
+                          <Text style={style.btnSubmitxt}>Insertar</Text>
                         )}
                       </View>
                     </TouchableHighlight>

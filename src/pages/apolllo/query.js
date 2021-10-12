@@ -149,3 +149,27 @@ export const CONSULT_HISTORY_VACCINATIONS_APP = gql`
     }
   }
 `;
+
+export const CONSULT_HISTORY_DEWORMING_APP = gql`
+  query desparacitacions($mascot: ID!, $user: ID!) {
+    desparacitacions(
+      sort: "last_deworming:desc"
+      where: {mascot: $mascot, users_permissions_user: $user}
+    ) {
+      id
+      last_deworming
+    }
+  }
+`;
+
+export const CONSULT_HISTORY_MEDICAMENT_APP = gql`
+  query medicaments($user: ID!, $mascot: ID!) {
+    medicaments(
+      sort: "last_dose:desc"
+      where: {mascot: $mascot, users_permissions_user: $user}
+    ) {
+      id
+      last_dose
+    }
+  }
+`;
