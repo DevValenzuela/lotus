@@ -237,4 +237,22 @@ export const CREATE_VACCINATION_APP = gql`
   }
 `;
 
-
+export const UPDATE_CONTROLLER_MEDIC = gql`
+  mutation updateControllermedic(
+    $id: ID!
+    $last_control: String
+    $assessment: String
+    $note: String
+  ) {
+    updateControllerMedict(
+      input: {
+        data: {last_control: $last_control, assesment: $assessment, note: $note}
+        where: {id: $id}
+      }
+    ) {
+      controllerMedict {
+        id
+      }
+    }
+  }
+`;

@@ -18,7 +18,10 @@ import moment from 'moment';
 import {style} from './style';
 
 import {useMutation} from '@apollo/client';
-import {CREATE_CONTROLLER_MEDIC_APP} from '../../pages/apolllo/grahpql';
+import {
+  CREATE_CONTROLLER_MEDIC_APP,
+  UPDATE_CONTROLLER_MEDIC,
+} from '../../pages/apolllo/grahpql';
 import {ModalCalendarError, Loading} from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
 
@@ -36,6 +39,9 @@ const ControlMedic = ({route}) => {
   const [createControllerMedict, {data, error, loading}] = useMutation(
     CREATE_CONTROLLER_MEDIC_APP,
   );
+
+  const [updateControllermedic, {data: updateData, error: errorData, loading: loadingData}] =
+    useMutation(UPDATE_CONTROLLER_MEDIC);
 
   const initialValue = new Object();
 
@@ -80,8 +86,22 @@ const ControlMedic = ({route}) => {
     }
   };
 
-  const handleUpdateMedicament = values => {
-    console.log(values);
+  const handleUpdateMedicament = async values => {
+    if (!values) return null;
+    const {id} = controllerMedicts[0];
+    const {last_control, valoration, note} = values;
+    try {
+      await updateControllermedic({
+        variables: {
+          id,
+          last_control,
+          assessment: valoration,
+          note,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onDateChange = date => {
@@ -102,8 +122,8 @@ const ControlMedic = ({route}) => {
     getCalendar(false);
   };
 
-  if (loading) return <Loading />;
-  if (error) console.log(error);
+  if (loading || loadingData) return <Loading />;
+  if (error || errorData) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>
