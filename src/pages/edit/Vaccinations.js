@@ -19,7 +19,10 @@ import * as Yup from 'yup';
 
 import {useMutation} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
-import {CREATE_VACCINATION_APP} from '../../pages/apolllo/grahpql';
+import {
+  CREATE_VACCINATION_APP,
+  UPDATE_VACCINATION_MEDIC,
+} from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 
 const Vaccinations = ({route}) => {
@@ -28,6 +31,12 @@ const Vaccinations = ({route}) => {
   const [createVacunacion, {data, error, loading}] = useMutation(
     CREATE_VACCINATION_APP,
   );
+
+  const [
+    updateVacunacion,
+    {data: UpdateData, error: UpdateError, loading: UpdateLoading},
+  ] = useMutation(UPDATE_VACCINATION_MEDIC);
+
   const {
     user: {user},
   } = useContext(UserContext);
@@ -86,8 +95,22 @@ const Vaccinations = ({route}) => {
     }
   };
 
-  const handleUpdateVaccinations = values => {
-    console.log(values);
+  const handleUpdateVaccinations = async values => {
+    if (!values) return null;
+    const {id} = vacunacions[0];
+    const {last_vaccination, medicament, note_reaction} = values;
+    try {
+      await updateVacunacion({
+        variables: {
+          id,
+          last_vaccination,
+          medicament,
+          note: note_reaction,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const enableCalendar = strValue => {
@@ -104,8 +127,8 @@ const Vaccinations = ({route}) => {
     getCalendar(false);
   };
 
-  if (loading) return <Loading />;
-  if (error) console.log(error);
+  if (loading || UpdateLoading) return <Loading />;
+  if (error || UpdateError) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>

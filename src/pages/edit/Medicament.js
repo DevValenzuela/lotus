@@ -15,7 +15,10 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {useMutation} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
-import {CREATE_MEDICAMENT_APP} from '../../pages/apolllo/grahpql';
+import {
+  CREATE_MEDICAMENT_APP,
+  UPDATE_MEDICAMENT_MEDIC,
+} from '../../pages/apolllo/grahpql';
 import {Loading, ModalCalendarError} from '../../components/sharedComponent';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
@@ -30,6 +33,11 @@ const Medicament = ({route}) => {
   const [createMedicament, {data, error, loading}] = useMutation(
     CREATE_MEDICAMENT_APP,
   );
+  const [
+    updateMedicament,
+    {data: UpdateData, error: UpdateError, loading: UpdateLoading},
+  ] = useMutation(UPDATE_MEDICAMENT_MEDIC);
+
   const {
     user: {user},
   } = useContext(UserContext);
@@ -90,9 +98,26 @@ const Medicament = ({route}) => {
     }
   };
 
-  const handleUpdateMedicament = (values) =>{
-    console.log(values);
-  }
+  const handleUpdateMedicament = async values => {
+    if (!values) return null;
+    const {id} = medicaments[0];
+    const {last_dose, medicament, posologia, dosis, period, notation} = values;
+    try {
+      await updateMedicament({
+        variables: {
+          id,
+          last_dose,
+          medicament,
+          posologia,
+          dosis,
+          period,
+          notation,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onDateChange = date => {
     getselectedStartDate(date);
@@ -112,8 +137,8 @@ const Medicament = ({route}) => {
     getCalendar(false);
   };
 
-  if (loading) return <Loading />;
-  if (error) console.log(error);
+  if (loading || UpdateLoading) return <Loading />;
+  if (error || UpdateError) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>

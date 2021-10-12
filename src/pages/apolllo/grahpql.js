@@ -256,3 +256,81 @@ export const UPDATE_CONTROLLER_MEDIC = gql`
     }
   }
 `;
+
+export const UPDATE_MEDICAMENT_MEDIC = gql`
+  mutation updateMedicament(
+    $id: ID!
+    $last_dose: String!
+    $medicament: String
+    $posologia: String
+    $dosis: String
+    $period: String
+    $notation: String
+  ) {
+    updateMedicament(
+      input: {
+        data: {
+          last_dose: $last_dose
+          medicament: $medicament
+          posologia: $posologia
+          dosis: $dosis
+          period: $period
+          notation: $notation
+        }
+        where: {id: $id}
+      }
+    ) {
+      medicament {
+        id
+      }
+    }
+  }
+`;
+
+export const UPDATE_VACCINATION_MEDIC = gql`
+  mutation updateVacunacion(
+    $id: ID!
+    $last_vaccination: String
+    $medicament: String
+    $note: String
+  ) {
+    updateVacunacion(
+      input: {
+        data: {
+          last_vaccination: $last_vaccination
+          medicaments: $medicament
+          note: $note
+        }
+        where: {id: $id}
+      }
+    ) {
+      vacunacion {
+        id
+      }
+    }
+  }
+`;
+
+export const UPDATE_DEWORMING_MEDIC = gql`
+  mutation updateDesparacitacion(
+    $id: ID!
+    $last_deworming: String!
+    $medicament: String
+    $note: String
+  ) {
+    updateDesparacitacion(
+      input: {
+        data: {
+          last_deworming: $last_deworming
+          medicament: $medicament
+          note: $note
+        }
+        where: {id: $id}
+      }
+    ) {
+      desparacitacion {
+        id
+      }
+    }
+  }
+`;

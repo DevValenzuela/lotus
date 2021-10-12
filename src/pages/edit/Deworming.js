@@ -19,7 +19,10 @@ import CalendarPicker from 'react-native-calendar-picker';
 import {useMutation} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {ModalCalendarError} from '../../components/sharedComponent';
-import {CREATE_DESPARACITACION_APP} from '../../pages/apolllo/grahpql';
+import {
+  CREATE_DESPARACITACION_APP,
+  UPDATE_DEWORMING_MEDIC,
+} from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 
 const Deworming = ({route}) => {
@@ -27,6 +30,12 @@ const Deworming = ({route}) => {
   const [createDesparacitacion, {data, error, loading}] = useMutation(
     CREATE_DESPARACITACION_APP,
   );
+
+  const [
+    updateDesparacitacion,
+    {data: UpdateData, error: UpdateError, loading: Updateloading},
+  ] = useMutation(UPDATE_DEWORMING_MEDIC);
+
   const {
     user: {user},
   } = useContext(UserContext);
@@ -81,8 +90,22 @@ const Deworming = ({route}) => {
     }
   };
 
-  const handleUpdateDeworming = values => {
-    console.log(values);
+  const handleUpdateDeworming = async values => {
+    if (!values) return null;
+    const {id} = desparacitacions[0];
+    const {last_deworming, medicament, note} = values;
+    try {
+      await updateDesparacitacion({
+        variables: {
+          id,
+          last_deworming,
+          medicament,
+          note,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const onDateChange = date => {
@@ -103,8 +126,8 @@ const Deworming = ({route}) => {
     getCalendar(false);
   };
 
-  if (loading) return <Loading />;
-  if (error) console.log(error);
+  if (loading || Updateloading) return <Loading />;
+  if (error || UpdateError) console.log(error);
 
   return (
     <SafeAreaView style={style.container}>
