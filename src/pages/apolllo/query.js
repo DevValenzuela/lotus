@@ -184,3 +184,22 @@ export const CONSULT_HISTORY_MEDICAMENT_APP = gql`
     }
   }
 `;
+
+export const CONSULT_SEARCH_FILTER_VACCINATIONS = gql`
+  query vacunacions($search: String!) {
+    vacunacions(
+      where: {
+        _or: [
+          {last_vaccination: $search}
+          {medicaments: $search}
+          {note: $search}
+        ]
+      }
+    ) {
+      id
+      last_vaccination
+      medicaments
+      note
+    }
+  }
+`;
