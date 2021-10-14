@@ -190,9 +190,9 @@ export const CONSULT_SEARCH_FILTER_VACCINATIONS = gql`
     vacunacions(
       where: {
         _or: [
-          {last_vaccination: $search}
-          {medicaments: $search}
-          {note: $search}
+          {last_vaccination_contains: $search}
+          {medicaments_contains: $search}
+          {note_contains: $search}
         ]
       }
     ) {

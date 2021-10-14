@@ -23,13 +23,7 @@ const Item = ({date}) => (
 );
 
 const VaccinateFilters = () => {
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      date: 'Julio 15/2021',
-    },
-  ];
-  const [search, setSearch] = useState('');
+  const DATA = [];
   const renderItem = ({item}) => <Item date={item.date} />;
   const [txtValue, setTxtValue] = useState('');
 
@@ -37,10 +31,15 @@ const VaccinateFilters = () => {
 
   useEffect(() => {
     if (value) {
-      console.log(value)
+      const result = [];
+      value.vacunacions.map(item => {
+        result.push({
+          id: item.id,
+          date: item.last_vaccination,
+        });
+      });
     }
   }, [value]);
-
 
   return (
     <SafeAreaView style={style.container}>
