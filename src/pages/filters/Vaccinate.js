@@ -23,11 +23,11 @@ const Item = ({date}) => (
 );
 
 const VaccinateFilters = () => {
-  const DATA = [];
-  const renderItem = ({item}) => <Item date={item.date} />;
   const [txtValue, setTxtValue] = useState('');
-
+  const [getSearchResult, setSearchResult] = useState([]);
   const value = useDebounceValue(txtValue);
+
+  const renderItem = ({item}) => <Item date={item.date} />;
 
   useEffect(() => {
     if (value) {
@@ -38,6 +38,7 @@ const VaccinateFilters = () => {
           date: item.last_vaccination,
         });
       });
+      setSearchResult(result);
     }
   }, [value]);
 
@@ -62,7 +63,7 @@ const VaccinateFilters = () => {
             />
           </View>
           <FlatList
-            data={DATA}
+            data={getSearchResult}
             renderItem={renderItem}
             keyExtractor={item => item.id}
           />
