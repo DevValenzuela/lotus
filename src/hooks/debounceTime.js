@@ -1,10 +1,9 @@
 import {useState, useEffect} from 'react';
 import {useQuery} from '@apollo/client';
-import {CONSULT_SEARCH_FILTER_VACCINATIONS} from '../pages/apolllo/query';
 
-export const useDebounceValue = (input: '', time: 1000) => {
+export const useDebounceValue = (input: '', time: 1000, search_type) => {
   const [debouncedValue, setdebounceValue] = useState(input);
-  const {data, error, loading} = useQuery(CONSULT_SEARCH_FILTER_VACCINATIONS, {
+  const {data, error, loading} = useQuery(search_type, {
     variables: {
       search: debouncedValue,
     },

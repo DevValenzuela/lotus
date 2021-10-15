@@ -198,8 +198,6 @@ export const CONSULT_SEARCH_FILTER_VACCINATIONS = gql`
     ) {
       id
       last_vaccination
-      medicaments
-      note
     }
   }
 `;
@@ -207,7 +205,7 @@ export const CONSULT_SEARCH_FILTER_MEDICAMENT = gql`
   query medicaments($search: String!) {
     medicaments(
       where: {
-        _or: [{last_dose: $search}, {medicament: $search}, {note: $search}]
+        _or: [{last_dose_contains: $search}, {medicament_contains: $search}]
       }
     ) {
       id

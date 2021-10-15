@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {style} from './style';
 import {useDebounceValue} from '../../hooks/debounceTime';
+import {CONSULT_SEARCH_FILTER_VACCINATIONS} from '../apolllo/query';
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -25,7 +26,11 @@ const Item = ({date}) => (
 const VaccinateFilters = () => {
   const [txtValue, setTxtValue] = useState('');
   const [getSearchResult, setSearchResult] = useState([]);
-  const value = useDebounceValue(txtValue);
+  const value = useDebounceValue(
+    txtValue,
+    1000,
+    CONSULT_SEARCH_FILTER_VACCINATIONS,
+  );
 
   const renderItem = ({item}) => <Item date={item.date} />;
 
