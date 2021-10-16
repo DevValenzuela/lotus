@@ -23,8 +23,29 @@ import {CONSULT_APP, CONSULT_MASCOTS_APP} from '../apolllo/query';
 import {DELETE_MASCOT_APP} from '../apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 function ListMascot({data}) {
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const navigation = useNavigation();
-  const [removeMascot] = useMutation(DELETE_MASCOT_APP);
+  const [removeMascot] = useMutation(DELETE_MASCOT_APP, {
+    update(cache, {data: {deleteMascot}}) {
+      const {
+        mascot: {id},
+      } = deleteMascot;
+      const {mascots} = cache.readQuery({
+        query: CONSULT_MASCOTS_APP,
+        variables: {
+          id: user.id,
+        },
+      });
+      cache.writeQuery({
+        query: CONSULT_MASCOTS_APP,
+        data: {
+          mascots: mascots.filter(mascot => mascot.id !== id),
+        },
+      });
+    },
+  });
   const deleteMascot = async id => {
     await removeMascot({
       variables: {
@@ -235,10 +256,16 @@ const ProfileUser = ({navigation}) => {
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <View style={{flex: 1, width: wp('90%')}}>
                 <Text style={style.titleSub}>Mis Mascotas</Text>
-                {resultList.length > 0?(<FlatList
-                  data={resultList}
-                  renderItem={({item}) => <ListMascot data={item} />}
-                />):(<Text style={style.txtNotFound} >No hay resultados en la lista.</Text>)}
+                {resultList.length > 0 ? (
+                  <FlatList
+                    data={resultList}
+                    renderItem={({item}) => <ListMascot data={item} />}
+                  />
+                ) : (
+                  <Text style={style.txtNotFound}>
+                    No hay resultados en la lista.
+                  </Text>
+                )}
                 <TouchableHighlight
                   underlayColor="transparent"
                   onPress={() => sessionClose()}>
@@ -327,10 +354,10 @@ const style = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  txtNotFound:{
+  txtNotFound: {
     flex: 1,
     textAlign: 'center',
-    color: '#fff'
-  }
+    color: '#fff',
+  },
 });
 export default ProfileUser;

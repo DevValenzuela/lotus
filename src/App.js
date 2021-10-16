@@ -18,7 +18,6 @@ import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
 
 const App = () => {
-
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -42,7 +41,7 @@ const App = () => {
     };
   });
 
-  const defaultOptions: DefaultOptions = {
+  /*const defaultOptions: DefaultOptions = {
     watchQuery: {
       fetchPolicy: 'no-cache',
       errorPolicy: 'ignore',
@@ -51,11 +50,20 @@ const App = () => {
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
     },
-  };
+  };*/
+
   const client = new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
-    defaultOptions: defaultOptions,
+    cache: new InMemoryCache({
+      typePolicies: {
+        Mascots: {
+          // Singleton types that have no identifying field can use an empty
+          // array for their keyFields.
+          keyFields: [],
+        },
+      },
+    }),
+    //defaultOptions: defaultOptions,
   });
 
   return (

@@ -22,7 +22,7 @@ import {LOGIN_USER_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
 
 const initialValue = {
-  user: 'plangraficostudio@gmail.com',
+  user: 'vlzdavid12@outlook.com',
   password: 'valenzuela21',
 };
 
