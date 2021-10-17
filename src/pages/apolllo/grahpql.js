@@ -408,7 +408,7 @@ export const DELETE_MEDICAMENT_MEDIC = gql`
 `;
 
 export const DELETE_VACCINATION = gql`
-  mutation deleteVacunacion($id: ID!) {
+  mutation c($id: ID!) {
     deleteVacunacion(input: {where: {id: $id}}) {
       vacunacion {
         id

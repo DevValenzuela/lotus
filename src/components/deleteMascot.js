@@ -1,6 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {useMutation, useQuery} from '@apollo/client';
-import {DELETE_MASCOT_APP} from '../pages/apolllo/grahpql';
+import {
+  DELETE_MASCOT_APP,
+  DELETE_MEDICAMENT_MEDIC,
+  DELETE_DEWORMING_MEDIC,
+  DELETE_VACCINATION,
+  DELETE_CONTROLLER_MEDIC,
+} from '../pages/apolllo/grahpql';
 import {
   CONSULT_CONTROLLER_MEDICS_APP,
   CONSULT_DEWORMING_APP,
@@ -17,6 +23,7 @@ const DeleteMascot = ({data}) => {
   } = useContext(UserContext);
 
   const variables = {
+    pollInterval: 2000,
     variables: {
       user: user.id,
       mascot: data.id,
@@ -37,6 +44,14 @@ const DeleteMascot = ({data}) => {
     {loading: loading3, data: data3},
     {loading: loading4, data: data4},
   ] = queryMultiple();
+
+  const [deleteMedicament] = useMutation(DELETE_MEDICAMENT_MEDIC);
+
+  const [deleteDesparacitacion] = useMutation(DELETE_DEWORMING_MEDIC);
+
+  const [deleteVacunacion] = useMutation(DELETE_VACCINATION);
+
+  const [deleteControllerMedic] = useMutation(DELETE_CONTROLLER_MEDIC);
 
   const [removeMascot] = useMutation(DELETE_MASCOT_APP, {
     update(cache, {data: {deleteMascot}}) {
@@ -59,16 +74,67 @@ const DeleteMascot = ({data}) => {
   });
 
   const deleteMascot = async id => {
-    if (!loading1 || !loading2 || !loading3 || !loading4) {
-      console.log(data4);
+    if (!loading1 && !loading2 && !loading3 && !loading4) {
+      data1.desparacitacions.map(async item => {
+        try {
+          await deleteDesparacitacion({
+            variables: {
+              id: item.id,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      data2.vacunacions.map(async item => {
+        try {
+          await deleteVacunacion({
+            variables: {
+              id: item.id,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      data3.controllerMedicts.map(async item => {
+        try {
+          await deleteControllerMedic({
+            variables: {
+              id: item.id,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      data4.medicaments.map(async item => {
+        try {
+          await deleteMedicament({
+            variables: {
+              id: item.id,
+            },
+          });
+          console.log('Success fully delete items...');
+        } catch (error) {
+          console.log(error);
+        }
+      });
     }
 
-    /*await removeMascot({
-      variables: {
-        id: id,
-      },
-    });
-    console.log('¡Delete mascot!');*/
+    try {
+      await removeMascot({
+        variables: {
+          id: id,
+        },
+      });
+      console.log('¡Delete mascot!');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

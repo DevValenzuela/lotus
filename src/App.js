@@ -57,8 +57,18 @@ const App = () => {
     cache: new InMemoryCache({
       typePolicies: {
         Mascots: {
-          // Singleton types that have no identifying field can use an empty
-          // array for their keyFields.
+          keyFields: [],
+        },
+        Medicament: {
+          keyFields: [],
+        },
+        Desparacitacion: {
+          keyFields: [],
+        },
+        Vacunacion: {
+          keyFields: [],
+        },
+        ControllerMedict: {
           keyFields: [],
         },
       },

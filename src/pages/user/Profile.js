@@ -103,6 +103,7 @@ const ProfileUser = ({navigation}) => {
       id: user.id,
     },
   });
+
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
