@@ -376,3 +376,43 @@ export const UPDATE_GENERAL_MASCOT = gql`
     }
   }
 `;
+
+export const DELETE_CONTROLLER_MEDIC = gql`
+  mutation deleteControllerMedic($id: ID!) {
+    deleteControllerMedict(input: {where: {id: $id}}) {
+      controllerMedict {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_DEWORMING_MEDIC = gql`
+  mutation deleteDesparacitacion($id: ID!) {
+    deleteDesparacitacion(input: {where: {id: $id}}) {
+      desparacitacion {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_MEDICAMENT_MEDIC = gql`
+  mutation deleteMedicament($id: ID!) {
+    deleteMedicament(input: {where: {id: $id}}) {
+      medicament {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_VACCINATION = gql`
+  mutation deleteVacunacion($id: ID!) {
+    deleteVacunacion(input: {where: {id: $id}}) {
+      vacunacion {
+        id
+      }
+    }
+  }
+`;

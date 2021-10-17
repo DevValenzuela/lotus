@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {style} from './style';
 import {useDebounceValue} from '../../hooks/debounceTime';
+import {CONSULT_SEARCH_FILTER_DEWORMING} from '../apolllo/query';
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -25,16 +26,21 @@ const Item = ({date}) => (
 const DewormingFilters = () => {
   const [txtValue, setTxtValue] = useState('');
   const [getSearchResult, setSearchResult] = useState([]);
-  const value = useDebounceValue(txtValue);
+  const value = useDebounceValue(
+    txtValue,
+    1000,
+    CONSULT_SEARCH_FILTER_DEWORMING,
+  );
+
   const renderItem = ({item}) => <Item date={item.date} />;
 
   useEffect(() => {
     if (value) {
       const result = [];
-      value.vacunacions.map(item => {
+      value.desparacitacions.map(item => {
         result.push({
           id: item.id,
-          date: item.last_vaccination,
+          date: item.last_deworming,
         });
       });
       setSearchResult(result);

@@ -34,7 +34,6 @@ const MedicamentFilters = () => {
   const renderItem = ({item}) => <Item date={item.date} />;
 
   useEffect(() => {
-    console.log(value);
     if (value) {
       const result = [];
       value.medicaments.map(item => {

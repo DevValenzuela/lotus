@@ -18,43 +18,12 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useMutation, useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/client';
 import {CONSULT_APP, CONSULT_MASCOTS_APP} from '../apolllo/query';
-import {DELETE_MASCOT_APP} from '../apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
+import DeleteMascot from '../../components/deleteMascot';
 function ListMascot({data}) {
-  const {
-    user: {user},
-  } = useContext(UserContext);
   const navigation = useNavigation();
-  const [removeMascot] = useMutation(DELETE_MASCOT_APP, {
-    update(cache, {data: {deleteMascot}}) {
-      const {
-        mascot: {id},
-      } = deleteMascot;
-      const {mascots} = cache.readQuery({
-        query: CONSULT_MASCOTS_APP,
-        variables: {
-          id: user.id,
-        },
-      });
-      cache.writeQuery({
-        query: CONSULT_MASCOTS_APP,
-        data: {
-          mascots: mascots.filter(mascot => mascot.id !== id),
-        },
-      });
-    },
-  });
-  const deleteMascot = async id => {
-    await removeMascot({
-      variables: {
-        id: id,
-      },
-    });
-    console.log('¡Delete mascot!');
-  };
-
   return (
     <View
       style={{
@@ -84,23 +53,7 @@ function ListMascot({data}) {
         </Text>
       </View>
       <View style={{flex: 1, alignSelf: 'center', flexDirection: 'row'}}>
-        <TouchableHighlight
-          activeOpacity={0.6}
-          underlayColor="transparent"
-          onPress={() => deleteMascot(data.id)}>
-          <View
-            style={{
-              padding: 10,
-              backgroundColor: 'rgba(51,0,102,0.56)',
-              marginVertical: 2,
-            }}>
-            <Image
-              source={require('../../assets/images/deleteicon.png')}
-              resizeMode="contain"
-              style={style.iconActions}
-            />
-          </View>
-        </TouchableHighlight>
+        <DeleteMascot data={data} />
         <TouchableHighlight
           activeOpacity={0.6}
           underlayColor="transparent"

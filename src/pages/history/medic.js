@@ -12,9 +12,7 @@ import {style} from './style';
 import {useQuery} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {Loading} from '../../components/sharedComponent';
-import {CONSULT_HYSTORY_MEDICAMENTS_APP} from '../../pages/apolllo/query';
-
-
+import { CONSULT_HISTORY_DOCTOR_APP } from "../../pages/apolllo/query";
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -33,7 +31,7 @@ const MedicHistory = ({navigation, route}) => {
   } = useContext(UserContext);
   const idMascot = route.params.idMascot;
 
-  const {data, error, loading} = useQuery(CONSULT_HYSTORY_MEDICAMENTS_APP, {
+  const {data, error, loading} = useQuery(CONSULT_HISTORY_DOCTOR_APP, {
     variables: {
       user: Number(user.id),
       mascot: idMascot,
@@ -45,11 +43,11 @@ const MedicHistory = ({navigation, route}) => {
 
   const DATA = [];
   if (data) {
-    data.medicaments.map(item => {
+    data.controllerMedicts.map(item => {
       DATA.push(item);
     });
   }
-  const renderItem = ({item}) => <Item date={item.last_dose} />;
+  const renderItem = ({item}) => <Item date={item.last_control} />;
 
   return (
     <SafeAreaView style={style.container}>
