@@ -98,12 +98,6 @@ const DetailsMascot = ({navigation, route}) => {
     },
   });
 
-  useEffect(() => {
-    if (refreshing) {
-      setRefreshing(false);
-    }
-  }, [refreshing]);
-
   if (
     loadingGeneral ||
     loadingDeworming ||

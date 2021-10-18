@@ -73,7 +73,7 @@ const App = () => {
                 return {...existing, ...incoming};
               },
             },
-            ControllerMedict: {
+            ControllerMedic: {
               merge(existing = [], incoming = []) {
                 return {...existing, ...incoming};
               },

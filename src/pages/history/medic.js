@@ -32,6 +32,7 @@ const MedicHistory = ({navigation, route}) => {
   const idMascot = route.params.idMascot;
 
   const {data, error, loading} = useQuery(CONSULT_HISTORY_DOCTOR_APP, {
+    pollInterval: 2000,
     variables: {
       user: Number(user.id),
       mascot: idMascot,

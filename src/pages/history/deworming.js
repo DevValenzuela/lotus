@@ -34,6 +34,7 @@ const DewormingHistory = ({navigation, route}) => {
   const idMascot = route.params.idMascot;
 
   const {data, error, loading} = useQuery(CONSULT_HISTORY_DEWORMING_APP, {
+    pollInterval: 2000,
     variables: {
       user: user.id,
       mascot: idMascot,
@@ -50,6 +51,7 @@ const DewormingHistory = ({navigation, route}) => {
       DATA.push(item);
     });
   }
+
 
 
   const renderItem = ({item}) => <Item date={item.last_deworming} />;

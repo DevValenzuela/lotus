@@ -14,13 +14,6 @@ import {UserContext} from '../../context/userContext';
 import {Loading} from '../../components/sharedComponent';
 import {CONSULT_HISTORY_VACCINATIONS_APP} from '../../pages/apolllo/query';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    date: 'Julio 15/2021',
-  },
-];
-
 const Item = ({date}) => (
   <View style={style.item}>
     <Image
@@ -38,6 +31,7 @@ const VaccinationsHistory = ({navigation, route}) => {
   } = useContext(UserContext);
   const idMascot = route.params.idMascot;
   const {data, error, loading} = useQuery(CONSULT_HISTORY_VACCINATIONS_APP, {
+    pollInterval: 2000,
     variables: {
       user: user.id,
       mascot: idMascot,

@@ -31,6 +31,7 @@ const MedicamentHistory = ({navigation, route}) => {
   } = useContext(UserContext);
   const idMascot = route.params.idMascot;
   const {data, error, loading} = useQuery(CONSULT_HYSTORY_MEDICAMENTS_APP, {
+    pollInterval: 2000,
     variables: {
       user: user.id,
       mascot: idMascot,
