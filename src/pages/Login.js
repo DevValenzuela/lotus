@@ -23,7 +23,7 @@ import {UserContext} from '../context/userContext';
 
 const initialValue = {
   user: 'vlzdavid12@outlook.com',
-  password: 'valenzuela21',
+  password: 'Valenzuela21',
 };
 
 const SignupSchema = Yup.object().shape({

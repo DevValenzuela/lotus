@@ -1,5 +1,5 @@
 import React, {useRef, useEffect, useContext} from 'react';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
   Text,
@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 
 import {useMutation} from '@apollo/client';
 import {UPDATE_USER_PROFILE} from '../apolllo/grahpql';
-import {AvatarOption} from '../../components/sharedComponent';
+import {AvatarOption, Loading} from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
 
 const EditProfile = () => {
@@ -26,9 +26,7 @@ const EditProfile = () => {
     dispatchUserEvent,
     user: {user, idPhoto},
   } = useContext(UserContext);
-
   const [updateUser, {loading, data, error}] = useMutation(UPDATE_USER_PROFILE);
-
   const initialValue = {
     username: user.username,
     email: user.email,
@@ -50,12 +48,20 @@ const EditProfile = () => {
   });
 
   const handleUpdateProfile = async values => {
+    let user_values = {
+      id: user.id,
+      username: values.username,
+      email: values.email,
+    };
+
     try {
+      await AsyncStorage.mergeItem(
+        'token_lotus',
+        JSON.stringify({user: user_values}),
+      );
       await updateUser({
         variables: {
-          id: user.id,
-          username: values.username,
-          email: values.email,
+          ...user_values,
           avatar: idPhoto ? idPhoto : '',
         },
       });
@@ -65,6 +71,7 @@ const EditProfile = () => {
       console.log(error);
     }
   };
+  if (loading) return <Loading />;
 
   return (
     <View style={style.container}>

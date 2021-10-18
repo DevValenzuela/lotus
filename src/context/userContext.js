@@ -35,7 +35,7 @@ const UserProvider = props => {
       valueJson ? setUser({...user, ...valueJson}) : null;
     };
     getUser();
-  }, []);
+  }, [user]);
 
   return (
     <UserContext.Provider value={{user, dispatchUserEvent}}>
