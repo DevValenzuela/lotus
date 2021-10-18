@@ -36,6 +36,7 @@ const AddMascot = () => {
     dispatchUserEvent,
     user: {user, idPhoto},
   } = useContext(UserContext);
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setSterilized, getSterilized] = useState('Si');
@@ -75,7 +76,7 @@ const AddMascot = () => {
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  }, [fadeAnim, user]);
+  }, [fadeAnim]);
 
   const onDateChange = date => {
     getselectedStartDate(date);
@@ -391,7 +392,6 @@ const AddMascot = () => {
         </Animated.View>
       </ImageBackground>
       {/*===Calendar===*/}
-      {console.log(erroDate)}
       {setCalendar && (
         <View style={style.containerCalendar}>
           <ModalCalendarError
