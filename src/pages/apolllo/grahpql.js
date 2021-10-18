@@ -379,8 +379,8 @@ export const UPDATE_GENERAL_MASCOT = gql`
 
 export const DELETE_CONTROLLER_MEDIC = gql`
   mutation deleteControllerMedic($id: ID!) {
-    deleteControllerMedict(input: {where: {id: $id}}) {
-      controllerMedict {
+    deleteControllerMedic(input: {where: {id: $id}}) {
+      controllerMedic {
         id
       }
     }

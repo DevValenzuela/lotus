@@ -6,6 +6,7 @@ import {
   DELETE_DEWORMING_MEDIC,
   DELETE_VACCINATION,
   DELETE_CONTROLLER_MEDIC,
+  DELETE_PHOTO_MASCOT,
 } from '../pages/apolllo/grahpql';
 import {
   CONSULT_CONTROLLER_MEDICS_APP,
@@ -13,6 +14,7 @@ import {
   CONSULT_MASCOTS_APP,
   CONSULT_VACCINATIONS_APP,
   CONSULT_MEDICAMENT_APP,
+  CONSULT_MASCOT_APP_ID,
 } from '../pages/apolllo/query';
 import {UserContext} from '../context/userContext';
 import {
@@ -25,6 +27,17 @@ import {
 import {ModalAlertDeleteVerify} from '../components/sharedComponent';
 
 const DeleteMascot = ({data}) => {
+  const {
+    data: generalMascot,
+    loading: loadingGeneralMascot,
+    error: errorGeneralMascot,
+  } = useQuery(CONSULT_MASCOT_APP_ID, {
+    pollInterval: 2000,
+    variables: {
+      id: data.id,
+    },
+  });
+
   const [modalVisible, setModalVisible] = useState(false);
   const {
     user: {user},
@@ -60,6 +73,9 @@ const DeleteMascot = ({data}) => {
   const [deleteVacunacion] = useMutation(DELETE_VACCINATION);
 
   const [deleteControllerMedic] = useMutation(DELETE_CONTROLLER_MEDIC);
+
+  const [deleteUpload, {loading: loadingDelete, data: dataDelete}] =
+    useMutation(DELETE_PHOTO_MASCOT);
 
   const [removeMascot] = useMutation(DELETE_MASCOT_APP, {
     update(cache, {data: {deleteMascot}}) {
@@ -131,6 +147,21 @@ const DeleteMascot = ({data}) => {
           console.log(error);
         }
       });
+    }
+
+    if (generalMascot.mascot.avatar_mascot.id) {
+      try {
+        await deleteUpload({
+          variables: {
+            inputId: {
+              id: Number(generalMascot.mascot.avatar_mascot.id),
+            },
+          },
+        });
+        console.log('!Delete success fully upload!');
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     try {

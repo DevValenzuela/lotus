@@ -116,7 +116,7 @@ const DetailsMascot = ({navigation, route}) => {
     date_sterilized,
     type_mascot,
     avatar_mascot,
-  } = general.mascot;
+  } = general?.mascot;
 
   const {desparacitacions} = deworming;
   const {vacunacions} = vaccinations;

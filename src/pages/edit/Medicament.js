@@ -261,7 +261,7 @@ const Medicament = ({route}) => {
                       onChangeText={handleChange('dosis')}
                       onBlur={handleBlur('dosis')}
                       value={values.dosis}
-                      placeholder="Ej: 0,5"
+                      placeholder="Ej: 0.5"
                     />
                     <Text style={style.symbol}>gr/ml</Text>
                   </View>

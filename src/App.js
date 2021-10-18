@@ -58,30 +58,20 @@ const App = () => {
       typePolicies: {
         Query: {
           fields: {
-            Mascots: {
-              merge(existing = [], incoming = []) {
-                return {...existing, ...incoming};
-              },
+            Mascot: {
+              merge: true,
             },
             Desparacitacion: {
-              merge(existing = [], incoming = []) {
-                return {...existing, ...incoming};
-              },
+              merge: true,
             },
             Vacunacion: {
-              merge(existing = [], incoming = []) {
-                return {...existing, ...incoming};
-              },
+              merge: true,
             },
             ControllerMedic: {
-              merge(existing = [], incoming = []) {
-                return {...existing, ...incoming};
-              },
+              merge: true,
             },
             Medicament: {
-              merge(existing = [], incoming = []) {
-                return {...existing, ...incoming};
-              },
+              merge: true,
             },
           },
         },

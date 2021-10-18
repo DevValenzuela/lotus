@@ -25,7 +25,6 @@ import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile';
 import {
   CONSULT_APP,
   CONSULT_MASCOT_APP,
-  CONSULT_MASCOT_APP_ID,
 } from '../pages/apolllo/query';
 
 export const Loading = () => {
