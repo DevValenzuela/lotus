@@ -106,8 +106,8 @@ export const CONSULT_VACCINATIONS_APP = gql`
 `;
 
 export const CONSULT_CONTROLLER_MEDICS_APP = gql`
-  query ControllerMedicts($user: ID!, $mascot: ID!) {
-    controllerMedicts(
+  query ControllerMedics($user: ID!, $mascot: ID!) {
+    controllerMedics(
       sort: "last_control:desc"
       limit: 1
       where: {users_permissions_user: $user, mascot: $mascot}
@@ -174,8 +174,8 @@ export const CONSULT_HISTORY_DEWORMING_APP = gql`
 `;
 
 export const CONSULT_HISTORY_DOCTOR_APP = gql`
-  query controllerMedicts($user: ID!, $mascot: ID!) {
-    controllerMedicts(
+  query controllerMedics($user: ID!, $mascot: ID!) {
+    controllerMedics(
       sort: "last_control:desc"
       where: {mascot: $mascot, users_permissions_user: $user}
     ) {
@@ -216,8 +216,8 @@ export const CONSULT_SEARCH_FILTER_MEDICAMENT = gql`
 `;
 
 export const CONSULT_SEARCH_FILTER_DOCTOR = gql`
-  query controllerMedicts($search: String!) {
-    controllerMedicts(
+  query controllerMedics($search: String!) {
+    controllerMedics(
       where: {
         _or: [{last_control_contains: $search}, {assesment_contains: $search}]
       }

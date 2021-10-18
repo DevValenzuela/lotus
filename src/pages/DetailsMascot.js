@@ -33,7 +33,6 @@ const DetailsMascot = ({navigation, route}) => {
     user: {user},
   } = useContext(UserContext);
   const idMascot = route.params.mascotId;
-
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -76,10 +75,10 @@ const DetailsMascot = ({navigation, route}) => {
   });
 
   const {
-    data: medics,
-    loading: loadingMedics,
-    error: errorMedics,
-  } = useQuery(CONSULT_CONTROLLER_MEDICS_APP, {
+    data: medicament,
+    loading: loadingMedicament,
+    error: errorMedicament,
+  } = useQuery(CONSULT_MEDICAMENT_APP, {
     pollInterval: 2000,
     variables: {
       user: Number(user.id),
@@ -88,10 +87,10 @@ const DetailsMascot = ({navigation, route}) => {
   });
 
   const {
-    data: medicament,
-    loading: loadingMedicament,
-    error: errorMedicament,
-  } = useQuery(CONSULT_MEDICAMENT_APP, {
+    data: medics,
+    loading: loadingMedics,
+    error: errorMedics,
+  } = useQuery(CONSULT_CONTROLLER_MEDICS_APP, {
     pollInterval: 2000,
     variables: {
       user: Number(user.id),
@@ -114,16 +113,7 @@ const DetailsMascot = ({navigation, route}) => {
   )
     return <Loading />;
 
-  if (
-    errorGeneral ||
-    errorDeworming ||
-    errorVaccinations ||
-    errorMedics ||
-    errorMedicament
-  )
-    return console.log('Error in DetailsMascot.js');
-
-  if (!general) return null;
+  if (!general || !deworming || !vaccinations || !medics || !medicament) return null;
 
   const {
     name_mascot,
@@ -136,7 +126,7 @@ const DetailsMascot = ({navigation, route}) => {
 
   const {desparacitacions} = deworming;
   const {vacunacions} = vaccinations;
-  const {controllerMedicts} = medics;
+  const {controllerMedics} = medics;
   const {medicaments} = medicament;
 
   const url_image = avatar_mascot != null ? avatar_mascot.url : '';
@@ -226,105 +216,6 @@ const DetailsMascot = ({navigation, route}) => {
                     </Text>
                     <Text style={style.parrTxt}>Gingivo-estomatitis.</Text>
                   </View>
-                </View>
-              </View>
-              <View style={style.column}>
-                <View style={style.containerCard}>
-                  {medicaments.length > 0 && (
-                    <TouchableHighlight
-                      style={style.edit}
-                      underlayColor="transparent"
-                      onPress={() =>
-                        navigation.navigate('EditMedicament', {
-                          idMascot,
-                          edit: true,
-                          medicaments,
-                        })
-                      }>
-                      <View style={{marginTop: 15}}>
-                        <Image
-                          source={require('./../assets/images/edit_btn.png')}
-                        />
-                      </View>
-                    </TouchableHighlight>
-                  )}
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Image
-                      source={require('../assets/images/tabs/MEDICAMENT.png')}
-                      style={{width: 25, height: 25, marginHorizontal: 6}}
-                      resizeMode="contain"
-                    />
-                    <Text style={style.subtitleTxt}>Medicación:</Text>
-                  </View>
-                  {medicaments.length > 0 ? (
-                    <View>
-                      <View style={style.containerGroup}>
-                        <Text style={style.subTxt}>Última Dosis:</Text>
-                        <Text style={style.parrTxt}>
-                          {medicaments[0].last_dose}
-                        </Text>
-                      </View>
-                      <View style={style.containerGroup}>
-                        <Text style={style.subTxt}>Medicamento:</Text>
-                        <Text style={style.parrTxt}>
-                          {medicaments[0].medicament}
-                        </Text>
-                      </View>
-                      <View style={style.containerGroup}>
-                        <Text style={style.subTxt}>Posología:</Text>
-                        <Text style={style.parrTxt}>
-                          {medicaments[0].posologia}
-                        </Text>
-                      </View>
-                      <View style={style.containerGroup}>
-                        <Text style={style.subTxt}>Dosis:</Text>
-                        <Text style={style.parrTxt}>
-                          {medicaments[0].dosis} gr/ml
-                        </Text>
-                      </View>
-                      <View style={style.containerGroup}>
-                        <Text style={style.subTxt}>Periodo:</Text>
-                        <Text style={style.parrTxt}>
-                          {medicaments[0].period} hrs
-                        </Text>
-                      </View>
-                      <View style={style.containerGroup}>
-                        <Text style={style.subTxt}>Anotaciones</Text>
-                        <Text style={style.parrTxt}>
-                          {medicaments[0].notation}
-                        </Text>
-                      </View>
-                    </View>
-                  ) : (
-                    <View style={{flex: 1}}>
-                      <Text style={style.txtNotfound}>No hay resultados.</Text>
-                    </View>
-                  )}
-                </View>
-                <View style={{alignItems: 'center', marginVertical: 10}}>
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() =>
-                      navigation.navigate('HistoryMedicament', {idMascot})
-                    }>
-                    <View
-                      style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                        backgroundColor: '#80006A',
-                        width: wp('90%'),
-                      }}>
-                      <Text
-                        style={{
-                          padding: Platform.OS == 'ios' ? 20 : 10,
-                          color: '#fff',
-                          textTransform: 'uppercase',
-                        }}>
-                        Ver Historial
-                      </Text>
-                    </View>
-                  </TouchableHighlight>
                 </View>
               </View>
               <View style={style.column}>
@@ -498,7 +389,107 @@ const DetailsMascot = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  {controllerMedicts.length > 0 && (
+                  {medicaments.length > 0 && (
+                    <TouchableHighlight
+                      style={style.edit}
+                      underlayColor="transparent"
+                      onPress={() =>
+                        navigation.navigate('EditMedicament', {
+                          idMascot,
+                          edit: true,
+                          medicaments,
+                        })
+                      }>
+                      <View style={{marginTop: 15}}>
+                        <Image
+                          source={require('./../assets/images/edit_btn.png')}
+                        />
+                      </View>
+                    </TouchableHighlight>
+                  )}
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      source={require('../assets/images/tabs/MEDICAMENT.png')}
+                      style={{width: 25, height: 25, marginHorizontal: 6}}
+                      resizeMode="contain"
+                    />
+                    <Text style={style.subtitleTxt}>Medicación:</Text>
+                  </View>
+                  {medicaments.length > 0 ? (
+                    <View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Última Dosis:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].last_dose}
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Medicamento:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].medicament}
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Posología:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].posologia}
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Dosis:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].dosis} gr/ml
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Periodo:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].period} hrs
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Anotaciones</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].notation}
+                        </Text>
+                      </View>
+                    </View>
+                  ) : (
+                    <View style={{flex: 1}}>
+                      <Text style={style.txtNotfound}>No hay resultados.</Text>
+                    </View>
+                  )}
+                </View>
+                <View style={{alignItems: 'center', marginVertical: 10}}>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() =>
+                      navigation.navigate('HistoryMedicament', {idMascot})
+                    }>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        width: wp('90%'),
+                      }}>
+                      <Text
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                        }}>
+                        Ver Historial
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
+              </View>
+
+              <View style={style.column}>
+                <View style={style.containerCard}>
+                  {controllerMedics.length > 0 && (
                     <TouchableHighlight
                       style={style.edit}
                       underlayColor="transparent"
@@ -506,7 +497,7 @@ const DetailsMascot = ({navigation, route}) => {
                         navigation.navigate('EditControlMedic', {
                           idMascot,
                           edit: true,
-                          controllerMedicts,
+                          controllerMedics,
                         })
                       }>
                       <View style={{marginTop: 15}}>
@@ -524,23 +515,23 @@ const DetailsMascot = ({navigation, route}) => {
                     />
                     <Text style={style.subtitleTxt}>Control Médico:</Text>
                   </View>
-                  {controllerMedicts.length > 0 ? (
+                  {controllerMedics.length > 0 ? (
                     <View>
                       <View style={style.containerGroup}>
                         <Text style={style.subTxt}>Último control:</Text>
                         <Text style={style.parrTxt}>
-                          {controllerMedicts[0].last_control}
+                          {controllerMedics[0].last_control}
                         </Text>
                       </View>
                       <Text style={style.subTxt}>Valoración:</Text>
                       <Text style={style.parrTxt}>
-                        {controllerMedicts[0].assesment}
+                        {controllerMedics[0].assesment}
                       </Text>
                       <Text style={style.subTxt}>
                         Prescripción y anotaciones:
                       </Text>
                       <Text style={style.parrTxt}>
-                        {controllerMedicts[0].note}
+                        {controllerMedics[0].note}
                       </Text>
                     </View>
                   ) : (

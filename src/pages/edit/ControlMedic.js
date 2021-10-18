@@ -26,7 +26,7 @@ import {ModalCalendarError, Loading} from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
 
 const ControlMedic = ({route}) => {
-  const {idMascot, controllerMedicts, edit} = route.params;
+  const {idMascot, controllerMedics, edit} = route.params;
   const {
     user: {user},
   } = useContext(UserContext);
@@ -47,8 +47,8 @@ const ControlMedic = ({route}) => {
 
   if (edit) {
     initialValue.last_control = '';
-    initialValue.valoration = controllerMedicts[0].assesment;
-    initialValue.note = controllerMedicts[0].note;
+    initialValue.valoration = controllerMedics[0].assesment;
+    initialValue.note = controllerMedics[0].note;
   } else {
     initialValue.last_control = '';
     initialValue.valoration = '';
@@ -62,10 +62,10 @@ const ControlMedic = ({route}) => {
   });
 
   useEffect(() => {
-    if (edit && controllerMedicts) {
-      getDate(controllerMedicts[0].last_control);
+    if (edit && controllerMedics) {
+      getDate(controllerMedics[0].last_control);
     }
-  }, [controllerMedicts, edit]);
+  }, [controllerMedics, edit]);
 
   const handleSubmitMedicament = async values => {
     if (!values) return;
@@ -88,7 +88,7 @@ const ControlMedic = ({route}) => {
 
   const handleUpdateMedicament = async values => {
     if (!values) return null;
-    const {id} = controllerMedicts[0];
+    const {id} = controllerMedics[0];
     const {last_control, valoration, note} = values;
     try {
       await updateControllermedic({

@@ -34,7 +34,7 @@ const ControllerVet = () => {
   useEffect(() => {
     if (value) {
       const result = [];
-      value.controllerMedicts.map(item => {
+      value.controllerMedics.map(item => {
         result.push({
           id: item.id,
           date: item.last_control,

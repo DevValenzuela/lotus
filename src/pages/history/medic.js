@@ -43,7 +43,7 @@ const MedicHistory = ({navigation, route}) => {
 
   const DATA = [];
   if (data) {
-    data.controllerMedicts.map(item => {
+    data.controllerMedics.map(item => {
       DATA.push(item);
     });
   }

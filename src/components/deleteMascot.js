@@ -107,7 +107,7 @@ const DeleteMascot = ({data}) => {
         }
       });
 
-      data3.controllerMedicts.map(async item => {
+      data3.controllerMedics.map(async item => {
         try {
           await deleteControllerMedic({
             variables: {
