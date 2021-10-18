@@ -160,14 +160,14 @@ export const CREATE_MEDICAMENT_APP = gql`
 `;
 
 export const CREATE_CONTROLLER_MEDIC_APP = gql`
-  mutation createControllerMedict(
+  mutation createControllerMedic(
     $last_control: String!
     $assesment: String
     $note: String
     $mascot: ID
     $user: ID
   ) {
-    createControllerMedict(
+    createControllerMedic(
       input: {
         data: {
           last_control: $last_control
@@ -178,7 +178,7 @@ export const CREATE_CONTROLLER_MEDIC_APP = gql`
         }
       }
     ) {
-      controllerMedict {
+      controllerMedic {
         id
       }
     }
@@ -238,19 +238,19 @@ export const CREATE_VACCINATION_APP = gql`
 `;
 
 export const UPDATE_CONTROLLER_MEDIC = gql`
-  mutation updateControllermedic(
+  mutation updateControllerMedic(
     $id: ID!
     $last_control: String
     $assessment: String
     $note: String
   ) {
-    updateControllerMedict(
+    updateControllerMedic(
       input: {
         data: {last_control: $last_control, assesment: $assessment, note: $note}
         where: {id: $id}
       }
     ) {
-      controllerMedict {
+      controllerMedic {
         id
       }
     }

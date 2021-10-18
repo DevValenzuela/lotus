@@ -23,13 +23,13 @@ const initialValue = {
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
-      .email('El correo electrónico es invalido.')
-      .required('El correo electrónico es requerido.'),
+    .email('El correo electrónico es invalido.')
+    .required('El correo electrónico es requerido.'),
 });
 
 const Recovery = ({navigation}) => {
   const [forgotPassword, {data, loading, error}] =
-      useMutation(RECOVERY_USER_APP);
+    useMutation(RECOVERY_USER_APP);
 
   const [getModal, setModal] = useState({visible: false, txt: null});
 
@@ -53,129 +53,129 @@ const Recovery = ({navigation}) => {
   };
 
   return (
-      <View style={style.container}>
-        <ImageBackground
-            source={require('./../../assets/images/bg_lotus.png')}
-            resizeMode="cover"
-            style={style.bgImage}>
-          <ScrollView>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={getModal.visible}
-                onRequestClose={() => {
-                  setModal(!getModal.visible);
-                }}>
-              <View style={style.centeredView}>
-                <View style={style.modalView}>
-                  <Text style={{color: '#fff', fontSize: 14}}>
-                    {getModal.txt}
-                  </Text>
-                  <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() => setModal({visible: false})}>
-                    <View style={style.btnModal}>
-                      <Text style={style.txtModal}>Ok</Text>
-                    </View>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </Modal>
-
-            <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-              <View style={{flex: 1, maxWidth: 500}}>
-                <View style={style.containerLogo}>
-                  <Image
-                      style={style.tinyLogo}
-                      source={require('./../../assets/images/lotus_logo.png')}
-                  />
-                  <Text style={{color: '#00FFFF', fontSize: 18}}>
-                    pet-care app
-                  </Text>
-                </View>
-                <Formik
-                    initialValues={initialValue}
-                    validationSchema={SignupSchema}
-                    onSubmit={values => handleRecovery(values)}>
-                  {({
-                      touched,
-                      handleChange,
-                      handleBlur,
-                      handleSubmit,
-                      values,
-                      errors,
-                    }) => (
-                      <>
-                        <View style={style.group}>
-                          {errors.email && touched.email ? (
-                              <View
-                                  style={{
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                  }}>
-                                <Text style={style.error}>{errors.email}</Text>
-                              </View>
-                          ) : null}
-                          <TextInput
-                              placeholderTextColor="#ffffff"
-                              onChangeText={handleChange('email')}
-                              onBlur={handleBlur('email')}
-                              value={values.email}
-                              style={style.inputText}
-                              placeholder="E-mail"
-                          />
-                        </View>
-                        <View style={style.buttonContainer}>
-                          <TouchableHighlight
-                              underlayColor="transparent"
-                              onPress={() => handleSubmit()}>
-                            <View
-                                style={{
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  borderRadius: 10,
-                                  backgroundColor: '#80006A',
-                                }}>
-                              <Text style={style.btnRegister}>
-                                Recuperar Cuenta
-                              </Text>
-                            </View>
-                          </TouchableHighlight>
-                          <Text
-                              style={{
-                                textAlign: 'center',
-                                color: '#fff',
-                                margin: 20,
-                              }}>
-                            ¿Ya recuperaste la cuenta?
-                          </Text>
-                          <TouchableHighlight
-                              underlayColor="transparent"
-                              onPress={() => navigation.navigate('Login')}>
-                            <View
-                                style={{
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  borderRadius: 10,
-                                  backgroundColor: '#00FFFF',
-                                }}>
-                              <Text style={style.btnLogin}>Ingresar</Text>
-                            </View>
-                          </TouchableHighlight>
-                        </View>
-                      </>
-                  )}
-                </Formik>
+    <View style={style.container}>
+      <ImageBackground
+        source={require('./../../assets/images/bg_lotus.png')}
+        resizeMode="cover"
+        style={style.bgImage}>
+        <ScrollView>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={getModal.visible}
+            onRequestClose={() => {
+              setModal(!getModal.visible);
+            }}>
+            <View style={style.centeredView}>
+              <View style={style.modalView}>
+                <Text style={{color: '#fff', fontSize: 14}}>
+                  {getModal.txt}
+                </Text>
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() => setModal({visible: false})}>
+                  <View style={style.btnModal}>
+                    <Text style={style.txtModal}>Ok</Text>
+                  </View>
+                </TouchableHighlight>
               </View>
             </View>
-          </ScrollView>
-        </ImageBackground>
-      </View>
+          </Modal>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <View style={{flex: 1, maxWidth: 500}}>
+              <View style={style.containerLogo}>
+                <Image
+                  style={style.tinyLogo}
+                  source={require('./../../assets/images/lotus_logo.png')}
+                />
+                <Text style={{color: '#00FFFF', fontSize: 18}}>
+                  pet-care app
+                </Text>
+              </View>
+              <Formik
+                initialValues={initialValue}
+                validationSchema={SignupSchema}
+                onSubmit={values => handleRecovery(values)}>
+                {({
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  errors,
+                }) => (
+                  <>
+                    <View style={style.group}>
+                      {errors.email && touched.email ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.email}</Text>
+                        </View>
+                      ) : null}
+                      <TextInput
+                        placeholderTextColor="#ffffff"
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}
+                        style={style.inputText}
+                        placeholder="E-mail"
+                      />
+                    </View>
+                    <View style={style.buttonContainer}>
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        onPress={() => handleSubmit()}>
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 10,
+                            backgroundColor: '#80006A',
+                          }}>
+                          <Text style={style.btnRegister}>
+                            Recuperar Cuenta
+                          </Text>
+                        </View>
+                      </TouchableHighlight>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          color: '#fff',
+                          margin: 20,
+                        }}>
+                        ¿Ya recuperaste la cuenta?
+                      </Text>
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        onPress={() => navigation.navigate('Login')}>
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 10,
+                            backgroundColor: '#00FFFF',
+                          }}>
+                          <Text style={style.btnLogin}>Ingresar</Text>
+                        </View>
+                      </TouchableHighlight>
+                    </View>
+                  </>
+                )}
+              </Formik>
+            </View>
+          </View>
+        </ScrollView>
+      </ImageBackground>
+    </View>
   );
 };
 

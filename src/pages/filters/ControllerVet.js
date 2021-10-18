@@ -1,4 +1,4 @@
-import React, {useState,  useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -10,9 +10,7 @@ import {
 } from 'react-native';
 import {style} from './style';
 import {useDebounceValue} from '../../hooks/debounceTime';
-import {
-  CONSULT_SEARCH_FILTER_DOCTOR
-} from '../apolllo/query';
+import {CONSULT_SEARCH_FILTER_DOCTOR} from '../apolllo/query';
 
 const Item = ({date}) => (
   <View style={style.item}>

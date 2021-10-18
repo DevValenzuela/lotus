@@ -32,7 +32,7 @@ const MedicamentHistory = ({navigation, route}) => {
   const idMascot = route.params.idMascot;
   const {data, error, loading} = useQuery(CONSULT_HYSTORY_MEDICAMENTS_APP, {
     variables: {
-      user: Number(user.id),
+      user: user.id,
       mascot: idMascot,
     },
   });

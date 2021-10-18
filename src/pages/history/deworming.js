@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, {useContext} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -30,22 +30,28 @@ const DewormingHistory = ({navigation, route}) => {
   const {
     user: {user},
   } = useContext(UserContext);
+
   const idMascot = route.params.idMascot;
+
   const {data, error, loading} = useQuery(CONSULT_HISTORY_DEWORMING_APP, {
     variables: {
-      user: Number(user.id),
+      user: user.id,
       mascot: idMascot,
     },
   });
 
   if (loading) return <Loading />;
   if (error) console.log(error);
+
   const DATA = [];
+
   if (data) {
     data.desparacitacions.map(item => {
       DATA.push(item);
     });
   }
+
+
   const renderItem = ({item}) => <Item date={item.last_deworming} />;
   return (
     <SafeAreaView style={style.container}>

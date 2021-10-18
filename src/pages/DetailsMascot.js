@@ -100,7 +100,7 @@ const DetailsMascot = ({navigation, route}) => {
 
   useEffect(() => {
     if (refreshing) {
-      console.log('Refresh...');
+      setRefreshing(false);
     }
   }, [refreshing]);
 

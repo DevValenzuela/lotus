@@ -36,12 +36,14 @@ const ControlMedic = ({route}) => {
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
 
-  const [createControllerMedict, {data, error, loading}] = useMutation(
+  const [createControllerMedic, {data, error, loading}] = useMutation(
     CREATE_CONTROLLER_MEDIC_APP,
   );
 
-  const [updateControllermedic, {data: updateData, error: errorData, loading: loadingData}] =
-    useMutation(UPDATE_CONTROLLER_MEDIC);
+  const [
+    updateControllerMedic,
+    {data: updateData, error: errorData, loading: loadingData},
+  ] = useMutation(UPDATE_CONTROLLER_MEDIC);
 
   const initialValue = new Object();
 
@@ -71,7 +73,7 @@ const ControlMedic = ({route}) => {
     if (!values) return;
     const {last_control, valoration, note} = values;
     try {
-      await createControllerMedict({
+      await createControllerMedic({
         variables: {
           last_control: last_control,
           assesment: valoration,
@@ -91,7 +93,7 @@ const ControlMedic = ({route}) => {
     const {id} = controllerMedics[0];
     const {last_control, valoration, note} = values;
     try {
-      await updateControllermedic({
+      await updateControllerMedic({
         variables: {
           id,
           last_control,

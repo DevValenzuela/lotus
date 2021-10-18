@@ -41,6 +41,7 @@ const MedicHistory = ({navigation, route}) => {
   if (loading) return <Loading />;
   if (error) console.log(error);
 
+
   const DATA = [];
   if (data) {
     data.controllerMedics.map(item => {
