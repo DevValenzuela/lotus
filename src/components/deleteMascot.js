@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useMutation, useQuery} from '@apollo/client';
 import {
   DELETE_MASCOT_APP,
@@ -15,9 +15,17 @@ import {
   CONSULT_MEDICAMENT_APP,
 } from '../pages/apolllo/query';
 import {UserContext} from '../context/userContext';
-import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+  SafeAreaView,
+} from 'react-native';
+import {ModalAlertDeleteVerify} from '../components/sharedComponent';
 
 const DeleteMascot = ({data}) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const {
     user: {user},
   } = useContext(UserContext);
@@ -138,23 +146,30 @@ const DeleteMascot = ({data}) => {
   };
 
   return (
-    <TouchableHighlight
-      activeOpacity={0.6}
-      underlayColor="transparent"
-      onPress={() => deleteMascot(data.id)}>
-      <View
-        style={{
-          padding: 10,
-          backgroundColor: 'rgba(51,0,102,0.56)',
-          marginVertical: 2,
-        }}>
-        <Image
-          source={require('../assets/images/deleteicon.png')}
-          resizeMode="contain"
-          style={style.iconActions}
-        />
-      </View>
-    </TouchableHighlight>
+    <SafeAreaView>
+      <ModalAlertDeleteVerify
+        modalVisible={modalVisible}
+        send={() => setModalVisible(false)}
+        action={() => deleteMascot(data.id)}
+      />
+      <TouchableHighlight
+        activeOpacity={0.6}
+        underlayColor="transparent"
+        onPress={() => setModalVisible(true)}>
+        <View
+          style={{
+            padding: 10,
+            backgroundColor: 'rgba(51,0,102,0.56)',
+            marginVertical: 2,
+          }}>
+          <Image
+            source={require('../assets/images/deleteicon.png')}
+            resizeMode="contain"
+            style={style.iconActions}
+          />
+        </View>
+      </TouchableHighlight>
+    </SafeAreaView>
   );
 };
 

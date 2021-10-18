@@ -99,7 +99,6 @@ const DetailsMascot = ({navigation, route}) => {
     },
   });
 
-
   useEffect(() => {
     if (refreshing) {
       console.log('Refresh...');
@@ -114,6 +113,7 @@ const DetailsMascot = ({navigation, route}) => {
     loadingMedicament
   )
     return <Loading />;
+
   if (
     errorGeneral ||
     errorDeworming ||
@@ -121,7 +121,9 @@ const DetailsMascot = ({navigation, route}) => {
     errorMedics ||
     errorMedicament
   )
-    if (!general) return null;
+    return console.log('Error in DetailsMascot.js');
+
+  if (!general) return null;
 
   const {
     name_mascot,
@@ -136,8 +138,6 @@ const DetailsMascot = ({navigation, route}) => {
   const {vacunacions} = vaccinations;
   const {controllerMedicts} = medics;
   const {medicaments} = medicament;
-
-
 
   const url_image = avatar_mascot != null ? avatar_mascot.url : '';
 

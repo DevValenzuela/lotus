@@ -56,20 +56,34 @@ const App = () => {
     link: authLink.concat(httpLink),
     cache: new InMemoryCache({
       typePolicies: {
-        Mascots: {
-          keyFields: [],
-        },
-        Medicament: {
-          keyFields: [],
-        },
-        Desparacitacion: {
-          keyFields: [],
-        },
-        Vacunacion: {
-          keyFields: [],
-        },
-        ControllerMedict: {
-          keyFields: [],
+        Query: {
+          fields: {
+            Mascots: {
+              merge(existing = [], incoming = []) {
+                return {...existing, ...incoming};
+              },
+            },
+            Desparacitacion: {
+              merge(existing = [], incoming = []) {
+                return {...existing, ...incoming};
+              },
+            },
+            Vacunacion: {
+              merge(existing = [], incoming = []) {
+                return {...existing, ...incoming};
+              },
+            },
+            ControllerMedict: {
+              merge(existing = [], incoming = []) {
+                return {...existing, ...incoming};
+              },
+            },
+            Medicament: {
+              merge(existing = [], incoming = []) {
+                return {...existing, ...incoming};
+              },
+            },
+          },
         },
       },
     }),
