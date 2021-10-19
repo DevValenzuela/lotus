@@ -93,11 +93,70 @@ const DeleteMascot = ({data}) => {
     },
   });
 
-  const [deleteDesparacitacion] = useMutation(DELETE_DEWORMING_MEDIC);
+  const [deleteDesparacitacion] = useMutation(DELETE_DEWORMING_MEDIC, {
+    update(cache, {data: {deleteDesparacitacion}}) {
+      const {
+        desparacitacion: {id},
+      } = deleteDesparacitacion;
+      const {desparacitacions} = cache.readQuery({
+        query: CONSULT_DEWORMING_APP,
+        variables: {
+          user: user.id,
+          mascot: data.id,
+        },
+      });
+      cache.writeQuery({
+        query: CONSULT_DEWORMING_APP,
+        data: {
+          desparacitacions: desparacitacions.filter(
+            desparacitacion => desparacitacion.id !== id,
+          ),
+        },
+      });
+    },
+  });
 
-  const [deleteVacunacion] = useMutation(DELETE_VACCINATION);
+  const [deleteVacunacion] = useMutation(DELETE_VACCINATION, {
+    update(cache, {data: {deleteVacunacions}}) {
+      const {
+        vacunacion: {id},
+      } = deleteVacunacion;
+      const {vacunacions} = cache.readQuery({
+        query: CONSULT_VACCINATIONS_APP,
+        variables: {
+          user: user.id,
+          mascot: data.id,
+        },
+      });
+      cache.writeQuery({
+        query: CONSULT_VACCINATIONS_APP,
+        data: {
+          vacunacions: vacunacions.filter(vacunacion => vacunacion.id !== id),
+        },
+      });
+    },
+  });
 
-  const [deleteControllerMedic] = useMutation(DELETE_CONTROLLER_MEDIC);
+  const [deleteControllerMedic] = useMutation(DELETE_CONTROLLER_MEDIC, {
+    update(cache, {data: {deleteControllerMedic}}) {
+      const {
+        controllerMedic: {id},
+      } = deleteControllerMedic;
+      const {controllerMedics} = cache.readQuery({
+        query: CONSULT_CONTROLLER_MEDICS_APP,
+        variables: {
+          user: user.id,
+          mascot: data.id,
+        },
+      });
+      cache.writeQuery({
+        query: CONSULT_CONTROLLER_MEDICS_APP,
+        data: {
+          controllerMedics: controllerMedics.filter(controllerMedic => controllerMedic.id !== id),
+        },
+      });
+    },
+  });
 
   const [deleteUpload, {loading: loadingDelete, data: dataDelete}] =
     useMutation(DELETE_PHOTO_MASCOT);

@@ -68,6 +68,21 @@ const App = () => {
                 return incoming;
               },
             },
+            desparacitacions:{
+              merge(existing, incoming) {
+                return incoming;
+              },
+            },
+            vacunacions:{
+              merge(existing, incoming) {
+                return incoming;
+              },
+            },
+            controllerMedics:{
+              merge(existing, incoming) {
+                return incoming;
+              },
+            }
           },
         },
       },
