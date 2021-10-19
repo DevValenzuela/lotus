@@ -41,7 +41,7 @@ const App = () => {
     };
   });
 
-  /*const defaultOptions: DefaultOptions = {
+  const defaultOptions: DefaultOptions = {
     watchQuery: {
       fetchPolicy: 'no-cache',
       errorPolicy: 'ignore',
@@ -50,7 +50,7 @@ const App = () => {
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
     },
-  };*/
+  };
 
   const client = new ApolloClient({
     link: authLink.concat(httpLink),
@@ -58,20 +58,15 @@ const App = () => {
       typePolicies: {
         Query: {
           fields: {
-            Mascot: {
-              merge: true,
+            mascots: {
+              merge(existing, incoming) {
+                return incoming;
+              },
             },
-            Desparacitacion: {
-              merge: true,
-            },
-            Vacunacion: {
-              merge: true,
-            },
-            ControllerMedic: {
-              merge: true,
-            },
-            Medicament: {
-              merge: true,
+            medicaments: {
+              merge(existing, incoming) {
+                return incoming;
+              },
             },
           },
         },

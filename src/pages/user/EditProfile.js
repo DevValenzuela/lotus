@@ -27,7 +27,6 @@ import {
   ModalAlertAccountUser,
 } from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
-
 const EditProfile = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -109,7 +108,10 @@ const EditProfile = ({navigation}) => {
           });
         }
       }
-      navigation.navigate('Login');
+      await AsyncStorage.removeItem('token_lotus');
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha eliminado esta cuenta.'
+      });
     } catch (e) {
       console.log(e);
     }

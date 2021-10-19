@@ -29,7 +29,7 @@ function ListMascot({data}) {
       style={{
         flexDirection: 'row',
         alignContent: 'space-between',
-        marginVertical: 20,
+        marginVertical: 5,
         width: wp('90%'),
         maxWidth: 330,
       }}>

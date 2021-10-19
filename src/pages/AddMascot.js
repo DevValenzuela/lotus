@@ -31,7 +31,7 @@ import {
   ModalCalendarError,
 } from '../components/sharedComponent';
 
-const AddMascot = () => {
+const AddMascot = ({navigation}) => {
   const {
     dispatchUserEvent,
     user: {user, idPhoto},

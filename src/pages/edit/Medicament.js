@@ -118,7 +118,7 @@ const Medicament = ({route, navigation}) => {
         },
       });
       navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha actualizado un nuevo medicamneto.'
+        txtMsg: 'Se ha actualizado un nuevo medicamento.'
       });
     } catch (error) {
       console.log(error);

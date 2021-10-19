@@ -67,6 +67,7 @@ const DashBoard = ({navigation}) => {
         }}>
         <SafeAreaView style={{flex: 1}}>
           <ScrollView
+            nestedScrollEnabled={true}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>

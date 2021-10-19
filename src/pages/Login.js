@@ -82,7 +82,8 @@ const Login = ({navigation}) => {
     }
   };
 
-  if (loadingA || setLoading) return <Loading />;
+  if(loadingA) return null;
+  if (setLoading) return <Loading />;
   if (errorA) console.log(errorA);
 
   return (

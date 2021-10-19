@@ -17,6 +17,8 @@ import {
   CONSULT_MASCOT_APP_ID,
 } from '../pages/apolllo/query';
 import {UserContext} from '../context/userContext';
+import {useNavigation} from '@react-navigation/native';
+
 import {
   Image,
   StyleSheet,
@@ -27,6 +29,11 @@ import {
 import {ModalAlertDeleteVerify} from '../components/sharedComponent';
 
 const DeleteMascot = ({data}) => {
+  const navigation = useNavigation();
+  const {
+    user: {user},
+  } = useContext(UserContext);
+
   const {
     data: generalMascot,
     loading: loadingGeneralMascot,
@@ -39,9 +46,6 @@ const DeleteMascot = ({data}) => {
   });
 
   const [modalVisible, setModalVisible] = useState(false);
-  const {
-    user: {user},
-  } = useContext(UserContext);
 
   const variables = {
     pollInterval: 2000,
@@ -51,6 +55,7 @@ const DeleteMascot = ({data}) => {
     },
   };
 
+  /** Consult UseQuery Consult **/
   const queryMultiple = () => {
     const res1 = useQuery(CONSULT_DEWORMING_APP, variables);
     const res2 = useQuery(CONSULT_VACCINATIONS_APP, variables);
@@ -66,7 +71,27 @@ const DeleteMascot = ({data}) => {
     {loading: loading4, data: data4},
   ] = queryMultiple();
 
-  const [deleteMedicament] = useMutation(DELETE_MEDICAMENT_MEDIC);
+  /** Consult UseMutation Delete**/
+  const [deleteMedicament] = useMutation(DELETE_MEDICAMENT_MEDIC, {
+    update(cache, {data: {deleteMedicament}}) {
+      const {
+        medicament: {id},
+      } = deleteMedicament;
+      const {medicaments} = cache.readQuery({
+        query: CONSULT_MEDICAMENT_APP,
+        variables: {
+          user: user.id,
+          mascot: data.id,
+        },
+      });
+      cache.writeQuery({
+        query: CONSULT_MEDICAMENT_APP,
+        data: {
+          medicaments: medicaments.filter(medicament => medicament.id !== id),
+        },
+      });
+    },
+  });
 
   const [deleteDesparacitacion] = useMutation(DELETE_DEWORMING_MEDIC);
 
@@ -77,6 +102,7 @@ const DeleteMascot = ({data}) => {
   const [deleteUpload, {loading: loadingDelete, data: dataDelete}] =
     useMutation(DELETE_PHOTO_MASCOT);
 
+  /** Remove Mascot General **/
   const [removeMascot] = useMutation(DELETE_MASCOT_APP, {
     update(cache, {data: {deleteMascot}}) {
       const {
@@ -97,8 +123,10 @@ const DeleteMascot = ({data}) => {
     },
   });
 
+  /** Action Data Mascot **/
   const deleteMascot = async id => {
     if (!loading1 && !loading2 && !loading3 && !loading4) {
+      //**Remove Deworming**/
       data1.desparacitacions.map(async item => {
         try {
           await deleteDesparacitacion({
@@ -110,7 +138,7 @@ const DeleteMascot = ({data}) => {
           console.log(error);
         }
       });
-
+      //**Remove Vaccinations**/
       data2.vacunacions.map(async item => {
         try {
           await deleteVacunacion({
@@ -123,6 +151,7 @@ const DeleteMascot = ({data}) => {
         }
       });
 
+      /** Remove Controller Medic **/
       data3.controllerMedics.map(async item => {
         try {
           await deleteControllerMedic({
@@ -135,6 +164,7 @@ const DeleteMascot = ({data}) => {
         }
       });
 
+      /* Remove Medics */
       data4.medicaments.map(async item => {
         try {
           await deleteMedicament({
@@ -149,8 +179,9 @@ const DeleteMascot = ({data}) => {
       });
     }
 
-    if (generalMascot.mascot.avatar_mascot.id) {
+    if (generalMascot) {
       try {
+        /** Remove Upload Image **/
         await deleteUpload({
           variables: {
             inputId: {
@@ -164,11 +195,15 @@ const DeleteMascot = ({data}) => {
       }
     }
 
+    /** Remove Mascot General **/
     try {
       await removeMascot({
         variables: {
           id: id,
         },
+      });
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha eliminado esta mascota.',
       });
       console.log('¡Delete mascot!');
     } catch (error) {
