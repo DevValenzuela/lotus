@@ -15,7 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
 const Gratulations = ({route}) => {
-  const { txtMsg } = route.params;
+  const { txtMsg, action = 'Dashboard' } = route.params;
   const navigation = useNavigation();
   return (
     <View style={style.container}>
@@ -36,7 +36,7 @@ const Gratulations = ({route}) => {
             <Text style={style.txtAdvert}>{txtMsg}</Text>
             <TouchableHighlight
               underlayColor="transparent"
-              onPress={() => navigation.navigate('Dashboard')}>
+              onPress={() => navigation.navigate(action)}>
               <View
                 style={{
                   justifyContent: 'center',

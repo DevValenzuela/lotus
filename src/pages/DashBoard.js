@@ -51,7 +51,7 @@ const DashBoard = ({navigation}) => {
   }, [data, loading]);
 
   if (loading) return <Loading />;
-  if (error) return navigation.navigate('Login');
+  if (error) console.log(error);
 
   return (
     <View style={style.container}>

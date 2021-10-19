@@ -68,7 +68,8 @@ const Register = ({navigation}) => {
         },
       });
       navigation.navigate('Gratulations', {
-        txtMsg: 'Gracias por su registro, ahora ingresa sessión.'
+        txtMsg: 'Gracias por su registro, ahora ingresa sessión.',
+        action: 'Login'
       })
       return false;
     } catch (e) {
