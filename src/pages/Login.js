@@ -23,7 +23,7 @@ import {UserContext} from '../context/userContext';
 
 const initialValue = {
   user: 'vlzdavid12@outlook.com',
-  password: 'Valenzuela21',
+  password: 'valenzuela21',
 };
 
 const SignupSchema = Yup.object().shape({
@@ -54,8 +54,8 @@ const Login = ({navigation}) => {
       await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
       dispatchUserEvent('ADD_USER', {user: {jwt, user}});
       timer = setTimeout(() => {
-        getLoading(false);
         navigation.navigate('Dashboard');
+        getLoading(false);
       }, 2000);
     } else {
       let validate = await AsyncStorage.getItem('token_lotus');
@@ -82,8 +82,7 @@ const Login = ({navigation}) => {
     }
   };
 
-  if (setLoading) return <Loading />;
-  if (loadingA) return  <Loading />;
+  if (setLoading || loadingA) return <Loading />;
   if (errorA) console.log(errorA);
 
   return (
