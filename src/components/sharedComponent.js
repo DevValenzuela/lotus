@@ -22,10 +22,7 @@ import {
   UPLOAD_PHOTO_MASCOT,
 } from '../pages/apolllo/grahpql';
 import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile';
-import {
-  CONSULT_APP,
-  CONSULT_MASCOT_APP,
-} from '../pages/apolllo/query';
+import {CONSULT_APP, CONSULT_MASCOT_APP} from '../pages/apolllo/query';
 
 export const Loading = () => {
   return (
@@ -708,8 +705,78 @@ export const ModalAlertDeleteVerify = ({modalVisible, send, action}) => {
             <Text style={{color: '#fff', fontSize: 14, textAlign: 'center'}}>
               Deseas eliminar esta mascota
             </Text>
-            <Text style={{color: '#00FFFF', fontSize: 14, textAlign: 'center', paddingVertical: 7}}>
+            <Text
+              style={{
+                color: '#00FFFF',
+                fontSize: 14,
+                textAlign: 'center',
+                paddingVertical: 7,
+              }}>
               El historial de mascota se perdera.
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <View style={{flex: 1}}>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => send()}>
+                <View
+                  style={[style.btnModalAdver, {backgroundColor: '#660066'}]}>
+                  <Text style={style.txtModal}>Cancelar</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+            <View style={{flex: 1}}>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => action()}>
+                <View
+                  style={[style.btnModalAdver, {backgroundColor: '#660066'}]}>
+                  <Text style={style.txtModal}>Ok, Si!</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+export const ModalAlertAccountUser = ({modalVisible, send, action}) => {
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        send(false);
+      }}>
+      <View style={style.centeredView}>
+        <View
+          style={{
+            backgroundColor: '#562A8C',
+            paddingHorizontal: 10,
+            height: 165,
+            paddingVertical: 20,
+            borderRadius: 20,
+          }}>
+          <View style={{padding: 10}}>
+            <Text style={{color: '#fff', fontSize: 14, textAlign: 'center'}}>
+              Deseas eliminar esta cuenta.
+            </Text>
+            <Text
+              style={{
+                color: '#00FFFF',
+                fontSize: 14,
+                textAlign: 'center',
+                paddingVertical: 7,
+              }}>
+              Si lo eliminas no podrás recuperarla.
             </Text>
           </View>
           <View

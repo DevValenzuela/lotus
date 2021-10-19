@@ -11,6 +11,7 @@ import {
 import {style} from './style';
 import {useDebounceValue} from '../../hooks/debounceTime';
 import {CONSULT_SEARCH_FILTER_MEDICAMENT} from '../apolllo/query';
+
 const Item = ({date}) => (
   <View style={style.item}>
     <Image
@@ -62,6 +63,7 @@ const MedicamentFilters = () => {
               placeholderTextColor="#5742A2"
               style={style.txtSearch}
               placeholder="Buscar..."
+              value={txtValue}
               onChangeText={setTxtValue}
             />
           </View>

@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useContext} from 'react';
+import React, { useRef, useEffect, useContext, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
@@ -16,17 +16,33 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import {useMutation} from '@apollo/client';
-import {UPDATE_USER_PROFILE} from '../apolllo/grahpql';
-import {AvatarOption, Loading} from '../../components/sharedComponent';
+import {
+  DELETE_PHOTO_MASCOT,
+  DELETE_USER_ACCOUNT,
+  UPDATE_USER_PROFILE,
+} from '../apolllo/grahpql';
+import {
+  AvatarOption,
+  Loading,
+  ModalAlertAccountUser,
+} from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
 
-const EditProfile = () => {
+const EditProfile = ({navigation}) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const {
     dispatchUserEvent,
     user: {user, idPhoto},
   } = useContext(UserContext);
   const [updateUser, {loading, data, error}] = useMutation(UPDATE_USER_PROFILE);
+  const [deleteUser, {loading: loadingUser, data: dataUser, error: errorUser}] =
+    useMutation(DELETE_USER_ACCOUNT);
+  const [
+    deleteFile,
+    {loading: loadingAvatar, data: dataAvatar, error: errorAvatar},
+  ] = useMutation(DELETE_PHOTO_MASCOT);
+
   const initialValue = {
     username: user.username,
     email: user.email,
@@ -71,6 +87,33 @@ const EditProfile = () => {
       console.log(error);
     }
   };
+
+  const handleDeleteAccount = async id => {
+    try {
+      await deleteUser({
+        variables: {
+          id,
+        },
+      });
+      if (!loadingUser && data) {
+        const {
+          user: {avatar},
+        } = data;
+        if (avatar.id) {
+          await deleteFile({
+            variables: {
+              inputId: {
+                id: avatar.id,
+              },
+            },
+          });
+        }
+      }
+      navigation.navigate('Login');
+    } catch (e) {
+      console.log(e);
+    }
+  };
   if (loading) return <Loading />;
 
   return (
@@ -79,6 +122,11 @@ const EditProfile = () => {
         source={require('./../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
+        <ModalAlertAccountUser
+          modalVisible={modalVisible}
+          send={() => setModalVisible(false)}
+          action={() => handleDeleteAccount(user.id)}
+        />
         <Animated.View style={[style.container, {opacity: fadeAnim}]}>
           <ScrollView>
             <Formik
@@ -151,7 +199,7 @@ const EditProfile = () => {
             </Formik>
             <TouchableHighlight
               style={{alignItems: 'center', marginVertical: 20}}
-              onPress={() => console.log('Delete account ...')}
+              onPress={() => setModalVisible(true)}
               underlayColor="transparent">
               <View style={style.btnDeleteAccount}>
                 <Text style={style.btnTxtDelete}>Eliminar Cuenta</Text>

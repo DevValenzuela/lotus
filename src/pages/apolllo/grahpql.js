@@ -416,3 +416,13 @@ export const DELETE_VACCINATION = gql`
     }
   }
 `;
+
+export const DELETE_USER_ACCOUNT = gql`
+  mutation deleteUser($id: ID!) {
+    deleteUser(input: {where: {id: $id}}) {
+      user {
+        id
+      }
+    }
+  }
+`;
