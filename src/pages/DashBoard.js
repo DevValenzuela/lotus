@@ -47,7 +47,7 @@ const DashBoard = ({navigation}) => {
     if (!user) {
       navigation.navigate('Login');
     }
-    if (data && !loading) {
+    if (data) {
       const {banners} = data;
       setOfert(banners[0]?.ofert);
     }

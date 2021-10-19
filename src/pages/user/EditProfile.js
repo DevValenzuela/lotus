@@ -17,30 +17,22 @@ import * as Yup from 'yup';
 
 import {useMutation} from '@apollo/client';
 import {
-  DELETE_PHOTO_MASCOT,
-  DELETE_USER_ACCOUNT,
   UPDATE_USER_PROFILE,
 } from '../apolllo/grahpql';
 import {
   AvatarOption,
   Loading,
-  ModalAlertAccountUser,
 } from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
+import DeleteAccount from '../../components/deleteAccount';
+
 const EditProfile = ({navigation}) => {
-  const [modalVisible, setModalVisible] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const {
-    dispatchUserEvent,
     user: {user, idPhoto},
   } = useContext(UserContext);
+
   const [updateUser, {loading, data, error}] = useMutation(UPDATE_USER_PROFILE);
-  const [deleteUser, {loading: loadingUser, data: dataUser, error: errorUser}] =
-    useMutation(DELETE_USER_ACCOUNT);
-  const [
-    deleteFile,
-    {loading: loadingAvatar, data: dataAvatar, error: errorAvatar},
-  ] = useMutation(DELETE_PHOTO_MASCOT);
 
   const initialValue = {
     username: user.username,
@@ -58,8 +50,8 @@ const EditProfile = ({navigation}) => {
   const SignupSchema = Yup.object().shape({
     username: Yup.string().required('El nombre usuario es requerido.'),
     email: Yup.string()
-      .email('El email no es valido.')
-      .required('El campo email es requerido.'),
+        .email('El email no es valido.')
+        .required('El campo email es requerido.'),
   });
 
   const handleUpdateProfile = async values => {
@@ -68,11 +60,10 @@ const EditProfile = ({navigation}) => {
       username: values.username,
       email: values.email,
     };
-
     try {
       await AsyncStorage.mergeItem(
-        'token_lotus',
-        JSON.stringify({user: user_values}),
+          'token_lotus',
+          JSON.stringify({user: user_values}),
       );
       await updateUser({
         variables: {
@@ -80,137 +71,94 @@ const EditProfile = ({navigation}) => {
           avatar: idPhoto ? idPhoto : '',
         },
       });
-      if (idPhoto) return;
-      dispatchUserEvent('ADD_URI', {idPhoto: ''});
+
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleDeleteAccount = async id => {
-    try {
-      await deleteUser({
-        variables: {
-          id,
-        },
-      });
-      if (!loadingUser && data) {
-        const {
-          user: {avatar},
-        } = data;
-        if (avatar.id) {
-          await deleteFile({
-            variables: {
-              inputId: {
-                id: avatar.id,
-              },
-            },
-          });
-        }
-      }
-      await AsyncStorage.removeItem('token_lotus');
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha eliminado esta cuenta.'
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
   if (loading) return <Loading />;
-
   return (
-    <View style={style.container}>
-      <ImageBackground
-        source={require('./../../assets/images/bg_lotus.png')}
-        resizeMode="cover"
-        style={style.bgImage}>
-        <ModalAlertAccountUser
-          modalVisible={modalVisible}
-          send={() => setModalVisible(false)}
-          action={() => handleDeleteAccount(user.id)}
-        />
-        <Animated.View style={[style.container, {opacity: fadeAnim}]}>
-          <ScrollView>
-            <Formik
-              initialValues={initialValue}
-              validationSchema={SignupSchema}
-              onSubmit={values => handleUpdateProfile(values)}>
-              {({
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                errors,
-              }) => (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <View style={{flex: 1, alignItems: 'center'}}>
-                    <View style={style.editContainer}>
-                      <AvatarOption />
-                      <TextInput
-                        placeholderTextColor="#5742A2"
-                        style={style.inputText}
-                        placeholder="Usuario"
-                        onChangeText={handleChange('username')}
-                        onBlur={handleBlur('username')}
-                        value={values.username}
-                      />
-                      {errors.username && touched.username ? (
-                        <View
-                          style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}>
-                          <Text style={style.error}>{errors.username}</Text>
-                        </View>
-                      ) : null}
-                      <TextInput
-                        placeholderTextColor="#5742A2"
-                        style={style.inputText}
-                        placeholder="E-mail"
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                      />
-                      {errors.email && touched.email ? (
-                        <View
-                          style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}>
-                          <Text style={style.error}>{errors.email}</Text>
-                        </View>
-                      ) : null}
+      <View style={style.container}>
+        <ImageBackground
+            source={require('./../../assets/images/bg_lotus.png')}
+            resizeMode="cover"
+            style={style.bgImage}>
+          <Animated.View style={[style.container, {opacity: fadeAnim}]}>
+            <ScrollView>
+              <Formik
+                  initialValues={initialValue}
+                  validationSchema={SignupSchema}
+                  onSubmit={values => handleUpdateProfile(values)}>
+                {({
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    values,
+                    errors,
+                  }) => (
+                    <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                      <View style={{flex: 1, alignItems: 'center'}}>
+                        <View style={style.editContainer}>
+                          <AvatarOption />
+                          <TextInput
+                              placeholderTextColor="#5742A2"
+                              style={style.inputText}
+                              placeholder="Usuario"
+                              onChangeText={handleChange('username')}
+                              onBlur={handleBlur('username')}
+                              value={values.username}
+                          />
+                          {errors.username && touched.username ? (
+                              <View
+                                  style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                  }}>
+                                <Text style={style.error}>{errors.username}</Text>
+                              </View>
+                          ) : null}
+                          <TextInput
+                              placeholderTextColor="#5742A2"
+                              style={style.inputText}
+                              placeholder="E-mail"
+                              onChangeText={handleChange('email')}
+                              onBlur={handleBlur('email')}
+                              value={values.email}
+                          />
+                          {errors.email && touched.email ? (
+                              <View
+                                  style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                  }}>
+                                <Text style={style.error}>{errors.email}</Text>
+                              </View>
+                          ) : null}
 
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        onPress={() => handleSubmit()}>
-                        <View style={style.btnEdit}>
-                          <Text style={style.txtBtnEdit}>Editar</Text>
+                          <TouchableHighlight
+                              underlayColor="transparent"
+                              onPress={() => handleSubmit()}>
+                            <View style={style.btnEdit}>
+                              <Text style={style.txtBtnEdit}>Editar</Text>
+                            </View>
+                          </TouchableHighlight>
                         </View>
-                      </TouchableHighlight>
+                      </View>
                     </View>
-                  </View>
-                </View>
-              )}
-            </Formik>
-            <TouchableHighlight
-              style={{alignItems: 'center', marginVertical: 20}}
-              onPress={() => setModalVisible(true)}
-              underlayColor="transparent">
-              <View style={style.btnDeleteAccount}>
-                <Text style={style.btnTxtDelete}>Eliminar Cuenta</Text>
-              </View>
-            </TouchableHighlight>
-          </ScrollView>
-        </Animated.View>
-      </ImageBackground>
-    </View>
+                )}
+              </Formik>
+              <DeleteAccount />
+            </ScrollView>
+          </Animated.View>
+        </ImageBackground>
+      </View>
   );
 };
 
@@ -245,12 +193,6 @@ const style = StyleSheet.create({
     borderRadius: 10,
     width: '90%',
     padding: Platform.OS == 'ios' ? 8 : 5,
-  },
-  btnTxtDelete: {
-    padding: 10,
-    color: '#ffffff',
-    textTransform: 'uppercase',
-    textAlign: 'center',
   },
   btnEdit: {
     backgroundColor: '#330066',
