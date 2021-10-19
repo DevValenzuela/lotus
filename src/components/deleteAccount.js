@@ -1,16 +1,13 @@
-import React,{useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, TouchableHighlight, StyleSheet, Text} from 'react-native';
 import {useMutation} from '@apollo/client';
 import {UserContext} from '../context/userContext';
 import {
-    DELETE_PHOTO_MASCOT,
-    DELETE_USER_ACCOUNT,
+  DELETE_PHOTO_MASCOT,
+  DELETE_USER_ACCOUNT,
 } from '../pages/apolllo/grahpql';
 
-import {
-    Loading,
-    ModalAlertAccountUser,
-} from '../components/sharedComponent';
+import {Loading, ModalAlertAccountUser} from '../components/sharedComponent';
 
 const DeleteAccount = () => {
   const {
@@ -32,16 +29,21 @@ const DeleteAccount = () => {
           id,
         },
       });
-      if (data) {
-        console.log(data);
+      if (dataUser) {
+        console.log(dataUser);
       }
-      await AsyncStorage.removeItem('token_lotus');
       navigation.navigate('Gratulations', {
         txtMsg: 'Se ha eliminado esta cuenta.',
       });
     } catch (e) {
-      await AsyncStorage.removeItem('token_lotus');
       console.log(e);
+    }
+
+    try {
+      await AsyncStorage.removeItem('token_lotus');
+      return true;
+    } catch (exception) {
+      return false;
     }
   };
 
