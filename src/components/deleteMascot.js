@@ -18,6 +18,7 @@ import {
 } from '../pages/apolllo/query';
 import {UserContext} from '../context/userContext';
 import {useNavigation} from '@react-navigation/native';
+import {Loading2} from '../components/sharedComponent';
 
 import {
   Image,
@@ -72,7 +73,7 @@ const DeleteMascot = ({data}) => {
   ] = queryMultiple();
 
   /** Consult UseMutation Delete**/
-  const [deleteMedicament] = useMutation(DELETE_MEDICAMENT_MEDIC, {
+  const [deleteMedicament,{loading: loading_1}] = useMutation(DELETE_MEDICAMENT_MEDIC, {
     update(cache, {data: {deleteMedicament}}) {
       const {
         medicament: {id},
@@ -93,7 +94,7 @@ const DeleteMascot = ({data}) => {
     },
   });
 
-  const [deleteDesparacitacion] = useMutation(DELETE_DEWORMING_MEDIC, {
+  const [deleteDesparacitacion, {loading: loading_2}] = useMutation(DELETE_DEWORMING_MEDIC, {
     update(cache, {data: {deleteDesparacitacion}}) {
       const {
         desparacitacion: {id},
@@ -116,11 +117,11 @@ const DeleteMascot = ({data}) => {
     },
   });
 
-  const [deleteVacunacion] = useMutation(DELETE_VACCINATION, {
+  const [deleteVacunacion, {loading: loading_3}] = useMutation(DELETE_VACCINATION, {
     update(cache, {data: {deleteVacunacions}}) {
       const {
         vacunacion: {id},
-      } = deleteVacunacion;
+      } = deleteVacunacions;
       const {vacunacions} = cache.readQuery({
         query: CONSULT_VACCINATIONS_APP,
         variables: {
@@ -137,7 +138,7 @@ const DeleteMascot = ({data}) => {
     },
   });
 
-  const [deleteControllerMedic] = useMutation(DELETE_CONTROLLER_MEDIC, {
+  const [deleteControllerMedic, {loading: loading_4}] = useMutation(DELETE_CONTROLLER_MEDIC, {
     update(cache, {data: {deleteControllerMedic}}) {
       const {
         controllerMedic: {id},
@@ -162,7 +163,7 @@ const DeleteMascot = ({data}) => {
     useMutation(DELETE_PHOTO_MASCOT);
 
   /** Remove Mascot General **/
-  const [removeMascot] = useMutation(DELETE_MASCOT_APP, {
+  const [removeMascot, {loading: loading_5}] = useMutation(DELETE_MASCOT_APP, {
     update(cache, {data: {deleteMascot}}) {
       const {
         mascot: {id},
@@ -269,6 +270,8 @@ const DeleteMascot = ({data}) => {
       console.log(error);
     }
   };
+
+  if(loading_1 || loading_2 || loading_3 || loading_4 || loading_5) return <Loading2 />
 
   return (
     <SafeAreaView>
