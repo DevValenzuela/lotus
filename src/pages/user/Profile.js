@@ -29,8 +29,9 @@ function ListMascot({data}) {
       style={{
         flexDirection: 'row',
         alignContent: 'space-between',
-        marginVertical: 2,
-        flex: 1,
+        marginVertical: 20,
+        width: wp('90%'),
+        maxWidth: 330,
       }}>
       <View style={{flex: 1, padding: 10}}>
         {data.img ? (
@@ -186,62 +187,76 @@ const ProfileUser = ({navigation}) => {
                   />
                 </TouchableHighlight>
               </View>
-              <TouchableHighlight
-                underlayColor="transparent"
-                onPress={() => navigation.navigate('AddMascot')}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 10,
-                    backgroundColor: '#80006A',
-                    width: wp('80%'),
-                  }}>
-                  <Text
-                    style={{
-                      padding: Platform.OS == 'ios' ? 20 : 10,
-                      color: '#fff',
-                      textTransform: 'uppercase',
-                    }}>
-                    Añadir Mascota
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            </View>
-            <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <View style={{flex: 1, width: wp('90%')}}>
-                <Text style={style.titleSub}>Mis Mascotas</Text>
-                {resultList.length > 0 ? (
-                  <FlatList
-                    data={resultList}
-                    renderItem={({item}) => <ListMascot data={item} />}
-                  />
-                ) : (
-                  <Text style={style.txtNotFound}>
-                    No hay resultados en la lista.
-                  </Text>
-                )}
+              <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <TouchableHighlight
                   underlayColor="transparent"
-                  onPress={() => sessionClose()}>
+                  onPress={() => navigation.navigate('AddMascot')}>
                   <View
                     style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
                       borderRadius: 10,
                       backgroundColor: '#80006A',
-                      marginBottom: 30,
+                      width: wp('80%'),
+                      maxWidth: 330
                     }}>
                     <Text
                       style={{
                         padding: Platform.OS == 'ios' ? 20 : 10,
                         color: '#fff',
                         textTransform: 'uppercase',
-                        textAlign: 'center',
                       }}>
-                      Cerrar Sessión
+                      Añadir Mascota
                     </Text>
                   </View>
                 </TouchableHighlight>
+              </View>
+            </View>
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <View style={{flex: 1, width: wp('90%')}}>
+                <Text style={style.titleSub}>Mis Mascotas</Text>
+                {resultList.length > 0 ? (
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <FlatList
+                      data={resultList}
+                      renderItem={({item}) => <ListMascot data={item} />}
+                    />
+                  </View>
+                ) : (
+                  <Text style={style.txtNotFound}>
+                    No hay resultados en la lista.
+                  </Text>
+                )}
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() => sessionClose()}>
+                    <View
+                      style={{
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        marginBottom: 30,
+                        width: wp('90%'),
+                        maxWidth: 330,
+                      }}>
+                      <Text
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                          textAlign: 'center',
+                        }}>
+                        Cerrar Sessión
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
               </View>
             </View>
           </View>
