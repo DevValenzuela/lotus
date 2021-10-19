@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {API_URL} from '@env';
 import {useQuery} from '@apollo/client';
 import {BANNER_APP} from '../pages/apolllo/query';
@@ -19,7 +19,7 @@ import {
 
 import {BtnAction, Loading} from '../components/sharedComponent';
 import ListCarousel from '../components/listCarousel';
-
+import {UserContext} from '../context/userContext';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -28,6 +28,10 @@ const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
 const DashBoard = ({navigation}) => {
+  const {
+    dispatchUserEvent,
+    user: {user},
+  } = useContext(UserContext);
   const {loading, error, data} = useQuery(BANNER_APP, {
     pollInterval: 2000,
   });
@@ -40,11 +44,14 @@ const DashBoard = ({navigation}) => {
   }, []);
 
   useEffect(() => {
+    if (!user) {
+      navigation.navigate('Login');
+    }
     if (data && !loading) {
       const {banners} = data;
       setOfert(banners[0]?.ofert);
     }
-  }, [data, loading]);
+  }, [data, loading, user]);
 
   if (loading) return <Loading />;
   if (error) console.log(error);

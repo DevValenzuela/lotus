@@ -67,6 +67,9 @@ const Register = ({navigation}) => {
           password: values.password,
         },
       });
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Gracias por su registro, ahora ingresa sessión.'
+      })
       return false;
     } catch (e) {
       navigation.navigate('Login');

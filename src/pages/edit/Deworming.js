@@ -25,7 +25,7 @@ import {
 } from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 
-const Deworming = ({route}) => {
+const Deworming = ({route, navigation}) => {
   const {idMascot, edit, desparacitacions} = route.params;
   const [createDesparacitacion, {data, error, loading}] = useMutation(
     CREATE_DESPARACITACION_APP,
@@ -85,6 +85,9 @@ const Deworming = ({route}) => {
         },
       });
       getDate('');
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Nueva desparacitación creada.'
+      });
     } catch (error) {
       console.log(error);
     }
@@ -102,6 +105,9 @@ const Deworming = ({route}) => {
           medicament,
           note,
         },
+      });
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se actualizo nueva desparacitación.'
       });
     } catch (e) {
       console.log(e);

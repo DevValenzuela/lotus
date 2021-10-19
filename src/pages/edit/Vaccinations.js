@@ -25,7 +25,7 @@ import {
 } from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 
-const Vaccinations = ({route}) => {
+const Vaccinations = ({route, navigation}) => {
   const {idMascot, edit, vacunacions} = route.params;
 
   const [createVacunacion, {data, error, loading}] = useMutation(
@@ -90,6 +90,9 @@ const Vaccinations = ({route}) => {
         },
       });
       getDate('');
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha creado una nueva vacunación.'
+      });
     } catch (error) {
       console.log(error);
     }
@@ -107,6 +110,9 @@ const Vaccinations = ({route}) => {
           medicament,
           note: note_reaction,
         },
+      });
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha actualizado la vacunación.'
       });
     } catch (error) {
       console.log(error);

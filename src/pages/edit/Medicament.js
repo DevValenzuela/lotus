@@ -23,7 +23,7 @@ import {Loading, ModalCalendarError} from '../../components/sharedComponent';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 
-const Medicament = ({route}) => {
+const Medicament = ({route, navigation}) => {
   const {idMascot, edit, medicaments} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
@@ -93,6 +93,9 @@ const Medicament = ({route}) => {
         },
       });
       getDate('');
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha creado un nuevo medicamento.'
+      });
     } catch (error) {
       console.log(error);
     }
@@ -113,6 +116,9 @@ const Medicament = ({route}) => {
           period,
           notation,
         },
+      });
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha actualizado un nuevo medicamneto.'
       });
     } catch (error) {
       console.log(error);

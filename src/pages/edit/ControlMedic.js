@@ -25,7 +25,7 @@ import {
 import {ModalCalendarError, Loading} from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
 
-const ControlMedic = ({route}) => {
+const ControlMedic = ({route,  navigation}) => {
   const {idMascot, controllerMedics, edit} = route.params;
   const {
     user: {user},
@@ -83,6 +83,9 @@ const ControlMedic = ({route}) => {
         },
       });
       getDate('');
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Nuevo control medico creado.'
+      });
     } catch (error) {
       console.log(error);
     }
@@ -100,6 +103,9 @@ const ControlMedic = ({route}) => {
           assessment: valoration,
           note,
         },
+      });
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha actualizado control medico.'
       });
     } catch (error) {
       console.log(error);

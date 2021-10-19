@@ -119,6 +119,9 @@ const AddMascot = () => {
       });
       getDate('');
       dispatchUserEvent('ADD_URI', {idPhoto: ''});
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Que bien has ingresado una nueva mascota.'
+      });
     } catch (e) {
       console.log(e.message);
     }

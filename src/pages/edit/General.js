@@ -19,7 +19,7 @@ import {AvatarMascotOption} from '../../components/sharedComponent';
 import {useMutation} from '@apollo/client';
 import {UPDATE_GENERAL_MASCOT} from '../apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
-const General = ({route}) => {
+const General = ({route, navigation}) => {
   const {
     id,
     name_mascot,
@@ -64,8 +64,9 @@ const General = ({route}) => {
     date_sterilized: Yup.string().required('Ingresa la fecha de esterización.'),
   });
 
-  const handleSubmitGeneral = values => {
+  const handleSubmitGeneral = async values => {
     if (!values) return null;
+
     const {
       date_sterilized,
       microchip,
@@ -74,17 +75,24 @@ const General = ({route}) => {
       type_mascot,
       number_microchip,
     } = values;
-    updateMascot({
-      variables: {
-        id,
-        type_mascot,
-        race_mascot: race,
-        date_sterilized,
-        number_microchip,
-        description: note,
-        microchip,
-      },
-    });
+    try{
+      await updateMascot({
+        variables: {
+          id,
+          type_mascot,
+          race_mascot: race,
+          date_sterilized,
+          number_microchip,
+          description: note,
+          microchip,
+        },
+      });
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha actualizado esta nueva mascota'
+      });
+    }catch (error){
+      console.log(error)
+    }
   };
 
   const onDateChange = date => {

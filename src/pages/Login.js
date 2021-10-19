@@ -37,6 +37,7 @@ const Login = ({navigation}) => {
     useMutation(LOGIN_USER_APP);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [setLoading, getLoading] = useState(false)
   let timer = useRef(null);
 
   useEffect(() => {
@@ -48,10 +49,12 @@ const Login = ({navigation}) => {
 
   const validateLogin = async dataA => {
     if (dataA) {
+      getLoading(true);
       const {jwt, user} = dataA.login;
       await AsyncStorage.setItem('token_lotus', JSON.stringify({jwt, user}));
       dispatchUserEvent('ADD_USER', {user: {jwt, user}});
       timer = setTimeout(() => {
+        getLoading(false);
         navigation.navigate('Dashboard');
       }, 2000);
     } else {
@@ -79,7 +82,7 @@ const Login = ({navigation}) => {
     }
   };
 
-  if (loadingA) return <Loading />;
+  if (loadingA || setLoading) return <Loading />;
   if (errorA) console.log(errorA);
 
   return (
