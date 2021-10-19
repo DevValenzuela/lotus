@@ -1,7 +1,7 @@
-import React,{useState} from 'react';
+import React,{useState, useContext} from 'react';
 import {View, TouchableHighlight, StyleSheet, Text} from 'react-native';
 import {useMutation} from '@apollo/client';
-
+import {UserContext} from '../context/userContext';
 import {
     DELETE_PHOTO_MASCOT,
     DELETE_USER_ACCOUNT,
@@ -13,6 +13,9 @@ import {
 } from '../components/sharedComponent';
 
 const DeleteAccount = () => {
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteUser, {loading: loadingUser, data: dataUser, error: errorUser}] =
     useMutation(DELETE_USER_ACCOUNT);
@@ -29,25 +32,15 @@ const DeleteAccount = () => {
           id,
         },
       });
-      if (!loadingUser && data) {
-        const {
-          user: {avatar},
-        } = data;
-        if (avatar.id) {
-          await deleteFile({
-            variables: {
-              inputId: {
-                id: avatar.id,
-              },
-            },
-          });
-        }
+      if (data) {
+        console.log(data);
       }
       await AsyncStorage.removeItem('token_lotus');
       navigation.navigate('Gratulations', {
         txtMsg: 'Se ha eliminado esta cuenta.',
       });
     } catch (e) {
+      await AsyncStorage.removeItem('token_lotus');
       console.log(e);
     }
   };

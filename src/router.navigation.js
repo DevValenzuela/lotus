@@ -232,10 +232,8 @@ export function RouterNavigation() {
       <Stack.Screen
         name="Gratulations"
         component={Gratulations}
-        options={() => ({
-          title: 'Confrimación',
-          ...options2(),
-        })}></Stack.Screen>
+        options={{headerShown: false}}>
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
