@@ -29,21 +29,19 @@ const DeleteAccount = () => {
           id,
         },
       });
-      if (dataUser) {
+      if (dataUser && !loadingUser) {
         console.log(dataUser);
+        try {
+          await AsyncStorage.removeItem('token_lotus');
+          navigation.navigate('Gratulations', {
+            txtMsg: 'Se ha eliminado esta cuenta.',
+          });
+        } catch (exception) {
+          return false;
+        }
       }
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha eliminado esta cuenta.',
-      });
     } catch (e) {
       console.log(e);
-    }
-
-    try {
-      await AsyncStorage.removeItem('token_lotus');
-      return true;
-    } catch (exception) {
-      return false;
     }
   };
 
