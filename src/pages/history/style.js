@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 export const style = StyleSheet.create({
   container: {
@@ -32,8 +32,8 @@ export const style = StyleSheet.create({
   },
   btnTxtAdd: {
     color: '#ffffff',
-    padding: 10,
+    padding: Platform.OS === 'ios' ? 20 : 10,
     textAlign: 'center',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
 });

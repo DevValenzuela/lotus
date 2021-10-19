@@ -52,8 +52,6 @@ const DewormingHistory = ({navigation, route}) => {
     });
   }
 
-
-
   const renderItem = ({item}) => <Item date={item.last_deworming} />;
   return (
     <SafeAreaView style={style.container}>
