@@ -44,17 +44,14 @@ const DashBoard = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    if (!user) {
-      navigation.navigate('Login');
-    }
     if (data) {
       const {banners} = data;
       setOfert(banners[0]?.ofert);
     }
-  }, [data, loading, user]);
+  }, [data, loading]);
 
   if (loading) return <Loading />;
-  if (error) console.log(error);
+  if (error) return navigation.navigate('Login');
 
   return (
     <View style={style.container}>
