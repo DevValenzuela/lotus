@@ -69,7 +69,7 @@ const ListCarousel = ({navigation, refresh}) => {
     const {mascots} = data;
     mascots.map(item => {
       const {id, name_mascot, avatar_mascot} = item;
-      const url_image = avatar_mascot != null ? avatar_mascot.url : '';
+      const url_image = avatar_mascot !== null && avatar_mascot !== undefined  ? avatar_mascot.url : '';
       data_mascot.push({
         id,
         name_mascot,
@@ -162,9 +162,9 @@ const styles = StyleSheet.create({
     position: 'relative',
     textTransform: 'capitalize',
   },
-  txtNotFound:{
+  txtNotFound: {
     color: '#FFFF',
-  }
+  },
 });
 
 export default ListCarousel;

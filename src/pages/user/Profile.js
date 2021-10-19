@@ -131,7 +131,9 @@ const ProfileUser = ({navigation}) => {
       const dataMascot = [];
       data.mascots.map(item => {
         const url_image =
-          item.avatar_mascot != null ? API_URL + item.avatar_mascot.url : '';
+          item.avatar_mascot !== null && item.avatar_mascot !== undefined
+            ? API_URL + item.avatar_mascot.url
+            : '';
         dataMascot.push({
           id: item.id,
           title: item.name_mascot,
