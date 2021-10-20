@@ -19,6 +19,7 @@ export const CONSULT_APP = gql`
       blocked
       confirmed
       avatar {
+        id
         url
       }
     }

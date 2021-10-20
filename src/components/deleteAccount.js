@@ -2,47 +2,23 @@ import React, {useState, useContext} from 'react';
 import {View, TouchableHighlight, StyleSheet, Text} from 'react-native';
 import {useMutation} from '@apollo/client';
 import {UserContext} from '../context/userContext';
-import {
-  DELETE_PHOTO_MASCOT,
-  DELETE_USER_ACCOUNT,
-} from '../pages/apolllo/grahpql';
-
+import { useNavigation } from '@react-navigation/native';
 import {Loading, ModalAlertAccountUser} from '../components/sharedComponent';
 
 const DeleteAccount = () => {
+  const navigation = useNavigation();
   const {
     user: {user},
   } = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const [deleteUser, {loading: loadingUser, data: dataUser, error: errorUser}] =
-    useMutation(DELETE_USER_ACCOUNT);
-
-  const [
-    deleteFile,
-    {loading: loadingAvatar, data: dataAvatar, error: errorAvatar},
-  ] = useMutation(DELETE_PHOTO_MASCOT);
 
   const handleDeleteAccount = async id => {
-    try {
-      await deleteUser({
-        variables: {
-          id,
-        },
-      });
-      if (dataUser && !loadingUser) {
-        console.log(dataUser);
-        try {
-          await AsyncStorage.removeItem('token_lotus');
-          navigation.navigate('Gratulations', {
-            txtMsg: 'Se ha eliminado esta cuenta.',
-          });
-        } catch (exception) {
-          return false;
-        }
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    navigation.navigate('Gratulations', {
+      txtMsg: 'Se ha eliminado esta cuenta.',
+      action: 'Login',
+      id: id,
+      type: 'DELETE'
+    });
   };
 
   return (

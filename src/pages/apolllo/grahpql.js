@@ -98,6 +98,16 @@ export const UPDATE_USER_PROFILE = gql`
   }
 `;
 
+export const UPDATE_USER_BLOCK_APP = gql`
+  mutation updateUserBlock($id: ID!, $block: Boolean!) {
+    updateUser(input: {where: {id: $id}, data: {blocked: $block}}) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
 export const UPLOAD_PHOTO_MASCOT = gql`
   mutation ($file: Upload!) {
     upload(file: $file) {
@@ -418,11 +428,11 @@ export const DELETE_VACCINATION = gql`
 `;
 
 export const DELETE_USER_ACCOUNT = gql`
- mutation deleteUser($id: ID!) {
+  mutation deleteUser($id: ID!) {
     deleteUser(input: {where: {id: $id}}) {
       user {
-        id,
-        avatar{
+        id
+        avatar {
           id
         }
       }

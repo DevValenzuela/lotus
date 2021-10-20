@@ -13,10 +13,63 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {useMutation, useQuery} from '@apollo/client';
+import {Loading2} from '../components/sharedComponent';
+import {CONSULT_APP} from '../pages/apolllo/query';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  DELETE_PHOTO_MASCOT,
+  UPDATE_USER_BLOCK_APP,
+} from '../pages/apolllo/grahpql';
 const Gratulations = ({route}) => {
-  const { txtMsg, action = 'Dashboard' } = route.params;
   const navigation = useNavigation();
+  const {txtMsg, action = 'Dashboard', id, type} = route.params;
+
+  if (type === 'DELETE') {
+    const {loading, error, data} = useQuery(CONSULT_APP, {
+      variables: {
+        id,
+      },
+    });
+    const [updateUserBlock] = useMutation(UPDATE_USER_BLOCK_APP);
+    const [deleteFile] = useMutation(DELETE_PHOTO_MASCOT);
+    if (loading) return <Loading2 />;
+    const {user} = data;
+    if (user) {
+      if (user.avatar !== null) {
+        const {id: idAvatar} = user.avatar;
+        deleteFile({
+          variables: {
+            inputId: {
+              id: idAvatar,
+            },
+          },
+        })
+          .then(() => {
+            console.log('Photo Delete Avatar');
+            return true;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+
+      updateUserBlock({
+        variables:{
+          id: user.id,
+          "block": true,
+        }
+      }).then(async ()=>{
+        await AsyncStorage.removeItem('token_lotus');
+        cosnole.log('User delete sucess fully');
+      }).catch((error)=>{
+        console.log(error)
+      })
+
+    }
+  }
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -84,8 +137,8 @@ const style = StyleSheet.create({
     textAlign: 'center',
     width: 230,
   },
-    tinyLogo: {
-        width: 118,
-        height: 153,
-    },
+  tinyLogo: {
+    width: 118,
+    height: 153,
+  },
 });
