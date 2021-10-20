@@ -233,7 +233,7 @@ const Login = ({navigation}) => {
                       </TouchableHighlight>
 
                       <TouchableHighlight
-                          onPress={() => notif.localNotif()}>
+                          onPress={() => notif.scheduleNotif()}>
                         <Text>Local Notification (now)</Text>
                       </TouchableHighlight>
                     </View>
