@@ -16,11 +16,77 @@ import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
+import SQLite from 'react-native-sqlite-storage';
+import sqliteNotification from './hooks/sqliteNotification';
+
+
+const db = SQLite.openDatabase(
+    {
+      name: 'MainDB',
+      location: 'default',
+    },
+    () => {
+      console.log('Open success fully database sqlite.');
+    },
+    error => {
+      console.log('Error open database sqlite.');
+    },
+);
+
 
 const App = () => {
   useEffect(() => {
     SplashScreen.hide();
+    createTable();
+    getData();
   }, []);
+
+  const createTable = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+          "CREATE TABLE IF NOT EXISTS "
+          + "Notify "
+          + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_date TEXT, title TEXT, type TEXT);"
+      )
+    })
+  }
+
+  const getData = () => {
+    try {
+      db.transaction((tx) => {
+        tx.executeSql(
+            "SELECT last_date, title, type FROM Notify",
+            [],
+            (tx, results) => {
+              let len = results.rows.length;
+              console.log(results.rows.item(0))
+            }
+        )
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const setData = async () => {
+    let last_date = "12-08-2020"
+    let title = "nuevo notification"
+    if (last_date.length == 0 || title.length == 0) {
+      alert('Please write your data.');
+    } else {
+      try {
+        await db.transaction(async (tx) => {
+          await tx.executeSql(
+              "INSERT INTO Notify (last_date, title) VALUES (?,?)",
+              [last_date, title]
+          );
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
 
   const httpLink = new createUploadLink({
     uri: `${API_URL}/graphql`,
