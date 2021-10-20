@@ -18,7 +18,9 @@ import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
 import sqliteNotification from './hooks/sqliteNotification';
 import {db} from './conexion/sqlite';
+
 const App = () => {
+
   useEffect(() => {
     SplashScreen.hide();
     createTable();

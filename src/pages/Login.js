@@ -20,6 +20,7 @@ import {Loading} from '../components/sharedComponent';
 import {useMutation} from '@apollo/client';
 import {LOGIN_USER_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
+import NotifService from '../hooks/notifyService';
 
 const initialValue = {
   user: 'vlzdavid12@outlook.com',
@@ -32,6 +33,8 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Login = ({navigation}) => {
+  const notif = new NotifService();
+
   const {dispatchUserEvent} = useContext(UserContext);
   const [login, {data: dataA, error: errorA, loading: loadingA}] =
     useMutation(LOGIN_USER_APP);
@@ -227,6 +230,11 @@ const Login = ({navigation}) => {
                         <View style={style.btnSubmit}>
                           <Text style={style.txtSubmit}>Recuperar Cuenta</Text>
                         </View>
+                      </TouchableHighlight>
+
+                      <TouchableHighlight
+                          onPress={() => notif.localNotif()}>
+                        <Text>Local Notification (now)</Text>
                       </TouchableHighlight>
                     </View>
                   </>
