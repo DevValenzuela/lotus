@@ -31,7 +31,7 @@ const App = () => {
       tx.executeSql(
           "CREATE TABLE IF NOT EXISTS "
           + "Notify "
-          + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_date TEXT, title TEXT, type TEXT);"
+          + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_date TEXT, title TEXT);"
       )
     })
   }

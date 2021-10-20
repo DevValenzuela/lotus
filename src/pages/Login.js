@@ -85,7 +85,7 @@ const Login = ({navigation}) => {
     }
   };
 
-  if (setLoading || loadingA) return <Loading />;
+  if (setLoading) return <Loading />;
   if (errorA) console.log(errorA);
 
   return (
@@ -230,11 +230,6 @@ const Login = ({navigation}) => {
                         <View style={style.btnSubmit}>
                           <Text style={style.txtSubmit}>Recuperar Cuenta</Text>
                         </View>
-                      </TouchableHighlight>
-
-                      <TouchableHighlight
-                          onPress={() => notif.scheduleNotif()}>
-                        <Text>Local Notification (now)</Text>
                       </TouchableHighlight>
                     </View>
                   </>
