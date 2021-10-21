@@ -79,20 +79,26 @@ export const ADD_MASCOT_APP = gql`
 `;
 
 export const UPDATE_USER_PROFILE = gql`
-  mutation updateUser(
-    $id: ID!
-    $username: String
-    $email: String
-    $avatar: ID
-  ) {
+  mutation updateUser($id: ID!, $username: String, $email: String) {
     updateUser(
-      input: {
-        where: {id: $id}
-        data: {username: $username, email: $email, avatar: $avatar}
-      }
+      input: {where: {id: $id}, data: {username: $username, email: $email}}
     ) {
       user {
         id
+      }
+    }
+  }
+`;
+
+export const UPDATE_AVATAR_USER_PROFILE = gql`
+  mutation updateUserAvatar($id: ID!, $idAvatar: ID!) {
+    updateUser(input: {where: {id: $id}, data: {avatar: $idAvatar}}) {
+      user {
+        id
+        avatar {
+          id
+          url
+        }
       }
     }
   }

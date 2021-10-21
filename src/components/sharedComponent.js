@@ -19,6 +19,7 @@ import {useMutation, useQuery} from '@apollo/client';
 import {
   DELETE_PHOTO_MASCOT,
   UPDATE_PHOTO_MASCOT,
+  UPDATE_AVATAR_USER_PROFILE,
   UPLOAD_PHOTO_MASCOT,
 } from '../pages/apolllo/grahpql';
 import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile';
@@ -250,6 +251,7 @@ export const AvatarOption = () => {
   const [setImageGallery, getImageGallery] = useState('');
   const [setAvatar, getAvatar] = useState({});
 
+  const [updateUserAvatar] = useMutation(UPDATE_AVATAR_USER_PROFILE);
   const [upload, {loading: loadingB, data: dataB}] =
     useMutation(UPLOAD_PHOTO_MASCOT);
 
@@ -295,7 +297,13 @@ export const AvatarOption = () => {
       })
         .then(resp => {
           const {upload} = resp.data;
-          dispatchUserEvent('ADD_URI', {idPhoto: upload.id});
+          updateUserAvatar({
+            variables:{
+              id: user.id,
+              idAvatar: upload.id
+            }
+          })
+          //dispatchUserEvent('ADD_URI', {idPhoto: upload.id});
         })
         .catch(e => console.log(e.message));
     }

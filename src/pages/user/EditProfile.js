@@ -29,7 +29,8 @@ import DeleteAccount from '../../components/deleteAccount';
 const EditProfile = ({navigation}) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const {
-    user: {user, idPhoto},
+    dispatchUserEvent,
+    user: {user},
   } = useContext(UserContext);
 
   const [updateUser, {loading, data, error}] = useMutation(UPDATE_USER_PROFILE);
@@ -66,12 +67,14 @@ const EditProfile = ({navigation}) => {
           JSON.stringify({user: user_values}),
       );
       await updateUser({
-        variables: {
-          ...user_values,
-          avatar: idPhoto ? idPhoto : '',
-        },
+        variables: user_values,
       });
 
+      dispatchUserEvent('REFRESH', {refresh: true});
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se actualizado el perfil.',
+        action: 'Profile'
+      })
     } catch (error) {
       console.log(error);
     }
