@@ -19,6 +19,7 @@ import {AvatarMascotOption} from '../../components/sharedComponent';
 import {useMutation} from '@apollo/client';
 import {UPDATE_GENERAL_MASCOT} from '../apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
+import {useIsConnected} from 'react-native-offline';
 const General = ({route, navigation}) => {
   const {
     id,
@@ -38,7 +39,7 @@ const General = ({route, navigation}) => {
   const [setCalendar, getCalendar] = useState(false);
   const [setMicrochip, getMicrochip] = useState('No');
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
-
+  const isConnected = useIsConnected();
   const [updateMascot, {data, loading, error}] = useMutation(
     UPDATE_GENERAL_MASCOT,
   );
@@ -117,7 +118,7 @@ const General = ({route, navigation}) => {
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView>
-          {edit && (
+          {edit && isConnected&& (
             <View style={{marginBottom: 20}}>
               <AvatarMascotOption idMascot={id} />
             </View>

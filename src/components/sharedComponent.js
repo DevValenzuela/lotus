@@ -90,6 +90,7 @@ export const BtnAction = ({navigation, title, url, action}) => {
 };
 
 export const ModalGalleryOptions = () => {
+  const isConnected = useIsConnected();
   const {dispatchUserEvent} = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [setImageGallery, getImageGallery] = useState('');
@@ -175,34 +176,54 @@ export const ModalGalleryOptions = () => {
 
   return (
     <View>
-      {setImageGallery ? (
-        <View>
-          <TouchableHighlight
-            underlayColor="transparent"
-            onPress={() => deleteImage()}>
+      {(() => {
+        if (isConnected) {
+          if (setImageGallery) {
+            return (
+              <View>
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() => deleteImage()}>
+                  <Image
+                    source={{
+                      uri: setImageGallery,
+                    }}
+                    style={{
+                      width: '100%',
+                      height: 150,
+                      borderRadius: 10,
+                    }}
+                    resizeMode="cover"
+                  />
+                </TouchableHighlight>
+              </View>
+            );
+          } else {
+            return (
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Image
+                  style={{width: '100%', resizeMode: 'contain'}}
+                  source={require('./../assets/images/galery_mascot.png')}
+                />
+              </TouchableHighlight>
+            );
+          }
+        } else {
+          return (
             <Image
-              source={{
-                uri: setImageGallery,
-              }}
+              source={require('../assets/images/not-add-image.png')}
               style={{
                 width: '100%',
-                height: 150,
-                borderRadius: 10,
+                height: 160,
               }}
-              resizeMode="cover"
+              resizeMode="contain"
             />
-          </TouchableHighlight>
-        </View>
-      ) : (
-        <TouchableHighlight
-          underlayColor="transparent"
-          onPress={() => setModalVisible(!modalVisible)}>
-          <Image
-            style={{width: '100%', resizeMode: 'contain'}}
-            source={require('./../assets/images/galery_mascot.png')}
-          />
-        </TouchableHighlight>
-      )}
+          );
+        }
+      })()}
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -819,58 +840,57 @@ export const ModalAlertAccountUser = ({modalVisible, action}) => {
   );
 };
 
-
 export const ModalAlertErrorRegister = ({modalVisible, send}) => {
   return (
-      <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            send(false);
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        send(false);
+      }}>
+      <View style={style.centeredView}>
+        <View
+          style={{
+            backgroundColor: '#562A8C',
+            paddingHorizontal: 10,
+            height: 165,
+            paddingVertical: 20,
+            borderRadius: 20,
           }}>
-        <View style={style.centeredView}>
-          <View
+          <View style={{padding: 10}}>
+            <Text style={{color: '#fff', fontSize: 14, textAlign: 'center'}}>
+              Error en el registro.
+            </Text>
+            <Text
               style={{
-                backgroundColor: '#562A8C',
-                paddingHorizontal: 10,
-                height: 165,
-                paddingVertical: 20,
-                borderRadius: 20,
+                color: '#00FFFF',
+                fontSize: 14,
+                textAlign: 'center',
+                paddingVertical: 7,
               }}>
-            <View style={{padding: 10}}>
-              <Text style={{color: '#fff', fontSize: 14, textAlign: 'center'}}>
-                Error en el registro.
-              </Text>
-              <Text
-                  style={{
-                    color: '#00FFFF',
-                    fontSize: 14,
-                    textAlign: 'center',
-                    paddingVertical: 7,
-                  }}>
-                No se pudo insertar o ingresar el registro.
-              </Text>
-            </View>
-            <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                }}>
-              <View style={{flex: 1}}>
-                <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => send()}>
-                  <View
-                      style={[style.btnModalAdver, {backgroundColor: '#660066'}]}>
-                    <Text style={style.txtModal}>Ok, Deacuerdo!</Text>
-                  </View>
-                </TouchableHighlight>
-              </View>
+              No se pudo insertar o ingresar el registro.
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <View style={{flex: 1}}>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => send()}>
+                <View
+                  style={[style.btnModalAdver, {backgroundColor: '#660066'}]}>
+                  <Text style={style.txtModal}>Ok, Deacuerdo!</Text>
+                </View>
+              </TouchableHighlight>
             </View>
           </View>
         </View>
-      </Modal>
+      </View>
+    </Modal>
   );
 };
 
@@ -956,7 +976,6 @@ const style = StyleSheet.create({
   bgdanger: {
     backgroundColor: '#E72A30',
     padding: 5,
-
   },
   txtdanger: {
     color: '#fff',
