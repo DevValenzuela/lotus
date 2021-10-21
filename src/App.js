@@ -17,7 +17,7 @@ import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
 import sqliteNotification from './hooks/sqliteNotification';
-import {db} from './conexion/sqlite';
+import {db, createTableDB} from './conexion/sqlite';
 import {DangerAlertOffline} from './components/sharedComponent';
 const App = () => {
 
@@ -28,11 +28,7 @@ const App = () => {
 
   const createTable = () => {
     db.transaction((tx) => {
-      tx.executeSql(
-          "CREATE TABLE IF NOT EXISTS "
-          + "Notify "
-          + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_date TEXT, title TEXT);"
-      )
+      createTableDB(tx)
     })
   }
 

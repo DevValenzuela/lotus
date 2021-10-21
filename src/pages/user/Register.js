@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
   Platform,
   Image,
@@ -15,7 +15,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {useMutation} from '@apollo/client';
 import {REGISTER_USER_APP} from '../apolllo/grahpql';
-
+import {ModalAlertErrorRegister} from '../../components/sharedComponent';
 const initialValue = {
   user: '',
   email: '',
@@ -39,7 +39,7 @@ const SignupSchema = Yup.object().shape({
 
 const Register = ({navigation}) => {
   const [register, {data, loading, error}] = useMutation(REGISTER_USER_APP);
-
+  const [modalVisible, setModalVisible] = useState(false);
   if (loading) {
     return (
       <View style={style.container}>
@@ -53,10 +53,6 @@ const Register = ({navigation}) => {
     );
   }
 
-  if (error) {
-    console.log(error.message);
-    return null;
-  }
 
   const handleRegister = async values => {
     try {
@@ -69,12 +65,11 @@ const Register = ({navigation}) => {
       });
       navigation.navigate('Gratulations', {
         txtMsg: 'Gracias por su registro, ahora ingresa sessión.',
-        action: 'Login'
-      })
-      return false;
+        action: 'Login',
+      });
+      return true;
     } catch (e) {
-      navigation.navigate('Login');
-      return null;
+      setModalVisible(true);
     }
   };
 
@@ -85,6 +80,10 @@ const Register = ({navigation}) => {
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView>
+          <ModalAlertErrorRegister
+            modalVisible={modalVisible}
+            send={() => navigation.navigate('Login')}
+          />
           <View
             style={{
               flexDirection: 'row',

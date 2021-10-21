@@ -755,7 +755,7 @@ export const ModalAlertDeleteVerify = ({modalVisible, send, action}) => {
   );
 };
 
-export const ModalAlertAccountUser = ({modalVisible, send, action}) => {
+export const ModalAlertAccountUser = ({modalVisible, action}) => {
   return (
     <Modal
       animationType="slide"
@@ -816,6 +816,61 @@ export const ModalAlertAccountUser = ({modalVisible, send, action}) => {
         </View>
       </View>
     </Modal>
+  );
+};
+
+
+export const ModalAlertErrorRegister = ({modalVisible, send}) => {
+  return (
+      <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            send(false);
+          }}>
+        <View style={style.centeredView}>
+          <View
+              style={{
+                backgroundColor: '#562A8C',
+                paddingHorizontal: 10,
+                height: 165,
+                paddingVertical: 20,
+                borderRadius: 20,
+              }}>
+            <View style={{padding: 10}}>
+              <Text style={{color: '#fff', fontSize: 14, textAlign: 'center'}}>
+                Error en el registro.
+              </Text>
+              <Text
+                  style={{
+                    color: '#00FFFF',
+                    fontSize: 14,
+                    textAlign: 'center',
+                    paddingVertical: 7,
+                  }}>
+                No se pudo insertar o ingresar el registro.
+              </Text>
+            </View>
+            <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                }}>
+              <View style={{flex: 1}}>
+                <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() => send()}>
+                  <View
+                      style={[style.btnModalAdver, {backgroundColor: '#660066'}]}>
+                    <Text style={style.txtModal}>Ok, Deacuerdo!</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
   );
 };
 
