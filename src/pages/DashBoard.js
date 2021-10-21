@@ -83,7 +83,7 @@ const DashBoard = ({navigation}) => {
                   height: hp('29%'),
                   alignItems: 'center',
                 }}>
-                {getOfert && isConnected? (
+                {getOfert && isConnected ? (
                   <Image
                     style={style.banner}
                     source={{uri: `${API_URL}${getOfert.url}`}}
@@ -144,7 +144,11 @@ const DashBoard = ({navigation}) => {
                   alignItems: 'center',
                   maxWidth: 790,
                 }}>
-                <ListCarousel navigation={navigation} refresh={refreshing} />
+                {isConnected ? (
+                  <ListCarousel navigation={navigation} refresh={refreshing} />
+                ) : (
+                  <Text style={{ color: '#fff'}}>No tiene conexión.</Text>
+                )}
               </View>
               <View style={{alignItems: 'center'}}>
                 <TouchableHighlight
