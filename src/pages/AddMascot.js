@@ -23,8 +23,9 @@ import moment from 'moment';
 
 import {useMutation} from '@apollo/client';
 import {ADD_MASCOT_APP} from './apolllo/grahpql';
-
 import {UserContext} from '../context/userContext';
+import {useIsConnected} from 'react-native-offline';
+
 import {
   Loading,
   ModalGalleryOptions,
@@ -46,7 +47,7 @@ const AddMascot = ({navigation}) => {
   const [erroDate, setErrorDate] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [createMascot, {loading: loadingA}] = useMutation(ADD_MASCOT_APP);
-
+  const isConnected = useIsConnected();
   const initialValue = {
     name_mascot: '',
     age_mascot: '',
@@ -105,25 +106,29 @@ const AddMascot = ({navigation}) => {
   };
 
   const handleInsert = async values => {
-    try {
-      await createMascot({
-        variables: {
-          ...values,
-          age_mascot: Number(values.age_mascot),
-          sterilized: setSterilized,
-          date_sterilized: setDate,
-          microchip: setMicrochip,
-          avatar_mascot: idPhoto ? idPhoto : null,
-          user: user ? Number(user.id) : null,
-        },
-      });
-      getDate('');
-      dispatchUserEvent('ADD_URI', {idPhoto: ''});
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Que bien has ingresado una nueva mascota.'
-      });
-    } catch (e) {
-      console.log(e.message);
+    if(isConnected) {
+      try {
+        await createMascot({
+          variables: {
+            ...values,
+            age_mascot: Number(values.age_mascot),
+            sterilized: setSterilized,
+            date_sterilized: setDate,
+            microchip: setMicrochip,
+            avatar_mascot: idPhoto ? idPhoto : null,
+            user: user ? Number(user.id) : null,
+          },
+        });
+        getDate('');
+        dispatchUserEvent('ADD_URI', {idPhoto: ''});
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Que bien has ingresado una nueva mascota.'
+        });
+      } catch (e) {
+        console.log(e.message);
+      }
+    }else{
+      alert('Sin conección');
     }
   };
 

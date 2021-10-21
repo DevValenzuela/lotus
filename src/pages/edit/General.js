@@ -68,31 +68,35 @@ const General = ({route, navigation}) => {
   const handleSubmitGeneral = async values => {
     if (!values) return null;
 
-    const {
-      date_sterilized,
-      microchip,
-      note,
-      race,
-      type_mascot,
-      number_microchip,
-    } = values;
-    try{
-      await updateMascot({
-        variables: {
-          id,
-          type_mascot,
-          race_mascot: race,
-          date_sterilized,
-          number_microchip,
-          description: note,
-          microchip,
-        },
-      });
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha actualizado esta nueva mascota'
-      });
-    }catch (error){
-      console.log(error)
+    if (isConnected) {
+      const {
+        date_sterilized,
+        microchip,
+        note,
+        race,
+        type_mascot,
+        number_microchip,
+      } = values;
+      try {
+        await updateMascot({
+          variables: {
+            id,
+            type_mascot,
+            race_mascot: race,
+            date_sterilized,
+            number_microchip,
+            description: note,
+            microchip,
+          },
+        });
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Se ha actualizado esta nueva mascota',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert('Insert no conección');
     }
   };
 
@@ -118,7 +122,7 @@ const General = ({route, navigation}) => {
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView>
-          {edit && isConnected&& (
+          {edit && isConnected && (
             <View style={{marginBottom: 20}}>
               <AvatarMascotOption idMascot={id} />
             </View>
