@@ -168,6 +168,7 @@ const AddMascot = ({navigation}) => {
                         onChangeText={handleChange('name_mascot')}
                         onBlur={handleBlur('name_mascot')}
                         value={values.name_mascot}
+                        maxLength = {10}
                       />
                       {errors.name_mascot && touched.name_mascot ? (
                         <View
@@ -195,6 +196,7 @@ const AddMascot = ({navigation}) => {
                         onBlur={handleBlur('age_mascot')}
                         keyboardType="numeric"
                         value={values.age_mascot}
+                        maxLength = {2}
                       />
                       {errors.age_mascot && touched.age_mascot ? (
                         <View
@@ -223,6 +225,7 @@ const AddMascot = ({navigation}) => {
                       onChangeText={handleChange('type_mascot')}
                       onBlur={handleBlur('type_mascot')}
                       value={values.type_mascot}
+                      maxLength = {12}
                     />
                     {errors.type_mascot && touched.type_mascot ? (
                       <View
@@ -248,6 +251,7 @@ const AddMascot = ({navigation}) => {
                       onChangeText={handleChange('race_mascot')}
                       onBlur={handleBlur('race_mascot')}
                       value={values.race_mascot}
+                      maxLength = {12}
                     />
                     {errors.race_mascot && touched.race_mascot ? (
                       <View

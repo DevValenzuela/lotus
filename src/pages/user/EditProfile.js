@@ -117,6 +117,7 @@ const EditProfile = ({navigation}) => {
                               onChangeText={handleChange('username')}
                               onBlur={handleBlur('username')}
                               value={values.username}
+                              maxLength = {15}
                           />
                           {errors.username && touched.username ? (
                               <View
