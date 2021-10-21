@@ -24,7 +24,7 @@ import {
 } from '../pages/apolllo/grahpql';
 import ReactNativeFile from 'apollo-upload-client/public/ReactNativeFile';
 import {CONSULT_APP, CONSULT_MASCOT_APP} from '../pages/apolllo/query';
-
+import {useIsConnected} from 'react-native-offline';
 export const Loading = () => {
   return (
     <View style={style.container}>
@@ -298,11 +298,11 @@ export const AvatarOption = () => {
         .then(resp => {
           const {upload} = resp.data;
           updateUserAvatar({
-            variables:{
+            variables: {
               id: user.id,
-              idAvatar: upload.id
-            }
-          })
+              idAvatar: upload.id,
+            },
+          });
           //dispatchUserEvent('ADD_URI', {idPhoto: upload.id});
         })
         .catch(e => console.log(e.message));
@@ -819,6 +819,19 @@ export const ModalAlertAccountUser = ({modalVisible, send, action}) => {
   );
 };
 
+export const DangerAlertOffline = () => {
+  const isConnected = useIsConnected();
+  return (
+    <View>
+      {!isConnected && (
+        <View style={style.bgdanger}>
+          <Text style={style.txtdanger}>Estas trabajando offline...</Text>
+        </View>
+      )}
+    </View>
+  );
+};
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -884,5 +897,14 @@ const style = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     fontSize: 14,
+  },
+  bgdanger: {
+    backgroundColor: '#E72A30',
+    padding: 5,
+
+  },
+  txtdanger: {
+    color: '#fff',
+    textAlign: 'center',
   },
 });

@@ -22,6 +22,7 @@ import {useQuery} from '@apollo/client';
 import {CONSULT_APP, CONSULT_MASCOTS_APP} from '../apolllo/query';
 import {Loading} from '../../components/sharedComponent';
 import DeleteMascot from '../../components/deleteMascot';
+import {NetworkConsumer} from 'react-native-offline';
 function ListMascot({data}) {
   const navigation = useNavigation();
   return (
@@ -125,7 +126,6 @@ const ProfileUser = ({navigation}) => {
   };
   if (loading || loadingData) return <Loading />;
   if (error || errorData) console.log(error);
-  if (!listData) return null;
 
   const consultProfileMascot = data => {
     if (data) {
@@ -145,7 +145,7 @@ const ProfileUser = ({navigation}) => {
     }
   };
 
-  let resultList = consultProfileMascot(listData);
+  let resultList = listData ? consultProfileMascot(listData) : [];
 
   return (
     <View style={style.container}>
@@ -153,114 +153,141 @@ const ProfileUser = ({navigation}) => {
         source={require('./../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <Animated.View style={{flex: 1, opacity: fadeAnim}}>
-          <View
-            style={[
-              style.container,
-              {
-                // Try setting `flexDirection` to `"row"`.
-                flexDirection: 'column',
-              },
-            ]}>
-            <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <View style={style.contentProfile}>
-                {getAvatar ? (
-                  <Image
-                    source={{uri: `${API_URL}${getAvatar.url}`}}
-                    style={style.imgProfile}
-                  />
-                ) : (
-                  <Image
-                    source={require('./../../assets/images/image_photo.png')}
-                    style={style.imgProfile}
-                  />
-                )}
-                <Text style={style.name}>{user.username}</Text>
-                <Text style={style.text}>{user.email}</Text>
-                <TouchableHighlight
-                  style={style.edit}
-                  underlayColor="transparent"
-                  onPress={() => navigation.navigate('EditProfile')}>
-                  <Image
-                    source={require('./../../assets/images/edit_btn.png')}
-                  />
-                </TouchableHighlight>
-              </View>
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  onPress={() => navigation.navigate('AddMascot')}>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 10,
-                      backgroundColor: '#80006A',
-                      width: wp('80%'),
-                      maxWidth: 330
-                    }}>
-                    <Text
-                      style={{
-                        padding: Platform.OS == 'ios' ? 20 : 10,
-                        color: '#fff',
-                        textTransform: 'uppercase',
-                      }}>
-                      Añadir Mascota
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-              </View>
-            </View>
-            <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <View style={{flex: 1, width: wp('90%')}}>
-                <Text style={style.titleSub}>Mis Mascotas</Text>
-                {resultList.length > 0 ? (
+        <NetworkConsumer>
+          {({isConnected}) =>
+            isConnected ? (
+              <Animated.View style={{flex: 1, opacity: fadeAnim}}>
+                <View
+                  style={[
+                    style.container,
+                    {
+                      // Try setting `flexDirection` to `"row"`.
+                      flexDirection: 'column',
+                    },
+                  ]}>
                   <View
                     style={{
                       flex: 1,
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    <FlatList
-                      data={resultList}
-                      renderItem={({item}) => <ListMascot data={item} />}
-                    />
-                  </View>
-                ) : (
-                  <Text style={style.txtNotFound}>
-                    No hay resultados en la lista.
-                  </Text>
-                )}
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => sessionClose()}>
-                    <View
-                      style={{
-                        borderRadius: 10,
-                        backgroundColor: '#80006A',
-                        marginBottom: 30,
-                        width: wp('90%'),
-                        maxWidth: 330,
-                      }}>
-                      <Text
-                        style={{
-                          padding: Platform.OS == 'ios' ? 20 : 10,
-                          color: '#fff',
-                          textTransform: 'uppercase',
-                          textAlign: 'center',
-                        }}>
-                        Cerrar Sessión
-                      </Text>
+                    <View style={style.contentProfile}>
+                      {getAvatar ? (
+                        <Image
+                          source={{uri: `${API_URL}${getAvatar.url}`}}
+                          style={style.imgProfile}
+                        />
+                      ) : (
+                        <Image
+                          source={require('./../../assets/images/image_photo.png')}
+                          style={style.imgProfile}
+                        />
+                      )}
+                      <Text style={style.name}>{user.username}</Text>
+                      <Text style={style.text}>{user.email}</Text>
+                      <TouchableHighlight
+                        style={style.edit}
+                        underlayColor="transparent"
+                        onPress={() => navigation.navigate('EditProfile')}>
+                        <Image
+                          source={require('./../../assets/images/edit_btn.png')}
+                        />
+                      </TouchableHighlight>
                     </View>
-                  </TouchableHighlight>
+                    <View
+                      style={{justifyContent: 'center', alignItems: 'center'}}>
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        onPress={() => navigation.navigate('AddMascot')}>
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 10,
+                            backgroundColor: '#80006A',
+                            width: wp('80%'),
+                            maxWidth: 330,
+                          }}>
+                          <Text
+                            style={{
+                              padding: Platform.OS == 'ios' ? 20 : 10,
+                              color: '#fff',
+                              textTransform: 'uppercase',
+                            }}>
+                            Añadir Mascota
+                          </Text>
+                        </View>
+                      </TouchableHighlight>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <View style={{flex: 1, width: wp('90%')}}>
+                      <Text style={style.titleSub}>Mis Mascotas</Text>
+                      {resultList.length > 0 ? (
+                        <View
+                          style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <FlatList
+                            data={resultList}
+                            renderItem={({item}) => <ListMascot data={item} />}
+                          />
+                        </View>
+                      ) : (
+                        <Text style={style.txtNotFound}>
+                          No hay resultados en la lista.
+                        </Text>
+                      )}
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => sessionClose()}>
+                          <View
+                            style={{
+                              borderRadius: 10,
+                              backgroundColor: '#80006A',
+                              marginBottom: 30,
+                              width: wp('90%'),
+                              maxWidth: 330,
+                            }}>
+                            <Text
+                              style={{
+                                padding: Platform.OS == 'ios' ? 20 : 10,
+                                color: '#fff',
+                                textTransform: 'uppercase',
+                                textAlign: 'center',
+                              }}>
+                              Cerrar Sessión
+                            </Text>
+                          </View>
+                        </TouchableHighlight>
+                      </View>
+                    </View>
+                  </View>
                 </View>
+              </Animated.View>
+            ) : (
+              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Image source={require('./../../assets/images/not-access.png')} style={{width: 80, height: 80, marginVertical: 30}} />
+                <Text style={style.txtConection}>No tienes accesso a esta configuración.</Text>
+                <Text style={style.txtConection}>
+                  Estas sin conexión o estas en modo offline.
+                </Text>
               </View>
-            </View>
-          </View>
-        </Animated.View>
+            )
+          }
+        </NetworkConsumer>
       </ImageBackground>
     </View>
   );
@@ -329,6 +356,10 @@ const style = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     color: '#fff',
+  },
+  txtConection: {
+    color: '#fff',
+    textAlign: 'center',
   },
 });
 export default ProfileUser;

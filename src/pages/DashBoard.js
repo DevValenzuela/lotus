@@ -2,7 +2,6 @@ import React, {useEffect, useState, useContext} from 'react';
 import {API_URL} from '@env';
 import {useQuery} from '@apollo/client';
 import {BANNER_APP} from '../pages/apolllo/query';
-
 import {
   Dimensions,
   Image,
@@ -20,6 +19,7 @@ import {
 import {BtnAction, Loading} from '../components/sharedComponent';
 import ListCarousel from '../components/listCarousel';
 import {UserContext} from '../context/userContext';
+import {useIsConnected} from 'react-native-offline';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -28,10 +28,12 @@ const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
 const DashBoard = ({navigation}) => {
+  const isConnected = useIsConnected();
   const {
     dispatchUserEvent,
     user: {user},
   } = useContext(UserContext);
+
   const {loading, error, data} = useQuery(BANNER_APP, {
     pollInterval: 2000,
   });
@@ -80,7 +82,7 @@ const DashBoard = ({navigation}) => {
                   height: hp('29%'),
                   alignItems: 'center',
                 }}>
-                {getOfert ? (
+                {getOfert && isConnected? (
                   <Image
                     style={style.banner}
                     source={{uri: `${API_URL}${getOfert.url}`}}

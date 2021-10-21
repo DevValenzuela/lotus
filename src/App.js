@@ -18,7 +18,7 @@ import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
 import sqliteNotification from './hooks/sqliteNotification';
 import {db} from './conexion/sqlite';
-
+import {DangerAlertOffline} from './components/sharedComponent';
 const App = () => {
 
   useEffect(() => {
@@ -109,6 +109,7 @@ const App = () => {
       <UserProvider>
         <NavigationContainer>
           <ApolloProvider client={client}>
+            <DangerAlertOffline />
             <RouterNavigation />
           </ApolloProvider>
         </NavigationContainer>

@@ -12,7 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 import {UserContext} from '../context/userContext';
 import {useQuery} from '@apollo/client';
 import {CONSULT_APP} from '../pages/apolllo/query';
-
+import {useIsConnected} from 'react-native-offline';
 function LogoTitle() {
   return (
     <View
@@ -34,7 +34,7 @@ function LogoTitle() {
 
 function NotifyProfileView() {
   const navigation = useNavigation();
-
+  const isConnected = useIsConnected();
   const [getAvatar, setAvatar] = useState({});
 
   const {
@@ -80,7 +80,7 @@ function NotifyProfileView() {
       <TouchableHighlight
         underlayColor="transparent"
         onPress={() => navigation.navigate('Profile')}>
-        {getAvatar ? (
+        {getAvatar && isConnected ? (
           <Image style={style.avatar} source={{uri: API_URL + getAvatar.url}} />
         ) : (
           <Image
