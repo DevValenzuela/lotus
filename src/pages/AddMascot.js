@@ -20,7 +20,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import moment from 'moment';
-
+import {db} from '../conexion/sqlite';
 import {useMutation} from '@apollo/client';
 import {ADD_MASCOT_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
@@ -106,7 +106,8 @@ const AddMascot = ({navigation}) => {
   };
 
   const handleInsert = async values => {
-    if(isConnected) {
+    if (!values) return null;
+    if (isConnected) {
       try {
         await createMascot({
           variables: {
@@ -122,13 +123,38 @@ const AddMascot = ({navigation}) => {
         getDate('');
         dispatchUserEvent('ADD_URI', {idPhoto: ''});
         navigation.navigate('Gratulations', {
-          txtMsg: 'Que bien has ingresado una nueva mascota.'
+          txtMsg: 'Que bien has ingresado una nueva mascota.',
         });
       } catch (e) {
         console.log(e.message);
       }
-    }else{
-      alert('Sin conección');
+    } else {
+      if (db) {
+        db.transaction(tx => {
+          tx.executeSql(
+            'INSERT INTO Mascot(name_mascot, age_mascot, type_mascot, race_mascot, date_sterilized, number_microchip, microchip, description, user) VALUES(?,?,?,?,?,?,?,?,?)',
+            [
+              values.name_mascot,
+              values.age_mascot,
+              values.type_mascot,
+              values.race_mascot,
+              values.date_sterilized,
+              values.number_microchip,
+              values.microchip,
+              values.description,
+              values.user,
+            ],
+            function (transaction, result) {
+              navigation.navigate('Gratulations', {
+                txtMsg: 'Que bien has ingresado una nueva mascota.',
+              });
+            },
+            function (transaction, error) {
+              console.log(error);
+            },
+          );
+        });
+      }
     }
   };
 
@@ -173,7 +199,7 @@ const AddMascot = ({navigation}) => {
                         onChangeText={handleChange('name_mascot')}
                         onBlur={handleBlur('name_mascot')}
                         value={values.name_mascot}
-                        maxLength = {10}
+                        maxLength={10}
                       />
                       {errors.name_mascot && touched.name_mascot ? (
                         <View
@@ -201,7 +227,7 @@ const AddMascot = ({navigation}) => {
                         onBlur={handleBlur('age_mascot')}
                         keyboardType="numeric"
                         value={values.age_mascot}
-                        maxLength = {2}
+                        maxLength={2}
                       />
                       {errors.age_mascot && touched.age_mascot ? (
                         <View
@@ -230,7 +256,7 @@ const AddMascot = ({navigation}) => {
                       onChangeText={handleChange('type_mascot')}
                       onBlur={handleBlur('type_mascot')}
                       value={values.type_mascot}
-                      maxLength = {12}
+                      maxLength={12}
                     />
                     {errors.type_mascot && touched.type_mascot ? (
                       <View
@@ -256,7 +282,7 @@ const AddMascot = ({navigation}) => {
                       onChangeText={handleChange('race_mascot')}
                       onBlur={handleBlur('race_mascot')}
                       value={values.race_mascot}
-                      maxLength = {12}
+                      maxLength={12}
                     />
                     {errors.race_mascot && touched.race_mascot ? (
                       <View

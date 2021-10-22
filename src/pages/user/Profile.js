@@ -284,6 +284,29 @@ const ProfileUser = ({navigation}) => {
                 <Text style={style.txtConection}>
                   Estas sin conexión o estas en modo offline.
                 </Text>
+                <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() => sessionClose()}>
+                  <View
+                      style={{
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        marginBottom: 30,
+                        width: wp('80%'),
+                        maxWidth: 330,
+                        marginVertical: 30
+                      }}>
+                    <Text
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                          textAlign: 'center',
+                        }}>
+                      Cerrar Sessión
+                    </Text>
+                  </View>
+                </TouchableHighlight>
               </View>
             )
           }
