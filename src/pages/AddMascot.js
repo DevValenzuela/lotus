@@ -20,7 +20,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import moment from 'moment';
-import {db} from '../conexion/sqlite';
+import {InsertMascot} from '../conexion/crudSqlite';
 import {useMutation} from '@apollo/client';
 import {ADD_MASCOT_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
@@ -129,31 +129,13 @@ const AddMascot = ({navigation}) => {
         console.log(e.message);
       }
     } else {
-      if (db) {
-        db.transaction(tx => {
-          tx.executeSql(
-            'INSERT INTO Mascot(name_mascot, age_mascot, type_mascot, race_mascot, date_sterilized, number_microchip, microchip, description, user) VALUES(?,?,?,?,?,?,?,?,?)',
-            [
-              values.name_mascot,
-              values.age_mascot,
-              values.type_mascot,
-              values.race_mascot,
-              values.date_sterilized,
-              values.number_microchip,
-              values.microchip,
-              values.description,
-              values.user,
-            ],
-            function (transaction, result) {
-              navigation.navigate('Gratulations', {
-                txtMsg: 'Que bien has ingresado una nueva mascota.',
-              });
-            },
-            function (transaction, error) {
-              console.log(error);
-            },
-          );
+      let resp = InsertMascot(values, user);
+      if (resp) {
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Que bien has ingresado una nueva mascota.',
         });
+      }else{
+        console.log('Error on insert data!')
       }
     }
   };

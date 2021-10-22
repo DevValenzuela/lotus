@@ -23,13 +23,13 @@ export const createTableDB = tx => {
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
       'Mascot ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, name_mascot VARCHAR(200), age_mascot Int, type_mascot VARCHAR(200), race_mascot VARCHAR(200), date_sterilized VARCHAR(200), number_microchip TEXT, microchip VARCHAR(120) , description TEXT,  user VARCHAR(120)  );',
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_mascot TEXT, name_mascot VARCHAR(200), age_mascot Int, type_mascot VARCHAR(200), race_mascot VARCHAR(200), date_sterilized VARCHAR(200), number_microchip TEXT, microchip VARCHAR(120) , description TEXT,  user VARCHAR(120)  );',
   );
   //Create Table Medicament
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
       'Medicament ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_dose VARCHAR(200), medicament VARCHAR(200), posologia VARCHAR(200), dosis VARCHAR(200), period VARCHAR(200), notation TEXT, mascot TEXT,  user VARCHAR(120)  );',
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_dose VARCHAR(200), medicament VARCHAR(200), posologia VARCHAR(200), dosis VARCHAR(200), period VARCHAR(200), notation TEXT, mascot TEXT,  user VARCHAR(120) );',
   );
   //Create Table Controller Medic
   tx.executeSql(

@@ -42,8 +42,10 @@ const ListItem = ({item}) => {
 
 const ListCarousel = ({navigation, refresh}) => {
   const {
+    dispatchUserEvent,
     user: {user},
   } = useContext(UserContext);
+
   const [getMascots, setMascots] = useState('');
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const {data, loading, error} = useQuery(CONSULT_MASCOTS_APP, {
@@ -52,6 +54,7 @@ const ListCarousel = ({navigation, refresh}) => {
       id: Number(user.id),
     },
   });
+
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -80,6 +83,7 @@ const ListCarousel = ({navigation, refresh}) => {
     });
     setMascots(data_mascot);
   };
+
 
   if (loading) return <Loading2 />;
   if (error) console.log(error);

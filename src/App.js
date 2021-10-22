@@ -16,7 +16,6 @@ import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
-import sqliteNotification from './hooks/sqliteNotification';
 import {db, createTableDB} from './conexion/sqlite';
 import {DangerAlertOffline} from './components/sharedComponent';
 const App = () => {

@@ -18,8 +18,11 @@ import {
 
 import {BtnAction, Loading} from '../components/sharedComponent';
 import ListCarousel from '../components/listCarousel';
+import ListCarouselOffline from '../components/listCarouselOffline';
 import {UserContext} from '../context/userContext';
 import {useIsConnected} from 'react-native-offline';
+import {consultMascot} from '../conexion/crudSqlite';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -27,11 +30,12 @@ import {
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
+
 const DashBoard = ({navigation}) => {
   const isConnected = useIsConnected();
   const {
     dispatchUserEvent,
-    user: {user},
+    user: {user},r
   } = useContext(UserContext);
 
   const {loading, error, data} = useQuery(BANNER_APP, {
@@ -51,10 +55,12 @@ const DashBoard = ({navigation}) => {
       const {banners} = data;
       setOfert(banners[0]?.ofert);
     }
+    consultMascot(dispatchUserEvent);
   }, [data, loading]);
 
   if (loading) return <Loading />;
   if (error) console.log(error);
+
 
   return (
     <View style={style.container}>
@@ -147,7 +153,7 @@ const DashBoard = ({navigation}) => {
                 {isConnected ? (
                   <ListCarousel navigation={navigation} refresh={refreshing} />
                 ) : (
-                  <Text style={{ color: '#fff'}}>No tiene conexión.</Text>
+                 <ListCarouselOffline navigation={navigation} refresh={refreshing} />
                 )}
               </View>
               <View style={{alignItems: 'center'}}>

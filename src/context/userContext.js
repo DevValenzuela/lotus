@@ -13,8 +13,13 @@ const initialize = {
   idPhoto: '',
 };
 
+const db_result = {
+  mascots: []
+}
+
 const UserProvider = props => {
   const [user, setUser] = useState(initialize);
+  const [consult, setConsult] = useState(db_result);
   const [getRefresh, setRefresh] = useState(true);
   const dispatchUserEvent = (actionType, payload) => {
     switch (actionType) {
@@ -23,6 +28,9 @@ const UserProvider = props => {
         return;
       case 'ADD_USER':
         setUser({...user, ...payload.user});
+        return;
+      case 'ADD_SQLITE_MASCOT':
+        setConsult({...consult, mascots: payload.resp});
         return;
       case 'REFRESH':
         setRefresh(payload.refresh);
@@ -46,7 +54,7 @@ const UserProvider = props => {
   };
 
   return (
-    <UserContext.Provider value={{user, dispatchUserEvent}}>
+    <UserContext.Provider value={{user, consult, dispatchUserEvent}}>
       {props.children}
     </UserContext.Provider>
   );
