@@ -68,7 +68,12 @@ const Medicament = ({route, navigation}) => {
     if (edit && medicaments) {
       getDate(medicaments[0].last_dose);
     }
-  }, [edit, medicaments]);
+    if (sucess) {
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha insertado un nuevo medicamento.',
+      });
+    }
+  }, [edit, medicaments, sucess]);
 
   const SignupSchema = Yup.object().shape({
     last_dose: Yup.string().required('Ingresa el campo ultima dosis.'),
@@ -116,11 +121,7 @@ const Medicament = ({route, navigation}) => {
         user: Number(user.id),
       };
       database.InsertMedicament(new_value, setSuccess);
-      if (sucess) {
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha insertado un nuevo medicamento.',
-        });
-      }
+
     }
   };
 

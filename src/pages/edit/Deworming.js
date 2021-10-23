@@ -71,7 +71,12 @@ const Deworming = ({route, navigation}) => {
     if (edit && desparacitacions) {
       getDate(desparacitacions[0].last_deworming);
     }
-  }, [edit, desparacitacions]);
+    if (success) {
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Que bien has ingresado nueva desapracitación.',
+      });
+    }
+  }, [edit, desparacitacions, success]);
 
   const handlerSubmitDeworming = async values => {
     if (!values) return null;
@@ -101,11 +106,7 @@ const Deworming = ({route, navigation}) => {
         user: Number(user.id),
       };
       database.InsertDesparacitacion(new_value, setSuccess);
-      if (success) {
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Que bien has ingresado nueva desapracitación.',
-        });
-      }
+
     }
   };
 

@@ -73,7 +73,12 @@ const Vaccinations = ({route, navigation}) => {
     if (edit && vacunacions) {
       getDate(vacunacions[0].last_vaccination);
     }
-  }, [edit, vacunacions]);
+    if (success) {
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha creado una nueva vacunación.',
+      });
+    }
+  }, [edit, vacunacions, success]);
 
   const onDateChange = date => {
     getselectedStartDate(date);
@@ -109,11 +114,7 @@ const Vaccinations = ({route, navigation}) => {
         user: Number(user.id),
       };
       database.InsertVaccination(new_value, setSuccess);
-      if (success) {
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha creado una nueva vacunación.',
-        });
-      }
+
     }
   };
 

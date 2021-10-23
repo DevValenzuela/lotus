@@ -71,7 +71,12 @@ const ControlMedic = ({route, navigation}) => {
     if (edit && controllerMedics) {
       getDate(controllerMedics[0].last_control);
     }
-  }, [controllerMedics, edit]);
+    if (success) {
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha insertado nuevo control medico.',
+      });
+    }
+  }, [controllerMedics, edit, success]);
 
   const handleSubmitMedicament = async values => {
     if (!values) return;
@@ -103,11 +108,7 @@ const ControlMedic = ({route, navigation}) => {
         user: Number(user.id),
       };
       database.InsertControllerMedic(new_values, setSuccess);
-      if (success) {
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha insertado nuevo control medico.',
-        });
-      }
+
     }
   };
 

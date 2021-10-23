@@ -274,6 +274,31 @@ const consultControllerMedic = (idMascot, setControllerMedicFunc) => {
   }
 };
 
+const UpdateMascot = (idMascot, values, setSuccess) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        'UPDATE Mascot SET  type_mascot = ? , race_mascot = ?, date_sterilized = ?, number_microchip = ?, microchip = ?, description = ? WHERE id_mascot = ? ',
+        [
+          values.type_mascot,
+          values.race_mascot,
+          values.date_sterilized,
+          values.number_microchip,
+          values.microchip,
+          values.description,
+          idMascot,
+        ],
+      );
+    },
+    (tx, error) => {
+      setSuccess(false);
+    },
+    (tx, success) => {
+      setSuccess(true);
+    },
+  );
+};
+
 export const database = {
   consultMascot,
   consultDesparacitacion,
@@ -286,4 +311,5 @@ export const database = {
   InsertMedicament,
   InsertVaccination,
   InsertControllerMedic,
+  UpdateMascot,
 };

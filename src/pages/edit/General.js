@@ -20,6 +20,7 @@ import {useMutation} from '@apollo/client';
 import {UPDATE_GENERAL_MASCOT} from '../apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 import {useIsConnected} from 'react-native-offline';
+import {database} from '../../conexion/crudSqlite';
 const General = ({route, navigation}) => {
   const {
     id,
@@ -35,8 +36,10 @@ const General = ({route, navigation}) => {
   } = route.params.data;
 
   const edit = route.params.edit;
+  const idMascot = route.params.idMascot;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [setMicrochip, getMicrochip] = useState('No');
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const isConnected = useIsConnected();
@@ -57,7 +60,12 @@ const General = ({route, navigation}) => {
     if (microchip) {
       getMicrochip(microchip);
     }
-  }, [microchip]);
+    if (success) {
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha actualizado esta nueva mascota',
+      });
+    }
+  }, [microchip, success]);
 
   const SignupSchema = Yup.object().shape({
     type_mascot: Yup.string().required('Ingresa el campo ultima dosis.'),
@@ -67,16 +75,15 @@ const General = ({route, navigation}) => {
 
   const handleSubmitGeneral = async values => {
     if (!values) return null;
-
+    const {
+      date_sterilized,
+      microchip,
+      note,
+      race,
+      type_mascot,
+      number_microchip,
+    } = values;
     if (isConnected) {
-      const {
-        date_sterilized,
-        microchip,
-        note,
-        race,
-        type_mascot,
-        number_microchip,
-      } = values;
       try {
         await updateMascot({
           variables: {
@@ -96,7 +103,16 @@ const General = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      alert('Insert no conección');
+      let new_value = {
+        id,
+        type_mascot,
+        race_mascot: race,
+        date_sterilized,
+        number_microchip,
+        description: note,
+        microchip,
+      };
+      database.UpdateMascot(idMascot, new_value, setSuccess);
     }
   };
 

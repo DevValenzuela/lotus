@@ -88,8 +88,9 @@ const DetailsMascotOffline = ({navigation, route}) => {
                     underlayColor="transparent"
                     onPress={() =>
                       navigation.navigate('EditGeneral', {
-                        data: '',
-                        edit: true,
+                        idMascot,
+                        data: mascot,
+                        edit: true
                       })
                     }>
                     <View style={{marginTop: 15}}>
