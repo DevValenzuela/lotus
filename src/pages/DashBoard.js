@@ -157,7 +157,7 @@ const DashBoard = ({navigation}) => {
                 {isConnected ? (
                   <ListCarousel navigation={navigation} refresh={refreshing} />
                 ) : (
-                 <ListCarouselOffline navigation={navigation} refresh={refreshing} />
+                  <ListCarouselOffline navigation={navigation} refresh={refreshing} />
                 )}
               </View>
               <View style={{alignItems: 'center'}}>

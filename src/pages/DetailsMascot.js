@@ -116,6 +116,9 @@ const DetailsMascot = ({navigation, route}) => {
     date_sterilized,
     type_mascot,
     avatar_mascot,
+    microchip,
+    description,
+    number_microchip,
   } = general?.mascot;
 
   const {desparacitacions} = deworming;
@@ -197,18 +200,18 @@ const DetailsMascot = ({navigation, route}) => {
                     <Text style={style.parrTxt}>{date_sterilized}</Text>
                   </View>
                   <View style={style.containerGroup}>
-                    <Text style={style.subTxt}>Microship:</Text>
-                    <Text style={style.parrTxt}>Si</Text>
+                    <Text style={style.subTxt}>Microchip:</Text>
+                    <Text style={style.parrTxt}>{microchip}</Text>
                   </View>
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>No Microship:</Text>
-                    <Text style={style.parrTxt}>000746376DUI</Text>
+                    <Text style={style.parrTxt}>{number_microchip}</Text>
                   </View>
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>
                       Enfermedades o cuidados especiales:
                     </Text>
-                    <Text style={style.parrTxt}>Gingivo-estomatitis.</Text>
+                    <Text style={style.parrTxt}>{description}</Text>
                   </View>
                 </View>
               </View>

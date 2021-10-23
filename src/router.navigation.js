@@ -10,6 +10,7 @@ import Register from './pages/user/Register';
 import Recovery from './pages/user/Recovery';
 import EditProfile from './pages/user/EditProfile';
 import DetailsMascot from './pages/DetailsMascot';
+import DetailsMascotOffline from './pages/DetailsMascotOffline';
 import VaccinationsHistory from './pages/history/vaccinations';
 import MedicHistory from './pages/history/medic';
 import DewormingHistory from './pages/history/deworming';
@@ -131,6 +132,15 @@ export function RouterNavigation() {
           ...options2(),
         })}
       />
+      {/**Details Mascot Offline**/}
+      <Stack.Screen
+        name="DetailsMascotOffline"
+        component={DetailsMascotOffline}
+        options={() => ({
+          title: 'Detalle Mascota',
+          ...options2(),
+        })}
+      />
 
       <Stack.Screen
         name="HistoryVaccinations"
@@ -232,8 +242,7 @@ export function RouterNavigation() {
       <Stack.Screen
         name="Gratulations"
         component={Gratulations}
-        options={{headerShown: false}}>
-      </Stack.Screen>
+        options={{headerShown: false}}></Stack.Screen>
     </Stack.Navigator>
   );
 }

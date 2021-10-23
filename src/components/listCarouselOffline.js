@@ -64,10 +64,11 @@ const ListCarouselOffline = ({navigation, refresh}) => {
     const dataMascots = data => {
         const data_mascot = [];
         data.map(item => {
-            const {id, name_mascot} = item;
+            const {id, name_mascot, id_mascot} = item;
             const url_image = '';
             data_mascot.push({
                 id,
+                id_mascot,
                 name_mascot,
                 avatar_mascot: {
                     url: url_image,
@@ -101,8 +102,8 @@ const ListCarouselOffline = ({navigation, refresh}) => {
                                         renderItem={({item}) => (
                                             <TouchableOpacity
                                                 onPress={() =>
-                                                    navigation.navigate('DetailsMascot', {
-                                                        mascotId: item.id,
+                                                    navigation.navigate('DetailsMascotOffline', {
+                                                        mascotId: item.id_mascot,
                                                     })
                                                 }>
                                                 <ListOffItem  item={item} parentNavigate={navigation} />

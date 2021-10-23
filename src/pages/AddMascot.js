@@ -129,13 +129,19 @@ const AddMascot = ({navigation}) => {
         console.log(e.message);
       }
     } else {
-      let resp = InsertMascot(values, user);
+      let valuesOffline = {
+        ...values,
+        age_mascot: Number(values.age_mascot),
+        sterilized: setSterilized,
+        date_sterilized: setDate,
+        microchip: setMicrochip,
+        user: user.id
+      };
+      let resp = InsertMascot(valuesOffline);
       if (resp) {
         navigation.navigate('Gratulations', {
           txtMsg: 'Que bien has ingresado una nueva mascota.',
         });
-      }else{
-        console.log('Error on insert data!')
       }
     }
   };

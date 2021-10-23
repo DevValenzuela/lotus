@@ -24,8 +24,10 @@ import {
   UPDATE_DEWORMING_MEDIC,
 } from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
-
+import {InsertDesparacitacion} from '../../conexion/crudSqlite';
+import {useIsConnected} from 'react-native-offline';
 const Deworming = ({route, navigation}) => {
+  const isConnected = useIsConnected();
   const {idMascot, edit, desparacitacions} = route.params;
   const [createDesparacitacion, {data, error, loading}] = useMutation(
     CREATE_DESPARACITACION_APP,
@@ -74,22 +76,36 @@ const Deworming = ({route, navigation}) => {
   const handlerSubmitDeworming = async values => {
     if (!values) return null;
     const {last_deworming, medicament, note} = values;
-    try {
-      await createDesparacitacion({
-        variables: {
-          last_deworming,
-          medicament,
-          note,
-          mascot: idMascot,
-          user: Number(user.id),
-        },
-      });
-      getDate('');
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Nueva desparacitación creada.'
-      });
-    } catch (error) {
-      console.log(error);
+    if (isConnected) {
+      try {
+        await createDesparacitacion({
+          variables: {
+            last_deworming,
+            medicament,
+            note,
+            mascot: idMascot,
+            user: Number(user.id),
+          },
+        });
+        getDate('');
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Nueva desparacitación creada.',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      let new_value= {
+        ...values,
+        mascot: idMascot,
+        user: Number(user.id),
+      }
+      let resp = InsertDesparacitacion(new_value);
+      if(resp){
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Que bien has ingresado nueva desapracitación.',
+        });
+      }
     }
   };
 
@@ -107,7 +123,7 @@ const Deworming = ({route, navigation}) => {
         },
       });
       navigation.navigate('Gratulations', {
-        txtMsg: 'Se actualizo nueva desparacitación.'
+        txtMsg: 'Se actualizo nueva desparacitación.',
       });
     } catch (e) {
       console.log(e);
@@ -128,7 +144,10 @@ const Deworming = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment(new Date(date), "DD-MM-YYYY HH:mm:ss").add(2, 'month');
+    let dateNotify = moment(new Date(date), 'DD-MM-YYYY HH:mm:ss').add(
+      2,
+      'month',
+    );
     getDate(dateFormat);
     getCalendar(false);
   };

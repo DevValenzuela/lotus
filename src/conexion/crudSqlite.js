@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {db} from '../conexion/sqlite';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 
-export const InsertMascot = (values, user) => {
+export const InsertMascot = values => {
   let idMascot = uuidv4();
   db.transaction(tx => {
     tx.executeSql(
@@ -18,7 +18,7 @@ export const InsertMascot = (values, user) => {
         values.number_microchip,
         values.microchip,
         values.description,
-        user.id,
+        values.user,
       ],
       function (transaction, result) {
         console.log('Insert new mascot');
@@ -31,7 +31,7 @@ export const InsertMascot = (values, user) => {
   return true;
 };
 
-export const InsertMedicament = (db, values, user) => {
+export const InsertMedicament = values => {
   db.transaction(tx => {
     tx.executeSql(
       'INSERT INTO Medicament(last_dose, medicament, posologia, dosis, period, notation, mascot, user ) VALUES(?,?,?,?,?,?,?,?)',
@@ -43,12 +43,10 @@ export const InsertMedicament = (db, values, user) => {
         values.period,
         values.notation,
         values.mascot,
-        user.id,
+        values.user,
       ],
       function (transaction, result) {
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Que bien has ingresado un nuevo medicament',
-        });
+        console.log('Insert success fully medicament');
       },
       function (transaction, error) {
         console.log(error);
@@ -57,20 +55,101 @@ export const InsertMedicament = (db, values, user) => {
   });
 };
 
-export const consultMascot = ( dispatchUserEvent) => {
+export const InsertDesparacitacion = values => {
+  db.transaction(tx => {
+    tx.executeSql(
+      'INSERT INTO desparacitacion(last_deworming, medicament, note, mascot, user) VALUES(?,?,?,?,?)',
+      [
+        values.last_deworming,
+        values.medicament,
+        values.note,
+        values.mascot,
+        values.user,
+      ],
+      function (transaction, result) {
+        console.log('Insert success fully desparacitación');
+      },
+      function (transaction, error) {
+        console.log(error);
+      },
+    );
+  });
+  return true;
+};
+
+export const InsertVaccination = values => {
+  db.transaction(tx => {
+    tx.executeSql(
+      'INSERT INTO vaccination(last_vaccination, medicament, note, mascot, user) VALUES(?,?,?,?,?)',
+      [
+        values.last_vaccination,
+        values.medicament,
+        values.note,
+        values.mascot,
+        values.user,
+      ],
+      function (transaction, result) {
+        console.log('Insert success fully desparacitación');
+      },
+      function (transaction, error) {
+        console.log(error);
+      },
+    );
+  });
+  return true;
+};
+
+export const consultMascotID = (idMascot, dispatchUserEvent) => {
   try {
-    let state = [];
     db.transaction(tx => {
-      tx.executeSql('SELECT * FROM Mascot', [],  function (tx, results) {
-          let len = results.rows.length;
-          let resp = [];
-          for (let i = 0; i < len; i++) {
-              resp.push(results.rows.item(i));
-          }
-          dispatchUserEvent('ADD_SQLITE_MASCOT', {resp: resp})
+      tx.executeSql(
+        `SELECT * FROM Mascot WHERE id_mascot = ?`,
+        [idMascot],
+        function (tx, results) {
+          let resp = results.rows.item(0);
+          dispatchUserEvent('ADD_SQLITE_MASCOT_ID', {resp: resp});
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+export const consultMascot = dispatchUserEvent => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql('SELECT * FROM Mascot', [], function (tx, results) {
+        let resp = [];
+        let len = results.rows.length;
+        for (let i = 0; i < len; i++) {
+          resp.push(results.rows.item(i));
+        }
+        dispatchUserEvent('ADD_SQLITE_MASCOT', {resp: resp});
       });
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const consultDesparacitacion = (idMascot, dispatchUserEvent) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM desparacitacion WHERE mascot = ? `,
+        [idMascot],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push(results.rows.item(i));
+          }
+          dispatchUserEvent('ADD_SQLITE_DEWORMING_ID', {resp: resp});
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
   }
 };
