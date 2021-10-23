@@ -32,16 +32,20 @@ const DetailsMascotOffline = ({navigation, route}) => {
   }, []);
 
   useEffect(() => {
-    database.consultDesparacitacion(idMascot, setDeworming);
-    database.consultMascotID(idMascot, setMascot);
-    database.consultVaccination(idMascot, setVaccination);
-    database.consultMedicamnets(idMascot, setMedicaments);
-    database.consultControllerMedic(idMascot, setControllerMedic);
-    console.log(controllerMedics);
-  }, [idMascot]);
+    consultDataDB().then(r => console.log('¡Success Fully!'));
+  }, [idMascot, refreshing]);
 
-
-
+  async function consultDataDB() {
+    try {
+      database.consultDesparacitacion(idMascot, setDeworming);
+      database.consultMascotID(idMascot, setMascot);
+      database.consultVaccination(idMascot, setVaccination);
+      database.consultMedicamnets(idMascot, setMedicaments);
+      database.consultControllerMedic(idMascot, setControllerMedic);
+    } catch (e) {
+      console.warn(e);
+    }
+  }
 
   const {
     name_mascot,
@@ -144,7 +148,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
                         navigation.navigate('EditDeworming', {
                           idMascot,
                           edit: true,
-                          deworming,
+                          desparacitacions: deworming,
                         })
                       }>
                       <View style={{marginTop: 15}}>
@@ -228,7 +232,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
                         navigation.navigate('EditVaccinations', {
                           idMascot,
                           edit: true,
-                          vaccination,
+                          vacunacions: vaccination,
                         })
                       }>
                       <View style={{marginTop: 15}}>
