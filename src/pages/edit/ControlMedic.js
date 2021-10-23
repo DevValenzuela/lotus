@@ -24,17 +24,21 @@ import {
 } from '../../pages/apolllo/grahpql';
 import {ModalCalendarError, Loading} from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
+import {useIsConnected} from 'react-native-offline';
+import {database} from '../../conexion/crudSqlite';
 
-const ControlMedic = ({route,  navigation}) => {
-  const {idMascot, controllerMedics, edit} = route.params;
+const ControlMedic = ({route, navigation}) => {
   const {
     user: {user},
   } = useContext(UserContext);
+  const {idMascot, controllerMedics, edit} = route.params;
+  const isConnected = useIsConnected();
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const [createControllerMedic, {data, error, loading}] = useMutation(
     CREATE_CONTROLLER_MEDIC_APP,
@@ -72,22 +76,38 @@ const ControlMedic = ({route,  navigation}) => {
   const handleSubmitMedicament = async values => {
     if (!values) return;
     const {last_control, valoration, note} = values;
-    try {
-      await createControllerMedic({
-        variables: {
-          last_control: last_control,
-          assesment: valoration,
-          note: note,
-          mascot: idMascot,
-          user: Number(user.id),
-        },
-      });
-      getDate('');
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Nuevo control medico creado.'
-      });
-    } catch (error) {
-      console.log(error);
+    if (isConnected) {
+      try {
+        await createControllerMedic({
+          variables: {
+            last_control: last_control,
+            assesment: valoration,
+            note: note,
+            mascot: idMascot,
+            user: Number(user.id),
+          },
+        });
+        getDate('');
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Nuevo control medico creado.',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      let new_values = {
+        last_control: last_control,
+        assesment: valoration,
+        note: note,
+        mascot: idMascot,
+        user: Number(user.id),
+      };
+      database.InsertControllerMedic(new_values, setSuccess);
+      if (success) {
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Se ha insertado nuevo control medico.',
+        });
+      }
     }
   };
 
@@ -105,7 +125,7 @@ const ControlMedic = ({route,  navigation}) => {
         },
       });
       navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha actualizado control medico.'
+        txtMsg: 'Se ha actualizado control medico.',
       });
     } catch (error) {
       console.log(error);
@@ -126,7 +146,10 @@ const ControlMedic = ({route,  navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment(new Date(date), "DD-MM-YYYY HH:mm:ss").add(2, 'month');
+    let dateNotify = moment(new Date(date), 'DD-MM-YYYY HH:mm:ss').add(
+      2,
+      'month',
+    );
     getDate(dateFormat);
     getCalendar(false);
   };

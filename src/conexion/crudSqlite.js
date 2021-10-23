@@ -24,11 +24,11 @@ const InsertMascot = values => {
         ],
       );
     },
-    (t, error) => {
+    (tx, error) => {
       console.log(error);
       return false;
     },
-    (t, success) => {
+    (tx, success) => {
       return true;
     },
   );
@@ -75,11 +75,11 @@ const InsertDesparacitacion = (values, setSuccess) => {
         ],
       );
     },
-    (t, error) => {
+    (tx, error) => {
       console.log(error);
       setSuccess(false);
     },
-    (t, success) => {
+    (tx, success) => {
       setSuccess(true);
     },
   );
@@ -99,11 +99,35 @@ const InsertVaccination = (values, setSuccess) => {
         ],
       );
     },
-    (t, error) => {
+    (tx, error) => {
       console.log(error);
       setSuccess(false);
     },
-    (t, success) => {
+    (tx, success) => {
+      setSuccess(true);
+    },
+  );
+};
+
+const InsertControllerMedic = (values, setSuccess) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        'INSERT INTO controller_medic(last_control, assestment, note, mascot, user) VALUES(?,?,?,?,?)',
+        [
+          values.last_control,
+          values.assesment,
+          values.note,
+          values.mascot,
+          values.user,
+        ],
+      );
+    },
+    (tx, error) => {
+      console.log(error);
+      setSuccess(false);
+    },
+    (tx, success) => {
       setSuccess(true);
     },
   );
@@ -121,11 +145,11 @@ const consultMascotID = (idMascot, setMacotFunc) => {
         },
       );
     },
-    (t, error) => {
+    (tx, error) => {
       console.log('DB error load mascot ID');
       console.log(error);
     },
-    (_t, _success) => {
+    (_tx, _success) => {
       console.log('Loaded mascot ID');
     },
   );
@@ -198,13 +222,66 @@ const consultVaccination = (idMascot, setDewormingFunc) => {
   }
 };
 
+const consultMedicamnets = (idMascot, setMedicamentFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM Medicament WHERE mascot = ? `,
+        [idMascot],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push(results.rows.item(i));
+          }
+          if (resp) {
+            setMedicamentFunc(resp);
+          }
+          return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+const consultControllerMedic = (idMascot, setControllerMedicFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM controller_medic WHERE mascot = ? `,
+        [idMascot],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            console.log(results.rows.item(i))
+            resp.push(results.rows.item(i));
+          }
+          if (resp) {
+            setControllerMedicFunc(resp);
+          }
+          return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+}
+
+
 export const database = {
   consultMascot,
   consultDesparacitacion,
   consultMascotID,
   consultVaccination,
+  consultMedicamnets,
+  consultControllerMedic,
   InsertMascot,
   InsertDesparacitacion,
   InsertMedicament,
   InsertVaccination,
+  InsertControllerMedic,
 };

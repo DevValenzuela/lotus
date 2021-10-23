@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   RefreshControl,
   View,
@@ -18,12 +18,12 @@ const wait = timeout => {
 };
 
 const DetailsMascotOffline = ({navigation, route}) => {
-
   const idMascot = route.params.mascotId;
   const [mascot, setMascot] = useState([]);
   const [deworming, setDeworming] = useState([]);
   const [vaccination, setVaccination] = useState([]);
   const [medicaments, setMedicaments] = useState([]);
+  const [controllerMedics, setControllerMedic] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -35,7 +35,13 @@ const DetailsMascotOffline = ({navigation, route}) => {
     database.consultDesparacitacion(idMascot, setDeworming);
     database.consultMascotID(idMascot, setMascot);
     database.consultVaccination(idMascot, setVaccination);
+    database.consultMedicamnets(idMascot, setMedicaments);
+    database.consultControllerMedic(idMascot, setControllerMedic);
+    console.log(controllerMedics);
   }, [idMascot]);
+
+
+
 
   const {
     name_mascot,
@@ -373,6 +379,85 @@ const DetailsMascotOffline = ({navigation, route}) => {
                     underlayColor="transparent"
                     onPress={() =>
                       navigation.navigate('HistoryMedicament', {idMascot})
+                    }>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        width: wp('90%'),
+                      }}>
+                      <Text
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                        }}>
+                        Ver Historial
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
+              </View>
+              <View style={style.column}>
+                <View style={style.containerCard}>
+                  {controllerMedics.length > 0 && (
+                    <TouchableHighlight
+                      style={style.edit}
+                      underlayColor="transparent"
+                      onPress={() =>
+                        navigation.navigate('EditControlMedic', {
+                          idMascot,
+                          edit: true,
+                          controllerMedics,
+                        })
+                      }>
+                      <View style={{marginTop: 15}}>
+                        <Image
+                          source={require('./../assets/images/edit_btn.png')}
+                        />
+                      </View>
+                    </TouchableHighlight>
+                  )}
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      source={require('../assets/images/tabs/DOCTORICON.png')}
+                      style={{width: 28, height: 28, marginHorizontal: 5}}
+                      resizeMode="contain"
+                    />
+                    <Text style={style.subtitleTxt}>Control Médico:</Text>
+                  </View>
+                  {controllerMedics.length > 0 ? (
+                    <View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Último control:</Text>
+                        <Text style={style.parrTxt}>
+                          {controllerMedics[0].last_control}
+                        </Text>
+                      </View>
+                      <Text style={style.subTxt}>Valoración:</Text>
+                      <Text style={style.parrTxt}>
+                        {controllerMedics[0].assesment}
+                      </Text>
+                      <Text style={style.subTxt}>
+                        Prescripción y anotaciones:
+                      </Text>
+                      <Text style={style.parrTxt}>
+                        {controllerMedics[0].note}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View style={{flex: 1}}>
+                      <Text style={style.txtNotfound}>No hay resultados.</Text>
+                    </View>
+                  )}
+                </View>
+                <View style={{alignItems: 'center', marginVertical: 10}}>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() =>
+                      navigation.navigate('HistoryMedic', {idMascot})
                     }>
                     <View
                       style={{
