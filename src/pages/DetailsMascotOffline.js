@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {API_URL} from '@env';
 import {
   RefreshControl,
   View,
@@ -12,22 +11,20 @@ import {
   TouchableHighlight,
   Platform,
 } from 'react-native';
-import {Loading} from '../components/sharedComponent';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {UserContext} from '../context/userContext';
-import {consultMascotID, consultDesparacitacion} from '../conexion/crudSqlite';
+import {database} from '../conexion/crudSqlite';
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
 
 const DetailsMascotOffline = ({navigation, route}) => {
-  const {
-    dispatchUserEvent,
-    user: {user},
-    consult: {mascot_id},
-    detaills: {deworming}
-  } = useContext(UserContext);
+
   const idMascot = route.params.mascotId;
+  const [mascot, setMascot] = useState([]);
+  const [deworming, setDeworming] = useState([]);
+  const [vaccination, setVaccination] = useState([]);
+
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -35,13 +32,10 @@ const DetailsMascotOffline = ({navigation, route}) => {
   }, []);
 
   useEffect(() => {
-   consultDatabase();
-  }, []);
-
-  const consultDatabase = () =>{
-      consultMascotID(idMascot, dispatchUserEvent);
-      consultDesparacitacion(idMascot, dispatchUserEvent);
-  }
+    database.consultDesparacitacion(idMascot, setDeworming);
+    database.consultMascotID(idMascot, setMascot);
+    database.consultVaccination(idMascot, setVaccination);
+  }, [idMascot]);
 
   const {
     name_mascot,
@@ -52,9 +46,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
     number_microchip,
     microchip,
     description,
-  } = mascot_id;
-
-  const vacunacions = {}
+  } = mascot;
 
   return (
     <SafeAreaView style={style.container}>
@@ -86,7 +78,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
                     underlayColor="transparent"
                     onPress={() =>
                       navigation.navigate('EditGeneral', {
-                        data: general.mascot,
+                        data: '',
                         edit: true,
                       })
                     }>
@@ -146,7 +138,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
                         navigation.navigate('EditDeworming', {
                           idMascot,
                           edit: true,
-                          desparacitacions,
+                          deworming,
                         })
                       }>
                       <View style={{marginTop: 15}}>
@@ -185,9 +177,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
                         <Text style={style.subTxt}>
                           Anotaciones o reacciones:
                         </Text>
-                        <Text style={style.parrTxt}>
-                          {deworming[0].note}
-                        </Text>
+                        <Text style={style.parrTxt}>{deworming[0].note}</Text>
                       </View>
                     </View>
                   ) : (
@@ -224,81 +214,81 @@ const DetailsMascotOffline = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  {vacunacions.length > 0 && (
-                      <TouchableHighlight
-                          style={style.edit}
-                          underlayColor="transparent"
-                          onPress={() =>
-                              navigation.navigate('EditVaccinations', {
-                                idMascot,
-                                edit: true,
-                                vacunacions,
-                              })
-                          }>
-                        <View style={{marginTop: 15}}>
-                          <Image
-                              source={require('./../assets/images/edit_btn.png')}
-                          />
-                        </View>
-                      </TouchableHighlight>
+                  {vaccination.length > 0 && (
+                    <TouchableHighlight
+                      style={style.edit}
+                      underlayColor="transparent"
+                      onPress={() =>
+                        navigation.navigate('EditVaccinations', {
+                          idMascot,
+                          edit: true,
+                          vaccination,
+                        })
+                      }>
+                      <View style={{marginTop: 15}}>
+                        <Image
+                          source={require('./../assets/images/edit_btn.png')}
+                        />
+                      </View>
+                    </TouchableHighlight>
                   )}
 
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image
-                        source={require('../assets/images/tabs/VACCINEICON.png')}
-                        style={{width: 28, height: 28, marginHorizontal: 5}}
-                        resizeMode="contain"
+                      source={require('../assets/images/tabs/VACCINEICON.png')}
+                      style={{width: 28, height: 28, marginHorizontal: 5}}
+                      resizeMode="contain"
                     />
                     <Text style={style.subtitleTxt}>Vacunación:</Text>
                   </View>
-                  {vacunacions.length > 0 ? (
-                      <View>
-                        <View style={style.containerGroup}>
-                          <Text style={style.subTxt}>Última Vacunación:</Text>
-                          <Text style={style.parrTxt}>
-                            {vacunacions[0].last_vaccination}
-                          </Text>
-                        </View>
-                        <View style={style.containerGroup}>
-                          <Text style={style.subTxt}>Medicamentos:</Text>
-                          <Text style={style.parrTxt}>
-                            {vacunacions[0].medicaments}
-                          </Text>
-                        </View>
-                        <View style={style.containerGroup}>
-                          <Text style={style.subTxt}>
-                            Anotaciones o reacciones:
-                          </Text>
-                          <Text style={style.parrTxt}>{vacunacions[0].note}</Text>
-                        </View>
+                  {vaccination.length > 0 ? (
+                    <View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Última Vacunación:</Text>
+                        <Text style={style.parrTxt}>
+                          {vaccination[0].last_vaccination}
+                        </Text>
                       </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Medicamentos:</Text>
+                        <Text style={style.parrTxt}>
+                          {vaccination[0].medicament}
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>
+                          Anotaciones o reacciones:
+                        </Text>
+                        <Text style={style.parrTxt}>{vaccination[0].note}</Text>
+                      </View>
+                    </View>
                   ) : (
-                      <View style={{flex: 1}}>
-                        <Text style={style.txtNotfound}>No hay resultados.</Text>
-                      </View>
+                    <View style={{flex: 1}}>
+                      <Text style={style.txtNotfound}>No hay resultados.</Text>
+                    </View>
                   )}
                 </View>
                 <View style={{alignItems: 'center', marginVertical: 10}}>
                   {}
                   <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                          navigation.navigate('HistoryVaccinations', {idMascot})
-                      }>
+                    underlayColor="transparent"
+                    onPress={() =>
+                      navigation.navigate('HistoryVaccinations', {idMascot})
+                    }>
                     <View
-                        style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderRadius: 10,
-                          backgroundColor: '#80006A',
-                          width: wp('90%'),
-                        }}>
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        width: wp('90%'),
+                      }}>
                       <Text
-                          style={{
-                            padding: Platform.OS == 'ios' ? 20 : 10,
-                            color: '#fff',
-                            textTransform: 'uppercase',
-                          }}>
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                        }}>
                         Ver Historial
                       </Text>
                     </View>

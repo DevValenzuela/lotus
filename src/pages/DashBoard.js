@@ -21,7 +21,7 @@ import ListCarousel from '../components/listCarousel';
 import ListCarouselOffline from '../components/listCarouselOffline';
 import {UserContext} from '../context/userContext';
 import {useIsConnected} from 'react-native-offline';
-import {consultMascot} from '../conexion/crudSqlite';
+import {database} from '../conexion/crudSqlite';
 
 import {
   widthPercentageToDP as wp,
@@ -35,7 +35,8 @@ const DashBoard = ({navigation}) => {
   const isConnected = useIsConnected();
   const {
     dispatchUserEvent,
-    user: {user},r
+    user: {user},
+    r,
   } = useContext(UserContext);
 
   const {loading, error, data} = useQuery(BANNER_APP, {
@@ -55,16 +56,15 @@ const DashBoard = ({navigation}) => {
       const {banners} = data;
       setOfert(banners[0]?.ofert);
     }
-    if(refreshing || loading){
-        if(!isConnected){
-            consultMascot(dispatchUserEvent);
-        }
+    if (refreshing || loading) {
+      if (!isConnected) {
+        database.consultMascot(dispatchUserEvent);
+      }
     }
   }, [data, loading, refreshing]);
 
   if (loading) return <Loading />;
   if (error) console.log(error);
-
 
   return (
     <View style={style.container}>
@@ -157,7 +157,10 @@ const DashBoard = ({navigation}) => {
                 {isConnected ? (
                   <ListCarousel navigation={navigation} refresh={refreshing} />
                 ) : (
-                  <ListCarouselOffline navigation={navigation} refresh={refreshing} />
+                  <ListCarouselOffline
+                    navigation={navigation}
+                    refresh={refreshing}
+                  />
                 )}
               </View>
               <View style={{alignItems: 'center'}}>

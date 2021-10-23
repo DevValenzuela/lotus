@@ -20,7 +20,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import moment from 'moment';
-import {InsertMascot} from '../conexion/crudSqlite';
+import {database} from '../conexion/crudSqlite';
 import {useMutation} from '@apollo/client';
 import {ADD_MASCOT_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
@@ -135,9 +135,9 @@ const AddMascot = ({navigation}) => {
         sterilized: setSterilized,
         date_sterilized: setDate,
         microchip: setMicrochip,
-        user: user.id
+        user: user.id,
       };
-      let resp = InsertMascot(valuesOffline);
+      let resp = database.InsertMascot(valuesOffline);
       if (resp) {
         navigation.navigate('Gratulations', {
           txtMsg: 'Que bien has ingresado una nueva mascota.',

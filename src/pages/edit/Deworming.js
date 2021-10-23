@@ -24,7 +24,7 @@ import {
   UPDATE_DEWORMING_MEDIC,
 } from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
-import {InsertDesparacitacion} from '../../conexion/crudSqlite';
+import {database} from '../../conexion/crudSqlite';
 import {useIsConnected} from 'react-native-offline';
 const Deworming = ({route, navigation}) => {
   const isConnected = useIsConnected();
@@ -95,13 +95,13 @@ const Deworming = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      let new_value= {
+      let new_value = {
         ...values,
         mascot: idMascot,
         user: Number(user.id),
-      }
-      let resp = InsertDesparacitacion(new_value);
-      if(resp){
+      };
+      let resp = database.InsertDesparacitacion(new_value);
+      if (resp) {
         navigation.navigate('Gratulations', {
           txtMsg: 'Que bien has ingresado nueva desapracitación.',
         });
