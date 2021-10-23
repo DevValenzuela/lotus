@@ -22,14 +22,18 @@ import {
 import {Loading, ModalCalendarError} from '../../components/sharedComponent';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
+import {useIsConnected} from 'react-native-offline';
+import {database} from '../../conexion/crudSqlite';
 
 const Medicament = ({route, navigation}) => {
+  const isConnected = useIsConnected();
   const {idMascot, edit, medicaments} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
+  const [sucess, setSuccess]= useState(false);
   const [createMedicament, {data, error, loading}] = useMutation(
     CREATE_MEDICAMENT_APP,
   );
@@ -79,25 +83,44 @@ const Medicament = ({route, navigation}) => {
   const handleSubmitMedicament = async values => {
     if (!values) return;
     const {last_dose, medicament, posologia, dosis, period, notation} = values;
-    try {
-      await createMedicament({
-        variables: {
-          last_dose,
-          medicament,
-          posologia,
-          dosis,
-          period,
-          notation,
-          mascot: idMascot,
-          user: Number(user.id),
-        },
-      });
-      getDate('');
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha creado un nuevo medicamento.'
-      });
-    } catch (error) {
-      console.log(error);
+    if (isConnected) {
+      try {
+        await createMedicament({
+          variables: {
+            last_dose,
+            medicament,
+            posologia,
+            dosis,
+            period,
+            notation,
+            mascot: idMascot,
+            user: Number(user.id),
+          },
+        });
+        getDate('');
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Se ha creado un nuevo medicamento.',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      let new_value = {
+        last_dose,
+        medicament,
+        posologia,
+        dosis,
+        period,
+        notation,
+        mascot: idMascot,
+        user: Number(user.id),
+      };
+      database.InsertMedicament(new_value, setSuccess);
+      if (sucess) {
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Se ha insertado un nuevo medicamento.',
+        });
+      }
     }
   };
 
@@ -118,7 +141,7 @@ const Medicament = ({route, navigation}) => {
         },
       });
       navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha actualizado un nuevo medicamento.'
+        txtMsg: 'Se ha actualizado un nuevo medicamento.',
       });
     } catch (error) {
       console.log(error);
@@ -139,7 +162,10 @@ const Medicament = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment(new Date(date), "DD-MM-YYYY HH:mm:ss").add(2, 'month');
+    let dateNotify = moment(new Date(date), 'DD-MM-YYYY HH:mm:ss').add(
+      2,
+      'month',
+    );
     getDate(dateFormat);
     getCalendar(false);
   };

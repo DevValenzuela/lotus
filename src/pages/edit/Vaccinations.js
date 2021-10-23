@@ -23,7 +23,7 @@ import {
   CREATE_VACCINATION_APP,
   UPDATE_VACCINATION_MEDIC,
 } from '../../pages/apolllo/grahpql';
-import {InsertVaccination} from '../../conexion/crudSqlite';
+import {database} from '../../conexion/crudSqlite';
 import {Loading} from '../../components/sharedComponent';
 import {useIsConnected} from 'react-native-offline';
 
@@ -49,7 +49,7 @@ const Vaccinations = ({route, navigation}) => {
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
-
+  const [success, setSuccess] = useState(false);
   const initialValue = new Object();
 
   if (edit) {
@@ -82,7 +82,7 @@ const Vaccinations = ({route, navigation}) => {
   const handleSubmitVaccinations = async values => {
     if (!values) return null;
     const {last_vaccination, medicament, note_reaction} = values;
-    if(isConnected){
+    if (isConnected) {
       try {
         await createVacunacion({
           variables: {
@@ -95,27 +95,26 @@ const Vaccinations = ({route, navigation}) => {
         });
         getDate('');
         navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha creado una nueva vacunación.'
+          txtMsg: 'Se ha creado una nueva vacunación.',
         });
       } catch (error) {
         console.log(error);
       }
-    }else{
+    } else {
       let new_value = {
         last_vaccination,
         medicament,
         note: note_reaction,
         mascot: idMascot,
         user: Number(user.id),
-      }
-      let resp = InsertVaccination(new_value);
-      if(resp){
+      };
+      database.InsertVaccination(new_value, setSuccess);
+      if (success) {
         navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha creado una nueva vacunación.'
+          txtMsg: 'Se ha creado una nueva vacunación.',
         });
       }
     }
-
   };
 
   const handleUpdateVaccinations = async values => {
@@ -132,7 +131,7 @@ const Vaccinations = ({route, navigation}) => {
         },
       });
       navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha actualizado la vacunación.'
+        txtMsg: 'Se ha actualizado la vacunación.',
       });
     } catch (error) {
       console.log(error);
@@ -149,7 +148,10 @@ const Vaccinations = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment(new Date(date), "DD-MM-YYYY HH:mm:ss").add(2, 'month');
+    let dateNotify = moment(new Date(date), 'DD-MM-YYYY HH:mm:ss').add(
+      2,
+      'month',
+    );
     getDate(dateFormat);
     getCalendar(false);
   };

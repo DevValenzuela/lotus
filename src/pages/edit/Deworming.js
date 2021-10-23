@@ -47,7 +47,7 @@ const Deworming = ({route, navigation}) => {
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
-
+  const [success, setSuccess] = useState(false);
   const initialState = new Object();
 
   if (edit) {
@@ -100,8 +100,8 @@ const Deworming = ({route, navigation}) => {
         mascot: idMascot,
         user: Number(user.id),
       };
-      let resp = database.InsertDesparacitacion(new_value);
-      if (resp) {
+      database.InsertDesparacitacion(new_value, setSuccess);
+      if (success) {
         navigation.navigate('Gratulations', {
           txtMsg: 'Que bien has ingresado nueva desapracitación.',
         });

@@ -12,7 +12,6 @@ import {
   Platform,
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {UserContext} from '../context/userContext';
 import {database} from '../conexion/crudSqlite';
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -24,8 +23,9 @@ const DetailsMascotOffline = ({navigation, route}) => {
   const [mascot, setMascot] = useState([]);
   const [deworming, setDeworming] = useState([]);
   const [vaccination, setVaccination] = useState([]);
-
+  const [medicaments, setMedicaments] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
@@ -274,6 +274,105 @@ const DetailsMascotOffline = ({navigation, route}) => {
                     underlayColor="transparent"
                     onPress={() =>
                       navigation.navigate('HistoryVaccinations', {idMascot})
+                    }>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 10,
+                        backgroundColor: '#80006A',
+                        width: wp('90%'),
+                      }}>
+                      <Text
+                        style={{
+                          padding: Platform.OS == 'ios' ? 20 : 10,
+                          color: '#fff',
+                          textTransform: 'uppercase',
+                        }}>
+                        Ver Historial
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
+              </View>
+              <View style={style.column}>
+                <View style={style.containerCard}>
+                  {medicaments.length > 0 && (
+                    <TouchableHighlight
+                      style={style.edit}
+                      underlayColor="transparent"
+                      onPress={() =>
+                        navigation.navigate('EditMedicament', {
+                          idMascot,
+                          edit: true,
+                          medicaments,
+                        })
+                      }>
+                      <View style={{marginTop: 15}}>
+                        <Image
+                          source={require('./../assets/images/edit_btn.png')}
+                        />
+                      </View>
+                    </TouchableHighlight>
+                  )}
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      source={require('../assets/images/tabs/MEDICAMENT.png')}
+                      style={{width: 25, height: 25, marginHorizontal: 6}}
+                      resizeMode="contain"
+                    />
+                    <Text style={style.subtitleTxt}>Medicación:</Text>
+                  </View>
+                  {medicaments.length > 0 ? (
+                    <View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Última Dosis:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].last_dose}
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Medicamento:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].medicament}
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Posología:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].posologia}
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Dosis:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].dosis} gr/ml
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Periodo:</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].period} hrs
+                        </Text>
+                      </View>
+                      <View style={style.containerGroup}>
+                        <Text style={style.subTxt}>Anotaciones</Text>
+                        <Text style={style.parrTxt}>
+                          {medicaments[0].notation}
+                        </Text>
+                      </View>
+                    </View>
+                  ) : (
+                    <View style={{flex: 1}}>
+                      <Text style={style.txtNotfound}>No hay resultados.</Text>
+                    </View>
+                  )}
+                </View>
+                <View style={{alignItems: 'center', marginVertical: 10}}>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() =>
+                      navigation.navigate('HistoryMedicament', {idMascot})
                     }>
                     <View
                       style={{

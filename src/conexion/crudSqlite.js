@@ -5,45 +5,21 @@ import {v4 as uuidv4} from 'uuid';
 
 const InsertMascot = values => {
   let idMascot = uuidv4();
-  db.transaction(tx => {
-    tx.executeSql(
-      'INSERT INTO Mascot(id_mascot ,name_mascot, age_mascot, type_mascot, race_mascot, date_sterilized, number_microchip, microchip, description, user) VALUES(?,?,?,?,?,?,?,?,?,?)',
-      [
-        idMascot,
-        values.name_mascot,
-        values.age_mascot,
-        values.type_mascot,
-        values.race_mascot,
-        values.date_sterilized,
-        values.number_microchip,
-        values.microchip,
-        values.description,
-        values.user,
-      ],
-      function (transaction, result) {
-        console.log('Insert new mascot');
-      },
-      function (transaction, error) {
-        console.log('Error insert new mascot');
-      },
-    );
-  });
-  return true;
-};
 
-const InsertMedicament = values => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'INSERT INTO Medicament(last_dose, medicament, posologia, dosis, period, notation, mascot, user ) VALUES(?,?,?,?,?,?,?,?)',
+        'INSERT INTO Mascot(id_mascot ,name_mascot, age_mascot, type_mascot, race_mascot, date_sterilized, number_microchip, microchip, description, user) VALUES(?,?,?,?,?,?,?,?,?,?)',
         [
-          values.last_dose,
-          values.medicament,
-          values.posologia,
-          values.dosis,
-          values.period,
-          values.notation,
-          values.mascot,
+          idMascot,
+          values.name_mascot,
+          values.age_mascot,
+          values.type_mascot,
+          values.race_mascot,
+          values.date_sterilized,
+          values.number_microchip,
+          values.microchip,
+          values.description,
           values.user,
         ],
       );
@@ -58,29 +34,58 @@ const InsertMedicament = values => {
   );
 };
 
-const InsertDesparacitacion = values => {
-  db.transaction(tx => {
-    tx.executeSql(
-      'INSERT INTO desparacitacion(last_deworming, medicament, note, mascot, user) VALUES(?,?,?,?,?)',
-      [
-        values.last_deworming,
-        values.medicament,
-        values.note,
-        values.mascot,
-        values.user,
-      ],
-      function (transaction, result) {
-        console.log('Insert success fully desparacitación');
-      },
-      function (transaction, error) {
-        console.log(error);
-      },
-    );
-  });
-  return true;
+const InsertMedicament = (values, setSuccess) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        'INSERT INTO Medicament(last_dose,  medicament, posologia, dosis, period, notation, mascot, user ) VALUES(?,?,?,?,?,?,?,?)',
+        [
+          values.last_dose,
+          values.medicament,
+          values.posologia,
+          values.dosis,
+          values.period,
+          values.notation,
+          values.mascot,
+          values.user,
+        ],
+      );
+    },
+    (tx, error) => {
+      console.log(error);
+      setSuccess(false);
+    },
+    (tx, success) => {
+      setSuccess(true);
+    },
+  );
 };
 
-export const InsertVaccination = values => {
+const InsertDesparacitacion = (values, setSuccess) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        'INSERT INTO desparacitacion(last_deworming, medicament, note, mascot, user) VALUES(?,?,?,?,?)',
+        [
+          values.last_deworming,
+          values.medicament,
+          values.note,
+          values.mascot,
+          values.user,
+        ],
+      );
+    },
+    (t, error) => {
+      console.log(error);
+      setSuccess(false);
+    },
+    (t, success) => {
+      setSuccess(true);
+    },
+  );
+};
+
+const InsertVaccination = (values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
@@ -96,10 +101,10 @@ export const InsertVaccination = values => {
     },
     (t, error) => {
       console.log(error);
-      return false;
+      setSuccess(false);
     },
     (t, success) => {
-      return true;
+      setSuccess(true);
     },
   );
 };
@@ -194,11 +199,12 @@ const consultVaccination = (idMascot, setDewormingFunc) => {
 };
 
 export const database = {
-  InsertMascot,
   consultMascot,
   consultDesparacitacion,
   consultMascotID,
   consultVaccination,
+  InsertMascot,
   InsertDesparacitacion,
   InsertMedicament,
+  InsertVaccination,
 };
