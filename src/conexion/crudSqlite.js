@@ -3,9 +3,8 @@ import {db} from '../conexion/sqlite';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 
-const InsertMascot = values => {
+const InsertMascot = (values, setSuccess) => {
   let idMascot = uuidv4();
-
   db.transaction(
     tx => {
       tx.executeSql(
@@ -26,10 +25,10 @@ const InsertMascot = values => {
     },
     (tx, error) => {
       console.log(error);
-      return false;
+      setSuccess(false);
     },
     (tx, success) => {
-      return true;
+      setSuccess(true);
     },
   );
 };
@@ -158,14 +157,18 @@ const consultMascotID = (idMascot, setMacotFunc) => {
 const consultMascot = dispatchUserEvent => {
   try {
     db.transaction(tx => {
-      tx.executeSql('SELECT * FROM Mascot', [], function (tx, results) {
-        let resp = [];
-        let len = results.rows.length;
-        for (let i = 0; i < len; i++) {
-          resp.push(results.rows.item(i));
-        }
-        dispatchUserEvent('ADD_SQLITE_MASCOT', {resp: resp});
-      });
+      tx.executeSql(
+        'SELECT * FROM Mascot ORDER BY ID DESC',
+        [],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push(results.rows.item(i));
+          }
+          dispatchUserEvent('ADD_SQLITE_MASCOT', {resp: resp});
+        },
+      );
     });
   } catch (error) {
     console.log(error);
@@ -176,7 +179,7 @@ const consultDesparacitacion = (idMascot, setDewormingFunc) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        `SELECT * FROM desparacitacion WHERE mascot = ? `,
+        `SELECT * FROM desparacitacion WHERE mascot = ? ORDER BY ID DESC`,
         [idMascot],
         function (tx, results) {
           let resp = [];
@@ -202,7 +205,7 @@ const consultVaccination = (idMascot, setDewormingFunc) => {
   try {
     db.transaction(tx => {
       tx.executeSql(
-        `SELECT * FROM vaccination WHERE mascot = ? `,
+        `SELECT * FROM vaccination WHERE mascot = ? ORDER BY ID DESC`,
         [idMascot],
         function (tx, results) {
           let resp = [];
@@ -226,7 +229,7 @@ const consultMedicamnets = (idMascot, setMedicamentFunc) => {
   try {
     db.transaction(tx => {
       tx.executeSql(
-        `SELECT * FROM Medicament WHERE mascot = ? `,
+        `SELECT * FROM Medicament WHERE mascot = ? ORDER BY ID DESC`,
         [idMascot],
         function (tx, results) {
           let resp = [];
@@ -250,13 +253,13 @@ const consultControllerMedic = (idMascot, setControllerMedicFunc) => {
   try {
     db.transaction(tx => {
       tx.executeSql(
-        `SELECT * FROM controller_medic WHERE mascot = ? `,
+        `SELECT * FROM controller_medic WHERE mascot = ? ORDER BY ID DESC`,
         [idMascot],
         function (tx, results) {
           let resp = [];
           let len = results.rows.length;
           for (let i = 0; i < len; i++) {
-            console.log(results.rows.item(i))
+            console.log(results.rows.item(i));
             resp.push(results.rows.item(i));
           }
           if (resp) {
@@ -269,8 +272,7 @@ const consultControllerMedic = (idMascot, setControllerMedicFunc) => {
   } catch (error) {
     console.log('Error' + error);
   }
-}
-
+};
 
 export const database = {
   consultMascot,

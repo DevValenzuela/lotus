@@ -45,6 +45,7 @@ const AddMascot = ({navigation}) => {
   const [setCalendar, getCalendar] = useState(false);
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
+  const [success, setSuccess] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [createMascot, {loading: loadingA}] = useMutation(ADD_MASCOT_APP);
   const isConnected = useIsConnected();
@@ -77,7 +78,12 @@ const AddMascot = ({navigation}) => {
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  }, [fadeAnim]);
+    if (success) {
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Que bien has ingresado una nueva mascota.',
+      });
+    }
+  }, [fadeAnim, success]);
 
   const onDateChange = date => {
     getselectedStartDate(date);
@@ -137,12 +143,8 @@ const AddMascot = ({navigation}) => {
         microchip: setMicrochip,
         user: user.id,
       };
-      let resp = database.InsertMascot(valuesOffline);
-      if (resp) {
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Que bien has ingresado una nueva mascota.',
-        });
-      }
+       database.InsertMascot(valuesOffline, setSuccess);
+
     }
   };
 
