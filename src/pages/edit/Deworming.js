@@ -106,7 +106,6 @@ const Deworming = ({route, navigation}) => {
         user: Number(user.id),
       };
       database.InsertDesparacitacion(new_value, setSuccess);
-
     }
   };
 
@@ -114,20 +113,25 @@ const Deworming = ({route, navigation}) => {
     if (!values) return null;
     const {id} = desparacitacions[0];
     const {last_deworming, medicament, note} = values;
-    try {
-      await updateDesparacitacion({
-        variables: {
-          id,
-          last_deworming,
-          medicament,
-          note,
-        },
-      });
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Se actualizo nueva desparacitación.',
-      });
-    } catch (e) {
-      console.log(e);
+    if (isConnected) {
+      try {
+        await updateDesparacitacion({
+          variables: {
+            id,
+            last_deworming,
+            medicament,
+            note,
+          },
+        });
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Se actualizo nueva desparacitación.',
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      let idTable = desparacitacions[0].ID;
+      database.UpdateDeworming(idTable, idMascot, values, setSuccess);
     }
   };
 

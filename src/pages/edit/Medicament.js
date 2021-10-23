@@ -33,7 +33,7 @@ const Medicament = ({route, navigation}) => {
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
-  const [sucess, setSuccess]= useState(false);
+  const [sucess, setSuccess] = useState(false);
   const [createMedicament, {data, error, loading}] = useMutation(
     CREATE_MEDICAMENT_APP,
   );
@@ -121,7 +121,6 @@ const Medicament = ({route, navigation}) => {
         user: Number(user.id),
       };
       database.InsertMedicament(new_value, setSuccess);
-
     }
   };
 
@@ -129,23 +128,28 @@ const Medicament = ({route, navigation}) => {
     if (!values) return null;
     const {id} = medicaments[0];
     const {last_dose, medicament, posologia, dosis, period, notation} = values;
-    try {
-      await updateMedicament({
-        variables: {
-          id,
-          last_dose,
-          medicament,
-          posologia,
-          dosis,
-          period,
-          notation,
-        },
-      });
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha actualizado un nuevo medicamento.',
-      });
-    } catch (error) {
-      console.log(error);
+    if (isConnected) {
+      try {
+        await updateMedicament({
+          variables: {
+            id,
+            last_dose,
+            medicament,
+            posologia,
+            dosis,
+            period,
+            notation,
+          },
+        });
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Se ha actualizado un nuevo medicamento.',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      let idTable = medicaments[0].ID;
+      database.UpdateMedicament(idTable, idMascot, values, setSuccess);
     }
   };
 

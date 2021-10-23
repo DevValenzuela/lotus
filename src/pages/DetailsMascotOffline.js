@@ -37,11 +37,11 @@ const DetailsMascotOffline = ({navigation, route}) => {
 
   async function consultDataDB() {
     try {
-      database.consultDesparacitacion(idMascot, setDeworming);
-      database.consultMascotID(idMascot, setMascot);
-      database.consultVaccination(idMascot, setVaccination);
-      database.consultMedicamnets(idMascot, setMedicaments);
-      database.consultControllerMedic(idMascot, setControllerMedic);
+      await database.consultDesparacitacion(idMascot, setDeworming);
+      await database.consultMascotID(idMascot, setMascot);
+      await database.consultVaccination(idMascot, setVaccination);
+      await database.consultMedicamnets(idMascot, setMedicaments);
+      await database.consultControllerMedic(idMascot, setControllerMedic);
     } catch (e) {
       console.warn(e);
     }
@@ -90,7 +90,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
                       navigation.navigate('EditGeneral', {
                         idMascot,
                         data: mascot,
-                        edit: true
+                        edit: true,
                       })
                     }>
                     <View style={{marginTop: 15}}>

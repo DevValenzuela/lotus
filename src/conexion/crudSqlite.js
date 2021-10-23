@@ -259,7 +259,6 @@ const consultControllerMedic = (idMascot, setControllerMedicFunc) => {
           let resp = [];
           let len = results.rows.length;
           for (let i = 0; i < len; i++) {
-            console.log(results.rows.item(i));
             resp.push(results.rows.item(i));
           }
           if (resp) {
@@ -299,6 +298,101 @@ const UpdateMascot = (idMascot, values, setSuccess) => {
   );
 };
 
+const UpdateDeworming = (idTable, idMascot, values, setSuccess) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        'UPDATE desparacitacion SET  last_deworming = ? , medicament = ?, note = ? WHERE mascot = ? AND ID = ?',
+        [
+          values.last_deworming,
+          values.medicament,
+          values.note,
+          idMascot,
+          idTable,
+        ],
+      );
+    },
+    (tx, error) => {
+      setSuccess(false);
+    },
+    (tx, success) => {
+      setSuccess(true);
+    },
+  );
+};
+
+const UpdateVaccination = (idTable, idMascot, values, setSuccess) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        'UPDATE vaccination SET  last_vaccination = ? , medicament = ?, note = ? WHERE mascot = ? AND ID = ? ',
+        [
+          values.last_vaccination,
+          values.medicament,
+          values.note,
+          idMascot,
+          idTable,
+        ],
+      );
+    },
+    (tx, error) => {
+      setSuccess(false);
+    },
+    (tx, success) => {
+      setSuccess(true);
+    },
+  );
+};
+
+const UpdateMedicament = (idTable, idMascot, values, setSuccess) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        'UPDATE Medicament SET  last_dose = ? , medicament = ?, posologia = ?, dosis = ?, period = ?, notation = ? WHERE mascot = ?  AND ID = ?',
+        [
+          values.last_dose,
+          values.medicament,
+          values.posologia,
+          values.dosis,
+          values.period,
+          values.notation,
+          idMascot,
+          idTable,
+        ],
+      );
+    },
+    (tx, error) => {
+      setSuccess(false);
+    },
+    (tx, success) => {
+      setSuccess(true);
+    },
+  );
+};
+
+const UpdateControllerMedic = (idTable, idMascot, values, setSuccess) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        'UPDATE controller_medic SET last_control = ? , assestment = ?, note = ? WHERE mascot = ? AND ID = ?',
+        [
+          values.last_control,
+          values.valoration,
+          values.note,
+          idMascot,
+          idTable,
+        ],
+      );
+    },
+    (tx, error) => {
+      setSuccess(false);
+    },
+    (tx, success) => {
+      setSuccess(true);
+    },
+  );
+};
+
 export const database = {
   consultMascot,
   consultDesparacitacion,
@@ -312,4 +406,8 @@ export const database = {
   InsertVaccination,
   InsertControllerMedic,
   UpdateMascot,
+  UpdateDeworming,
+  UpdateVaccination,
+  UpdateMedicament,
+  UpdateControllerMedic,
 };

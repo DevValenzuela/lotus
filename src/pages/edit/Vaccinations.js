@@ -54,7 +54,7 @@ const Vaccinations = ({route, navigation}) => {
 
   if (edit) {
     initialValue.last_vaccination = '';
-    initialValue.medicament = vacunacions[0].medicaments;
+    initialValue.medicament = vacunacions[0].medicament;
     initialValue.note_reaction = vacunacions[0].note;
   } else {
     initialValue.last_vaccination = '';
@@ -114,7 +114,6 @@ const Vaccinations = ({route, navigation}) => {
         user: Number(user.id),
       };
       database.InsertVaccination(new_value, setSuccess);
-
     }
   };
 
@@ -122,20 +121,29 @@ const Vaccinations = ({route, navigation}) => {
     if (!values) return null;
     const {id} = vacunacions[0];
     const {last_vaccination, medicament, note_reaction} = values;
-    try {
-      await updateVacunacion({
-        variables: {
-          id,
-          last_vaccination,
-          medicament,
-          note: note_reaction,
-        },
-      });
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha actualizado la vacunación.',
-      });
-    } catch (error) {
-      console.log(error);
+    if (isConnected) {
+      try {
+        await updateVacunacion({
+          variables: {
+            id,
+            last_vaccination,
+            medicament,
+            note: note_reaction,
+          },
+        });
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Se ha actualizado la vacunación.',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      let new_values = {
+        ...values,
+        note: note_reaction,
+      };
+      let idTable = vacunacions[0].ID;
+      database.UpdateVaccination(idTable, idMascot, new_values, setSuccess);
     }
   };
 

@@ -108,7 +108,6 @@ const ControlMedic = ({route, navigation}) => {
         user: Number(user.id),
       };
       database.InsertControllerMedic(new_values, setSuccess);
-
     }
   };
 
@@ -116,20 +115,25 @@ const ControlMedic = ({route, navigation}) => {
     if (!values) return null;
     const {id} = controllerMedics[0];
     const {last_control, valoration, note} = values;
-    try {
-      await updateControllerMedic({
-        variables: {
-          id,
-          last_control,
-          assessment: valoration,
-          note,
-        },
-      });
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha actualizado control medico.',
-      });
-    } catch (error) {
-      console.log(error);
+    if (isConnected) {
+      try {
+        await updateControllerMedic({
+          variables: {
+            id,
+            last_control,
+            assessment: valoration,
+            note,
+          },
+        });
+        navigation.navigate('Gratulations', {
+          txtMsg: 'Se ha actualizado control medico.',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      let idTable = controllerMedics[0].ID;
+      database.UpdateControllerMedic(idTable, idMascot, values, setSuccess);
     }
   };
 
