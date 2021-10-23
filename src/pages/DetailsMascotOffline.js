@@ -443,7 +443,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
                       </View>
                       <Text style={style.subTxt}>Valoración:</Text>
                       <Text style={style.parrTxt}>
-                        {controllerMedics[0].assesment}
+                        {controllerMedics[0].assestment}
                       </Text>
                       <Text style={style.subTxt}>
                         Prescripción y anotaciones:
