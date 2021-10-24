@@ -22,6 +22,7 @@ import {useQuery} from '@apollo/client';
 import {CONSULT_APP, CONSULT_MASCOTS_APP} from '../apolllo/query';
 import {Loading} from '../../components/sharedComponent';
 import DeleteMascot from '../../components/deleteMascot';
+import DeleteMascotOffline from '../../components/deleteMascotOffline';
 import {NetworkConsumer} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
 function ListMascot({data}) {
@@ -98,24 +99,25 @@ function ListMascotOffline({data}) {
           style={style.rounded}
         />
       </View>
-      <View style={{flex: 2, alignSelf: 'center'}}>
+      <View style={{flex: 3, alignSelf: 'center'}}>
         <Text style={{color: '#ffffff', textTransform: 'capitalize'}}>
           {data.title}
         </Text>
       </View>
-      <View style={{flex: 1, alignSelf: 'center', flexDirection: 'row'}}>
-        <DeleteMascot data={data} />
+      <View style={{flex: 2, alignSelf: 'center', flexDirection: 'row'}}>
+        <DeleteMascotOffline data={data} />
         <TouchableHighlight
           activeOpacity={0.6}
           underlayColor="transparent"
           onPress={() =>
-            navigation.navigate('DetailsMascot', {mascotId: data.id})
+            navigation.navigate('DetailsMascotOffline', {mascotId: data.id})
           }>
           <View
             style={{
               padding: 10,
               backgroundColor: 'rgba(51,0,102,0.56)',
               marginVertical: 2,
+              marginHorizontal: 2,
             }}>
             <Image
               source={require('../../assets/images/detailsicon.png')}
