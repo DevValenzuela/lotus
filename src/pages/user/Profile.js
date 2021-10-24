@@ -23,6 +23,7 @@ import {CONSULT_APP, CONSULT_MASCOTS_APP} from '../apolllo/query';
 import {Loading} from '../../components/sharedComponent';
 import DeleteMascot from '../../components/deleteMascot';
 import {NetworkConsumer} from 'react-native-offline';
+import {database} from '../../conexion/crudSqlite';
 function ListMascot({data}) {
   const navigation = useNavigation();
   return (
@@ -80,9 +81,59 @@ function ListMascot({data}) {
   );
 }
 
+function ListMascotOffline({data}) {
+  const navigation = useNavigation();
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        alignContent: 'space-between',
+        marginVertical: 5,
+        width: wp('90%'),
+        maxWidth: 330,
+      }}>
+      <View style={{flex: 1, padding: 10}}>
+        <Image
+          source={require('../../assets/images/not_image_small.jpg')}
+          style={style.rounded}
+        />
+      </View>
+      <View style={{flex: 2, alignSelf: 'center'}}>
+        <Text style={{color: '#ffffff', textTransform: 'capitalize'}}>
+          {data.title}
+        </Text>
+      </View>
+      <View style={{flex: 1, alignSelf: 'center', flexDirection: 'row'}}>
+        <DeleteMascot data={data} />
+        <TouchableHighlight
+          activeOpacity={0.6}
+          underlayColor="transparent"
+          onPress={() =>
+            navigation.navigate('DetailsMascot', {mascotId: data.id})
+          }>
+          <View
+            style={{
+              padding: 10,
+              backgroundColor: 'rgba(51,0,102,0.56)',
+              marginVertical: 2,
+            }}>
+            <Image
+              source={require('../../assets/images/detailsicon.png')}
+              resizeMode="contain"
+              style={style.iconActions}
+            />
+          </View>
+        </TouchableHighlight>
+      </View>
+    </View>
+  );
+}
+
 const ProfileUser = ({navigation}) => {
   const {
+    dispatchUserEvent,
     user: {user},
+    consult: {mascots},
   } = useContext(UserContext);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -107,6 +158,7 @@ const ProfileUser = ({navigation}) => {
   });
 
   useEffect(() => {
+    database.consultMascot(dispatchUserEvent);
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1000,
@@ -146,6 +198,14 @@ const ProfileUser = ({navigation}) => {
   };
 
   let resultList = listData ? consultProfileMascot(listData) : [];
+  const resultListOffline = [];
+
+  mascots.forEach(item => {
+    resultListOffline.push({
+      id: item.id_mascot,
+      title: item.name_mascot,
+    });
+  });
 
   return (
     <View style={style.container}>
@@ -278,35 +338,71 @@ const ProfileUser = ({navigation}) => {
                 </View>
               </Animated.View>
             ) : (
-              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={require('./../../assets/images/not-access.png')} style={{width: 80, height: 80, marginVertical: 30}} />
-                <Text style={style.txtConection}>No tienes accesso a esta configuración.</Text>
-                <Text style={style.txtConection}>
-                  Estas sin conexión o estas en modo offline.
-                </Text>
-                <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => sessionClose()}>
-                  <View
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View style={style.contentProfile}>
+                  <Image
+                    source={require('./../../assets/images/not-access.png')}
+                    style={{width: 80, height: 80, marginVertical: 30}}
+                  />
+                  <Text style={style.txtConection}>
+                    No tienes accesso a esta configuración perfil.
+                  </Text>
+                </View>
+                <View style={{flex: 1, width: wp('90%')}}>
+                  <Text style={style.titleSub}>Mis Mascotas</Text>
+                  {resultListOffline.length > 0 ? (
+                    <View
                       style={{
-                        borderRadius: 10,
-                        backgroundColor: '#80006A',
-                        marginBottom: 30,
-                        width: wp('80%'),
-                        maxWidth: 330,
-                        marginVertical: 30
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
-                    <Text
-                        style={{
-                          padding: Platform.OS == 'ios' ? 20 : 10,
-                          color: '#fff',
-                          textTransform: 'uppercase',
-                          textAlign: 'center',
-                        }}>
-                      Cerrar Sessión
+                      <FlatList
+                        data={resultListOffline}
+                        renderItem={({item}) => (
+                          <ListMascotOffline data={item} />
+                        )}
+                      />
+                    </View>
+                  ) : (
+                    <Text style={style.txtNotFound}>
+                      No hay resultados en la lista.
                     </Text>
+                  )}
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => sessionClose()}>
+                      <View
+                        style={{
+                          borderRadius: 10,
+                          backgroundColor: '#80006A',
+                          marginBottom: 30,
+                          width: wp('90%'),
+                          maxWidth: 330,
+                        }}>
+                        <Text
+                          style={{
+                            padding: Platform.OS == 'ios' ? 20 : 10,
+                            color: '#fff',
+                            textTransform: 'uppercase',
+                            textAlign: 'center',
+                          }}>
+                          Cerrar Sessión
+                        </Text>
+                      </View>
+                    </TouchableHighlight>
                   </View>
-                </TouchableHighlight>
+                </View>
               </View>
             )
           }

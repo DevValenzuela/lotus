@@ -73,91 +73,105 @@ const DeleteMascot = ({data}) => {
   ] = queryMultiple();
 
   /** Consult UseMutation Delete**/
-  const [deleteMedicament,{loading: loading_1}] = useMutation(DELETE_MEDICAMENT_MEDIC, {
-    update(cache, {data: {deleteMedicament}}) {
-      const {
-        medicament: {id},
-      } = deleteMedicament;
-      const {medicaments} = cache.readQuery({
-        query: CONSULT_MEDICAMENT_APP,
-        variables: {
-          user: user.id,
-          mascot: data.id,
-        },
-      });
-      cache.writeQuery({
-        query: CONSULT_MEDICAMENT_APP,
-        data: {
-          medicaments: medicaments.filter(medicament => medicament.id !== id),
-        },
-      });
+  const [deleteMedicament, {loading: loading_1}] = useMutation(
+    DELETE_MEDICAMENT_MEDIC,
+    {
+      update(cache, {data: {deleteMedicament}}) {
+        const {
+          medicament: {id},
+        } = deleteMedicament;
+        const {medicaments} = cache.readQuery({
+          query: CONSULT_MEDICAMENT_APP,
+          variables: {
+            user: user.id,
+            mascot: data.id,
+          },
+        });
+        cache.writeQuery({
+          query: CONSULT_MEDICAMENT_APP,
+          data: {
+            medicaments: medicaments.filter(medicament => medicament.id !== id),
+          },
+        });
+      },
     },
-  });
+  );
 
-  const [deleteDesparacitacion, {loading: loading_2}] = useMutation(DELETE_DEWORMING_MEDIC, {
-    update(cache, {data: {deleteDesparacitacion}}) {
-      const {
-        desparacitacion: {id},
-      } = deleteDesparacitacion;
-      const {desparacitacions} = cache.readQuery({
-        query: CONSULT_DEWORMING_APP,
-        variables: {
-          user: user.id,
-          mascot: data.id,
-        },
-      });
-      cache.writeQuery({
-        query: CONSULT_DEWORMING_APP,
-        data: {
-          desparacitacions: desparacitacions.filter(
-            desparacitacion => desparacitacion.id !== id,
-          ),
-        },
-      });
+  const [deleteDesparacitacion, {loading: loading_2}] = useMutation(
+    DELETE_DEWORMING_MEDIC,
+    {
+      update(cache, {data: {deleteDesparacitacion}}) {
+        const {
+          desparacitacion: {id},
+        } = deleteDesparacitacion;
+        const {desparacitacions} = cache.readQuery({
+          query: CONSULT_DEWORMING_APP,
+          variables: {
+            user: user.id,
+            mascot: data.id,
+          },
+        });
+        cache.writeQuery({
+          query: CONSULT_DEWORMING_APP,
+          data: {
+            desparacitacions: desparacitacions.filter(
+              desparacitacion => desparacitacion.id !== id,
+            ),
+          },
+        });
+      },
     },
-  });
+  );
 
-  const [deleteVacunacion, {loading: loading_3}] = useMutation(DELETE_VACCINATION, {
-    update(cache, {data: {deleteVacunacions}}) {
-      const {
-        vacunacion: {id},
-      } = deleteVacunacions;
-      const {vacunacions} = cache.readQuery({
-        query: CONSULT_VACCINATIONS_APP,
-        variables: {
-          user: user.id,
-          mascot: data.id,
-        },
-      });
-      cache.writeQuery({
-        query: CONSULT_VACCINATIONS_APP,
-        data: {
-          vacunacions: vacunacions.filter(vacunacion => vacunacion.id !== id),
-        },
-      });
+  const [deleteVacunacion, {loading: loading_3}] = useMutation(
+    DELETE_VACCINATION,
+    {
+      update(cache, {data: {deleteVacunacions}}) {
+        const {
+          vacunacion: {id},
+        } = deleteVacunacions;
+        const {vacunacions} = cache.readQuery({
+          query: CONSULT_VACCINATIONS_APP,
+          variables: {
+            user: user.id,
+            mascot: data.id,
+          },
+        });
+        cache.writeQuery({
+          query: CONSULT_VACCINATIONS_APP,
+          data: {
+            vacunacions: vacunacions.filter(vacunacion => vacunacion.id !== id),
+          },
+        });
+      },
     },
-  });
+  );
 
-  const [deleteControllerMedic, {loading: loading_4}] = useMutation(DELETE_CONTROLLER_MEDIC, {
-    update(cache, {data: {deleteControllerMedic}}) {
-      const {
-        controllerMedic: {id},
-      } = deleteControllerMedic;
-      const {controllerMedics} = cache.readQuery({
-        query: CONSULT_CONTROLLER_MEDICS_APP,
-        variables: {
-          user: user.id,
-          mascot: data.id,
-        },
-      });
-      cache.writeQuery({
-        query: CONSULT_CONTROLLER_MEDICS_APP,
-        data: {
-          controllerMedics: controllerMedics.filter(controllerMedic => controllerMedic.id !== id),
-        },
-      });
+  const [deleteControllerMedic, {loading: loading_4}] = useMutation(
+    DELETE_CONTROLLER_MEDIC,
+    {
+      update(cache, {data: {deleteControllerMedic}}) {
+        const {
+          controllerMedic: {id},
+        } = deleteControllerMedic;
+        const {controllerMedics} = cache.readQuery({
+          query: CONSULT_CONTROLLER_MEDICS_APP,
+          variables: {
+            user: user.id,
+            mascot: data.id,
+          },
+        });
+        cache.writeQuery({
+          query: CONSULT_CONTROLLER_MEDICS_APP,
+          data: {
+            controllerMedics: controllerMedics.filter(
+              controllerMedic => controllerMedic.id !== id,
+            ),
+          },
+        });
+      },
     },
-  });
+  );
 
   const [deleteUpload, {loading: loadingDelete, data: dataDelete}] =
     useMutation(DELETE_PHOTO_MASCOT);
@@ -271,7 +285,8 @@ const DeleteMascot = ({data}) => {
     }
   };
 
-  if(loading_1 || loading_2 || loading_3 || loading_4 || loading_5) return <Loading2 />
+  if (loading_1 || loading_2 || loading_3 || loading_4 || loading_5)
+    return <Loading2 />;
 
   return (
     <SafeAreaView>
