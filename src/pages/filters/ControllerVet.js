@@ -11,6 +11,8 @@ import {
 import {style} from './style';
 import {useDebounceValue} from '../../hooks/debounceTime';
 import {CONSULT_SEARCH_FILTER_DOCTOR} from '../apolllo/query';
+import {useIsConnected} from 'react-native-offline';
+import {database2} from '../../conexion/crudSqlite2';
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -26,11 +28,12 @@ const Item = ({date}) => (
 const ControllerVet = () => {
   const [txtValue, setTxtValue] = useState('');
   const [getSearchResult, setSearchResult] = useState([]);
+  const isConnected = useIsConnected();
   const value = useDebounceValue(txtValue, 1000, CONSULT_SEARCH_FILTER_DOCTOR);
   const renderItem = ({item}) => <Item date={item.date} />;
 
   useEffect(() => {
-    if (value) {
+    if (value && isConnected) {
       const result = [];
       value.controllerMedics.map(item => {
         result.push({
@@ -39,6 +42,8 @@ const ControllerVet = () => {
         });
       });
       setSearchResult(result);
+    } else {
+      database2.ConsultControllerVetGeneral(setSearchResult);
     }
   }, [value]);
 

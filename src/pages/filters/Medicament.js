@@ -11,7 +11,8 @@ import {
 import {style} from './style';
 import {useDebounceValue} from '../../hooks/debounceTime';
 import {CONSULT_SEARCH_FILTER_MEDICAMENT} from '../apolllo/query';
-
+import {useIsConnected} from 'react-native-offline';
+import {database2} from '../../conexion/crudSqlite2';
 const Item = ({date}) => (
   <View style={style.item}>
     <Image
@@ -26,6 +27,8 @@ const Item = ({date}) => (
 const MedicamentFilters = () => {
   const [txtValue, setTxtValue] = useState('');
   const [getSearchResult, setSearchResult] = useState([]);
+
+  const isConnected = useIsConnected();
   const value = useDebounceValue(
     txtValue,
     1000,
@@ -35,7 +38,7 @@ const MedicamentFilters = () => {
   const renderItem = ({item}) => <Item date={item.date} />;
 
   useEffect(() => {
-    if (value) {
+    if (value && isConnected) {
       const result = [];
       value.medicaments.map(item => {
         result.push({
@@ -44,8 +47,10 @@ const MedicamentFilters = () => {
         });
       });
       setSearchResult(result);
+    } else {
+      database2.ConsultMedicamentGeneral(setSearchResult);
     }
-  }, [value]);
+  }, [isConnected, value]);
 
   return (
     <SafeAreaView style={style.container}>

@@ -11,6 +11,8 @@ import {
 import {style} from './style';
 import {useDebounceValue} from '../../hooks/debounceTime';
 import {CONSULT_SEARCH_FILTER_DEWORMING} from '../apolllo/query';
+import {useIsConnected} from 'react-native-offline';
+import {database2} from '../../conexion/crudSqlite2';
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -26,6 +28,8 @@ const Item = ({date}) => (
 const DewormingFilters = () => {
   const [txtValue, setTxtValue] = useState('');
   const [getSearchResult, setSearchResult] = useState([]);
+
+  const isConnected = useIsConnected();
   const value = useDebounceValue(
     txtValue,
     1000,
@@ -35,7 +39,7 @@ const DewormingFilters = () => {
   const renderItem = ({item}) => <Item date={item.date} />;
 
   useEffect(() => {
-    if (value) {
+    if (value && isConnected) {
       const result = [];
       value.desparacitacions.map(item => {
         result.push({
@@ -44,8 +48,10 @@ const DewormingFilters = () => {
         });
       });
       setSearchResult(result);
+    } else {
+      database2.ConsultDewormingGeneral(setSearchResult);
     }
-  }, [value]);
+  }, [isConnected, value]);
 
   return (
     <SafeAreaView style={style.container}>
