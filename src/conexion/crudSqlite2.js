@@ -191,6 +191,115 @@ const ConsultControllerVetGeneral = setControllerVetFunc => {
   }
 };
 
+const ConsultDewormingHistory = (idMascot, setDewormingHistoryFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM desparacitacion WHERE mascot =  ? ORDER BY ID DESC`,
+        [idMascot],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push({
+              id: results.rows.item(i).ID,
+              last_deworming: results.rows.item(i).last_deworming,
+            });
+          }
+          if (resp) {
+            setDewormingHistoryFunc(resp);
+          }
+          return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+const ConsultVaccinationHistory = (idMascot, setDewormingHistoryFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM vaccination WHERE mascot =  ? ORDER BY ID DESC`,
+        [idMascot],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push({
+              id: results.rows.item(i).ID,
+              last_vaccination: results.rows.item(i).last_vaccination,
+            });
+          }
+          if (resp) {
+            setDewormingHistoryFunc(resp);
+          }
+          return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+const ConsultMedicamentHistory = (idMascot, setMedicamentHistoryFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM Medicament WHERE mascot =  ? ORDER BY ID DESC`,
+        [idMascot],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push({
+              id: results.rows.item(i).ID,
+              last_dose: results.rows.item(i).last_dose,
+            });
+          }
+          if (resp) {
+            setMedicamentHistoryFunc(resp);
+          }
+          return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+
+const ConsultControllerMedic = (idMascot, setControllerMedicFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM controller_medic WHERE mascot =  ? ORDER BY ID DESC`,
+        [idMascot],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push({
+              id: results.rows.item(i).ID,
+              last_control: results.rows.item(i).last_control,
+            });
+          }
+          if (resp) {
+            setControllerMedicFunc(resp);
+          }
+          return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
 export const database2 = {
   DeleteMascotGeneralOffline,
   DeleteDewormingOffline,
@@ -201,4 +310,8 @@ export const database2 = {
   ConsultDewormingGeneral,
   ConsultVaccinationGeneral,
   ConsultControllerVetGeneral,
+  ConsultDewormingHistory,
+  ConsultVaccinationHistory,
+  ConsultMedicamentHistory,
+  ConsultControllerMedic
 };

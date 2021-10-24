@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -13,6 +13,8 @@ import {useQuery} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {Loading} from '../../components/sharedComponent';
 import {CONSULT_HYSTORY_MEDICAMENTS_APP} from '../../pages/apolllo/query';
+import {useIsConnected} from 'react-native-offline';
+import {database2} from '../../conexion/crudSqlite2';
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -30,6 +32,8 @@ const MedicamentHistory = ({navigation, route}) => {
     user: {user},
   } = useContext(UserContext);
   const idMascot = route.params.idMascot;
+  const isConnected = useIsConnected();
+  const [results, setResult] = useState([]);
   const {data, error, loading} = useQuery(CONSULT_HYSTORY_MEDICAMENTS_APP, {
     pollInterval: 2000,
     variables: {
@@ -38,14 +42,19 @@ const MedicamentHistory = ({navigation, route}) => {
     },
   });
 
+  useEffect(() => {
+    if (data && isConnected) {
+      const DATA = [];
+      data.medicaments.map(item => {
+        DATA.push(item);
+      });
+    } else {
+      database2.ConsultMedicamentHistory(idMascot, setResult);
+    }
+  }, [data, idMascot, isConnected]);
+
   if (loading) return <Loading />;
   if (error) console.log(error);
-  const DATA = [];
-  if (data) {
-    data.medicaments.map(item => {
-      DATA.push(item);
-    });
-  }
 
   const renderItem = ({item}) => <Item date={item.last_dose} />;
 
@@ -67,7 +76,7 @@ const MedicamentHistory = ({navigation, route}) => {
         </TouchableHighlight>
         <View style={{flex: 1}}>
           <FlatList
-            data={DATA}
+            data={results}
             renderItem={renderItem}
             keyExtractor={item => item.id}
           />

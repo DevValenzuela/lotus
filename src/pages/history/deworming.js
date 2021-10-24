@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -14,6 +14,8 @@ import {useQuery} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {Loading} from '../../components/sharedComponent';
 import {CONSULT_HISTORY_DEWORMING_APP} from '../../pages/apolllo/query';
+import {useIsConnected} from 'react-native-offline';
+import {database2} from '../../conexion/crudSqlite2';
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -32,6 +34,8 @@ const DewormingHistory = ({navigation, route}) => {
   } = useContext(UserContext);
 
   const idMascot = route.params.idMascot;
+  const [result, setResult] = useState([]);
+  const isConnected = useIsConnected();
 
   const {data, error, loading} = useQuery(CONSULT_HISTORY_DEWORMING_APP, {
     pollInterval: 2000,
@@ -41,16 +45,21 @@ const DewormingHistory = ({navigation, route}) => {
     },
   });
 
+  useEffect(() => {
+    if (data && isConnected) {
+      const DATA = [];
+      data.desparacitacions.map(item => {
+        DATA.push(item);
+      });
+      setResult(DATA);
+    } else {
+      database2.ConsultDewormingHistory(idMascot, setResult);
+    }
+  }, [data, idMascot, isConnected]);
+  console.log(result);
+
   if (loading) return <Loading />;
   if (error) console.log(error);
-
-  const DATA = [];
-
-  if (data) {
-    data.desparacitacions.map(item => {
-      DATA.push(item);
-    });
-  }
 
   const renderItem = ({item}) => <Item date={item.last_deworming} />;
   return (
@@ -71,7 +80,7 @@ const DewormingHistory = ({navigation, route}) => {
         </TouchableHighlight>
         <View style={{flex: 1}}>
           <FlatList
-            data={DATA}
+            data={result}
             renderItem={renderItem}
             keyExtractor={item => item.id}
           />

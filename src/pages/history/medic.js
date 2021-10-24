@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -12,7 +12,9 @@ import {style} from './style';
 import {useQuery} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {Loading} from '../../components/sharedComponent';
-import { CONSULT_HISTORY_DOCTOR_APP } from "../../pages/apolllo/query";
+import {CONSULT_HISTORY_DOCTOR_APP} from '../../pages/apolllo/query';
+import {useIsConnected} from 'react-native-offline';
+import { database2 } from "../../conexion/crudSqlite2";
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -30,6 +32,8 @@ const MedicHistory = ({navigation, route}) => {
     user: {user},
   } = useContext(UserContext);
   const idMascot = route.params.idMascot;
+  const isConnected = useIsConnected();
+  const [results, setResult] = useState([]);
 
   const {data, error, loading} = useQuery(CONSULT_HISTORY_DOCTOR_APP, {
     pollInterval: 2000,
@@ -39,16 +43,20 @@ const MedicHistory = ({navigation, route}) => {
     },
   });
 
+  useEffect(() => {
+    if (data && isConnected) {
+      const DATA = [];
+      data.controllerMedics.map(item => {
+        DATA.push(item);
+      });
+    } else {
+      database2.ConsultControllerMedic(idMascot, setResult)
+    }
+  }, []);
+
   if (loading) return <Loading />;
   if (error) console.log(error);
 
-
-  const DATA = [];
-  if (data) {
-    data.controllerMedics.map(item => {
-      DATA.push(item);
-    });
-  }
   const renderItem = ({item}) => <Item date={item.last_control} />;
 
   return (
@@ -69,7 +77,7 @@ const MedicHistory = ({navigation, route}) => {
         </TouchableHighlight>
         <View style={{flex: 1}}>
           <FlatList
-            data={DATA}
+            data={results}
             renderItem={renderItem}
             keyExtractor={item => item.id}
           />
