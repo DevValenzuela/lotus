@@ -14,7 +14,7 @@ import {UserContext} from '../../context/userContext';
 import {Loading} from '../../components/sharedComponent';
 import {CONSULT_HISTORY_DOCTOR_APP} from '../../pages/apolllo/query';
 import {useIsConnected} from 'react-native-offline';
-import { database2 } from "../../conexion/crudSqlite2";
+import {database2} from '../../conexion/crudSqlite2';
 
 const Item = ({date}) => (
   <View style={style.item}>
@@ -50,9 +50,9 @@ const MedicHistory = ({navigation, route}) => {
         DATA.push(item);
       });
     } else {
-      database2.ConsultControllerMedic(idMascot, setResult)
+      database2.ConsultControllerMedic(idMascot, setResult);
     }
-  }, []);
+  }, [data, idMascot, isConnected]);
 
   if (loading) return <Loading />;
   if (error) console.log(error);

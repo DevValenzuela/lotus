@@ -26,13 +26,14 @@ import {
 import {Loading} from '../../components/sharedComponent';
 import {database} from '../../conexion/crudSqlite';
 import {useIsConnected} from 'react-native-offline';
+import NotifService from './../../hooks/notifyService';
 const Deworming = ({route, navigation}) => {
   const isConnected = useIsConnected();
+  const notify = new NotifService();
   const {idMascot, edit, desparacitacions} = route.params;
   const [createDesparacitacion, {data, error, loading}] = useMutation(
     CREATE_DESPARACITACION_APP,
   );
-
   const [
     updateDesparacitacion,
     {data: UpdateData, error: UpdateError, loading: Updateloading},
@@ -46,6 +47,7 @@ const Deworming = ({route, navigation}) => {
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
+  const [setNotify, getDateNotify] = useState('');
   const [erroDate, setErrorDate] = useState(false);
   const [success, setSuccess] = useState(false);
   const initialState = new Object();
@@ -93,6 +95,7 @@ const Deworming = ({route, navigation}) => {
           },
         });
         getDate('');
+        notify.scheduleNotif(setNotify);
         navigation.navigate('Gratulations', {
           txtMsg: 'Nueva desparacitación creada.',
         });
@@ -149,10 +152,8 @@ const Deworming = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment(new Date(date), 'DD-MM-YYYY HH:mm:ss').add(
-      2,
-      'month',
-    );
+    let dateNotify = moment().add(1, 'month').format();
+    getDateNotify(dateNotify);
     getDate(dateFormat);
     getCalendar(false);
   };
