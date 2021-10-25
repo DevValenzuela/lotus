@@ -18,3 +18,4 @@ export const useDebounceValue = (input: '', time: 1000, search_type) => {
   if (error) return null;
   return data;
 };
+

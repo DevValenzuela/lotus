@@ -60,18 +60,20 @@ const DewormingFilters = () => {
         resizeMode="cover"
         style={style.bgImage}>
         <View style={{flex: 1}}>
-          <View style={style.contentSearch}>
-            <Image
-              style={style.searchIcon}
-              source={require('../../assets/images/search.png')}
-            />
-            <TextInput
-              placeholderTextColor="#5742A2"
-              style={style.txtSearch}
-              placeholder="Buscar..."
-              onChangeText={setTxtValue}
-            />
-          </View>
+          {isConnected && (
+            <View style={style.contentSearch}>
+              <Image
+                style={style.searchIcon}
+                source={require('../../assets/images/search.png')}
+              />
+              <TextInput
+                placeholderTextColor="#5742A2"
+                style={style.txtSearch}
+                placeholder="Buscar..."
+                onChangeText={setTxtValue}
+              />
+            </View>
+          )}
           <FlatList
             data={getSearchResult}
             renderItem={renderItem}

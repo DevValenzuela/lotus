@@ -313,5 +313,4 @@ export const database2 = {
   ConsultDewormingHistory,
   ConsultVaccinationHistory,
   ConsultMedicamentHistory,
-  ConsultControllerMedic
 };
