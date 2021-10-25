@@ -7,9 +7,7 @@ const BoxNotifyCation = () => {
       <View style={{flex: 1, padding: 10}}>
         <Image
           style={style.cardImage}
-          source={{
-            uri: 'https://via.placeholder.com/150',
-          }}
+          source={require('../assets/images/not_image_small.jpg')}
         />
       </View>
       <View style={{flex: 2, padding: 10, paddingLeft: 20}}>

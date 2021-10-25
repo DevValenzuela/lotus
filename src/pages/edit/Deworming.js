@@ -108,6 +108,7 @@ const Deworming = ({route, navigation}) => {
         mascot: idMascot,
         user: Number(user.id),
       };
+      notify.scheduleNotif(setNotify);
       database.InsertDesparacitacion(new_value, setSuccess);
     }
   };
