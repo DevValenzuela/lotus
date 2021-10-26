@@ -1,7 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
+import {database} from '../conexion/crudSqlite';
 
-const BoxNotifyCation = () => {
+const BoxNotifyCation = ({data_notify}) => {
+  const [getMascot, setMascot] = useState([]);
+
+  useEffect(() => {
+    database.consultMascotID(data_notify.id_mascot, setMascot);
+  }, [data_notify.id_mascot]);
+
   return (
     <View style={style.container}>
       <View style={{flex: 1, padding: 10}}>
@@ -11,9 +18,11 @@ const BoxNotifyCation = () => {
         />
       </View>
       <View style={{flex: 2, padding: 10, paddingLeft: 20}}>
-        <Text style={{color: '#00FFFF', fontWeight: 'bold'}}>MICHI 1</Text>
+        <Text style={{color: '#00FFFF', fontWeight: 'bold'}}>
+          {getMascot.name_mascot}
+        </Text>
         <Text style={{color: '#fff', fontWeight: '200', fontSize: 12}}>
-          Desparasitación
+          {data_notify.title}
         </Text>
       </View>
       <View
@@ -38,7 +47,7 @@ const BoxNotifyCation = () => {
             Días Restantes
           </Text>
           <Text style={{color: '#ffffff', fontWeight: '300', fontSize: 12}}>
-            09/11/2021
+            {data_notify.last_date}
           </Text>
         </View>
       </View>

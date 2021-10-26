@@ -13,6 +13,8 @@ import {UserContext} from '../context/userContext';
 import {useQuery} from '@apollo/client';
 import {CONSULT_APP} from '../pages/apolllo/query';
 import {useIsConnected} from 'react-native-offline';
+import {database3} from '../conexion/crudNotify';
+
 function LogoTitle() {
   return (
     <View
@@ -36,7 +38,7 @@ function NotifyProfileView() {
   const navigation = useNavigation();
   const isConnected = useIsConnected();
   const [getAvatar, setAvatar] = useState({});
-
+  const [getNotify, setNotify] = useState(0);
   const {
     user: {user},
   } = useContext(UserContext);
@@ -57,6 +59,7 @@ function NotifyProfileView() {
       const {user} = dataB;
       setAvatar(user?.avatar);
     }
+    database3.ConsultNotifyCount(setNotify);
   }, [dataB, loadingB]);
 
   if (loadingB) return null;
@@ -73,7 +76,7 @@ function NotifyProfileView() {
             source={require('../assets/images/notify_icon.png')}
           />
           <View style={style.number}>
-            <Text style={style.txtNumber}>3</Text>
+            <Text style={style.txtNumber}>{getNotify}</Text>
           </View>
         </>
       </TouchableHighlight>

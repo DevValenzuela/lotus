@@ -56,7 +56,6 @@ const DewormingHistory = ({navigation, route}) => {
       database2.ConsultDewormingHistory(idMascot, setResult);
     }
   }, [data, idMascot, isConnected]);
-  console.log(result);
 
   if (loading) return <Loading />;
   if (error) console.log(error);

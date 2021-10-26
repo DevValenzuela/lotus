@@ -7,7 +7,7 @@ import App from './src/App';
 import {name as appName} from './app.json';
 import {NetworkProvider} from 'react-native-offline';
 
-const AppComponent = props => (
+const AppComponent = (props) => (
   <NetworkProvider>
     <App />
   </NetworkProvider>

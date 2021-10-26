@@ -56,10 +56,8 @@ const DashBoard = ({navigation}) => {
       const {banners} = data;
       setOfert(banners[0]?.ofert);
     }
-    if (refreshing || loading) {
-      if (!isConnected) {
-        database.consultMascot(dispatchUserEvent);
-      }
+    if (!isConnected) {
+      database.consultMascot(dispatchUserEvent);
     }
   }, [data, loading, refreshing]);
 

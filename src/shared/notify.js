@@ -1,21 +1,57 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Animated,
   ImageBackground,
   FlatList,
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
 import BoxNotifyCation from '../components/boxNotification';
+import {database3} from '../conexion/crudNotify';
+import {Loading} from '../components/sharedComponent';
+
 const Notify = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [getNotify, setNotify] = useState([]);
+  const [status, getStatus] = useState(true);
+  let timer = useRef(null);
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  }, [fadeAnim]);
+    database3.ConsultNotify(setNotify);
+    timer.current = setTimeout(() => {
+      getStatus(false);
+    }, 2000);
+  }, [fadeAnim, setNotify]);
+
+  const resp = [];
+
+  getNotify?.forEach(item => {
+    let object = {
+      title: item.title,
+      last_date: item.last_date,
+      id_mascot: item.id_mascot,
+    };
+    resp.push(object);
+  });
+
+  if (status) return <Loading />;
+  if (!resp)
+    return (
+      <ImageBackground
+        source={require('../assets/images/bg_lotus.png')}
+        resizeMode="cover"
+        style={style.bgImage}>
+        <View style={{flex: 1, backgroundColor: 'rgba(51,0,102,0.95)'}}>
+          <Text>No tienes Notificaciones.</Text>
+        </View>
+      </ImageBackground>
+    );
+
   return (
     <ImageBackground
       source={require('../assets/images/bg_lotus.png')}
@@ -24,24 +60,8 @@ const Notify = () => {
       <View style={{flex: 1, backgroundColor: 'rgba(51,0,102,0.95)'}}>
         <Animated.View style={[style.container, {opacity: fadeAnim}]}>
           <FlatList
-            data={[
-              {
-                tile: 'Notification',
-                type: 'Desparacitación',
-                date: '12/08/2010',
-              },
-              {
-                tile: 'Notification',
-                type: 'Desparacitación',
-                date: '12/08/2010',
-              },
-              {
-                tile: 'Notification',
-                type: 'Desparacitación',
-                date: '12/08/2010',
-              },
-            ]}
-            renderItem={({item}) => <BoxNotifyCation />}
+            data={resp}
+            renderItem={({item}) => <BoxNotifyCation data_notify={item} />}
           />
         </Animated.View>
       </View>

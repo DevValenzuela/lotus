@@ -25,6 +25,7 @@ import {
 } from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 import {database} from '../../conexion/crudSqlite';
+import {database3} from '../../conexion/crudNotify';
 import {useIsConnected} from 'react-native-offline';
 import NotifService from './../../hooks/notifyService';
 const Deworming = ({route, navigation}) => {
@@ -80,9 +81,11 @@ const Deworming = ({route, navigation}) => {
     }
   }, [edit, desparacitacions, success]);
 
+  notify.popInitialNotification();
+
   const handlerSubmitDeworming = async values => {
     if (!values) return null;
-    const {last_deworming, medicament, note} = values;
+    const {last_deworming, medicament, note, type = 'Desparacitación'} = values;
     if (isConnected) {
       try {
         await createDesparacitacion({
@@ -105,11 +108,21 @@ const Deworming = ({route, navigation}) => {
     } else {
       let new_value = {
         ...values,
+        type: 'Desparacitación',
         mascot: idMascot,
         user: Number(user.id),
       };
-      notify.scheduleNotif(setNotify);
-      database.InsertDesparacitacion(new_value, setSuccess);
+
+      let paramsNotify = {
+        date: setNotify,
+        type,
+        title: '¡Lotus Te Recomienda!',
+        msg: `${type} esta para:`,
+      };
+
+      notify.scheduleNotif(paramsNotify);
+      await database3.InsertNotify(new_value);
+      await database.InsertDesparacitacion(new_value, setSuccess);
     }
   };
 
@@ -153,7 +166,8 @@ const Deworming = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment().add(1, 'month').format();
+    //let dateNotify = moment().add(1, 'month').subtract(5, 'days').format();
+    let dateNotify = moment().format();
     getDateNotify(dateNotify);
     getDate(dateFormat);
     getCalendar(false);
