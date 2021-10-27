@@ -188,9 +188,10 @@ export const CONSULT_HISTORY_DOCTOR_APP = gql`
 `;
 
 export const CONSULT_SEARCH_FILTER_VACCINATIONS = gql`
-  query vacunacions($search: String!) {
+  query vacunacions($user: ID!, $search: String!) {
     vacunacions(
       where: {
+        users_permissions_user: $user
         _or: [
           {last_vaccination_contains: $search}
           {medicaments_contains: $search}
@@ -205,9 +206,10 @@ export const CONSULT_SEARCH_FILTER_VACCINATIONS = gql`
 `;
 
 export const CONSULT_SEARCH_FILTER_MEDICAMENT = gql`
-  query medicaments($search: String!) {
+  query medicaments($user: ID!, $search: String!) {
     medicaments(
       where: {
+        users_permissions_user: $user
         _or: [{last_dose_contains: $search}, {medicament_contains: $search}]
       }
     ) {
@@ -218,9 +220,10 @@ export const CONSULT_SEARCH_FILTER_MEDICAMENT = gql`
 `;
 
 export const CONSULT_SEARCH_FILTER_DOCTOR = gql`
-  query controllerMedics($search: String!) {
+  query controllerMedics($user: ID!, $search: String!) {
     controllerMedics(
       where: {
+        users_permissions_user: $user
         _or: [{last_control_contains: $search}, {assesment_contains: $search}]
       }
     ) {
@@ -231,9 +234,10 @@ export const CONSULT_SEARCH_FILTER_DOCTOR = gql`
 `;
 
 export const CONSULT_SEARCH_FILTER_DEWORMING = gql`
-  query desparacitacions($search: String!) {
+  query desparacitacions($user: ID!, $search: String!) {
     desparacitacions(
       where: {
+        users_permissions_user: $user
         _or: [
           {last_deworming_contains: $search}
           {medicament_contains: $search}
