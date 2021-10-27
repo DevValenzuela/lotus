@@ -98,7 +98,6 @@ const Deworming = ({route, navigation}) => {
           },
         });
         getDate('');
-        notify.scheduleNotif(setNotify);
         navigation.navigate('Gratulations', {
           txtMsg: 'Nueva desparacitación creada.',
         });
@@ -167,7 +166,7 @@ const Deworming = ({route, navigation}) => {
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
     //let dateNotify = moment().add(1, 'month').subtract(5, 'days').format();
-    let dateNotify = moment().format();
+    let dateNotify = moment().add(1, 'hours').format();
     getDateNotify(dateNotify);
     getDate(dateFormat);
     getCalendar(false);

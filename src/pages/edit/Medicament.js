@@ -24,11 +24,15 @@ import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
+import NotifService from '../../hooks/notifyService';
+import {database3} from '../../conexion/crudNotify';
 
 const Medicament = ({route, navigation}) => {
   const isConnected = useIsConnected();
+  const notify = new NotifService();
   const {idMascot, edit, medicaments} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
+  const [setNotify, getDateNotify] = useState('');
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
@@ -87,7 +91,15 @@ const Medicament = ({route, navigation}) => {
 
   const handleSubmitMedicament = async values => {
     if (!values) return;
-    const {last_dose, medicament, posologia, dosis, period, notation} = values;
+    const {
+      last_dose,
+      medicament,
+      posologia,
+      dosis,
+      period,
+      notation,
+      type = 'Medicamento',
+    } = values;
     if (isConnected) {
       try {
         await createMedicament({
@@ -119,7 +131,18 @@ const Medicament = ({route, navigation}) => {
         notation,
         mascot: idMascot,
         user: Number(user.id),
+        type: 'Medicamento',
       };
+
+      let paramsNotify = {
+        date: setNotify,
+        type,
+        title: '¡Lotus Te Recomienda!',
+        msg: `${type} esta para:`,
+      };
+
+      notify.scheduleNotif(paramsNotify);
+      await database3.InsertNotify(new_value);
       database.InsertMedicament(new_value, setSuccess);
     }
   };
@@ -167,10 +190,9 @@ const Medicament = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment(new Date(date), 'DD-MM-YYYY HH:mm:ss').add(
-      2,
-      'month',
-    );
+    //let dateNotify = moment().add(1, 'month').subtract(5, 'days').format();
+    let dateNotify = moment().format();
+    getDateNotify(dateNotify);
     getDate(dateFormat);
     getCalendar(false);
   };
