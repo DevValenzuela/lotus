@@ -1,12 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import {database} from '../conexion/crudSqlite';
-
+import moment from 'moment';
 const BoxNotifyCation = ({data_notify}) => {
   const [getMascot, setMascot] = useState([]);
 
+  let date = moment(new Date()).format('YYYY-MM-DD');
+
+  let nowDay = moment(date);
+  let lastDay = moment(data_notify.last_date.split('-').reverse().join('-'));
+
   useEffect(() => {
     database.consultMascotID(data_notify.id_mascot, setMascot);
+    console.log(moment(new Date()).format('YYYY-MM-DD'));
   }, [data_notify.id_mascot]);
 
   return (
@@ -39,7 +45,9 @@ const BoxNotifyCation = ({data_notify}) => {
               fontSize: 25,
               paddingHorizontal: 10,
             }}>
-            01
+            {lastDay.diff(nowDay, 'days') <= -1
+              ? 0
+              : lastDay.diff(nowDay, 'days')}
           </Text>
         </View>
         <View>
