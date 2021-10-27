@@ -109,26 +109,28 @@ const Vaccinations = ({route, navigation}) => {
       type,
     };
 
+    let paramsNotify = {
+      date: setNotify,
+      type,
+      title: '¡Lotus Te Recomienda!',
+      msg: `${type} esta para:`,
+    };
+
     if (isConnected) {
       try {
         await createVacunacion({
           variables: new_value,
         });
-        getDate('');
+        notify.scheduleNotif(paramsNotify);
         database.InsertVaccination(
           {...new_value, mascot: id_mascot},
           setSuccess,
         );
+        getDate('');
       } catch (error) {
         console.log(error);
       }
     } else {
-      let paramsNotify = {
-        date: setNotify,
-        type,
-        title: '¡Lotus Te Recomienda!',
-        msg: `${type} esta para:`,
-      };
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
       database.InsertVaccination(new_value, setSuccess);

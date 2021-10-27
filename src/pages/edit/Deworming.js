@@ -90,6 +90,7 @@ const Deworming = ({route, navigation}) => {
     let id = uuidv4();
 
     const {last_deworming, medicament, note, type = 'Desparacitación'} = values;
+
     let new_value = {
       id_deworming: id,
       last_deworming,
@@ -100,11 +101,19 @@ const Deworming = ({route, navigation}) => {
       user: Number(user.id),
     };
 
+    let paramsNotify = {
+      date: setNotify,
+      type,
+      title: '¡Lotus Te Recomienda!',
+      msg: `${type} esta para:`,
+    };
+
     if (isConnected) {
       try {
         await createDesparacitacion({
           variables: new_value,
         });
+        notify.scheduleNotif(paramsNotify);
         await database.InsertDesparacitacion(
           {...new_value, mascot: id_mascot},
           setSuccess,
@@ -114,13 +123,6 @@ const Deworming = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      let paramsNotify = {
-        date: setNotify,
-        type,
-        title: '¡Lotus Te Recomienda!',
-        msg: `${type} esta para:`,
-      };
-
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
       await database.InsertDesparacitacion(new_value, setSuccess);

@@ -97,11 +97,19 @@ const ControlMedic = ({route, navigation}) => {
       type,
     };
 
+    let paramsNotify = {
+      date: setNotify,
+      type,
+      title: '¡Lotus Te Recomienda!',
+      msg: `${type} esta para:`,
+    };
+
     if (isConnected) {
       try {
         await createControllerMedic({
           variables: new_values,
         });
+        notify.scheduleNotif(paramsNotify);
         database.InsertControllerMedic(
           {...new_values, mascot: id_mascot},
           setSuccess,
@@ -111,13 +119,6 @@ const ControlMedic = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      let paramsNotify = {
-        date: setNotify,
-        type,
-        title: '¡Lotus Te Recomienda!',
-        msg: `${type} esta para:`,
-      };
-
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_values);
       database.InsertControllerMedic(new_values, setSuccess);

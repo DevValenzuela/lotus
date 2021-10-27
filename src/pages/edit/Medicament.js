@@ -118,11 +118,19 @@ const Medicament = ({route, navigation}) => {
       type,
     };
 
+    let paramsNotify = {
+      date: setNotify,
+      type,
+      title: '¡Lotus Te Recomienda!',
+      msg: `${type} esta para:`,
+    };
+
     if (isConnected) {
       try {
         await createMedicament({
           variables: new_value,
         });
+        notify.scheduleNotif(paramsNotify);
         database.InsertMedicament(
           {...new_value, mascot: id_mascot},
           setSuccess,
@@ -132,12 +140,6 @@ const Medicament = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      let paramsNotify = {
-        date: setNotify,
-        type,
-        title: '¡Lotus Te Recomienda!',
-        msg: `${type} esta para:`,
-      };
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify({...new_value, mascot: id_mascot});
       database.InsertMedicament(new_value, setSuccess);
