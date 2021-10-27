@@ -111,8 +111,9 @@ const InsertControllerMedic = (values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'INSERT INTO controller_medic(last_control, assestment, note, mascot, user) VALUES(?,?,?,?,?)',
+        'INSERT INTO controller_medic(id_medic, last_control, assestment, note, mascot, user) VALUES(?,?,?,?,?,?)',
         [
+          values.id_medic,
           values.last_control,
           values.assesment,
           values.note,

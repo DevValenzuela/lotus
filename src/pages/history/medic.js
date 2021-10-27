@@ -31,7 +31,7 @@ const MedicHistory = ({navigation, route}) => {
   const {
     user: {user},
   } = useContext(UserContext);
-  const idMascot = route.params.idMascot;
+  const {idMascot, id_mascot} = route.params;
   const isConnected = useIsConnected();
   const [results, setResult] = useState([]);
 
@@ -49,6 +49,7 @@ const MedicHistory = ({navigation, route}) => {
       data.controllerMedics.map(item => {
         DATA.push(item);
       });
+      setResult(DATA);
     } else {
       database2.ConsultControllerMedic(idMascot, setResult);
     }
@@ -68,7 +69,11 @@ const MedicHistory = ({navigation, route}) => {
         <TouchableHighlight
           style={{alignItems: 'center', marginVertical: 20}}
           onPress={() =>
-            navigation.navigate('EditControlMedic', {idMascot, edit: false})
+            navigation.navigate('EditControlMedic', {
+              idMascot,
+              id_mascot,
+              edit: false,
+            })
           }
           underlayColor="transparent">
           <View style={style.btnAdd}>

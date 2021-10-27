@@ -123,7 +123,7 @@ const Deworming = ({route, navigation}) => {
 
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
-      await database.InsertDesparacitacion({...new_value, mascot: id_mascot}, setSuccess);
+      await database.InsertDesparacitacion(new_value, setSuccess);
     }
   };
 

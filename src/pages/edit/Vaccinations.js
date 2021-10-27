@@ -13,6 +13,7 @@ import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
 import {ModalCalendarError} from '../../components/sharedComponent';
 import moment from 'moment';
+import {v4 as uuidv4} from 'uuid';
 import {style} from './style';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -32,7 +33,7 @@ import NotifService from '../../hooks/notifyService';
 const Vaccinations = ({route, navigation}) => {
   const isConnected = useIsConnected();
   const notify = new NotifService();
-  const {idMascot, edit, vacunacions} = route.params;
+  const {idMascot, edit, vacunacions, id_mascot} = route.params;
 
   const [createVacunacion, {data, error, loading}] = useMutation(
     CREATE_VACCINATION_APP,
@@ -90,47 +91,44 @@ const Vaccinations = ({route, navigation}) => {
 
   const handleSubmitVaccinations = async values => {
     if (!values) return null;
+    let id = uuidv4();
     const {
       last_vaccination,
       medicament,
       note_reaction,
       type = 'Vacunación',
     } = values;
+
+    let new_value = {
+      id_vaccination: id,
+      last_vaccination,
+      medicament,
+      note: note_reaction,
+      mascot: idMascot,
+      user: Number(user.id),
+      type,
+    };
+
     if (isConnected) {
       try {
         await createVacunacion({
-          variables: {
-            last_vaccination,
-            medicament,
-            note: note_reaction,
-            mascot: idMascot,
-            user: Number(user.id),
-          },
+          variables: new_value,
         });
         getDate('');
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha creado una nueva vacunación.',
-        });
+        database.InsertVaccination(
+          {...new_value, mascot: id_mascot},
+          setSuccess,
+        );
       } catch (error) {
         console.log(error);
       }
     } else {
-      let new_value = {
-        last_vaccination,
-        medicament,
-        note: note_reaction,
-        mascot: idMascot,
-        user: Number(user.id),
-        type: 'Vacunación',
-      };
-
       let paramsNotify = {
         date: setNotify,
         type,
         title: '¡Lotus Te Recomienda!',
         msg: `${type} esta para:`,
       };
-
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
       database.InsertVaccination(new_value, setSuccess);

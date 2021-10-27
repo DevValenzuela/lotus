@@ -181,6 +181,7 @@ export const CREATE_MEDICAMENT_APP = gql`
 
 export const CREATE_CONTROLLER_MEDIC_APP = gql`
   mutation createControllerMedic(
+    $id_medic: String!
     $last_control: String!
     $assesment: String
     $note: String
@@ -190,6 +191,7 @@ export const CREATE_CONTROLLER_MEDIC_APP = gql`
     createControllerMedic(
       input: {
         data: {
+          id_medic: $id_medic
           last_control: $last_control
           assesment: $assesment
           note: $note
@@ -235,6 +237,7 @@ export const CREATE_DESPARACITACION_APP = gql`
 
 export const CREATE_VACCINATION_APP = gql`
   mutation createVacunacion(
+    $id_vaccination: String!
     $last_vaccination: String!
     $medicament: String
     $note: String
@@ -244,6 +247,7 @@ export const CREATE_VACCINATION_APP = gql`
     createVacunacion(
       input: {
         data: {
+          id_vaccination: $id_vaccination
           last_vaccination: $last_vaccination
           medicaments: $medicament
           note: $note

@@ -15,6 +15,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import moment from 'moment';
+import {v4 as uuidv4} from 'uuid';
 import {style} from './style';
 
 import {useMutation} from '@apollo/client';
@@ -35,7 +36,7 @@ const ControlMedic = ({route, navigation}) => {
   } = useContext(UserContext);
   const isConnected = useIsConnected();
   const notify = new NotifService();
-  const {idMascot, controllerMedics, edit} = route.params;
+  const {idMascot, controllerMedics, edit, id_mascot} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setNotify, getDateNotify] = useState('');
   const [setCalendar, getCalendar] = useState(false);
@@ -85,33 +86,31 @@ const ControlMedic = ({route, navigation}) => {
   const handleSubmitMedicament = async values => {
     if (!values) return;
     const {last_control, valoration, note, type = 'Control Medico'} = values;
+    let id = uuidv4();
+    let new_values = {
+      id_medic: id,
+      last_control: last_control,
+      assesment: valoration,
+      note: note,
+      mascot: idMascot,
+      user: Number(user.id),
+      type,
+    };
+
     if (isConnected) {
       try {
         await createControllerMedic({
-          variables: {
-            last_control: last_control,
-            assesment: valoration,
-            note: note,
-            mascot: idMascot,
-            user: Number(user.id),
-          },
+          variables: new_values,
         });
+        database.InsertControllerMedic(
+          {...new_values, mascot: id_mascot},
+          setSuccess,
+        );
         getDate('');
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Nuevo control medico creado.',
-        });
       } catch (error) {
         console.log(error);
       }
     } else {
-      let new_values = {
-        last_control: last_control,
-        assesment: valoration,
-        note: note,
-        mascot: idMascot,
-        user: Number(user.id),
-        type: 'Control Medico',
-      };
       let paramsNotify = {
         date: setNotify,
         type,
