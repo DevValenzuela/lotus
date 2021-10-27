@@ -33,7 +33,7 @@ const DewormingHistory = ({navigation, route}) => {
     user: {user},
   } = useContext(UserContext);
 
-  const idMascot = route.params.idMascot;
+  const {idMascot, id_mascot} = route.params;
   const [result, setResult] = useState([]);
   const isConnected = useIsConnected();
 
@@ -70,7 +70,11 @@ const DewormingHistory = ({navigation, route}) => {
         <TouchableHighlight
           style={{alignItems: 'center', marginVertical: 20}}
           onPress={() =>
-            navigation.navigate('EditDeworming', {idMascot, edit: false})
+            navigation.navigate('EditDeworming', {
+              idMascot,
+              id_mascot,
+              edit: false,
+            })
           }
           underlayColor="transparent">
           <View style={style.btnAdd}>

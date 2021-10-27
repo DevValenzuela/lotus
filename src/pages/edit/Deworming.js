@@ -13,6 +13,7 @@ import {
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import moment from 'moment';
+import {v4 as uuidv4} from 'uuid';
 import {style} from './style';
 import Textarea from 'react-native-textarea';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -28,10 +29,11 @@ import {database} from '../../conexion/crudSqlite';
 import {database3} from '../../conexion/crudNotify';
 import {useIsConnected} from 'react-native-offline';
 import NotifService from './../../hooks/notifyService';
+
 const Deworming = ({route, navigation}) => {
   const isConnected = useIsConnected();
   const notify = new NotifService();
-  const {idMascot, edit, desparacitacions} = route.params;
+  const {idMascot, edit, desparacitacions, id_mascot} = route.params;
   const [createDesparacitacion, {data, error, loading}] = useMutation(
     CREATE_DESPARACITACION_APP,
   );
@@ -85,33 +87,33 @@ const Deworming = ({route, navigation}) => {
 
   const handlerSubmitDeworming = async values => {
     if (!values) return null;
+    let id = uuidv4();
+
     const {last_deworming, medicament, note, type = 'Desparacitación'} = values;
+    let new_value = {
+      id_deworming: id,
+      last_deworming,
+      medicament,
+      note,
+      type,
+      mascot: idMascot,
+      user: Number(user.id),
+    };
+
     if (isConnected) {
       try {
         await createDesparacitacion({
-          variables: {
-            last_deworming,
-            medicament,
-            note,
-            mascot: idMascot,
-            user: Number(user.id),
-          },
+          variables: new_value,
         });
+        await database.InsertDesparacitacion(
+          {...new_value, mascot: id_mascot},
+          setSuccess,
+        );
         getDate('');
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Nueva desparacitación creada.',
-        });
       } catch (error) {
         console.log(error);
       }
     } else {
-      let new_value = {
-        ...values,
-        type: 'Desparacitación',
-        mascot: idMascot,
-        user: Number(user.id),
-      };
-
       let paramsNotify = {
         date: setNotify,
         type,
@@ -121,7 +123,7 @@ const Deworming = ({route, navigation}) => {
 
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
-      await database.InsertDesparacitacion(new_value, setSuccess);
+      await database.InsertDesparacitacion({...new_value, mascot: id_mascot}, setSuccess);
     }
   };
 

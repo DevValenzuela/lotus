@@ -207,6 +207,7 @@ export const CREATE_CONTROLLER_MEDIC_APP = gql`
 
 export const CREATE_DESPARACITACION_APP = gql`
   mutation createDesparacitacion(
+    $id_deworming: String!
     $last_deworming: String!
     $medicament: String
     $note: String
@@ -216,6 +217,7 @@ export const CREATE_DESPARACITACION_APP = gql`
     createDesparacitacion(
       input: {
         data: {
+          id_deworming: $id_deworming
           last_deworming: $last_deworming
           medicament: $medicament
           note: $note

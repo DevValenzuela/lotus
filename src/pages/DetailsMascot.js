@@ -33,7 +33,7 @@ const DetailsMascot = ({navigation, route}) => {
     user: {user},
   } = useContext(UserContext);
   const idMascot = route.params.mascotId;
-  console.log(id_mascot)
+  console.log(id_mascot);
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -108,7 +108,8 @@ const DetailsMascot = ({navigation, route}) => {
   )
     return <Loading />;
 
-  if (!general || !deworming || !vaccinations || !medics || !medicament) return null;
+  if (!general || !deworming || !vaccinations || !medics || !medicament)
+    return null;
 
   const {
     id_mascot,
@@ -281,7 +282,10 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     underlayColor="transparent"
                     onPress={() =>
-                      navigation.navigate('HistoryDeworming', {idMascot})
+                      navigation.navigate('HistoryDeworming', {
+                        idMascot,
+                        id_mascot,
+                      })
                     }>
                     <View
                       style={{
@@ -364,7 +368,10 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     underlayColor="transparent"
                     onPress={() =>
-                      navigation.navigate('HistoryVaccinations', {idMascot})
+                      navigation.navigate('HistoryVaccinations', {
+                        idMascot,
+                        id_mascot,
+                      })
                     }>
                     <View
                       style={{
@@ -463,7 +470,10 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     underlayColor="transparent"
                     onPress={() =>
-                      navigation.navigate('HistoryMedicament', {idMascot, id_mascot})
+                      navigation.navigate('HistoryMedicament', {
+                        idMascot,
+                        id_mascot,
+                      })
                     }>
                     <View
                       style={{
@@ -543,7 +553,10 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     underlayColor="transparent"
                     onPress={() =>
-                      navigation.navigate('HistoryMedic', {idMascot})
+                      navigation.navigate('HistoryMedic', {
+                        idMascot,
+                        id_mascot,
+                      })
                     }>
                     <View
                       style={{

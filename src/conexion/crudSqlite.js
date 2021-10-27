@@ -62,8 +62,9 @@ const InsertDesparacitacion = (values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'INSERT INTO desparacitacion(last_deworming, medicament, note, mascot, user) VALUES(?,?,?,?,?)',
+        'INSERT INTO desparacitacion(id_deworming, last_deworming, medicament, note, mascot, user) VALUES(?,?,?,?,?,?)',
         [
+          values.id_deworming,
           values.last_deworming,
           values.medicament,
           values.note,
@@ -224,7 +225,7 @@ const consultVaccination = (idMascot, setDewormingFunc) => {
 };
 
 const consultMedicamnets = (idMascot, setMedicamentFunc) => {
-    console.log(idMascot)
+  console.log(idMascot);
   try {
     db.transaction(tx => {
       tx.executeSql(
