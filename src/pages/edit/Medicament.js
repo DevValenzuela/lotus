@@ -22,6 +22,7 @@ import {
 import {Loading, ModalCalendarError} from '../../components/sharedComponent';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
+import {v4 as uuidv4} from 'uuid';
 import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
 import NotifService from '../../hooks/notifyService';
@@ -30,7 +31,7 @@ import {database3} from '../../conexion/crudNotify';
 const Medicament = ({route, navigation}) => {
   const isConnected = useIsConnected();
   const notify = new NotifService();
-  const {idMascot, edit, medicaments} = route.params;
+  const {idMascot, edit, medicaments, id_mascot} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setNotify, getDateNotify] = useState('');
   const [setCalendar, getCalendar] = useState(false);
@@ -91,6 +92,9 @@ const Medicament = ({route, navigation}) => {
 
   const handleSubmitMedicament = async values => {
     if (!values) return;
+
+    let id = uuidv4();
+
     const {
       last_dose,
       medicament,
@@ -100,49 +104,42 @@ const Medicament = ({route, navigation}) => {
       notation,
       type = 'Medicamento',
     } = values;
+
+    let new_value = {
+      id_medicament: id,
+      last_dose,
+      medicament,
+      posologia,
+      dosis,
+      period,
+      notation,
+      mascot: idMascot,
+      user: Number(user.id),
+      type,
+    };
+
     if (isConnected) {
       try {
         await createMedicament({
-          variables: {
-            last_dose,
-            medicament,
-            posologia,
-            dosis,
-            period,
-            notation,
-            mascot: idMascot,
-            user: Number(user.id),
-          },
+          variables: new_value,
         });
+        database.InsertMedicament(
+          {...new_value, mascot: id_mascot},
+          setSuccess,
+        );
         getDate('');
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha creado un nuevo medicamento.',
-        });
       } catch (error) {
         console.log(error);
       }
     } else {
-      let new_value = {
-        last_dose,
-        medicament,
-        posologia,
-        dosis,
-        period,
-        notation,
-        mascot: idMascot,
-        user: Number(user.id),
-        type: 'Medicamento',
-      };
-
       let paramsNotify = {
         date: setNotify,
         type,
         title: '¡Lotus Te Recomienda!',
         msg: `${type} esta para:`,
       };
-
       notify.scheduleNotif(paramsNotify);
-      await database3.InsertNotify(new_value);
+      await database3.InsertNotify({...new_value, mascot: id_mascot});
       database.InsertMedicament(new_value, setSuccess);
     }
   };

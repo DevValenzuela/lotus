@@ -33,6 +33,7 @@ const DetailsMascot = ({navigation, route}) => {
     user: {user},
   } = useContext(UserContext);
   const idMascot = route.params.mascotId;
+  console.log(id_mascot)
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -110,6 +111,7 @@ const DetailsMascot = ({navigation, route}) => {
   if (!general || !deworming || !vaccinations || !medics || !medicament) return null;
 
   const {
+    id_mascot,
     name_mascot,
     age_mascot,
     race_mascot,
@@ -461,7 +463,7 @@ const DetailsMascot = ({navigation, route}) => {
                   <TouchableHighlight
                     underlayColor="transparent"
                     onPress={() =>
-                      navigation.navigate('HistoryMedicament', {idMascot})
+                      navigation.navigate('HistoryMedicament', {idMascot, id_mascot})
                     }>
                     <View
                       style={{

@@ -1,9 +1,6 @@
 import SQLite from 'react-native-sqlite-storage';
 export const db = SQLite.openDatabase(
-  {
-    name: 'MainDB',
-    location: 'default',
-  },
+  {name: 'test.db', createFromLocation: '~example.db', location: 'Library'},
   () => {
     console.log('Open success fully database sqlite.');
   },
@@ -29,24 +26,24 @@ export const createTableDB = tx => {
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
       'Medicament ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_dose VARCHAR(200), medicament VARCHAR(200), posologia VARCHAR(200), dosis VARCHAR(200), period VARCHAR(200), notation TEXT, mascot TEXT,  user VARCHAR(120) );',
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_medicament TEXT, last_dose VARCHAR(200), medicament VARCHAR(200), posologia VARCHAR(200), dosis VARCHAR(200), period VARCHAR(200), notation TEXT, mascot TEXT,  user VARCHAR(120) );',
   );
   //Create Table Controller Medic
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
       'controller_medic ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_control VARCHAR(200), assestment VARCHAR(200), note TEXT, mascot TEXT,  user VARCHAR(120) );',
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_medic TEXT, last_control VARCHAR(200), assestment VARCHAR(200), note TEXT, mascot TEXT,  user VARCHAR(120) );',
   );
   //Create Table Desparacitacion
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
       'desparacitacion ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_deworming VARCHAR(200), medicament VARCHAR(200), note TEXT, mascot TEXT,  user VARCHAR(120) );',
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_deworming TEXT, last_deworming VARCHAR(200), medicament VARCHAR(200), note TEXT, mascot TEXT,  user VARCHAR(120) );',
   );
   //Create Table Vacunacion
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
       'vaccination ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, last_vaccination VARCHAR(200), medicament VARCHAR(200), note TEXT, mascot TEXT,  user VARCHAR(120) );',
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_vaccination TEXT, last_vaccination VARCHAR(200), medicament VARCHAR(200), note TEXT, mascot TEXT,  user VARCHAR(120) );',
   );
 };

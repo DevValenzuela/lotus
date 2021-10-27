@@ -264,6 +264,7 @@ const DeleteMascot = ({data}) => {
           },
         });
         console.log('!Delete success fully upload!');
+        setModalVisible(false);
       } catch (e) {
         console.log(e);
       }

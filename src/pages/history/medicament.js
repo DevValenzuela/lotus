@@ -31,7 +31,8 @@ const MedicamentHistory = ({navigation, route}) => {
   const {
     user: {user},
   } = useContext(UserContext);
-  const idMascot = route.params.idMascot;
+  const {idMascot, id_mascot} = route.params;
+  console.log(idMascot);
   const isConnected = useIsConnected();
   const [results, setResult] = useState([]);
   const {data, error, loading} = useQuery(CONSULT_HYSTORY_MEDICAMENTS_APP, {
@@ -42,12 +43,14 @@ const MedicamentHistory = ({navigation, route}) => {
     },
   });
 
+
   useEffect(() => {
     if (data && isConnected) {
       const DATA = [];
       data.medicaments.map(item => {
         DATA.push(item);
       });
+      setResult(DATA);
     } else {
       database2.ConsultMedicamentHistory(idMascot, setResult);
     }
@@ -67,7 +70,11 @@ const MedicamentHistory = ({navigation, route}) => {
         <TouchableHighlight
           style={{alignItems: 'center', marginVertical: 20}}
           onPress={() =>
-            navigation.navigate('EditMedicament', {idMascot, edit: false})
+            navigation.navigate('EditMedicament', {
+              idMascot,
+              id_mascot,
+              edit: false,
+            })
           }
           underlayColor="transparent">
           <View style={style.btnAdd}>

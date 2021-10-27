@@ -25,7 +25,8 @@ import {useMutation} from '@apollo/client';
 import {ADD_MASCOT_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
 import {useIsConnected} from 'react-native-offline';
-
+import 'react-native-get-random-values';
+import {v4 as uuidv4} from 'uuid';
 import {
   Loading,
   ModalGalleryOptions,
@@ -113,19 +114,25 @@ const AddMascot = ({navigation}) => {
 
   const handleInsert = async values => {
     if (!values) return null;
+    let id = uuidv4();
+    let valuesOffline = {
+      ...values,
+      id_mascot: id,
+      age_mascot: Number(values.age_mascot),
+      sterilized: setSterilized,
+      date_sterilized: setDate,
+      microchip: setMicrochip,
+      user: user ? Number(user.id) : null,
+    };
     if (isConnected) {
       try {
         await createMascot({
           variables: {
-            ...values,
-            age_mascot: Number(values.age_mascot),
-            sterilized: setSterilized,
-            date_sterilized: setDate,
-            microchip: setMicrochip,
+            ...valuesOffline,
             avatar_mascot: idPhoto ? idPhoto : null,
-            user: user ? Number(user.id) : null,
           },
         });
+        database.InsertMascot(valuesOffline, setSuccess);
         getDate('');
         dispatchUserEvent('ADD_URI', {idPhoto: ''});
         navigation.navigate('Gratulations', {
@@ -135,16 +142,7 @@ const AddMascot = ({navigation}) => {
         console.log(e.message);
       }
     } else {
-      let valuesOffline = {
-        ...values,
-        age_mascot: Number(values.age_mascot),
-        sterilized: setSterilized,
-        date_sterilized: setDate,
-        microchip: setMicrochip,
-        user: user.id,
-      };
-       database.InsertMascot(valuesOffline, setSuccess);
-
+      database.InsertMascot(valuesOffline, setSuccess);
     }
   };
 

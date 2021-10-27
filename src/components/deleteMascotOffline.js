@@ -100,6 +100,7 @@ const DeleteMascot = ({data}) => {
     //DELETE GENERAL MASCOT
     database2.DeleteMascotGeneralOffline(idMascot);
     getDelete(true);
+    setModalVisible(false);
   };
 
   return (

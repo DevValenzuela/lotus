@@ -1,16 +1,13 @@
 import React from 'react';
 import {db} from '../conexion/sqlite';
 import 'react-native-get-random-values';
-import {v4 as uuidv4} from 'uuid';
-
 const InsertMascot = (values, setSuccess) => {
-  let idMascot = uuidv4();
   db.transaction(
     tx => {
       tx.executeSql(
         'INSERT INTO Mascot(id_mascot ,name_mascot, age_mascot, type_mascot, race_mascot, date_sterilized, number_microchip, microchip, description, user) VALUES(?,?,?,?,?,?,?,?,?,?)',
         [
-          idMascot,
+          values.id_mascot,
           values.name_mascot,
           values.age_mascot,
           values.type_mascot,
@@ -37,8 +34,9 @@ const InsertMedicament = (values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'INSERT INTO Medicament(last_dose,  medicament, posologia, dosis, period, notation, mascot, user ) VALUES(?,?,?,?,?,?,?,?)',
+        'INSERT INTO Medicament(id_medicament, last_dose,  medicament, posologia, dosis, period, notation, mascot, user ) VALUES(?,?,?,?,?,?,?,?,?)',
         [
+          values.id_medicament,
           values.last_dose,
           values.medicament,
           values.posologia,
@@ -226,6 +224,7 @@ const consultVaccination = (idMascot, setDewormingFunc) => {
 };
 
 const consultMedicamnets = (idMascot, setMedicamentFunc) => {
+    console.log(idMascot)
   try {
     db.transaction(tx => {
       tx.executeSql(

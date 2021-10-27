@@ -57,6 +57,7 @@ export const CONSULT_MASCOT_APP_ID = gql`
   query mascot($id: ID!) {
     mascot(id: $id) {
       id
+      id_mascot
       name_mascot
       age_mascot
       race_mascot

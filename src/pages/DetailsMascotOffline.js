@@ -36,6 +36,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
   }, [idMascot, refreshing]);
 
   async function consultDataDB() {
+    console.log(idMascot)
     try {
       await database.consultDesparacitacion(idMascot, setDeworming);
       await database.consultMascotID(idMascot, setMascot);

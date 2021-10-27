@@ -55,7 +55,6 @@ const ListCarousel = ({navigation, refresh}) => {
     },
   });
 
-
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,

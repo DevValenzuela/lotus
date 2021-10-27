@@ -36,6 +36,7 @@ export const RECOVERY_USER_APP = gql`
 
 export const ADD_MASCOT_APP = gql`
   mutation createMascot(
+    $id_mascot: String!
     $name_mascot: String!
     $age_mascot: Int!
     $type_mascot: String
@@ -51,6 +52,7 @@ export const ADD_MASCOT_APP = gql`
     createMascot(
       input: {
         data: {
+          id_mascot: $id_mascot
           name_mascot: $name_mascot
           age_mascot: $age_mascot
           type_mascot: $type_mascot
@@ -145,6 +147,7 @@ export const DELETE_MASCOT_APP = gql`
 
 export const CREATE_MEDICAMENT_APP = gql`
   mutation createMedicament(
+    $id_medicament: String!
     $last_dose: String!
     $medicament: String!
     $posologia: String
@@ -157,6 +160,7 @@ export const CREATE_MEDICAMENT_APP = gql`
     createMedicament(
       input: {
         data: {
+          id_medicament: $id_medicament
           last_dose: $last_dose
           medicament: $medicament
           posologia: $posologia
