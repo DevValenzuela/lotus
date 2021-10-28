@@ -59,7 +59,9 @@ const Vaccinations = ({route, navigation}) => {
 
   if (edit) {
     initialValue.last_vaccination = '';
-    initialValue.medicament = vacunacions[0].medicament;
+    initialValue.medicament = isConnected
+      ? vacunacions[0].medicaments
+      : vacunacions[0].medicament;
     initialValue.note_reaction = vacunacions[0].note;
   } else {
     initialValue.last_vaccination = '';
@@ -122,7 +124,8 @@ const Vaccinations = ({route, navigation}) => {
           variables: new_value,
         });
         notify.scheduleNotif(paramsNotify);
-        database.InsertVaccination(
+        await database3.InsertNotify(new_value);
+        await database.InsertVaccination(
           {...new_value, mascot: id_mascot},
           setSuccess,
         );
@@ -133,37 +136,42 @@ const Vaccinations = ({route, navigation}) => {
     } else {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
-      database.InsertVaccination(new_value, setSuccess);
+      await database.InsertVaccination(new_value, setSuccess);
     }
   };
 
   const handleUpdateVaccinations = async values => {
     if (!values) return null;
-    const {id} = vacunacions[0];
-    const {last_vaccination, medicament, note_reaction} = values;
+    const {id, id_vaccination} = vacunacions[0];
+    const {note_reaction} = values;
+    let new_values = {
+      ...values,
+      note: note_reaction,
+    };
     if (isConnected) {
       try {
         await updateVacunacion({
           variables: {
             id,
-            last_vaccination,
-            medicament,
-            note: note_reaction,
+            ...new_values,
           },
         });
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha actualizado la vacunación.',
-        });
+        await database.UpdateVaccination(
+          id_vaccination,
+          id_mascot,
+          new_values,
+          setSuccess,
+        );
       } catch (error) {
         console.log(error);
       }
     } else {
-      let new_values = {
-        ...values,
-        note: note_reaction,
-      };
-      let idTable = vacunacions[0].ID;
-      database.UpdateVaccination(idTable, idMascot, new_values, setSuccess);
+      await database.UpdateVaccination(
+        id_vaccination,
+        id_mascot,
+        new_values,
+        setSuccess,
+      );
     }
   };
 

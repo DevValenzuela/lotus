@@ -55,10 +55,13 @@ const ControlMedic = ({route, navigation}) => {
   ] = useMutation(UPDATE_CONTROLLER_MEDIC);
 
   const initialValue = new Object();
+  console.log(controllerMedics[0]);
 
   if (edit) {
     initialValue.last_control = '';
-    initialValue.valoration = controllerMedics[0].assesment;
+    initialValue.valoration = !isConnected
+      ? controllerMedics[0].assestment
+      : controllerMedics[0].assesment;
     initialValue.note = controllerMedics[0].note;
   } else {
     initialValue.last_control = '';
@@ -87,7 +90,7 @@ const ControlMedic = ({route, navigation}) => {
     if (!values) return;
     const {last_control, valoration, note, type = 'Control Medico'} = values;
     let id = uuidv4();
-    let new_values = {
+    let new_value = {
       id_medic: id,
       last_control: last_control,
       assesment: valoration,
@@ -107,11 +110,12 @@ const ControlMedic = ({route, navigation}) => {
     if (isConnected) {
       try {
         await createControllerMedic({
-          variables: new_values,
+          variables: new_value,
         });
         notify.scheduleNotif(paramsNotify);
-        database.InsertControllerMedic(
-          {...new_values, mascot: id_mascot},
+        await database3.InsertNotify(new_value);
+        await database.InsertControllerMedic(
+          {...new_value, mascot: id_mascot},
           setSuccess,
         );
         getDate('');
@@ -120,14 +124,14 @@ const ControlMedic = ({route, navigation}) => {
       }
     } else {
       notify.scheduleNotif(paramsNotify);
-      await database3.InsertNotify(new_values);
-      database.InsertControllerMedic(new_values, setSuccess);
+      await database3.InsertNotify(new_value);
+      await database.InsertControllerMedic(new_value, setSuccess);
     }
   };
 
   const handleUpdateMedicament = async values => {
     if (!values) return null;
-    const {id} = controllerMedics[0];
+    const {id, id_medic} = controllerMedics[0];
     const {last_control, valoration, note} = values;
     if (isConnected) {
       try {
@@ -139,15 +143,12 @@ const ControlMedic = ({route, navigation}) => {
             note,
           },
         });
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha actualizado control medico.',
-        });
+        database.UpdateControllerMedic(id_medic, id_mascot, values, setSuccess);
       } catch (error) {
         console.log(error);
       }
     } else {
-      let idTable = controllerMedics[0].ID;
-      database.UpdateControllerMedic(idTable, idMascot, values, setSuccess);
+      database.UpdateControllerMedic(id_medic, id_mascot, values, setSuccess);
     }
   };
 

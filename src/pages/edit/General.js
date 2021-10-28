@@ -24,19 +24,16 @@ import {database} from '../../conexion/crudSqlite';
 const General = ({route, navigation}) => {
   const {
     id,
-    name_mascot,
-    age_mascot,
+    id_mascot,
     race_mascot,
     date_sterilized,
     type_mascot,
-    avatar_mascot,
     microchip,
     description,
     number_microchip,
   } = route.params.data;
 
   const edit = route.params.edit;
-  const idMascot = route.params.idMascot;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setCalendar, getCalendar] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -83,36 +80,28 @@ const General = ({route, navigation}) => {
       type_mascot,
       number_microchip,
     } = values;
+
+    let new_value = {
+      id,
+      type_mascot,
+      race_mascot: race,
+      date_sterilized,
+      number_microchip,
+      description: note,
+      microchip: setMicrochip,
+    };
+
     if (isConnected) {
       try {
         await updateMascot({
-          variables: {
-            id,
-            type_mascot,
-            race_mascot: race,
-            date_sterilized,
-            number_microchip,
-            description: note,
-            microchip,
-          },
+          variables: new_value,
         });
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha actualizado esta nueva mascota',
-        });
+        database.UpdateMascot(id_mascot, new_value, setSuccess);
       } catch (error) {
         console.log(error);
       }
     } else {
-      let new_value = {
-        id,
-        type_mascot,
-        race_mascot: race,
-        date_sterilized,
-        number_microchip,
-        description: note,
-        microchip,
-      };
-      database.UpdateMascot(idMascot, new_value, setSuccess);
+      database.UpdateMascot(id_mascot, new_value, setSuccess);
     }
   };
 

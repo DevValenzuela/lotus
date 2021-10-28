@@ -47,6 +47,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
       console.warn(e);
     }
   }
+  console.log(vaccination)
 
   const {
     name_mascot,

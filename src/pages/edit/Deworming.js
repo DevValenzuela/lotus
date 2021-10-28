@@ -114,6 +114,7 @@ const Deworming = ({route, navigation}) => {
           variables: new_value,
         });
         notify.scheduleNotif(paramsNotify);
+        await database3.InsertNotify(new_value);
         await database.InsertDesparacitacion(
           {...new_value, mascot: id_mascot},
           setSuccess,
@@ -131,7 +132,9 @@ const Deworming = ({route, navigation}) => {
 
   const handleUpdateDeworming = async values => {
     if (!values) return null;
-    const {id} = desparacitacions[0];
+    const {id, id_deworming} = desparacitacions[0];
+    console.log('id_worming'+id_deworming);
+    console.log('id_mascot'+id_mascot);
     const {last_deworming, medicament, note} = values;
     if (isConnected) {
       try {
@@ -143,15 +146,12 @@ const Deworming = ({route, navigation}) => {
             note,
           },
         });
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se actualizo nueva desparacitación.',
-        });
+        database.UpdateDeworming(id_deworming, id_mascot, values, setSuccess);
       } catch (e) {
         console.log(e);
       }
     } else {
-      let idTable = desparacitacions[0].ID;
-      database.UpdateDeworming(idTable, idMascot, values, setSuccess);
+      database.UpdateDeworming(id_deworming, id_mascot, values, setSuccess);
     }
   };
 
@@ -170,7 +170,7 @@ const Deworming = ({route, navigation}) => {
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
     //let dateNotify = moment().add(1, 'month').subtract(5, 'days').format();
-    let dateNotify = moment().add(1, 'hours').format();
+    let dateNotify = moment().add(11, 'minutes').format();
     getDateNotify(dateNotify);
     getDate(dateFormat);
     getCalendar(false);

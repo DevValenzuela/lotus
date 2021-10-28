@@ -31,7 +31,7 @@ const VaccinationsHistory = ({navigation, route}) => {
   const {
     user: {user},
   } = useContext(UserContext);
-  const idMascot = route.params.idMascot;
+  const {idMascot, id_mascot} = route.params;
   const isConnected = useIsConnected();
   const [results, setResult] = useState([]);
   const {data, error, loading} = useQuery(CONSULT_HISTORY_VACCINATIONS_APP, {
@@ -68,7 +68,11 @@ const VaccinationsHistory = ({navigation, route}) => {
         <TouchableHighlight
           style={{alignItems: 'center', marginVertical: 20}}
           onPress={() =>
-            navigation.navigate('EditVaccinations', {idMascot, edit: false})
+            navigation.navigate('EditVaccinations', {
+              idMascot,
+              id_mascot,
+              edit: false,
+            })
           }
           underlayColor="transparent">
           <View style={style.btnAdd}>

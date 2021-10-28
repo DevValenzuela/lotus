@@ -131,7 +131,8 @@ const Medicament = ({route, navigation}) => {
           variables: new_value,
         });
         notify.scheduleNotif(paramsNotify);
-        database.InsertMedicament(
+        await database3.InsertNotify(new_value);
+        await database.InsertMedicament(
           {...new_value, mascot: id_mascot},
           setSuccess,
         );
@@ -142,13 +143,14 @@ const Medicament = ({route, navigation}) => {
     } else {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify({...new_value, mascot: id_mascot});
-      database.InsertMedicament(new_value, setSuccess);
+      await database.InsertMedicament(new_value, setSuccess);
     }
   };
 
   const handleUpdateMedicament = async values => {
     if (!values) return null;
-    const {id} = medicaments[0];
+    const {id, id_medicament} = medicaments[0];
+    console.log(id_medicament);
     const {last_dose, medicament, posologia, dosis, period, notation} = values;
     if (isConnected) {
       try {
@@ -163,15 +165,12 @@ const Medicament = ({route, navigation}) => {
             notation,
           },
         });
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Se ha actualizado un nuevo medicamento.',
-        });
+        database.UpdateMedicament(id_medicament, id_mascot, values, setSuccess);
       } catch (error) {
         console.log(error);
       }
     } else {
-      let idTable = medicaments[0].ID;
-      database.UpdateMedicament(idTable, idMascot, values, setSuccess);
+      database.UpdateMedicament(id_medicament, id_mascot, values, setSuccess);
     }
   };
 

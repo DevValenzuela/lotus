@@ -227,6 +227,7 @@ const DetailsMascot = ({navigation, route}) => {
                       onPress={() =>
                         navigation.navigate('EditDeworming', {
                           idMascot,
+                          id_mascot,
                           edit: true,
                           desparacitacions,
                         })
@@ -316,6 +317,7 @@ const DetailsMascot = ({navigation, route}) => {
                       onPress={() =>
                         navigation.navigate('EditVaccinations', {
                           idMascot,
+                          id_mascot,
                           edit: true,
                           vacunacions,
                         })
@@ -402,6 +404,7 @@ const DetailsMascot = ({navigation, route}) => {
                       onPress={() =>
                         navigation.navigate('EditMedicament', {
                           idMascot,
+                          id_mascot,
                           edit: true,
                           medicaments,
                         })
@@ -505,6 +508,7 @@ const DetailsMascot = ({navigation, route}) => {
                       onPress={() =>
                         navigation.navigate('EditControlMedic', {
                           idMascot,
+                          id_mascot,
                           edit: true,
                           controllerMedics,
                         })

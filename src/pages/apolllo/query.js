@@ -80,11 +80,12 @@ export const CONSULT_MASCOT_APP_ID = gql`
 export const CONSULT_DEWORMING_APP = gql`
   query desparacitacions($user: ID!, $mascot: ID!) {
     desparacitacions(
-      sort: "last_deworming:desc"
+      sort: "id:desc"
       limit: 1
       where: {users_permissions_user: $user, mascot: $mascot}
     ) {
       id
+      id_deworming
       last_deworming
       medicament
       note
@@ -95,11 +96,12 @@ export const CONSULT_DEWORMING_APP = gql`
 export const CONSULT_VACCINATIONS_APP = gql`
   query Vacunacions($user: ID!, $mascot: ID!) {
     vacunacions(
-      sort: "last_vaccination:desc"
+      sort: "id:desc"
       limit: 1
       where: {users_permissions_user: $user, mascot: $mascot}
     ) {
       id
+      id_vaccination
       last_vaccination
       medicaments
       note
@@ -110,11 +112,12 @@ export const CONSULT_VACCINATIONS_APP = gql`
 export const CONSULT_CONTROLLER_MEDICS_APP = gql`
   query ControllerMedics($user: ID!, $mascot: ID!) {
     controllerMedics(
-      sort: "last_control:desc"
+      sort: "id:desc"
       limit: 1
       where: {users_permissions_user: $user, mascot: $mascot}
     ) {
       id
+      id_medic
       last_control
       assesment
       note
@@ -125,10 +128,11 @@ export const CONSULT_CONTROLLER_MEDICS_APP = gql`
 export const CONSULT_MEDICAMENT_APP = gql`
   query medicaments($user: ID!, $mascot: ID!) {
     medicaments(
-      sort: "last_dose:desc"
+      sort: "id:desc"
       where: {users_permissions_user: $user, mascot: $mascot}
     ) {
       id
+      id_medicament
       last_dose
       medicament
       posologia
