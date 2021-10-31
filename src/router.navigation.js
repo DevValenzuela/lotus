@@ -33,6 +33,7 @@ import Notify from './shared/notify';
 
 import {options, options2} from './shared/header_config';
 import MedicamentHistory from './pages/history/medicament';
+import DetailsGeneral from './pages/DetailsGeneral';
 
 const Stack = createStackNavigator();
 
@@ -132,6 +133,16 @@ export function RouterNavigation() {
           ...options2(),
         })}
       />
+
+      <Stack.Screen
+        name="DetailsGeneral"
+        component={DetailsGeneral}
+        options={() => ({
+          title: 'Detalle.',
+          ...options2(),
+        })}
+      />
+
       {/**Details Mascot Offline**/}
       <Stack.Screen
         name="DetailsMascotOffline"

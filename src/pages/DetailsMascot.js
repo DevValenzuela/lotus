@@ -33,7 +33,6 @@ const DetailsMascot = ({navigation, route}) => {
     user: {user},
   } = useContext(UserContext);
   const idMascot = route.params.mascotId;
-  console.log(id_mascot);
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -498,7 +497,6 @@ const DetailsMascot = ({navigation, route}) => {
                   </TouchableHighlight>
                 </View>
               </View>
-
               <View style={style.column}>
                 <View style={style.containerCard}>
                   {controllerMedics.length > 0 && (

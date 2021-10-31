@@ -17,7 +17,8 @@ export const style = StyleSheet.create({
     backgroundColor: '#562A8C',
     marginVertical: 5,
     marginHorizontal: 10,
-    padding: 10,
+    paddingVertical: 0,
+    paddingHorizontal: 10,
     borderRadius: 10,
   },
   image: {
@@ -36,4 +37,7 @@ export const style = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
   },
+  iconActions:{
+    width: 20
+  }
 });
