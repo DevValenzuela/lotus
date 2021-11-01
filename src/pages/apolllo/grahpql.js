@@ -408,6 +408,7 @@ export const DELETE_CONTROLLER_MEDIC = gql`
     deleteControllerMedic(input: {where: {id: $id}}) {
       controllerMedic {
         id
+        id_medic
       }
     }
   }
@@ -418,6 +419,7 @@ export const DELETE_DEWORMING_MEDIC = gql`
     deleteDesparacitacion(input: {where: {id: $id}}) {
       desparacitacion {
         id
+        id_deworming
       }
     }
   }
@@ -428,6 +430,7 @@ export const DELETE_MEDICAMENT_MEDIC = gql`
     deleteMedicament(input: {where: {id: $id}}) {
       medicament {
         id
+        id_medicament
       }
     }
   }
@@ -438,6 +441,7 @@ export const DELETE_VACCINATION = gql`
     deleteVacunacion(input: {where: {id: $id}}) {
       vacunacion {
         id
+        id_vaccination
       }
     }
   }

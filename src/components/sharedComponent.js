@@ -732,7 +732,7 @@ export const ModalAlertDeleteVerify = ({modalVisible, send, action}) => {
           }}>
           <View style={{padding: 10}}>
             <Text style={{color: '#fff', fontSize: 14, textAlign: 'center'}}>
-              Deseas eliminar esta mascota
+              Deseas eliminar esté item...
             </Text>
             <Text
               style={{
@@ -741,7 +741,7 @@ export const ModalAlertDeleteVerify = ({modalVisible, send, action}) => {
                 textAlign: 'center',
                 paddingVertical: 7,
               }}>
-              El historial de mascota se perdera.
+              El historial de esté se perdera por completo.
             </Text>
           </View>
           <View

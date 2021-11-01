@@ -9,18 +9,25 @@ import {
   Image,
 } from 'react-native';
 import {style} from './style';
-import {useQuery} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {
   Loading,
   ModalAlertDeleteVerify,
 } from '../../components/sharedComponent';
-import {CONSULT_HISTORY_VACCINATIONS_APP} from '../../pages/apolllo/query';
+import {
+  CONSULT_HISTORY_VACCINATIONS_APP,
+  CONSULT_VACCINATIONS_APP,
+} from '../../pages/apolllo/query';
 import {useIsConnected} from 'react-native-offline';
 import {database2} from '../../conexion/crudSqlite2';
 import {useNavigation} from '@react-navigation/native';
+import {DELETE_VACCINATION} from '../apolllo/grahpql';
 
 const Item = ({date}) => {
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const navigation = useNavigation();
   const isConnected = useIsConnected();
   const [getModal, setModal] = useState(false);
@@ -29,7 +36,44 @@ const Item = ({date}) => {
     setModal(false);
   };
 
-  const actionModalYes = () => {
+  const [deleteVacunacion, {loading: loading_3}] = useMutation(
+    DELETE_VACCINATION,
+    {
+      update(cache, {data: {deleteVacunacions}}) {
+        const {
+          vacunacion: {id},
+        } = deleteVacunacions;
+        const {vacunacions} = cache.readQuery({
+          query: CONSULT_VACCINATIONS_APP,
+          variables: {
+            user: user.id,
+            mascot: date[2],
+          },
+        });
+        cache.writeQuery({
+          query: CONSULT_VACCINATIONS_APP,
+          data: {
+            vacunacions: vacunacions.filter(vacunacion => vacunacion.id !== id),
+          },
+        });
+      },
+    },
+  );
+
+  const actionModalYes = async () => {
+    //console.log('id mascot: ' + date[2]);
+    //console.log('data apollo: ' + date[4]);
+    //console.log('data sqlite: ' + date[3]);
+    try {
+      await deleteVacunacion({
+        variables: {
+          id: date[4],
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    database2.DeleteVaccinationOffline(date[3]);
     setModal(false);
   };
 
@@ -152,12 +196,17 @@ const VaccinationsHistory = ({navigation, route}) => {
   if (error) console.log(error);
 
   const renderItem = ({item}) => {
-    console.log(item);
     return (
       <Item
         date={
           isConnected
-            ? [item.last_vaccination, id_mascot, idMascot, item.id_vaccination]
+            ? [
+                item.last_vaccination,
+                id_mascot,
+                idMascot,
+                item.id_vaccination,
+                item.id,
+              ]
             : [item.last_vaccination, item.id_vaccination]
         }
       />

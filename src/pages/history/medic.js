@@ -9,27 +9,73 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import {style} from './style';
-import {useQuery} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {
   Loading,
   ModalAlertDeleteVerify,
 } from '../../components/sharedComponent';
-import {CONSULT_HISTORY_DOCTOR_APP} from '../../pages/apolllo/query';
+import {
+  CONSULT_CONTROLLER_MEDICS_APP,
+  CONSULT_HISTORY_DOCTOR_APP,
+} from '../../pages/apolllo/query';
 import {useIsConnected} from 'react-native-offline';
 import {database2} from '../../conexion/crudSqlite2';
 import {useNavigation} from '@react-navigation/native';
+import {DELETE_CONTROLLER_MEDIC} from '../apolllo/grahpql';
 
 const Item = ({date}) => {
+  const {
+    user: {user},
+  } = useContext(UserContext);
   const navigation = useNavigation();
   const isConnected = useIsConnected();
   const [getModal, setModal] = useState(false);
+
+  const [deleteControllerMedic, {loading: loading_4}] = useMutation(
+    DELETE_CONTROLLER_MEDIC,
+    {
+      update(cache, {data: {deleteControllerMedic}}) {
+        const {
+          controllerMedic: {id},
+        } = deleteControllerMedic;
+        const {controllerMedics} = cache.readQuery({
+          query: CONSULT_CONTROLLER_MEDICS_APP,
+          variables: {
+            user: user.id,
+            mascot: date[2],
+          },
+        });
+        cache.writeQuery({
+          query: CONSULT_CONTROLLER_MEDICS_APP,
+          data: {
+            controllerMedics: controllerMedics.filter(
+              controllerMedic => controllerMedic.id !== id,
+            ),
+          },
+        });
+      },
+    },
+  );
 
   const actionHideModal = () => {
     setModal(false);
   };
 
-  const actionModalYes = () => {
+  const actionModalYes = async () => {
+    //console.log('id mascot: ' + date[2]);
+    //console.log('data apollo: ' + date[4]);
+    //console.log('data sqlite: ' + date[3]);
+    try {
+      await deleteControllerMedic({
+        variables: {
+          id: date[4],
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    database2.DeleteControllerMedicOffline(date[3]);
     setModal(false);
   };
 
@@ -149,7 +195,7 @@ const MedicHistory = ({navigation, route}) => {
     <Item
       date={
         isConnected
-          ? [item.last_control, id_mascot, idMascot, item.id_medic]
+          ? [item.last_control, id_mascot, idMascot, item.id_medic, item.id]
           : [item.last_control, item.id_medic]
       }
     />

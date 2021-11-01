@@ -9,18 +9,26 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import {style} from './style';
-import {useQuery} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {
   Loading,
   ModalAlertDeleteVerify,
 } from '../../components/sharedComponent';
-import {CONSULT_HYSTORY_MEDICAMENTS_APP} from '../../pages/apolllo/query';
+import {
+  CONSULT_HYSTORY_MEDICAMENTS_APP,
+  CONSULT_MEDICAMENT_APP,
+} from '../../pages/apolllo/query';
 import {useIsConnected} from 'react-native-offline';
 import {useNavigation} from '@react-navigation/native';
 import {database2} from '../../conexion/crudSqlite2';
+import {DELETE_MEDICAMENT_MEDIC} from '../apolllo/grahpql';
 
 const Item = ({date}) => {
+  const {
+    user: {user},
+  } = useContext(UserContext);
+
   const navigation = useNavigation();
   const isConnected = useIsConnected();
   const [getModal, setModal] = useState(false);
@@ -29,7 +37,44 @@ const Item = ({date}) => {
     setModal(false);
   };
 
-  const actionModalYes = () => {
+  const [deleteMedicament, {loading: loading_1}] = useMutation(
+    DELETE_MEDICAMENT_MEDIC,
+    {
+      update(cache, {data: {deleteMedicament}}) {
+        const {
+          medicament: {id},
+        } = deleteMedicament;
+        const {medicaments} = cache.readQuery({
+          query: CONSULT_MEDICAMENT_APP,
+          variables: {
+            user: user.id,
+            mascot: date[2],
+          },
+        });
+        cache.writeQuery({
+          query: CONSULT_MEDICAMENT_APP,
+          data: {
+            medicaments: medicaments.filter(medicament => medicament.id !== id),
+          },
+        });
+      },
+    },
+  );
+
+  const actionModalYes = async () => {
+    //console.log('id mascot: ' + date[2]);
+    //console.log('data apollo: ' + date[4]);
+    //console.log('data sqlite: ' + date[3]);
+    try {
+      await deleteMedicament({
+        variables: {
+          id: date[4],
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    database2.DeleteMedicamentOffline(date[3]);
     setModal(false);
   };
 
@@ -150,7 +195,7 @@ const MedicamentHistory = ({route}) => {
       <Item
         date={
           isConnected
-            ? [item.last_dose, id_mascot, idMascot, item.id_medicament]
+            ? [item.last_dose, id_mascot, idMascot, item.id_medicament, item.id]
             : [item.last_dose, item.id_medicament]
         }
       />

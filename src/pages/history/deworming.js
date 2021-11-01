@@ -10,27 +10,71 @@ import {
 } from 'react-native';
 
 import {style} from './style';
-import {useQuery} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import {UserContext} from '../../context/userContext';
 import {
   Loading,
   ModalAlertDeleteVerify,
 } from '../../components/sharedComponent';
-import {CONSULT_HISTORY_DEWORMING_APP} from '../../pages/apolllo/query';
+import {
+  CONSULT_DEWORMING_APP,
+  CONSULT_HISTORY_DEWORMING_APP,
+} from '../../pages/apolllo/query';
 import {useIsConnected} from 'react-native-offline';
 import {database2} from '../../conexion/crudSqlite2';
 import {useNavigation} from '@react-navigation/native';
+import {DELETE_DEWORMING_MEDIC} from '../apolllo/grahpql';
 
 const Item = ({date}) => {
+  const {
+    user: {user},
+  } = useContext(UserContext);
+
   const navigation = useNavigation();
   const isConnected = useIsConnected();
   const [getModal, setModal] = useState(false);
+
+  const [deleteDesparacitacion, {loading: loading_2}] = useMutation(
+    DELETE_DEWORMING_MEDIC,
+    {
+      update(cache, {data: {deleteDesparacitacion}}) {
+        const {
+          desparacitacion: {id},
+        } = deleteDesparacitacion;
+        const {desparacitacions} = cache.readQuery({
+          query: CONSULT_DEWORMING_APP,
+          variables: {
+            user: user.id,
+            mascot: date[2],
+          },
+        });
+        cache.writeQuery({
+          query: CONSULT_DEWORMING_APP,
+          data: {
+            desparacitacions: desparacitacions.filter(
+              desparacitacion => desparacitacion.id !== id,
+            ),
+          },
+        });
+      },
+    },
+  );
 
   const actionHideModal = () => {
     setModal(false);
   };
 
-  const actionModalYes = () => {
+  const actionModalYes = async () => {
+    try {
+      await deleteDesparacitacion({
+        variables: {
+          id: date[4],
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    database2.DeleteDewormingOffline(date[3]);
     setModal(false);
   };
 
@@ -147,15 +191,23 @@ const DewormingHistory = ({navigation, route}) => {
   if (loading) return <Loading />;
   if (error) console.log(error);
 
-  const renderItem = ({item}) => (
-    <Item
-      date={
-        isConnected
-          ? [item.last_deworming, id_mascot, idMascot, item.id_deworming]
-          : [item.last_deworming, item.id_deworming]
-      }
-    />
-  );
+  const renderItem = ({item}) => {
+    return (
+      <Item
+        date={
+          isConnected
+            ? [
+                item.last_deworming,
+                id_mascot,
+                idMascot,
+                item.id_deworming,
+                item.id,
+              ]
+            : [item.last_deworming, item.id_deworming]
+        }
+      />
+    );
+  };
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground

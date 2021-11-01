@@ -44,10 +44,7 @@ const DeleteMascot = ({data}) => {
     //DELETE DEWORMING
     if (deworming) {
       deworming.forEach(item => {
-        let data = {
-          idTable: item.ID,
-          idMascot: item.mascot,
-        };
+        let data = item.id_deworming;
         database2.DeleteDewormingOffline(data);
       });
     }
@@ -57,10 +54,7 @@ const DeleteMascot = ({data}) => {
     //DELETE VACCINATION
     if (vaccination) {
       vaccination.forEach(item => {
-        let data = {
-          idTable: item.ID,
-          idMascot: item.mascot,
-        };
+        let data = item.id_vaccination;
         database2.DeleteVaccinationOffline(data);
       });
     }
@@ -70,10 +64,7 @@ const DeleteMascot = ({data}) => {
     //DELETE MEDICAMENT
     if (medicament) {
       medicaments.forEach(item => {
-        let data = {
-          idTable: item.ID,
-          idMascot: item.mascot,
-        };
+        let data = item.id_medicament;
         database2.DeleteMedicamentOffline(data);
       });
     }
@@ -83,10 +74,7 @@ const DeleteMascot = ({data}) => {
     //DELETE CONTROLLER MEDIC
     if (controllerMedic) {
       controllerMedic.forEach(item => {
-        let data = {
-          idTable: item.ID,
-          idMascot: item.mascot,
-        };
+        let data = item.id_medic;
         database2.DeleteControllerMedicOffline(data);
       });
     }

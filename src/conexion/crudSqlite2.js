@@ -17,9 +17,8 @@ const DeleteMascotGeneralOffline = data => {
 const DeleteDewormingOffline = data => {
   db.transaction(
     tx => {
-      tx.executeSql('DELETE FROM desparacitacion WHERE mascot = ? AND ID = ?', [
-        data.idMascot,
-        data.idTable,
+      tx.executeSql('DELETE FROM desparacitacion WHERE id_deworming = ?', [
+        data,
       ]);
     },
     (tx, error) => {
@@ -34,10 +33,7 @@ const DeleteDewormingOffline = data => {
 const DeleteVaccinationOffline = data => {
   db.transaction(
     tx => {
-      tx.executeSql('DELETE FROM vaccination WHERE mascot = ? AND ID = ?', [
-        data.idMascot,
-        data.idTable,
-      ]);
+      tx.executeSql('DELETE FROM vaccination WHERE id_vaccination = ?', [data]);
     },
     (tx, error) => {
       console.log('Error delete vaccination Offline');
@@ -51,10 +47,7 @@ const DeleteVaccinationOffline = data => {
 const DeleteMedicamentOffline = data => {
   db.transaction(
     tx => {
-      tx.executeSql('DELETE FROM Medicament WHERE mascot = ? AND ID = ?', [
-        data.idMascot,
-        data.idTable,
-      ]);
+      tx.executeSql('DELETE FROM Medicament WHERE id_medicament = ?', [data]);
     },
     (tx, error) => {
       console.log('Error delete medicament Offline');
@@ -68,10 +61,7 @@ const DeleteMedicamentOffline = data => {
 const DeleteControllerMedicOffline = data => {
   db.transaction(
     tx => {
-      tx.executeSql(
-        'DELETE FROM controller_medic WHERE mascot = ? AND ID = ?',
-        [data.idMascot, data.idTable],
-      );
+      tx.executeSql('DELETE FROM controller_medic WHERE id_medic = ?', [data]);
     },
     (tx, error) => {
       console.log('Error delete controller medic Offline');
@@ -275,7 +265,6 @@ const ConsultMedicamentHistory = (idMascot, setMedicamentHistoryFunc) => {
   }
 };
 
-
 const ConsultControllerMedic = (idMascot, setControllerMedicFunc) => {
   try {
     db.transaction(tx => {
@@ -317,5 +306,5 @@ export const database2 = {
   ConsultDewormingHistory,
   ConsultVaccinationHistory,
   ConsultMedicamentHistory,
-  ConsultControllerMedic
+  ConsultControllerMedic,
 };
