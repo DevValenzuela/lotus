@@ -23,6 +23,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const Item = ({date}) => {
   const navigation = useNavigation();
+  const isConnected = useIsConnected();
   const [getModal, setModal] = useState(false);
 
   const actionHideModal = () => {
@@ -79,14 +80,19 @@ const Item = ({date}) => {
           </TouchableHighlight>
           <TouchableHighlight
             style={{alignItems: 'center', marginVertical: 20}}
-            onPress={() =>
-              navigation.navigate('DetailsGeneral', {
-                id_mascot: date[1],
-                idMascot: date[2],
-                idDetails: date[3],
-                type: 'desparacitacion',
-              })
-            }
+            onPress={() => {
+              isConnected
+                ? navigation.navigate('DetailsGeneral', {
+                    id_mascot: date[1],
+                    idMascot: date[2],
+                    idDetails: date[3],
+                    type: 'desparacitacion',
+                  })
+                : navigation.navigate('DetailsOfflineGeneral', {
+                    idDetails: date[1],
+                    type: 'desparacitacion',
+                  });
+            }}
             underlayColor="transparent">
             <View
               style={{
@@ -143,7 +149,11 @@ const DewormingHistory = ({navigation, route}) => {
 
   const renderItem = ({item}) => (
     <Item
-      date={[item.last_deworming, id_mascot, idMascot, item.id_deworming]}
+      date={
+        isConnected
+          ? [item.last_deworming, id_mascot, idMascot, item.id_deworming]
+          : [item.last_deworming, item.id_deworming]
+      }
     />
   );
   return (

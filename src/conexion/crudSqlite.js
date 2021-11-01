@@ -201,12 +201,88 @@ const consultDesparacitacion = (idMascot, setDewormingFunc) => {
   );
 };
 
+const consultMedicamentDetails = (idDetails, setDewormingFunc) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        `SELECT * FROM Medicament WHERE id_medicament = ?`,
+        [idDetails],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push(results.rows.item(i));
+          }
+          setDewormingFunc(resp);
+        },
+      );
+    },
+    (t, error) => {
+      console.log('DB error load deworming');
+      console.log(error);
+    },
+    (_t, _success) => {
+      console.log('Loaded deworming');
+    },
+  );
+};
+
+const consultDesparacitacionDetails = (idDetails, setDewormingFunc) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        `SELECT * FROM desparacitacion WHERE id_deworming = ?`,
+        [idDetails],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push(results.rows.item(i));
+          }
+          setDewormingFunc(resp);
+        },
+      );
+    },
+    (t, error) => {
+      console.log('DB error load deworming');
+      console.log(error);
+    },
+    (_t, _success) => {
+      console.log('Loaded deworming');
+    },
+  );
+};
+
 const consultVaccination = (idMascot, setDewormingFunc) => {
   try {
     db.transaction(tx => {
       tx.executeSql(
         `SELECT * FROM vaccination WHERE mascot = ? ORDER BY ID DESC`,
         [idMascot],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push(results.rows.item(i));
+          }
+          if (resp) {
+            setDewormingFunc(resp);
+          }
+          return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+const consultVaccinationDetails = (idDetails, setDewormingFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM vaccination WHERE id_vaccination = ?`,
+        [idDetails],
         function (tx, results) {
           let resp = [];
           let len = results.rows.length;
@@ -256,6 +332,30 @@ const consultControllerMedic = (idMascot, setControllerMedicFunc) => {
       tx.executeSql(
         `SELECT * FROM controller_medic WHERE mascot = ? ORDER BY ID DESC`,
         [idMascot],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            resp.push(results.rows.item(i));
+          }
+          if (resp) {
+            setControllerMedicFunc(resp);
+          }
+          return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+const consultControllerMedicDetails = (idDetails, setControllerMedicFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM controller_medic WHERE id_medic = ? `,
+        [idDetails],
         function (tx, results) {
           let resp = [];
           let len = results.rows.length;
@@ -401,6 +501,10 @@ export const database = {
   consultVaccination,
   consultMedicamnets,
   consultControllerMedic,
+  consultDesparacitacionDetails,
+  consultVaccinationDetails,
+  consultMedicamentDetails,
+  consultControllerMedicDetails,
   InsertMascot,
   InsertDesparacitacion,
   InsertMedicament,

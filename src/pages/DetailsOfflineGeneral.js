@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,91 +11,30 @@ import {
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
-import {useQuery} from '@apollo/client';
-import {
-  CONSULT_DEWORMING_DETAILS_APP,
-  CONSULT_MEDICAMENT_DETAILS_APP,
-  CONSULT_VACCINATIONS_DETAILS_APP,
-  CONSULT_CONTROLLER_MEDICS_DETAILS_APP,
-} from './apolllo/query';
-import {UserContext} from '../context/userContext';
-import {Loading} from '../components/sharedComponent';
+import {database} from '../conexion/crudSqlite';
 
-const DetailsGeneral = ({route}) => {
-  const {
-    user: {user},
-  } = useContext(UserContext);
-
+const DetailsOfflineGeneral = ({route}) => {
   const navigation = useNavigation();
-  const {idMascot, id_mascot, type, idDetails} = route.params;
+  const {type, idDetails} = route.params;
+  const [getDeworming, setDeworming] = useState([]);
+  const [getMedicament, setMedicament] = useState([]);
+  const [getVaccination, setVaccination] = useState([]);
+  const [getControllerMedic, setControllerMedic] = useState([]);
+  useEffect(() => {
+    try {
+      database.consultDesparacitacionDetails(idDetails, setDeworming);
+      database.consultMedicamentDetails(idDetails, setMedicament);
+      database.consultVaccinationDetails(idDetails, setVaccination);
+      database.consultControllerMedicDetails(idDetails, setControllerMedic);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [idDetails]);
 
-  const {
-    data: medicament,
-    error: errorMedicaments,
-    loading: loadingMedicaments,
-  } = useQuery(CONSULT_MEDICAMENT_DETAILS_APP, {
-    pollInterval: 2000,
-    variables: {
-      user: user.id,
-      id_details: idDetails,
-    },
-  });
-
-  const {
-    data: deworming,
-    error: errorDeworming,
-    loading: loadingDeworming,
-  } = useQuery(CONSULT_DEWORMING_DETAILS_APP, {
-    pollInterval: 2000,
-    variables: {
-      user: user.id,
-      id_details: idDetails,
-    },
-  });
-
-  const {
-    data: vaccination,
-    error: errorVaccination,
-    loading: loadingVaccination,
-  } = useQuery(CONSULT_VACCINATIONS_DETAILS_APP, {
-    pollInterval: 2000,
-    variables: {
-      user: user.id,
-      id_details: idDetails,
-    },
-  });
-
-  const {
-    data: medic_controller,
-    error: errorMedicController,
-    loading: loadingMedicController,
-  } = useQuery(CONSULT_CONTROLLER_MEDICS_DETAILS_APP, {
-    pollInterval: 2000,
-    variables: {
-      user: user.id,
-      id_details: idDetails,
-    },
-  });
-
-  if (
-    loadingMedicaments ||
-    loadingDeworming ||
-    loadingVaccination ||
-    loadingMedicController
-  )
-    return <Loading />;
-  if (
-    errorMedicaments ||
-    errorDeworming ||
-    errorVaccination ||
-    errorMedicController
-  )
-    console.log('Error in data base apollo.');
-
-  const {medicaments} = type === 'medicamento' ? medicament : [];
-  const {desparacitacions} = type === 'desparacitacion' ? deworming : [];
-  const {vacunacions} = type === 'vacunacion' ? vaccination : [];
-  const {controllerMedics} = type === 'control medico' ? medic_controller : [];
+  const medicaments = getMedicament;
+  const desparacitacions = getDeworming;
+  const vacunacions = getVaccination;
+  const controllerMedics = getControllerMedic;
 
   return (
     <SafeAreaView style={style.container}>
@@ -112,8 +51,6 @@ const DetailsGeneral = ({route}) => {
                   underlayColor="transparent"
                   onPress={() =>
                     navigation.navigate('EditDeworming', {
-                      idMascot,
-                      id_mascot,
                       edit: true,
                       desparacitacions,
                     })
@@ -164,7 +101,7 @@ const DetailsGeneral = ({route}) => {
             <View style={{alignItems: 'center', marginVertical: 10}}>
               <TouchableHighlight
                 underlayColor="transparent"
-                onPress={() => navigation.goBack()}>
+                onPress={() => navigation.navigate('HistoryDeworming', {})}>
                 <View
                   style={{
                     justifyContent: 'center',
@@ -179,7 +116,7 @@ const DetailsGeneral = ({route}) => {
                       color: '#fff',
                       textTransform: 'uppercase',
                     }}>
-                    Volver
+                    Ver Historial
                   </Text>
                 </View>
               </TouchableHighlight>
@@ -194,11 +131,7 @@ const DetailsGeneral = ({route}) => {
                   style={style.edit}
                   underlayColor="transparent"
                   onPress={() =>
-                    navigation.navigate('EditMedicament', {
-                      idMascot,
-                      id_mascot,
-                      edit: true,
-                      medicaments,
+                    navigation.navigate('EditMedicament', { edit: true, medicaments,
                     })
                   }>
                   <View style={{marginTop: 15}}>
@@ -293,8 +226,6 @@ const DetailsGeneral = ({route}) => {
                   underlayColor="transparent"
                   onPress={() =>
                     navigation.navigate('EditVaccinations', {
-                      idMascot,
-                      id_mascot,
                       edit: true,
                       vacunacions,
                     })
@@ -375,8 +306,6 @@ const DetailsGeneral = ({route}) => {
                   underlayColor="transparent"
                   onPress={() =>
                     navigation.navigate('EditControlMedic', {
-                      idMascot,
-                      id_mascot,
                       edit: true,
                       controllerMedics,
                     })
@@ -406,7 +335,7 @@ const DetailsGeneral = ({route}) => {
                   </View>
                   <Text style={style.subTxt}>Valoración:</Text>
                   <Text style={style.parrTxt}>
-                    {controllerMedics[0].assesment}
+                    {controllerMedics[0].assestment}
                   </Text>
                   <Text style={style.subTxt}>Prescripción y anotaciones:</Text>
                   <Text style={style.parrTxt}>{controllerMedics[0].note}</Text>
@@ -420,9 +349,7 @@ const DetailsGeneral = ({route}) => {
             <View style={{alignItems: 'center', marginVertical: 10}}>
               <TouchableHighlight
                 underlayColor="transparent"
-                onPress={() =>
-                  navigation.goBack()
-                }>
+                onPress={() => navigation.goBack()}>
                 <View
                   style={{
                     justifyContent: 'center',
@@ -520,4 +447,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default DetailsGeneral;
+export default DetailsOfflineGeneral;

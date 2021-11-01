@@ -22,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const Item = ({date}) => {
   const navigation = useNavigation();
+  const isConnected = useIsConnected();
   const [getModal, setModal] = useState(false);
 
   const actionHideModal = () => {
@@ -44,6 +45,7 @@ const Item = ({date}) => {
           style.item,
           {
             flexDirection: 'row',
+            padding: 0,
           },
         ]}>
         <View style={{flex: 1}}>
@@ -56,9 +58,15 @@ const Item = ({date}) => {
         <View style={{flex: 3}}>
           <Text style={style.dateTitle}>{date[0]}</Text>
         </View>
-        <View style={{flex: 2, alignSelf: 'center', flexDirection: 'row'}}>
+        <View
+          style={{
+            flex: 2,
+            alignSelf: 'center',
+            flexDirection: 'row',
+            padding: 0,
+          }}>
           <TouchableHighlight
-            style={{alignItems: 'center', marginVertical: 20}}
+            style={{alignItems: 'center', marginVertical: 20, padding: 0}}
             onPress={() => setModal(true)}
             underlayColor="transparent">
             <View
@@ -79,12 +87,17 @@ const Item = ({date}) => {
           <TouchableHighlight
             style={{alignItems: 'center', marginVertical: 20}}
             onPress={() =>
-              navigation.navigate('DetailsGeneral', {
-                id_mascot: date[1],
-                idMascot: date[2],
-                idDetails: date[3],
-                type: 'vacunacion',
-              })
+              isConnected
+                ? navigation.navigate('DetailsGeneral', {
+                    id_mascot: date[1],
+                    idMascot: date[2],
+                    idDetails: date[3],
+                    type: 'vacunacion',
+                  })
+                : navigation.navigate('DetailsOfflineGeneral', {
+                    idDetails: date[1],
+                    type: 'vacunacion',
+                  })
             }
             underlayColor="transparent">
             <View
@@ -137,13 +150,19 @@ const VaccinationsHistory = ({navigation, route}) => {
 
   if (loading) return <Loading />;
   if (error) console.log(error);
-  console.log(results)
 
-  const renderItem = ({item}) => (
-    <Item
-      date={[item.last_vaccination, id_mascot, idMascot, item.id_vaccination]}
-    />
-  );
+  const renderItem = ({item}) => {
+    console.log(item);
+    return (
+      <Item
+        date={
+          isConnected
+            ? [item.last_vaccination, id_mascot, idMascot, item.id_vaccination]
+            : [item.last_vaccination, item.id_vaccination]
+        }
+      />
+    );
+  };
 
   return (
     <SafeAreaView style={style.container}>

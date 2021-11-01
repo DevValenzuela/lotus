@@ -55,7 +55,6 @@ const ControlMedic = ({route, navigation}) => {
   ] = useMutation(UPDATE_CONTROLLER_MEDIC);
 
   const initialValue = new Object();
-  console.log(controllerMedics[0]);
 
   if (edit) {
     initialValue.last_control = '';

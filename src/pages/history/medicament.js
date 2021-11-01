@@ -22,6 +22,7 @@ import {database2} from '../../conexion/crudSqlite2';
 
 const Item = ({date}) => {
   const navigation = useNavigation();
+  const isConnected = useIsConnected();
   const [getModal, setModal] = useState(false);
 
   const actionHideModal = () => {
@@ -78,14 +79,19 @@ const Item = ({date}) => {
           </TouchableHighlight>
           <TouchableHighlight
             style={{alignItems: 'center', marginVertical: 20}}
-            onPress={() =>
-              navigation.navigate('DetailsGeneral', {
-                id_mascot: date[1],
-                idMascot: date[2],
-                idDetails: date[3],
-                type: 'medicamento',
-              })
-            }
+            onPress={() => {
+              isConnected
+                ? navigation.navigate('DetailsGeneral', {
+                    id_mascot: date[1],
+                    idMascot: date[2],
+                    idDetails: date[3],
+                    type: 'medicamento',
+                  })
+                : navigation.navigate('DetailsOfflineGeneral', {
+                    idDetails: date[1],
+                    type: 'medicamento',
+                  });
+            }}
             underlayColor="transparent">
             <View
               style={{
@@ -141,7 +147,13 @@ const MedicamentHistory = ({route}) => {
 
   const renderItem = ({item}) => {
     return (
-      <Item date={[item.last_dose, id_mascot, idMascot, item.id_medicament]} />
+      <Item
+        date={
+          isConnected
+            ? [item.last_dose, id_mascot, idMascot, item.id_medicament]
+            : [item.last_dose, item.id_medicament]
+        }
+      />
     );
   };
 

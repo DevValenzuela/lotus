@@ -203,6 +203,7 @@ const ConsultDewormingHistory = (idMascot, setDewormingHistoryFunc) => {
           for (let i = 0; i < len; i++) {
             resp.push({
               id: results.rows.item(i).ID,
+              id_deworming: results.rows.item(i).id_deworming,
               last_deworming: results.rows.item(i).last_deworming,
             });
           }
@@ -230,6 +231,7 @@ const ConsultVaccinationHistory = (idMascot, setDewormingHistoryFunc) => {
           for (let i = 0; i < len; i++) {
             resp.push({
               id: results.rows.item(i).ID,
+              id_vaccination: results.rows.item(i).id_vaccination,
               last_vaccination: results.rows.item(i).last_vaccination,
             });
           }
@@ -257,6 +259,7 @@ const ConsultMedicamentHistory = (idMascot, setMedicamentHistoryFunc) => {
           for (let i = 0; i < len; i++) {
             resp.push({
               id: results.rows.item(i).ID,
+              id_medicament: results.rows.item(i).id_medicament,
               last_dose: results.rows.item(i).last_dose,
             });
           }
@@ -285,6 +288,7 @@ const ConsultControllerMedic = (idMascot, setControllerMedicFunc) => {
           for (let i = 0; i < len; i++) {
             resp.push({
               id: results.rows.item(i).ID,
+              id_medic: results.rows.item(i).id_medic,
               last_control: results.rows.item(i).last_control,
             });
           }
