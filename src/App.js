@@ -18,18 +18,19 @@ import {setContext} from '@apollo/client/link/context';
 import UserProvider from './context/userContext';
 import {db, createTableDB} from './conexion/sqlite';
 import {DangerAlertOffline} from './components/sharedComponent';
+import {verifyDB} from './conexion/crudVerify';
 const App = () => {
-
   useEffect(() => {
     SplashScreen.hide();
     createTable();
+    verifyDB.ShowCreateVerify();
   }, []);
 
   const createTable = () => {
-    db.transaction((tx) => {
-      createTableDB(tx)
-    })
-  }
+    db.transaction(tx => {
+      createTableDB(tx);
+    });
+  };
 
   const httpLink = new createUploadLink({
     uri: `${API_URL}/graphql`,
@@ -50,7 +51,7 @@ const App = () => {
     };
   });
 
-  const defaultOptions: DefaultOptions = {
+  /*const defaultOptions: DefaultOptions = {
     watchQuery: {
       fetchPolicy: 'no-cache',
       errorPolicy: 'ignore',
@@ -59,7 +60,7 @@ const App = () => {
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
     },
-  };
+  };*/
 
   const client = new ApolloClient({
     link: authLink.concat(httpLink),
@@ -77,21 +78,21 @@ const App = () => {
                 return incoming;
               },
             },
-            desparacitacions:{
+            desparacitacions: {
               merge(existing, incoming) {
                 return incoming;
               },
             },
-            vacunacions:{
+            vacunacions: {
               merge(existing, incoming) {
                 return incoming;
               },
             },
-            controllerMedics:{
+            controllerMedics: {
               merge(existing, incoming) {
                 return incoming;
               },
-            }
+            },
           },
         },
       },

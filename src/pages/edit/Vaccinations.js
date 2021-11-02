@@ -29,6 +29,7 @@ import {Loading} from '../../components/sharedComponent';
 import {useIsConnected} from 'react-native-offline';
 import {database3} from '../../conexion/crudNotify';
 import NotifService from '../../hooks/notifyService';
+import {verifyDB} from '../../conexion/crudVerify';
 
 const Vaccinations = ({route, navigation}) => {
   const isConnected = useIsConnected();
@@ -137,6 +138,10 @@ const Vaccinations = ({route, navigation}) => {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
       await database.InsertVaccination(new_value, setSuccess);
+      await verifyDB.InsertCreateVerify(
+        new_value.id_vaccination,
+        'vaccination',
+      );
     }
   };
 
@@ -172,6 +177,7 @@ const Vaccinations = ({route, navigation}) => {
         new_values,
         setSuccess,
       );
+      await verifyDB.InsertUpdateVerify(id_vaccination);
     }
   };
 

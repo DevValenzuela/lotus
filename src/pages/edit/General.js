@@ -21,6 +21,7 @@ import {UPDATE_GENERAL_MASCOT} from '../apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
+import { verifyDB } from "../../conexion/crudVerify";
 const General = ({route, navigation}) => {
   const {
     id,
@@ -96,12 +97,13 @@ const General = ({route, navigation}) => {
         await updateMascot({
           variables: new_value,
         });
-        database.UpdateMascot(id_mascot, new_value, setSuccess);
+        await database.UpdateMascot(id_mascot, new_value, setSuccess);
       } catch (error) {
         console.log(error);
       }
     } else {
-      database.UpdateMascot(id_mascot, new_value, setSuccess);
+      await database.UpdateMascot(id_mascot, new_value, setSuccess);
+      await verifyDB.InsertUpdateVerify(id_mascot);
     }
   };
 

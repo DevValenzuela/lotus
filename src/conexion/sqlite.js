@@ -1,6 +1,6 @@
 import SQLite from 'react-native-sqlite-storage';
 export const db = SQLite.openDatabase(
-  {name: 'test.db', createFromLocation: '~example.db', location: 'Library'},
+  {name: 'table.db', location: 'default'},
   () => {
     console.log('Open success fully database sqlite.');
   },
@@ -49,19 +49,19 @@ export const createTableDB = tx => {
   //Create Table Update
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
-      'update ' +
+      'updateTable ' +
       '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_update TEXT );',
   );
   //Create Table Delete
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
-      'delete ' +
+      'deleteTable ' +
       '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_delete TEXT );',
   );
-  //Create Table Edit
+  //Create Table New
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
-      'edit ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_edit TEXT );',
+      'createTable ' +
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_create TEXT, type TEXT );',
   );
 };

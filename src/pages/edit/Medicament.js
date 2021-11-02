@@ -27,6 +27,7 @@ import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
 import NotifService from '../../hooks/notifyService';
 import {database3} from '../../conexion/crudNotify';
+import {verifyDB} from '../../conexion/crudVerify';
 
 const Medicament = ({route, navigation}) => {
   const isConnected = useIsConnected();
@@ -144,13 +145,13 @@ const Medicament = ({route, navigation}) => {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify({...new_value, mascot: id_mascot});
       await database.InsertMedicament(new_value, setSuccess);
+      await verifyDB.InsertCreateVerify(new_value.id_medicament, 'Medicament');
     }
   };
 
   const handleUpdateMedicament = async values => {
     if (!values) return null;
     const {id, id_medicament} = medicaments[0];
-    console.log(id_medicament);
     const {last_dose, medicament, posologia, dosis, period, notation} = values;
     if (isConnected) {
       try {
@@ -165,12 +166,23 @@ const Medicament = ({route, navigation}) => {
             notation,
           },
         });
-        database.UpdateMedicament(id_medicament, id_mascot, values, setSuccess);
+        await database.UpdateMedicament(
+          id_medicament,
+          id_mascot,
+          values,
+          setSuccess,
+        );
       } catch (error) {
         console.log(error);
       }
     } else {
-      database.UpdateMedicament(id_medicament, id_mascot, values, setSuccess);
+      await database.UpdateMedicament(
+        id_medicament,
+        id_mascot,
+        values,
+        setSuccess,
+      );
+      await verifyDB.InsertUpdateVerify(id_medicament);
     }
   };
 

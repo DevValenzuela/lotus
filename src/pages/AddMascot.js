@@ -32,6 +32,7 @@ import {
   ModalGalleryOptions,
   ModalCalendarError,
 } from '../components/sharedComponent';
+import { verifyDB } from "../conexion/crudVerify";
 
 const AddMascot = ({navigation}) => {
   const {
@@ -135,14 +136,12 @@ const AddMascot = ({navigation}) => {
         database.InsertMascot(valuesOffline, setSuccess);
         getDate('');
         dispatchUserEvent('ADD_URI', {idPhoto: ''});
-        navigation.navigate('Gratulations', {
-          txtMsg: 'Que bien has ingresado una nueva mascota.',
-        });
       } catch (e) {
         console.log(e.message);
       }
     } else {
       database.InsertMascot(valuesOffline, setSuccess);
+      verifyDB.InsertCreateVerify(valuesOffline.id_mascot, 'Mascot');
     }
   };
 

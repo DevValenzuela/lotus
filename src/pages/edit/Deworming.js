@@ -29,6 +29,7 @@ import {database} from '../../conexion/crudSqlite';
 import {database3} from '../../conexion/crudNotify';
 import {useIsConnected} from 'react-native-offline';
 import NotifService from './../../hooks/notifyService';
+import {verifyDB} from '../../conexion/crudVerify';
 
 const Deworming = ({route, navigation}) => {
   const isConnected = useIsConnected();
@@ -127,14 +128,16 @@ const Deworming = ({route, navigation}) => {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
       await database.InsertDesparacitacion(new_value, setSuccess);
+      await verifyDB.InsertCreateVerify(
+        new_value.id_deworming,
+        'desparacitacion',
+      );
     }
   };
 
   const handleUpdateDeworming = async values => {
     if (!values) return null;
     const {id, id_deworming} = desparacitacions[0];
-    console.log('id_worming'+id_deworming);
-    console.log('id_mascot'+id_mascot);
     const {last_deworming, medicament, note} = values;
     if (isConnected) {
       try {
@@ -146,12 +149,23 @@ const Deworming = ({route, navigation}) => {
             note,
           },
         });
-        database.UpdateDeworming(id_deworming, id_mascot, values, setSuccess);
+        await database.UpdateDeworming(
+          id_deworming,
+          id_mascot,
+          values,
+          setSuccess,
+        );
       } catch (e) {
         console.log(e);
       }
     } else {
-      database.UpdateDeworming(id_deworming, id_mascot, values, setSuccess);
+      await database.UpdateDeworming(
+        id_deworming,
+        id_mascot,
+        values,
+        setSuccess,
+      );
+      await verifyDB.InsertUpdateVerify(id_deworming);
     }
   };
 

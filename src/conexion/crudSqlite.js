@@ -21,7 +21,8 @@ const InsertMascot = (values, setSuccess) => {
       );
     },
     (tx, error) => {
-      console.log(error);
+      console.log('Error insert table mascot sqlite.');
+      console.log(error)
       setSuccess(false);
     },
     (tx, success) => {

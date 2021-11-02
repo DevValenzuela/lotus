@@ -29,6 +29,7 @@ import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
 import {database3} from '../../conexion/crudNotify';
 import NotifService from '../../hooks/notifyService';
+import {verifyDB} from '../../conexion/crudVerify';
 
 const ControlMedic = ({route, navigation}) => {
   const {
@@ -125,6 +126,7 @@ const ControlMedic = ({route, navigation}) => {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
       await database.InsertControllerMedic(new_value, setSuccess);
+      await verifyDB.InsertCreateVerify(new_value.id_medic, 'controller_medic');
     }
   };
 
@@ -142,12 +144,23 @@ const ControlMedic = ({route, navigation}) => {
             note,
           },
         });
-        database.UpdateControllerMedic(id_medic, id_mascot, values, setSuccess);
+        await database.UpdateControllerMedic(
+          id_medic,
+          id_mascot,
+          values,
+          setSuccess,
+        );
       } catch (error) {
         console.log(error);
       }
     } else {
-      database.UpdateControllerMedic(id_medic, id_mascot, values, setSuccess);
+      await database.UpdateControllerMedic(
+        id_medic,
+        id_mascot,
+        values,
+        setSuccess,
+      );
+      await verifyDB.InsertUpdateVerify(id_medic);
     }
   };
 
