@@ -160,7 +160,7 @@ const ControlMedic = ({route, navigation}) => {
         values,
         setSuccess,
       );
-      await verifyDB.InsertUpdateVerify(id_medic);
+      await verifyDB.InsertUpdateVerify(id_medic, 'controller_medic');
     }
   };
 

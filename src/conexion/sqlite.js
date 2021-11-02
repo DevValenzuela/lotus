@@ -50,13 +50,13 @@ export const createTableDB = tx => {
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
       'updateTable ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_update TEXT );',
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_update TEXT, type TEXT );',
   );
   //Create Table Delete
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
       'deleteTable ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_delete TEXT );',
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_delete TEXT, type TEXT );',
   );
   //Create Table New
   tx.executeSql(

@@ -182,7 +182,7 @@ const Medicament = ({route, navigation}) => {
         values,
         setSuccess,
       );
-      await verifyDB.InsertUpdateVerify(id_medicament);
+      await verifyDB.InsertUpdateVerify(id_medicament, 'Medicament');
     }
   };
 

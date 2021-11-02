@@ -177,7 +177,7 @@ const Vaccinations = ({route, navigation}) => {
         new_values,
         setSuccess,
       );
-      await verifyDB.InsertUpdateVerify(id_vaccination);
+      await verifyDB.InsertUpdateVerify(id_vaccination, 'vaccination');
     }
   };
 
