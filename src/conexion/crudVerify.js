@@ -90,7 +90,7 @@ const ShowDeleteVerify = setResultDelete => {
 const ShowUpdateVerify = setResultUpdate => {
   try {
     db.transaction(tx => {
-      tx.executeSql(`SELECT * FROM deleteTable`, [], function (tx, results) {
+      tx.executeSql(`SELECT * FROM updateTable`, [], function (tx, results) {
         let resp = [];
         let len = results.rows.length;
         for (let i = 0; i < len; i++) {

@@ -23,6 +23,7 @@ import {useIsConnected} from 'react-native-offline';
 import {useNavigation} from '@react-navigation/native';
 import {database2} from '../../conexion/crudSqlite2';
 import {DELETE_MEDICAMENT_MEDIC} from '../apolllo/grahpql';
+import { verifyDB } from "../../conexion/crudVerify";
 
 const Item = ({date}) => {
   const {
@@ -75,6 +76,7 @@ const Item = ({date}) => {
       console.log(error);
     }
     database2.DeleteMedicamentOffline(date[3]);
+    verifyDB.InsertDeteleteVerify(date[3], 'Medicament');
     setModal(false);
   };
 

@@ -130,7 +130,7 @@ const Deworming = ({route, navigation}) => {
       await database.InsertDesparacitacion(new_value, setSuccess);
       await verifyDB.InsertCreateVerify(
         new_value.id_deworming,
-        'desparacitacion',
+        'deworming',
       );
     }
   };
@@ -165,7 +165,7 @@ const Deworming = ({route, navigation}) => {
         values,
         setSuccess,
       );
-      await verifyDB.InsertUpdateVerify(id_deworming, 'desparacitacion');
+      await verifyDB.InsertUpdateVerify(id_deworming, 'deworming');
     }
   };
 

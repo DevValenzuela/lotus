@@ -24,6 +24,7 @@ import {useIsConnected} from 'react-native-offline';
 import {database2} from '../../conexion/crudSqlite2';
 import {useNavigation} from '@react-navigation/native';
 import {DELETE_DEWORMING_MEDIC} from '../apolllo/grahpql';
+import { verifyDB } from "../../conexion/crudVerify";
 
 const Item = ({date}) => {
   const {
@@ -75,6 +76,7 @@ const Item = ({date}) => {
       console.log(error);
     }
     database2.DeleteDewormingOffline(date[3]);
+    verifyDB.InsertDeteleteVerify(date[3], 'deworming');
     setModal(false);
   };
 
