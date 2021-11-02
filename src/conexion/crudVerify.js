@@ -52,16 +52,9 @@ const ShowCreateVerify = setResultCreate => {
         let resp = [];
         let len = results.rows.length;
         for (let i = 0; i < len; i++) {
-          console.log(results.rows.item(i));
-          /*resp.push({
-            id: results.rows.item(i).ID,
-            id_medicament: results.rows.item(i).id_medicament,
-            last_dose: results.rows.item(i).last_dose,
-          });*/
+          resp.push(results.rows.item(i));
         }
-        if (resp) {
-          setResultCreate(resp);
-        }
+        setResultCreate(resp);
         return;
       });
     });

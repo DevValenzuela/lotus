@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 import 'react-native-gesture-handler';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {API_URL} from '@env';
 import {NavigationContainer} from '@react-navigation/native';
 import {RouterNavigation} from './router.navigation';
@@ -20,12 +20,14 @@ import {db, createTableDB} from './conexion/sqlite';
 import {DangerAlertOffline} from './components/sharedComponent';
 import {verifyDB} from './conexion/crudVerify';
 const App = () => {
+  const [getResultCreate, setResultCreate] = useState([]);
   useEffect(() => {
     SplashScreen.hide();
     createTable();
-    verifyDB.ShowCreateVerify();
+    verifyDB.ShowCreateVerify(setResultCreate);
   }, []);
 
+  console.log('rESULT' + JSON.stringify(getResultCreate));
   const createTable = () => {
     db.transaction(tx => {
       createTableDB(tx);
