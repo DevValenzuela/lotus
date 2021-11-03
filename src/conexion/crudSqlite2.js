@@ -31,6 +31,7 @@ const DeleteDewormingOffline = data => {
 };
 
 const DeleteVaccinationOffline = data => {
+  console.log(data);
   db.transaction(
     tx => {
       tx.executeSql('DELETE FROM vaccination WHERE id_vaccination = ?', [data]);

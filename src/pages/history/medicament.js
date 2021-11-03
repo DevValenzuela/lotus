@@ -75,8 +75,12 @@ const Item = ({date}) => {
     } catch (error) {
       console.log(error);
     }
-    database2.DeleteMedicamentOffline(date[3]);
-    verifyDB.InsertDeteleteVerify(date[3], 'Medicament');
+    if (isConnected) {
+      database2.DeleteMedicamentOffline(date[3]);
+    } else {
+      database2.DeleteMedicamentOffline(date[1]);
+      verifyDB.InsertDeteleteVerify(date[1], 'Medicament');
+    }
     setModal(false);
   };
 

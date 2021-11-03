@@ -23,7 +23,7 @@ import {useIsConnected} from 'react-native-offline';
 import {database2} from '../../conexion/crudSqlite2';
 import {useNavigation} from '@react-navigation/native';
 import {DELETE_VACCINATION} from '../apolllo/grahpql';
-import { verifyDB } from "../../conexion/crudVerify";
+import {verifyDB} from '../../conexion/crudVerify';
 
 const Item = ({date}) => {
   const {
@@ -74,8 +74,12 @@ const Item = ({date}) => {
     } catch (error) {
       console.log(error);
     }
-    database2.DeleteVaccinationOffline(date[3]);
-    verifyDB.InsertDeteleteVerify(date[3], 'vaccination');
+    if (isConnected) {
+      database2.DeleteVaccinationOffline(date[3]);
+    } else {
+      database2.DeleteVaccinationOffline(date[1]);
+      verifyDB.InsertDeteleteVerify(date[1], 'vaccination');
+    }
     setModal(false);
   };
 
