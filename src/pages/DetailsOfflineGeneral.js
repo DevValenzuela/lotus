@@ -37,6 +37,8 @@ const DetailsOfflineGeneral = ({route}) => {
   const vacunacions = getVaccination;
   const controllerMedics = getControllerMedic;
 
+  console.log(vacunacions);
+
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground
@@ -258,7 +260,7 @@ const DetailsOfflineGeneral = ({route}) => {
                   <View style={style.containerGroup}>
                     <Text style={style.subTxt}>Medicamentos:</Text>
                     <Text style={style.parrTxt}>
-                      {vacunacions[0].medicaments}
+                      {vacunacions[0].medicament}
                     </Text>
                   </View>
                   <View style={style.containerGroup}>

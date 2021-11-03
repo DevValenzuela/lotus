@@ -93,7 +93,7 @@ const NewDate = ({navigation}) => {
           break;
         case 'vaccination':
           database.consultVaccinationID(item.id_create, setResultVaccination);
-          console.log(getResultVaccination);
+          //console.log(getResultVaccination);
           break;
         default:
           break;
