@@ -33,7 +33,7 @@ const wait = timeout => {
 };
 
 const DashBoard = ({navigation}) => {
-  const {getResultCreate, getResultDelete, getResultUpdate} = InitDB()[0];
+  const {getResultCreate} = InitDB()[0];
   const isConnected = useIsConnected();
   const {
     dispatchUserEvent,
@@ -66,14 +66,10 @@ const DashBoard = ({navigation}) => {
   if (loading) return <Loading />;
   if (error) console.log(error);
 
-  console.log( getResultCreate);
-  if (
-    getResultCreate.length > 0 ||
-    getResultDelete.length > 0 ||
-    getResultUpdate.length > 0
-  ) {
+  if (getResultCreate.length > 0) {
     if (isConnected) {
       navigation.navigate('NewData');
+      return null;
     }
   }
   return (

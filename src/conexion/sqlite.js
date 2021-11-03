@@ -46,18 +46,6 @@ export const createTableDB = tx => {
       'vaccination ' +
       '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_vaccination TEXT, last_vaccination VARCHAR(200), medicament VARCHAR(200), note TEXT, mascot TEXT,  user VARCHAR(120) );',
   );
-  //Create Table Update
-  tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS ' +
-      'updateTable ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_update TEXT, type TEXT );',
-  );
-  //Create Table Delete
-  tx.executeSql(
-    'CREATE TABLE IF NOT EXISTS ' +
-      'deleteTable ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_delete TEXT, type TEXT );',
-  );
   //Create Table New
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +

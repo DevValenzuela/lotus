@@ -179,7 +179,6 @@ const Medicament = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      await verifyDB.InsertUpdateVerify(id_medicament, 'Medicament');
       await database.UpdateMedicament(id_medicament, values, setSuccess);
     }
   };

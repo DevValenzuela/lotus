@@ -1,39 +1,5 @@
 import {db} from './sqlite';
 
-const InsertUpdateVerify = (id, element) => {
-  db.transaction(
-    tx => {
-      tx.executeSql('INSERT INTO updateTable(id_update, type) VALUES(?, ?)', [
-        id,
-        element,
-      ]);
-    },
-    (tx, error) => {
-      console.log(error);
-    },
-    (tx, success) => {
-      console.log('Insert id update success fully');
-    },
-  );
-};
-
-const InsertDeteleteVerify = (id, element) => {
-  db.transaction(
-    tx => {
-      tx.executeSql('INSERT INTO deleteTable(id_delete, type) VALUES(?, ?)', [
-        id,
-        element,
-      ]);
-    },
-    (tx, error) => {
-      console.log(error);
-    },
-    (tx, success) => {
-      console.log('Insert id verify success fully');
-    },
-  );
-};
-
 const InsertCreateVerify = (id, element) => {
   db.transaction(
     tx => {
@@ -69,42 +35,6 @@ const ShowCreateVerify = setResultCreate => {
   }
 };
 
-const ShowDeleteVerify = setResultDelete => {
-  try {
-    db.transaction(tx => {
-      tx.executeSql(`SELECT * FROM deleteTable`, [], function (tx, results) {
-        let resp = [];
-        let len = results.rows.length;
-        for (let i = 0; i < len; i++) {
-          resp.push(results.rows.item(i));
-        }
-        setResultDelete(resp);
-        return;
-      });
-    });
-  } catch (error) {
-    console.log('Error' + error);
-  }
-};
-
-const ShowUpdateVerify = setResultUpdate => {
-  try {
-    db.transaction(tx => {
-      tx.executeSql(`SELECT * FROM updateTable`, [], function (tx, results) {
-        let resp = [];
-        let len = results.rows.length;
-        for (let i = 0; i < len; i++) {
-          resp.push(results.rows.item(i));
-        }
-        setResultUpdate(resp);
-        return;
-      });
-    });
-  } catch (error) {
-    console.log('Error' + error);
-  }
-};
-
 const DeleteTableCreate = () => {
   try {
     db.transaction(tx => {
@@ -124,52 +54,8 @@ const DeleteTableCreate = () => {
   }
 };
 
-const DeleteTableUpdate = () => {
-  try {
-    db.transaction(tx => {
-      tx.executeSql(
-        'DELETE FROM updateTable',
-        [],
-        function (tx, results) {
-          console.log('Successfully Dropped Table Update');
-        },
-        function (tx, error) {
-          console.log('Could Not Delete Table Update');
-        },
-      );
-    });
-  } catch (error) {
-    console.log('Error' + error);
-  }
-};
-
-const DeleteTableDelete = () => {
-  try {
-    db.transaction(tx => {
-      tx.executeSql(
-        'DELETE FROM deleteTable',
-        [],
-        function (tx, results) {
-          console.log('Successfully Dropped Table DELETE');
-        },
-        function (tx, error) {
-          console.log('Could Not Delete Table Delete');
-        },
-      );
-    });
-  } catch (error) {
-    console.log('Error' + error);
-  }
-};
-
 export const verifyDB = {
-  InsertUpdateVerify,
-  InsertDeteleteVerify,
   InsertCreateVerify,
   ShowCreateVerify,
-  ShowUpdateVerify,
-  ShowDeleteVerify,
   DeleteTableCreate,
-  DeleteTableUpdate,
-  DeleteTableDelete
 };

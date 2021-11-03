@@ -103,7 +103,6 @@ const General = ({route, navigation}) => {
       }
     } else {
       await database.UpdateMascot(id_mascot, new_value, setSuccess);
-      await verifyDB.InsertUpdateVerify(id_mascot, 'Mascot');
     }
   };
 

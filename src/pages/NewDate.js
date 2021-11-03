@@ -31,7 +31,7 @@ const NewDate = ({navigation}) => {
   //Id Interval Current
   const intervalRef = useRef();
 
-  const {getResultCreate, getResultDelete, getResultUpdate} = InitDB()[0];
+  const {getResultCreate} = InitDB()[0];
   const [getResultMascot, setResultMascot] = useState([]);
   const [getResultDeworming, setResultDeworming] = useState([]);
   const [getResultVaccination, setResultVaccination] = useState([]);
@@ -42,19 +42,18 @@ const NewDate = ({navigation}) => {
   const {fetchMore} = useQuery(CONSULT_MASCOT_APP_SQLITE);
 
   //Insert Create Online
-  const [createMascot, {data: success, loading, error}] =
-    useMutation(ADD_MASCOT_APP);
+  const [createMascot] = useMutation(ADD_MASCOT_APP);
   const [createDesparacitacion] = useMutation(CREATE_DESPARACITACION_APP);
   const [createVacunacion] = useMutation(CREATE_VACCINATION_APP);
   const [createControllerMedic] = useMutation(CREATE_CONTROLLER_MEDIC_APP);
   const [createMedicament] = useMutation(CREATE_MEDICAMENT_APP);
 
-
   const consultCreateTable = () => {
     getResultCreate.map(async item => {
       switch (item.type) {
         case 'Mascot':
-          database.consultMascotID(item.id_create, setResultMascot);
+          await database.consultMascotID(item.id_create, setResultMascot);
+          if (getResultMascot.length <= 0) return null;
           const new_value = {
             id_mascot: getResultMascot.id_mascot,
             name_mascot: getResultMascot.name_mascot,
@@ -78,149 +77,150 @@ const NewDate = ({navigation}) => {
           }
           break;
         case 'deworming':
-          intervalRef.current = setTimeout(async () => {
-            database.consultDesparacitacionID(
-              item.id_create,
-              setResultDeworming,
-            );
-            let data_mascot_1 = await fetchMore({
-              pollInterval: 500,
-              variables: {
-                id: getResultDeworming.mascot,
-              },
-            });
-
-            if (data_mascot_1) {
-              const {id} = data_mascot_1.data.mascots[0];
-              const new_value_deworming = {
-                id_deworming: getResultDeworming.id_deworming,
-                last_deworming: getResultDeworming.last_deworming,
-                medicament: getResultDeworming.medicament,
-                note: getResultDeworming.note,
-                mascot: id,
-                user: getResultDeworming.user,
-              };
-              try {
-                await createDesparacitacion({
-                  variables: new_value_deworming,
-                });
-              } catch (error) {
-                console.log(error);
-              }
+          await database.consultDesparacitacionID(
+            item.id_create,
+            setResultDeworming,
+          );
+          if (getResultDeworming.length <= 0) return null;
+          console.log(getResultDeworming);
+          let data_mascot_1 = await fetchMore({
+            fetchPolicy: 'no-cache',
+            pollInterval: 1000,
+            variables: {
+              id: getResultDeworming.mascot,
+            },
+          });
+          if (data_mascot_1) {
+            const {id} = data_mascot_1.data.mascots[0];
+            const new_value_deworming = {
+              id_deworming: getResultDeworming.id_deworming,
+              last_deworming: getResultDeworming.last_deworming,
+              medicament: getResultDeworming.medicament,
+              note: getResultDeworming.note,
+              mascot: id,
+              user: getResultDeworming.user,
+            };
+            try {
+              await createDesparacitacion({
+                variables: new_value_deworming,
+              });
+            } catch (error) {
+              console.log('Error Insert db deworming');
             }
-          }, 1000);
+          }
           break;
         case 'vaccination':
-          intervalRef.current = setTimeout(async () => {
-            database.consultVaccinationID(item.id_create, setResultVaccination);
-            let data_mascot_2 = await fetchMore({
-              pollInterval: 500,
-              variables: {
-                id: getResultVaccination.mascot,
-              },
-            });
+          await database.consultVaccinationID(
+            item.id_create,
+            setResultVaccination,
+          );
+          if (getResultVaccination <= 0) return null;
+          let data_mascot_2 = await fetchMore({
+            fetchPolicy: 'no-cache',
+            pollInterval: 1000,
+            variables: {
+              id: getResultVaccination.mascot,
+            },
+          });
 
-            if (data_mascot_2) {
-              const {id} = data_mascot_2.data.mascots[0];
-              const new_value_vaccination = {
-                id_vaccination: getResultVaccination.id_vaccination,
-                last_vaccination: getResultVaccination.last_vaccination,
-                medicament: getResultVaccination.medicament,
-                note: getResultVaccination.note,
-                mascot: id,
-                user: getResultVaccination.user,
-              };
-              try {
-                await createVacunacion({
-                  variables: new_value_vaccination,
-                });
-              } catch (error) {
-                console.log(error);
-              }
+          if (data_mascot_2) {
+            const {id} = data_mascot_2.data.mascots[0];
+            const new_value_vaccination = {
+              id_vaccination: getResultVaccination.id_vaccination,
+              last_vaccination: getResultVaccination.last_vaccination,
+              medicament: getResultVaccination.medicament,
+              note: getResultVaccination.note,
+              mascot: id,
+              user: getResultVaccination.user,
+            };
+            try {
+              await createVacunacion({
+                variables: new_value_vaccination,
+              });
+            } catch (error) {
+              console.log('Error Insert db vaccination');
             }
-          }, 1000);
+          }
           break;
         case 'controller_medic':
-          intervalRef.current = setTimeout(async () => {
-            database.consultControllerMedicID(
-              item.id_create,
-              setResultControllerMedic,
-            );
-            let data_mascot_3 = await fetchMore({
-              pollInterval: 500,
-              variables: {
-                id: getResultControllerMedic.mascot,
-              },
-            });
+          await database.consultControllerMedicID(
+            item.id_create,
+            setResultControllerMedic,
+          );
+          if (getResultControllerMedic <= 0) return null;
+          let data_mascot_3 = await fetchMore({
+            fetchPolicy: 'no-cache',
+            pollInterval: 1000,
+            variables: {
+              id: getResultControllerMedic.mascot,
+            },
+          });
 
-            if (data_mascot_3) {
-              const {id} = data_mascot_3.data.mascots[0];
-              const new_value_controller = {
-                id_medic: getResultControllerMedic.id_medic,
-                last_control: getResultControllerMedic.last_control,
-                assesment: getResultControllerMedic.assestment,
-                note: getResultControllerMedic.note,
-                mascot: id,
-                user: getResultControllerMedic.user,
-              };
+          if (data_mascot_3) {
+            const {id} = data_mascot_3.data.mascots[0];
+            const new_value_controller = {
+              id_medic: getResultControllerMedic.id_medic,
+              last_control: getResultControllerMedic.last_control,
+              assesment: getResultControllerMedic.assestment,
+              note: getResultControllerMedic.note,
+              mascot: id,
+              user: getResultControllerMedic.user,
+            };
 
-              try {
-                await createControllerMedic({
-                  variables: new_value_controller,
-                });
-              } catch (error) {
-                console.log(error);
-              }
+            try {
+              await createControllerMedic({
+                variables: new_value_controller,
+              });
+            } catch (error) {
+              console.log('Error Insert db control medic');
             }
-          }, 1000);
+          }
           break;
 
         case 'Medicament':
-          intervalRef.current = setTimeout(async () => {
-            database.consultMedicamentID(item.id_create, setResultMedicament);
-            let data_mascot_4 = await fetchMore({
-              pollInterval: 500,
-              variables: {
-                id: getResultMedicament.mascot,
-              },
-            });
-            if (data_mascot_4) {
-              const {id} = data_mascot_4.data.mascots[0];
-              const new_value_medicament = {
-                id_medicament: getResultMedicament.id_medicament,
-                last_dose: getResultMedicament.last_dose,
-                medicament: getResultMedicament.medicament,
-                posologia: getResultMedicament.posologia,
-                dosis: getResultMedicament.dosis,
-                period: getResultMedicament.period,
-                notation: getResultMedicament.notation,
-                mascot: id,
-                user: getResultMedicament.user,
-              };
+          await database.consultMedicamentID(
+            item.id_create,
+            setResultMedicament,
+          );
+          if (getResultMedicament.length < 0) return null;
+          let data_mascot_4 = await fetchMore({
+            fetchPolicy: 'no-cache',
+            pollInterval: 1000,
+            variables: {
+              id: getResultMedicament.mascot,
+            },
+          });
+          if (data_mascot_4) {
+            const {id} = data_mascot_4.data.mascots[0];
+            const new_value_medicament = {
+              id_medicament: getResultMedicament.id_medicament,
+              last_dose: getResultMedicament.last_dose,
+              medicament: getResultMedicament.medicament,
+              posologia: getResultMedicament.posologia,
+              dosis: getResultMedicament.dosis,
+              period: getResultMedicament.period,
+              notation: getResultMedicament.notation,
+              mascot: id,
+              user: getResultMedicament.user,
+            };
 
-              try {
-                await createMedicament({
-                  variables: new_value_medicament,
-                });
-              } catch (error) {
-                console.log(error);
-              }
+            try {
+              await createMedicament({
+                variables: new_value_medicament,
+              });
+            } catch (error) {
+              console.log(error);
             }
-          }, 1000);
+          }
           break;
         default:
           console.log('Not type exist...');
           break;
       }
     });
-
-    clearTimeout(intervalRef);
     deleteTables();
   };
 
-  const updateData = () => {
-    consultCreateTable();
-  };
 
   const deleteTables = () => {
     verifyDB.DeleteTableCreate();
@@ -268,7 +268,7 @@ const NewDate = ({navigation}) => {
           <View style={{alignItems: 'center', marginTop: 40}}>
             <TouchableHighlight
               underlayColor="transparent"
-              onPress={() => updateData()}>
+              onPress={() => consultCreateTable()}>
               <View
                 style={{
                   justifyContent: 'center',

@@ -160,7 +160,6 @@ const Deworming = ({route, navigation}) => {
         console.log(e);
       }
     } else {
-      await verifyDB.InsertUpdateVerify(id_deworming, 'deworming');
       await database.UpdateDeworming(id_deworming, values, setSuccess);
     }
   };

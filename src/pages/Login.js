@@ -20,11 +20,11 @@ import {Loading} from '../components/sharedComponent';
 import {useMutation} from '@apollo/client';
 import {LOGIN_USER_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
-import NotifService from '../hooks/notifyService';
+import {verifyDB} from '../conexion/crudVerify';
 
 const initialValue = {
-  user: 'vlzdavid12@outlook.com',
-  password: 'valenzuela21',
+  user: '',
+  password: '',
 };
 
 const SignupSchema = Yup.object().shape({
@@ -33,14 +33,12 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Login = ({navigation}) => {
-  const notif = new NotifService();
-
   const {dispatchUserEvent} = useContext(UserContext);
   const [login, {data: dataA, error: errorA, loading: loadingA}] =
     useMutation(LOGIN_USER_APP);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [setLoading, getLoading] = useState(false)
+  const [setLoading, getLoading] = useState(false);
   let timer = useRef(null);
 
   useEffect(() => {

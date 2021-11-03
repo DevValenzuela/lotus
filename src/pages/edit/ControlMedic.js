@@ -158,7 +158,6 @@ const ControlMedic = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      await verifyDB.InsertUpdateVerify(id_medic, 'controller_medic');
       await database.UpdateControllerMedic(id_medic, values, setSuccess);
     }
   };
