@@ -40,33 +40,41 @@ const Notify = () => {
   });
 
   if (status) return <Loading />;
-  if (!resp)
+  console.log(resp.length);
+  if (resp.length <= 0) {
+    return (
+      <ImageBackground
+        source={require('../assets/images/bg_lotus.png')}
+        resizeMode="cover"
+        style={style.bgImage}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(51,0,102,0.95)',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: '#fff'}}>No tienes notificaciones.</Text>
+        </View>
+      </ImageBackground>
+    );
+  } else {
     return (
       <ImageBackground
         source={require('../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
         <View style={{flex: 1, backgroundColor: 'rgba(51,0,102,0.95)'}}>
-          <Text>No tienes Notificaciones.</Text>
+          <Animated.View style={[style.container, {opacity: fadeAnim}]}>
+            <FlatList
+              data={resp}
+              renderItem={({item}) => <BoxNotifyCation data_notify={item} />}
+            />
+          </Animated.View>
         </View>
       </ImageBackground>
     );
-
-  return (
-    <ImageBackground
-      source={require('../assets/images/bg_lotus.png')}
-      resizeMode="cover"
-      style={style.bgImage}>
-      <View style={{flex: 1, backgroundColor: 'rgba(51,0,102,0.95)'}}>
-        <Animated.View style={[style.container, {opacity: fadeAnim}]}>
-          <FlatList
-            data={resp}
-            renderItem={({item}) => <BoxNotifyCation data_notify={item} />}
-          />
-        </Animated.View>
-      </View>
-    </ImageBackground>
-  );
+  }
 };
 
 const style = StyleSheet.create({

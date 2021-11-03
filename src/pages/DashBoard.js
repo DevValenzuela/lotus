@@ -71,7 +71,9 @@ const DashBoard = ({navigation}) => {
     getResultDelete.length > 0 ||
     getResultUpdate.length > 0
   ) {
-    navigation.navigate('NewData');
+    if (isConnected) {
+      navigation.navigate('NewData');
+    }
   }
   return (
     <View style={style.container}>
