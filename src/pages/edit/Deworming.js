@@ -128,10 +128,7 @@ const Deworming = ({route, navigation}) => {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify(new_value);
       await database.InsertDesparacitacion(new_value, setSuccess);
-      await verifyDB.InsertCreateVerify(
-        new_value.id_deworming,
-        'deworming',
-      );
+      await verifyDB.InsertCreateVerify(new_value.id_deworming, 'deworming');
     }
   };
 
@@ -149,23 +146,13 @@ const Deworming = ({route, navigation}) => {
             note,
           },
         });
-        await database.UpdateDeworming(
-          id_deworming,
-          id_mascot,
-          values,
-          setSuccess,
-        );
+        await database.UpdateDeworming(id_deworming, values, setSuccess);
       } catch (e) {
         console.log(e);
       }
     } else {
-      await database.UpdateDeworming(
-        id_deworming,
-        id_mascot,
-        values,
-        setSuccess,
-      );
       await verifyDB.InsertUpdateVerify(id_deworming, 'deworming');
+      await database.UpdateDeworming(id_deworming, values, setSuccess);
     }
   };
 

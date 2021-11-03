@@ -163,7 +163,6 @@ const Vaccinations = ({route, navigation}) => {
         });
         await database.UpdateVaccination(
           id_vaccination,
-          id_mascot,
           new_values,
           setSuccess,
         );
@@ -171,12 +170,7 @@ const Vaccinations = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      await database.UpdateVaccination(
-        id_vaccination,
-        id_mascot,
-        new_values,
-        setSuccess,
-      );
+      await database.UpdateVaccination(id_vaccination, new_values, setSuccess);
       await verifyDB.InsertUpdateVerify(id_vaccination, 'vaccination');
     }
   };

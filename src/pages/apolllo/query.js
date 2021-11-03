@@ -53,6 +53,14 @@ export const CONSULT_MASCOTS_APP = gql`
   }
 `;
 
+export const CONSULT_MASCOT_APP_SQLITE = gql`
+  query mascot($id: String!) {
+    mascots(limit: 1, where: {id_mascot: $id}) {
+      id
+    }
+  }
+`;
+
 export const CONSULT_MASCOT_APP_ID = gql`
   query mascot($id: ID!) {
     mascot(id: $id) {

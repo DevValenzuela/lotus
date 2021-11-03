@@ -56,17 +56,18 @@ const Gratulations = ({route}) => {
       }
 
       updateUserBlock({
-        variables:{
+        variables: {
           id: user.id,
-          "block": true,
-        }
-      }).then(async ()=>{
-        await AsyncStorage.removeItem('token_lotus');
-        cosnole.log('User delete sucess fully');
-      }).catch((error)=>{
-        console.log(error)
+          block: true,
+        },
       })
-
+        .then(async () => {
+          await AsyncStorage.removeItem('token_lotus');
+          console.log('User delete sucess fully');
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 

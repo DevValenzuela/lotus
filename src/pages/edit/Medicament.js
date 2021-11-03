@@ -166,22 +166,12 @@ const Medicament = ({route, navigation}) => {
             notation,
           },
         });
-        await database.UpdateMedicament(
-          id_medicament,
-          id_mascot,
-          values,
-          setSuccess,
-        );
+        await database.UpdateMedicament(id_medicament, values, setSuccess);
       } catch (error) {
         console.log(error);
       }
     } else {
-      await database.UpdateMedicament(
-        id_medicament,
-        id_mascot,
-        values,
-        setSuccess,
-      );
+      await database.UpdateMedicament(id_medicament, values, setSuccess);
       await verifyDB.InsertUpdateVerify(id_medicament, 'Medicament');
     }
   };

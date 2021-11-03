@@ -22,7 +22,7 @@ const InsertMascot = (values, setSuccess) => {
     },
     (tx, error) => {
       console.log('Error insert table mascot sqlite.');
-      console.log(error)
+      console.log(error);
       setSuccess(false);
     },
     (tx, success) => {
@@ -202,6 +202,28 @@ const consultDesparacitacion = (idMascot, setDewormingFunc) => {
   );
 };
 
+const consultDesparacitacionID = (idMascot, setDewormingFunc) => {
+  db.transaction(
+    tx => {
+      tx.executeSql(
+        `SELECT * FROM desparacitacion WHERE id_deworming = ? ORDER BY ID DESC`,
+        [idMascot],
+        function (tx, results) {
+          let resp = results.rows.item(0);
+          setDewormingFunc(resp);
+        },
+      );
+    },
+    (t, error) => {
+      console.log('DB error load deworming');
+      console.log(error);
+    },
+    (_t, _success) => {
+      console.log('Loaded deworming');
+    },
+  );
+};
+
 const consultMedicamentDetails = (idDetails, setDewormingFunc) => {
   db.transaction(
     tx => {
@@ -270,6 +292,23 @@ const consultVaccination = (idMascot, setDewormingFunc) => {
             setDewormingFunc(resp);
           }
           return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+const consultVaccinationID = (idMascot, setDewormingFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM vaccination WHERE id_vaccination = ? ORDER BY ID DESC`,
+        [idMascot],
+        function (tx, results) {
+          let resp = results.rows.item(0);
+          setDewormingFunc(resp);
         },
       );
     });
@@ -400,18 +439,12 @@ const UpdateMascot = (idMascot, values, setSuccess) => {
   );
 };
 
-const UpdateDeworming = (idTable, idMascot, values, setSuccess) => {
+const UpdateDeworming = (idTable, values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'UPDATE desparacitacion SET  last_deworming = ? , medicament = ?, note = ? WHERE mascot = ? AND id_deworming = ?',
-        [
-          values.last_deworming,
-          values.medicament,
-          values.note,
-          idMascot,
-          idTable,
-        ],
+        'UPDATE desparacitacion SET  last_deworming = ? , medicament = ?, note = ? WHERE id_deworming = ?',
+        [values.last_deworming, values.medicament, values.note, idTable],
       );
     },
     (tx, error) => {
@@ -427,14 +460,8 @@ const UpdateVaccination = (idTable, idMascot, values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'UPDATE vaccination SET  last_vaccination = ? , medicament = ?, note = ? WHERE mascot = ? AND id_vaccination = ? ',
-        [
-          values.last_vaccination,
-          values.medicament,
-          values.note,
-          idMascot,
-          idTable,
-        ],
+        'UPDATE vaccination SET  last_vaccination = ? , medicament = ?, note = ? WHERE id_vaccination = ? ',
+        [values.last_vaccination, values.medicament, values.note, idTable],
       );
     },
     (tx, error) => {
@@ -499,6 +526,7 @@ export const database = {
   consultMascot,
   consultDesparacitacion,
   consultMascotID,
+  consultDesparacitacionID,
   consultVaccination,
   consultMedicamnets,
   consultControllerMedic,
@@ -506,6 +534,7 @@ export const database = {
   consultVaccinationDetails,
   consultMedicamentDetails,
   consultControllerMedicDetails,
+  consultVaccinationID,
   InsertMascot,
   InsertDesparacitacion,
   InsertMedicament,

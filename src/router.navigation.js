@@ -35,7 +35,7 @@ import {options, options2} from './shared/header_config';
 import MedicamentHistory from './pages/history/medicament';
 import DetailsGeneral from './pages/DetailsGeneral';
 import DetailsOfflineGeneral from './pages/DetailsOfflineGeneral';
-
+import NewDate from './pages/NewDate';
 const Stack = createStackNavigator();
 
 export function RouterNavigation() {
@@ -154,7 +154,6 @@ export function RouterNavigation() {
         })}
       />
 
-
       <Stack.Screen
         name="DetailsOfflineGeneral"
         component={DetailsOfflineGeneral}
@@ -163,7 +162,6 @@ export function RouterNavigation() {
           ...options2(),
         })}
       />
-
 
       <Stack.Screen
         name="HistoryVaccinations"
@@ -251,6 +249,13 @@ export function RouterNavigation() {
           title: 'Añadir Mascota',
           ...options2(),
         })}></Stack.Screen>
+
+      <Stack.Screen
+        name="NewData"
+        component={NewDate}
+        options={{
+          headerShown: false,
+        }}></Stack.Screen>
 
       {/**Menu Drop Down**/}
       <Stack.Screen

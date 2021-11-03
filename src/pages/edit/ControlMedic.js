@@ -144,22 +144,12 @@ const ControlMedic = ({route, navigation}) => {
             note,
           },
         });
-        await database.UpdateControllerMedic(
-          id_medic,
-          id_mascot,
-          values,
-          setSuccess,
-        );
+        await database.UpdateControllerMedic(id_medic, values, setSuccess);
       } catch (error) {
         console.log(error);
       }
     } else {
-      await database.UpdateControllerMedic(
-        id_medic,
-        id_mascot,
-        values,
-        setSuccess,
-      );
+      await database.UpdateControllerMedic(id_medic, values, setSuccess);
       await verifyDB.InsertUpdateVerify(id_medic, 'controller_medic');
     }
   };

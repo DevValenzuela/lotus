@@ -3,7 +3,7 @@ import {db} from './sqlite';
 const InsertUpdateVerify = (id, element) => {
   db.transaction(
     tx => {
-      tx.executeSql('INSERT INTO updateTable(id_update, type) VALUES(?)', [
+      tx.executeSql('INSERT INTO updateTable(id_update, type) VALUES(?, ?)', [
         id,
         element,
       ]);
@@ -105,6 +105,25 @@ const ShowUpdateVerify = setResultUpdate => {
   }
 };
 
+const DeleteTableCreate = () => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        'DELETE FROM createTable',
+        [],
+        function (tx, results) {
+          console.log('Successfully Dropped Table InsertCreate');
+        },
+        function (tx, error) {
+          console.log('Could Not Delete Table InsertCreate');
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
 export const verifyDB = {
   InsertUpdateVerify,
   InsertDeteleteVerify,
@@ -112,4 +131,5 @@ export const verifyDB = {
   ShowCreateVerify,
   ShowUpdateVerify,
   ShowDeleteVerify,
+  DeleteTableCreate
 };
