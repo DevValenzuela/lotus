@@ -12,7 +12,6 @@ const BoxNotifyCation = ({data_notify}) => {
 
   useEffect(() => {
     database.consultMascotID(data_notify.id_mascot, setMascot);
-    console.log(moment(new Date()).format('YYYY-MM-DD'));
   }, [data_notify.id_mascot]);
 
   return (

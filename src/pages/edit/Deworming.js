@@ -115,7 +115,11 @@ const Deworming = ({route, navigation}) => {
           variables: new_value,
         });
         notify.scheduleNotif(paramsNotify);
-        await database3.InsertNotify(new_value);
+        await database3.InsertNotify({
+          ...new_value,
+          last_date: last_deworming,
+          mascot: id_mascot,
+        });
         await database.InsertDesparacitacion(
           {...new_value, mascot: id_mascot},
           setSuccess,
@@ -126,7 +130,11 @@ const Deworming = ({route, navigation}) => {
       }
     } else {
       notify.scheduleNotif(paramsNotify);
-      await database3.InsertNotify(new_value);
+      await database3.InsertNotify({
+        ...new_value,
+        last_date: last_deworming,
+        mascot: id_mascot,
+      });
       await database.InsertDesparacitacion(new_value, setSuccess);
       await verifyDB.InsertCreateVerify(new_value.id_deworming, 'deworming');
     }
