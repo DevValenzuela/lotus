@@ -81,8 +81,10 @@ const Item = ({date}) => {
       database2.DeleteDewormingOffline(date[1]);
       verifyDB.InsertDeteleteVerify(date[1], 'deworming');
     }
-
     setModal(false);
+    navigation.navigate('Gratulations', {
+      txtMsg: 'Se ha eliminado el item correctamente.',
+    });
   };
 
   return (

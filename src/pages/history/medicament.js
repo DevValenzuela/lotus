@@ -83,6 +83,9 @@ const Item = ({date}) => {
       verifyDB.InsertDeteleteVerify(date[1], 'Medicament');
     }
     setModal(false);
+    navigation.navigate('Gratulations', {
+      txtMsg: 'Se ha eliminado el item correctamente.',
+    });
   };
 
   return (
