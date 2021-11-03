@@ -178,8 +178,8 @@ const Deworming = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    //let dateNotify = moment().add(1, 'month').subtract(5, 'days').format();
-    let dateNotify = moment().add(11, 'minutes').format();
+    let dateNotify = moment().add(1, 'month').subtract(7, 'days').format();
+    //let dateNotify = moment().add(11, 'minutes').format();
     getDateNotify(dateNotify);
     getDate(dateFormat);
     getCalendar(false);

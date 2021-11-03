@@ -193,7 +193,7 @@ const Vaccinations = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment().format();
+    let dateNotify = moment().add(1, 'month').subtract(7, 'days').format();
     getDateNotify(dateNotify);
     getDate(dateFormat);
     getCalendar(false);
