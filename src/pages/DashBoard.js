@@ -66,6 +66,7 @@ const DashBoard = ({navigation}) => {
   if (loading) return <Loading />;
   if (error) console.log(error);
 
+  console.log( getResultCreate);
   if (
     getResultCreate.length > 0 ||
     getResultDelete.length > 0 ||

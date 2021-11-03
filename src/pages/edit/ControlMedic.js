@@ -133,8 +133,9 @@ const ControlMedic = ({route, navigation}) => {
         last_date: setNotify,
         mascot: id_mascot,
       });
-      await database.InsertControllerMedic(new_value, setSuccess);
+
       await verifyDB.InsertCreateVerify(new_value.id_medic, 'controller_medic');
+      await database.InsertControllerMedic(new_value, setSuccess);
     }
   };
 
@@ -157,8 +158,8 @@ const ControlMedic = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      await database.UpdateControllerMedic(id_medic, values, setSuccess);
       await verifyDB.InsertUpdateVerify(id_medic, 'controller_medic');
+      await database.UpdateControllerMedic(id_medic, values, setSuccess);
     }
   };
 

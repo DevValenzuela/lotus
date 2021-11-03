@@ -55,7 +55,7 @@ export const CONSULT_MASCOTS_APP = gql`
 
 export const CONSULT_MASCOT_APP_SQLITE = gql`
   query mascot($id: String!) {
-    mascots(limit: 1, where: {id_mascot: $id}) {
+    mascots(sort: "id:desc", limit: 1, where: {id_mascot: $id}) {
       id
     }
   }

@@ -367,6 +367,24 @@ const consultMedicamnets = (idMascot, setMedicamentFunc) => {
   }
 };
 
+const consultMedicamentID = (idMascot, setMedicamentFunc) => {
+  console.log(idMascot);
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM Medicament WHERE id_medicament = ? ORDER BY ID DESC`,
+        [idMascot],
+        function (tx, results) {
+          let resp = results.rows.item(0);
+          setMedicamentFunc(resp);
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
 const consultControllerMedic = (idMascot, setControllerMedicFunc) => {
   try {
     db.transaction(tx => {
@@ -383,6 +401,23 @@ const consultControllerMedic = (idMascot, setControllerMedicFunc) => {
             setControllerMedicFunc(resp);
           }
           return;
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+const consultControllerMedicID = (idMascot, setControllerMedicFunc) => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM controller_medic WHERE id_medic = ? ORDER BY ID DESC`,
+        [idMascot],
+        function (tx, results) {
+          let resp = results.rows.item(0);
+          setControllerMedicFunc(resp);
         },
       );
     });
@@ -457,7 +492,7 @@ const UpdateDeworming = (idTable, values, setSuccess) => {
   );
 };
 
-const UpdateVaccination = (idTable, idMascot, values, setSuccess) => {
+const UpdateVaccination = (idTable, values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
@@ -474,11 +509,11 @@ const UpdateVaccination = (idTable, idMascot, values, setSuccess) => {
   );
 };
 
-const UpdateMedicament = (idTable, idMascot, values, setSuccess) => {
+const UpdateMedicament = (idTable, values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'UPDATE Medicament SET  last_dose = ? , medicament = ?, posologia = ?, dosis = ?, period = ?, notation = ? WHERE mascot = ?  AND  id_medicament = ?',
+        'UPDATE Medicament SET  last_dose = ? , medicament = ?, posologia = ?, dosis = ?, period = ?, notation = ? WHERE  id_medicament = ?',
         [
           values.last_dose,
           values.medicament,
@@ -486,7 +521,6 @@ const UpdateMedicament = (idTable, idMascot, values, setSuccess) => {
           values.dosis,
           values.period,
           values.notation,
-          idMascot,
           idTable,
         ],
       );
@@ -500,16 +534,15 @@ const UpdateMedicament = (idTable, idMascot, values, setSuccess) => {
   );
 };
 
-const UpdateControllerMedic = (idTable, idMascot, values, setSuccess) => {
+const UpdateControllerMedic = (idTable, values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'UPDATE controller_medic SET last_control = ? , assestment = ?, note = ? WHERE mascot = ? AND id_medic = ?',
+        'UPDATE controller_medic SET last_control = ? , assestment = ?, note = ? WHERE  id_medic = ?',
         [
           values.last_control,
           values.valoration,
           values.note,
-          idMascot,
           idTable,
         ],
       );
@@ -530,7 +563,9 @@ export const database = {
   consultDesparacitacionID,
   consultVaccination,
   consultMedicamnets,
+  consultMedicamentID,
   consultControllerMedic,
+  consultControllerMedicID,
   consultDesparacitacionDetails,
   consultVaccinationDetails,
   consultMedicamentDetails,

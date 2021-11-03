@@ -178,8 +178,10 @@ const Vaccinations = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      await database.UpdateVaccination(id_vaccination, new_values, setSuccess);
+      console.log(id_vaccination);
+      console.log(new_values);
       await verifyDB.InsertUpdateVerify(id_vaccination, 'vaccination');
+      await database.UpdateVaccination(id_vaccination, new_values, setSuccess);
     }
   };
 

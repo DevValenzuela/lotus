@@ -152,8 +152,8 @@ const Medicament = ({route, navigation}) => {
         last_date: setNotify,
         mascot: id_mascot,
       });
-      await database.InsertMedicament(new_value, setSuccess);
       await verifyDB.InsertCreateVerify(new_value.id_medicament, 'Medicament');
+      await database.InsertMedicament(new_value, setSuccess);
     }
   };
 
@@ -179,8 +179,8 @@ const Medicament = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      await database.UpdateMedicament(id_medicament, values, setSuccess);
       await verifyDB.InsertUpdateVerify(id_medicament, 'Medicament');
+      await database.UpdateMedicament(id_medicament, values, setSuccess);
     }
   };
 

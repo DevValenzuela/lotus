@@ -135,8 +135,9 @@ const Deworming = ({route, navigation}) => {
         last_date: setNotify,
         mascot: id_mascot,
       });
-      await database.InsertDesparacitacion(new_value, setSuccess);
+
       await verifyDB.InsertCreateVerify(new_value.id_deworming, 'deworming');
+      await database.InsertDesparacitacion(new_value, setSuccess);
     }
   };
 
