@@ -19,7 +19,7 @@ import {useMutation, useQuery} from '@apollo/client';
 import InitDB from '../init/initDB';
 import {database} from '../conexion/crudSqlite';
 import {CONSULT_MASCOT_APP_SQLITE} from './apolllo/query';
-import {verifyDB} from "../conexion/crudVerify";
+import {verifyDB} from '../conexion/crudVerify';
 
 const NewDate = ({ navigation }) => {
   const {getResultCreate, getResultDelete, getResultUpdate} = InitDB()[0];

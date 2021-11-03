@@ -124,6 +124,44 @@ const DeleteTableCreate = () => {
   }
 };
 
+const DeleteTableUpdate = () => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        'DELETE FROM updateTable',
+        [],
+        function (tx, results) {
+          console.log('Successfully Dropped Table Update');
+        },
+        function (tx, error) {
+          console.log('Could Not Delete Table Update');
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
+const DeleteTableDelete = () => {
+  try {
+    db.transaction(tx => {
+      tx.executeSql(
+        'DELETE FROM deleteTable',
+        [],
+        function (tx, results) {
+          console.log('Successfully Dropped Table DELETE');
+        },
+        function (tx, error) {
+          console.log('Could Not Delete Table Delete');
+        },
+      );
+    });
+  } catch (error) {
+    console.log('Error' + error);
+  }
+};
+
 export const verifyDB = {
   InsertUpdateVerify,
   InsertDeteleteVerify,
@@ -131,5 +169,7 @@ export const verifyDB = {
   ShowCreateVerify,
   ShowUpdateVerify,
   ShowDeleteVerify,
-  DeleteTableCreate
+  DeleteTableCreate,
+  DeleteTableUpdate,
+  DeleteTableDelete
 };
