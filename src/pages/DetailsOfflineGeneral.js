@@ -20,7 +20,7 @@ const DetailsOfflineGeneral = ({route}) => {
   const [getMedicament, setMedicament] = useState([]);
   const [getVaccination, setVaccination] = useState([]);
   const [getControllerMedic, setControllerMedic] = useState([]);
-  console.log("hola 21" + getVaccination);
+
   useEffect(() => {
     try {
       database.consultDesparacitacionDetails(idDetails, setDeworming);

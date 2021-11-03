@@ -40,7 +40,7 @@ const Notify = () => {
   });
 
   if (status) return <Loading />;
-  console.log(resp.length);
+
   if (resp.length <= 0) {
     return (
       <ImageBackground

@@ -31,7 +31,6 @@ const DeleteDewormingOffline = data => {
 };
 
 const DeleteVaccinationOffline = data => {
-  console.log(data);
   db.transaction(
     tx => {
       tx.executeSql('DELETE FROM vaccination WHERE id_vaccination = ?', [data]);
@@ -43,6 +42,7 @@ const DeleteVaccinationOffline = data => {
       console.log('Success fully delete vaccination Offline');
     },
   );
+
 };
 
 const DeleteMedicamentOffline = data => {
@@ -164,7 +164,6 @@ const ConsultControllerVetGeneral = setControllerVetFunc => {
           let resp = [];
           let len = results.rows.length;
           for (let i = 0; i < len; i++) {
-            console.log(results.rows.item(i));
             resp.push({
               id: results.rows.item(i).ID,
               date: results.rows.item(i).last_control,

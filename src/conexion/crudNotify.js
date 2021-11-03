@@ -26,11 +26,7 @@ const ConsultNotifyCount = setNotify => {
         let len = results.rows.length;
         let number = 0;
         for (let i = 0; i < len; i++) {
-          console.log(results.rows.item(i))
-          if (
-            results.rows.item(i).last_date <=
-            moment(new Date()).format()
-          ) {
+          if (results.rows.item(i).last_date <= moment(new Date()).format()) {
             number++;
           }
         }
@@ -55,10 +51,7 @@ const ConsultNotify = setNotify => {
         let len = results.rows.length;
         for (let i = 0; i < len; i++) {
           console.log(results.rows.item(i).last_date);
-          if (
-            results.rows.item(i).last_date <=
-            moment(new Date()).format()
-          ) {
+          if (results.rows.item(i).last_date <= moment(new Date()).format()) {
             resp.push(results.rows.item(i));
           }
         }
@@ -78,5 +71,5 @@ const ConsultNotify = setNotify => {
 export const database3 = {
   InsertNotify,
   ConsultNotify,
-  ConsultNotifyCount
+  ConsultNotifyCount,
 };
