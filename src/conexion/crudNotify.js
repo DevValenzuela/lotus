@@ -29,7 +29,7 @@ const ConsultNotifyCount = setNotify => {
           console.log(results.rows.item(i))
           if (
             results.rows.item(i).last_date <=
-            moment(new Date()).format('DD-MM-YYYY')
+            moment(new Date()).format()
           ) {
             number++;
           }
@@ -54,14 +54,14 @@ const ConsultNotify = setNotify => {
         let resp = [];
         let len = results.rows.length;
         for (let i = 0; i < len; i++) {
+          console.log(results.rows.item(i).last_date);
           if (
             results.rows.item(i).last_date <=
-            moment(new Date()).format('DD-MM-YYYY')
+            moment(new Date()).format()
           ) {
             resp.push(results.rows.item(i));
           }
         }
-        console.log("RESP" + resp);
         setNotify(resp);
       });
     },

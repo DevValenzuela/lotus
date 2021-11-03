@@ -5,10 +5,10 @@ import moment from 'moment';
 const BoxNotifyCation = ({data_notify}) => {
   const [getMascot, setMascot] = useState([]);
 
-  let date = moment(new Date()).format('YYYY-MM-DD');
+  let date = moment(new Date()).format();
 
   let nowDay = moment(date);
-  let lastDay = moment(data_notify.last_date.split('-').reverse().join('-'));
+  let lastDay = moment(data_notify.last_date);
 
   useEffect(() => {
     database.consultMascotID(data_notify.id_mascot, setMascot);
@@ -54,7 +54,7 @@ const BoxNotifyCation = ({data_notify}) => {
             Días Restantes
           </Text>
           <Text style={{color: '#ffffff', fontWeight: '300', fontSize: 12}}>
-            {data_notify.last_date}
+            { moment(new Date(data_notify.last_date)).format('YYYY-MM-DD')}
           </Text>
         </View>
       </View>

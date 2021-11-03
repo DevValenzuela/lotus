@@ -127,7 +127,7 @@ const Vaccinations = ({route, navigation}) => {
         notify.scheduleNotif(paramsNotify);
         await database3.InsertNotify({
           ...new_value,
-          last_date: last_vaccination,
+          last_date: setNotify,
           mascot: id_mascot,
         });
         await database.InsertVaccination(
@@ -142,7 +142,7 @@ const Vaccinations = ({route, navigation}) => {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify({
         ...new_value,
-        last_date: last_vaccination,
+        last_date: setNotify,
         mascot: id_mascot,
       });
       await database.InsertVaccination(new_value, setSuccess);

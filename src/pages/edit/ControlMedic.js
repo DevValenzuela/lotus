@@ -115,7 +115,7 @@ const ControlMedic = ({route, navigation}) => {
         notify.scheduleNotif(paramsNotify);
         await database3.InsertNotify({
           ...new_value,
-          last_date: last_control,
+          last_date: setNotify,
           mascot: id_mascot,
         });
         await database.InsertControllerMedic(
@@ -130,7 +130,7 @@ const ControlMedic = ({route, navigation}) => {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify({
         ...new_value,
-        last_date: last_control,
+        last_date: setNotify,
         mascot: id_mascot,
       });
       await database.InsertControllerMedic(new_value, setSuccess);

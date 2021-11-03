@@ -117,7 +117,7 @@ const Deworming = ({route, navigation}) => {
         notify.scheduleNotif(paramsNotify);
         await database3.InsertNotify({
           ...new_value,
-          last_date: last_deworming,
+          last_date: setNotify,
           mascot: id_mascot,
         });
         await database.InsertDesparacitacion(
@@ -132,7 +132,7 @@ const Deworming = ({route, navigation}) => {
       notify.scheduleNotif(paramsNotify);
       await database3.InsertNotify({
         ...new_value,
-        last_date: last_deworming,
+        last_date: setNotify,
         mascot: id_mascot,
       });
       await database.InsertDesparacitacion(new_value, setSuccess);
