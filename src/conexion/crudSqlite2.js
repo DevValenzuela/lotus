@@ -43,6 +43,19 @@ const DeleteVaccinationOffline = data => {
     },
   );
 
+  db.transaction(tx => {
+    tx.executeSql(
+      'DELETE FROM vaccination',
+      [],
+      function (tx, results) {
+        console.log('Successfully Dropped Table DELETE');
+      },
+      function (tx, error) {
+        console.log('Could Not Delete Table Delete');
+      },
+    );
+  });
+
 };
 
 const DeleteMedicamentOffline = data => {

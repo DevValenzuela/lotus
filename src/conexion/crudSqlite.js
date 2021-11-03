@@ -88,8 +88,9 @@ const InsertVaccination = (values, setSuccess) => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'INSERT INTO vaccination(last_vaccination, medicament, note, mascot, user) VALUES(?,?,?,?,?)',
+        'INSERT INTO vaccination(id_vaccination, last_vaccination, medicament, note, mascot, user) VALUES(?,?,?,?,?,?)',
         [
+          values.id_vaccination,
           values.last_vaccination,
           values.medicament,
           values.note,

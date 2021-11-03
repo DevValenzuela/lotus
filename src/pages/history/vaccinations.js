@@ -200,9 +200,8 @@ const VaccinationsHistory = ({navigation, route}) => {
 
   if (loading) return <Loading />;
   if (error) console.log(error);
-
+  console.log(results);
   const renderItem = ({item}) => {
-
     return (
       <Item
         date={
