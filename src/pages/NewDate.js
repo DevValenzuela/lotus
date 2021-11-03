@@ -39,11 +39,7 @@ const NewDate = ({navigation}) => {
   const [getResultMedicament, setResultMedicament] = useState([]);
 
   //Consult Mascot ID
-  const {
-    loading: loading_mascot,
-    error: error_mascot,
-    fetchMore,
-  } = useQuery(CONSULT_MASCOT_APP_SQLITE);
+  const {fetchMore} = useQuery(CONSULT_MASCOT_APP_SQLITE);
 
   //Insert Create Online
   const [createMascot, {data: success, loading, error}] =
@@ -52,6 +48,7 @@ const NewDate = ({navigation}) => {
   const [createVacunacion] = useMutation(CREATE_VACCINATION_APP);
   const [createControllerMedic] = useMutation(CREATE_CONTROLLER_MEDIC_APP);
   const [createMedicament] = useMutation(CREATE_MEDICAMENT_APP);
+
 
   const consultCreateTable = () => {
     getResultCreate.map(async item => {
@@ -212,33 +209,21 @@ const NewDate = ({navigation}) => {
           }, 1000);
           break;
         default:
+          console.log('Not type exist...');
           break;
       }
     });
 
     clearTimeout(intervalRef);
-    verifyDB.DeleteTableCreate();
-  };
-
-  const consultModifyTable = () => {
-    getResultUpdate.map(async item => {
-      console.log(item);
-    });
+    deleteTables();
   };
 
   const updateData = () => {
     consultCreateTable();
-    consultModifyTable();
-  };
-
-  const notUpdateData = () => {
-    deleteTables();
   };
 
   const deleteTables = () => {
     verifyDB.DeleteTableCreate();
-    verifyDB.DeleteTableDelete();
-    verifyDB.DeleteTableUpdate();
     navigation.navigate('Login');
   };
 
@@ -306,7 +291,7 @@ const NewDate = ({navigation}) => {
 
             <TouchableHighlight
               underlayColor="transparent"
-              onPress={() => notUpdateData()}>
+              onPress={() => deleteTables()}>
               <View
                 style={{
                   justifyContent: 'center',

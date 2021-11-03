@@ -11,8 +11,10 @@ import {
 import {Loading2, ModalAlertDeleteVerify} from '../components/sharedComponent';
 import {database} from '../conexion/crudSqlite';
 import {database2} from '../conexion/crudSqlite2';
+import {useIsConnected} from 'react-native-offline';
 const DeleteMascot = ({data}) => {
   const navigation = useNavigation();
+  const isConnected = useIsConnected();
   const {
     user: {user},
   } = useContext(UserContext);
@@ -24,9 +26,8 @@ const DeleteMascot = ({data}) => {
   const [medicaments, setMedicaments] = useState([]);
   const [controllerMedic, setControllerMedic] = useState([]);
 
-
   useEffect(() => {
-    if(successDelete) {
+    if (successDelete) {
       Promise.all([
         deleteDeworming(deworming),
         deleteVaccination(vaccination),
@@ -98,23 +99,25 @@ const DeleteMascot = ({data}) => {
         send={() => setModalVisible(false)}
         action={() => deleteMascotOffline(data.id)}
       />
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="transparent"
-        onPress={() => setModalVisible(true)}>
-        <View
-          style={{
-            padding: 10,
-            backgroundColor: 'rgba(51,0,102,0.56)',
-            marginVertical: 2,
-          }}>
-          <Image
-            source={require('../assets/images/deleteicon.png')}
-            resizeMode="contain"
-            style={style.iconActions}
-          />
-        </View>
-      </TouchableHighlight>
+      {isConnected && (
+        <TouchableHighlight
+          activeOpacity={0.6}
+          underlayColor="transparent"
+          onPress={() => setModalVisible(true)}>
+          <View
+            style={{
+              padding: 10,
+              backgroundColor: 'rgba(51,0,102,0.56)',
+              marginVertical: 2,
+            }}>
+            <Image
+              source={require('../assets/images/deleteicon.png')}
+              resizeMode="contain"
+              style={style.iconActions}
+            />
+          </View>
+        </TouchableHighlight>
+      )}
     </SafeAreaView>
   );
 };

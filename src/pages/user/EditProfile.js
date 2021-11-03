@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext, useState } from "react";
+import React, {useRef, useEffect, useContext, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
@@ -16,13 +16,8 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import {useMutation} from '@apollo/client';
-import {
-  UPDATE_USER_PROFILE,
-} from '../apolllo/grahpql';
-import {
-  AvatarOption,
-  Loading,
-} from '../../components/sharedComponent';
+import {UPDATE_USER_PROFILE} from '../apolllo/grahpql';
+import {AvatarOption, Loading} from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
 import DeleteAccount from '../../components/deleteAccount';
 
@@ -51,8 +46,8 @@ const EditProfile = ({navigation}) => {
   const SignupSchema = Yup.object().shape({
     username: Yup.string().required('El nombre usuario es requerido.'),
     email: Yup.string()
-        .email('El email no es valido.')
-        .required('El campo email es requerido.'),
+      .email('El email no es valido.')
+      .required('El campo email es requerido.'),
   });
 
   const handleUpdateProfile = async values => {
@@ -63,8 +58,8 @@ const EditProfile = ({navigation}) => {
     };
     try {
       await AsyncStorage.mergeItem(
-          'token_lotus',
-          JSON.stringify({user: user_values}),
+        'token_lotus',
+        JSON.stringify({user: user_values}),
       );
       await updateUser({
         variables: user_values,
@@ -73,8 +68,8 @@ const EditProfile = ({navigation}) => {
       dispatchUserEvent('REFRESH', {refresh: true});
       navigation.navigate('Gratulations', {
         txtMsg: 'Se actualizado el perfil.',
-        action: 'Profile'
-      })
+        action: 'Profile',
+      });
     } catch (error) {
       console.log(error);
     }
@@ -82,87 +77,87 @@ const EditProfile = ({navigation}) => {
 
   if (loading) return <Loading />;
   return (
-      <View style={style.container}>
-        <ImageBackground
-            source={require('./../../assets/images/bg_lotus.png')}
-            resizeMode="cover"
-            style={style.bgImage}>
-          <Animated.View style={[style.container, {opacity: fadeAnim}]}>
-            <ScrollView>
-              <Formik
-                  initialValues={initialValue}
-                  validationSchema={SignupSchema}
-                  onSubmit={values => handleUpdateProfile(values)}>
-                {({
-                    touched,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    values,
-                    errors,
-                  }) => (
-                    <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}>
-                      <View style={{flex: 1, alignItems: 'center'}}>
-                        <View style={style.editContainer}>
-                          <AvatarOption />
-                          <TextInput
-                              placeholderTextColor="#5742A2"
-                              style={style.inputText}
-                              placeholder="Usuario"
-                              onChangeText={handleChange('username')}
-                              onBlur={handleBlur('username')}
-                              value={values.username}
-                              maxLength = {15}
-                          />
-                          {errors.username && touched.username ? (
-                              <View
-                                  style={{
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                  }}>
-                                <Text style={style.error}>{errors.username}</Text>
-                              </View>
-                          ) : null}
-                          <TextInput
-                              placeholderTextColor="#5742A2"
-                              style={style.inputText}
-                              placeholder="E-mail"
-                              onChangeText={handleChange('email')}
-                              onBlur={handleBlur('email')}
-                              value={values.email}
-                          />
-                          {errors.email && touched.email ? (
-                              <View
-                                  style={{
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                  }}>
-                                <Text style={style.error}>{errors.email}</Text>
-                              </View>
-                          ) : null}
-
-                          <TouchableHighlight
-                              underlayColor="transparent"
-                              onPress={() => handleSubmit()}>
-                            <View style={style.btnEdit}>
-                              <Text style={style.txtBtnEdit}>Editar</Text>
-                            </View>
-                          </TouchableHighlight>
+    <View style={style.container}>
+      <ImageBackground
+        source={require('./../../assets/images/bg_lotus.png')}
+        resizeMode="cover"
+        style={style.bgImage}>
+        <Animated.View style={[style.container, {opacity: fadeAnim}]}>
+          <ScrollView>
+            <Formik
+              initialValues={initialValue}
+              validationSchema={SignupSchema}
+              onSubmit={values => handleUpdateProfile(values)}>
+              {({
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+              }) => (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <View style={{flex: 1, alignItems: 'center'}}>
+                    <View style={style.editContainer}>
+                      <AvatarOption />
+                      <TextInput
+                        placeholderTextColor="#5742A2"
+                        style={style.inputText}
+                        placeholder="Usuario"
+                        onChangeText={handleChange('username')}
+                        onBlur={handleBlur('username')}
+                        value={values.username}
+                        maxLength={15}
+                      />
+                      {errors.username && touched.username ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.username}</Text>
                         </View>
-                      </View>
+                      ) : null}
+                      <TextInput
+                        placeholderTextColor="#5742A2"
+                        style={style.inputText}
+                        placeholder="E-mail"
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}
+                      />
+                      {errors.email && touched.email ? (
+                        <View
+                          style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={style.error}>{errors.email}</Text>
+                        </View>
+                      ) : null}
+
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        onPress={() => handleSubmit()}>
+                        <View style={style.btnEdit}>
+                          <Text style={style.txtBtnEdit}>Editar</Text>
+                        </View>
+                      </TouchableHighlight>
                     </View>
-                )}
-              </Formik>
-              <DeleteAccount />
-            </ScrollView>
-          </Animated.View>
-        </ImageBackground>
-      </View>
+                  </View>
+                </View>
+              )}
+            </Formik>
+            <DeleteAccount />
+          </ScrollView>
+        </Animated.View>
+      </ImageBackground>
+    </View>
   );
 };
 

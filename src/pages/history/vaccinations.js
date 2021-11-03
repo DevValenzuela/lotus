@@ -113,30 +113,32 @@ const Item = ({date}) => {
         </View>
         <View
           style={{
-            flex: 2,
+            flex: isConnected ? 2 : 1,
             alignSelf: 'center',
             flexDirection: 'row',
             padding: 0,
           }}>
-          <TouchableHighlight
-            style={{alignItems: 'center', marginVertical: 20, padding: 0}}
-            onPress={() => setModal(true)}
-            underlayColor="transparent">
-            <View
-              style={{
-                paddingHorizontal: 15,
-                paddingVertical: 1,
-                backgroundColor: 'rgba(51,0,102,0.56)',
-                marginHorizontal: 4,
-                borderRadius: 4,
-              }}>
-              <Image
-                source={require('../../assets/images/deleteicon.png')}
-                resizeMode="contain"
-                style={style.iconActions}
-              />
-            </View>
-          </TouchableHighlight>
+          {isConnected && (
+            <TouchableHighlight
+              style={{alignItems: 'center', marginVertical: 20, padding: 0}}
+              onPress={() => setModal(true)}
+              underlayColor="transparent">
+              <View
+                style={{
+                  paddingHorizontal: 15,
+                  paddingVertical: 1,
+                  backgroundColor: 'rgba(51,0,102,0.56)',
+                  marginHorizontal: 4,
+                  borderRadius: 4,
+                }}>
+                <Image
+                  source={require('../../assets/images/deleteicon.png')}
+                  resizeMode="contain"
+                  style={style.iconActions}
+                />
+              </View>
+            </TouchableHighlight>
+          )}
           <TouchableHighlight
             style={{alignItems: 'center', marginVertical: 20}}
             onPress={() =>

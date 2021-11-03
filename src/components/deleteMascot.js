@@ -34,7 +34,6 @@ const DeleteMascot = ({data}) => {
   const {
     user: {user},
   } = useContext(UserContext);
-
   const {
     data: generalMascot,
     loading: loadingGeneralMascot,

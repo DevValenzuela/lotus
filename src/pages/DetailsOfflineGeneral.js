@@ -134,7 +134,9 @@ const DetailsOfflineGeneral = ({route}) => {
                   style={style.edit}
                   underlayColor="transparent"
                   onPress={() =>
-                    navigation.navigate('EditMedicament', { edit: true, medicaments,
+                    navigation.navigate('EditMedicament', {
+                      edit: true,
+                      medicaments,
                     })
                   }>
                   <View style={{marginTop: 15}}>

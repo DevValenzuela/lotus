@@ -13,12 +13,14 @@ import {
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {database} from '../conexion/crudSqlite';
+import {useIsConnected} from 'react-native-offline';
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
 
 const DetailsMascotOffline = ({navigation, route}) => {
   const idMascot = route.params.mascotId;
+  const isConnected = useIsConnected();
   const [mascot, setMascot] = useState([]);
   const [deworming, setDeworming] = useState([]);
   const [vaccination, setVaccination] = useState([]);
@@ -46,7 +48,6 @@ const DetailsMascotOffline = ({navigation, route}) => {
       console.warn(e);
     }
   }
-
 
   const {
     name_mascot,
@@ -84,22 +85,24 @@ const DetailsMascotOffline = ({navigation, route}) => {
             <View style={{flex: 1, flexDirection: 'column'}}>
               <View style={style.column}>
                 <View style={{flexDirection: 'row'}}>
-                  <TouchableHighlight
-                    style={style.edit}
-                    underlayColor="transparent"
-                    onPress={() =>
-                      navigation.navigate('EditGeneral', {
-                        idMascot,
-                        data: mascot,
-                        edit: true,
-                      })
-                    }>
-                    <View style={{marginTop: 15}}>
-                      <Image
-                        source={require('./../assets/images/edit_btn.png')}
-                      />
-                    </View>
-                  </TouchableHighlight>
+                  {isConnected && (
+                    <TouchableHighlight
+                      style={style.edit}
+                      underlayColor="transparent"
+                      onPress={() =>
+                        navigation.navigate('EditGeneral', {
+                          idMascot,
+                          data: mascot,
+                          edit: true,
+                        })
+                      }>
+                      <View style={{marginTop: 15}}>
+                        <Image
+                          source={require('./../assets/images/edit_btn.png')}
+                        />
+                      </View>
+                    </TouchableHighlight>
+                  )}
                   <View style={{flex: 1, marginBottom: 10}}>
                     <Image
                       source={require('./../assets/images/not_image_small.jpg')}
@@ -142,7 +145,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  {deworming.length > 0 && (
+                  {deworming.length > 0 && isConnected && (
                     <TouchableHighlight
                       style={style.edit}
                       underlayColor="transparent"
@@ -226,7 +229,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  {vaccination.length > 0 && (
+                  {vaccination.length > 0 && isConnected && (
                     <TouchableHighlight
                       style={style.edit}
                       underlayColor="transparent"
@@ -281,7 +284,6 @@ const DetailsMascotOffline = ({navigation, route}) => {
                   )}
                 </View>
                 <View style={{alignItems: 'center', marginVertical: 10}}>
-                  {}
                   <TouchableHighlight
                     underlayColor="transparent"
                     onPress={() =>
@@ -309,7 +311,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  {medicaments.length > 0 && (
+                  {medicaments.length > 0 && isConnected && (
                     <TouchableHighlight
                       style={style.edit}
                       underlayColor="transparent"
@@ -408,7 +410,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
               </View>
               <View style={style.column}>
                 <View style={style.containerCard}>
-                  {controllerMedics.length > 0 && (
+                  {controllerMedics.length > 0 && isConnected && (
                     <TouchableHighlight
                       style={style.edit}
                       underlayColor="transparent"
