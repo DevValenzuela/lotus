@@ -23,7 +23,7 @@ import {useIsConnected} from 'react-native-offline';
 import {useNavigation} from '@react-navigation/native';
 import {database2} from '../../conexion/crudSqlite2';
 import {DELETE_MEDICAMENT_MEDIC} from '../apolllo/grahpql';
-import { verifyDB } from "../../conexion/crudVerify";
+import {verifyDB} from '../../conexion/crudVerify';
 
 const Item = ({date}) => {
   const {
@@ -66,16 +66,17 @@ const Item = ({date}) => {
     //console.log('id mascot: ' + date[2]);
     //console.log('data apollo: ' + date[4]);
     //console.log('data sqlite: ' + date[3]);
-    try {
-      await deleteMedicament({
-        variables: {
-          id: date[4],
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
+
     if (isConnected) {
+      try {
+        await deleteMedicament({
+          variables: {
+            id: date[4],
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
       database2.DeleteMedicamentOffline(date[3]);
     } else {
       database2.DeleteMedicamentOffline(date[1]);

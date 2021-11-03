@@ -66,16 +66,16 @@ const Item = ({date}) => {
   };
 
   const actionModalYes = async () => {
-    try {
-      await deleteDesparacitacion({
-        variables: {
-          id: date[4],
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
     if (isConnected) {
+      try {
+        await deleteDesparacitacion({
+          variables: {
+            id: date[4],
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
       database2.DeleteDewormingOffline(date[3]);
     } else {
       database2.DeleteDewormingOffline(date[1]);

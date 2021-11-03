@@ -67,17 +67,17 @@ const Item = ({date}) => {
     //console.log('id mascot: ' + date[2]);
     //console.log('data apollo: ' + date[4]);
     //console.log('data sqlite: ' + date[3]);
-    try {
-      await deleteControllerMedic({
-        variables: {
-          id: date[4],
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
 
     if (isConnected) {
+      try {
+        await deleteControllerMedic({
+          variables: {
+            id: date[4],
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
       database2.DeleteControllerMedicOffline(date[3]);
     } else {
       database2.DeleteControllerMedicOffline(date[1]);

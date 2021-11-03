@@ -21,7 +21,7 @@ import {database} from '../conexion/crudSqlite';
 import {CONSULT_MASCOT_APP_SQLITE} from './apolllo/query';
 import {verifyDB} from '../conexion/crudVerify';
 
-const NewDate = ({ navigation }) => {
+const NewDate = ({navigation}) => {
   const {getResultCreate, getResultDelete, getResultUpdate} = InitDB()[0];
   const [getResultMascot, setResultMascot] = useState([]);
   const [getResultDeworming, setResultDeworming] = useState([]);
@@ -106,6 +106,14 @@ const NewDate = ({ navigation }) => {
   const updateData = () => {
     consultTable();
   };
+
+  const notUpdateData = () => {
+    verifyDB.DeleteTableCreate();
+    verifyDB.DeleteTableDelete();
+    verifyDB.DeleteTableUpdate();
+    navigation.goBack();
+  };
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -164,6 +172,29 @@ const NewDate = ({ navigation }) => {
                     textTransform: 'uppercase',
                   }}>
                   Ok, ¡Deacuerdo!
+                </Text>
+              </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => notUpdateData()}>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 10,
+                  backgroundColor: '#80006A',
+                  width: wp('70%'),
+                  marginBottom: 20,
+                }}>
+                <Text
+                  style={{
+                    padding: Platform.OS == 'ios' ? 20 : 10,
+                    color: '#fff',
+                    textTransform: 'uppercase',
+                  }}>
+                  No, Deseo Actualizar
                 </Text>
               </View>
             </TouchableHighlight>
