@@ -32,14 +32,15 @@ import {
   ModalGalleryOptions,
   ModalCalendarError,
 } from '../components/sharedComponent';
-import { verifyDB } from "../conexion/crudVerify";
+import {verifyDB} from '../conexion/crudVerify';
+import NotifService from '../hooks/notifyService';
 
 const AddMascot = ({navigation}) => {
   const {
     dispatchUserEvent,
     user: {user, idPhoto},
   } = useContext(UserContext);
-
+  const notify = new NotifService();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setSterilized, getSterilized] = useState('Si');
@@ -81,6 +82,10 @@ const AddMascot = ({navigation}) => {
       useNativeDriver: false,
     }).start();
     if (success) {
+      notify.localNotif({
+        title: '¡Hola!',
+        msg: `Felicidades creaste nueva mascota.`,
+      });
       navigation.navigate('Gratulations', {
         txtMsg: 'Que bien has ingresado una nueva mascota.',
       });

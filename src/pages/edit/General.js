@@ -21,7 +21,7 @@ import {UPDATE_GENERAL_MASCOT} from '../apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
-import { verifyDB } from "../../conexion/crudVerify";
+
 const General = ({route, navigation}) => {
   const {
     id,

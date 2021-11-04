@@ -115,6 +115,10 @@ const Deworming = ({route, navigation}) => {
           variables: new_value,
         });
         notify.scheduleNotif(paramsNotify);
+        notify.localNotif({
+          ...paramsNotify,
+          title: '!Lotus Creada Nueva Alerta¡',
+        });
         await database3.InsertNotify({
           ...new_value,
           last_date: setNotify,
