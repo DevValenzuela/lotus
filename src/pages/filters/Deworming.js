@@ -7,23 +7,65 @@ import {
   View,
   Image,
   TextInput,
+  TouchableHighlight,
 } from 'react-native';
 import {style} from './style';
 import {useDebounceValue} from '../../hooks/debounceTime';
 import {CONSULT_SEARCH_FILTER_DEWORMING} from '../apolllo/query';
 import {useIsConnected} from 'react-native-offline';
 import {database2} from '../../conexion/crudSqlite2';
+import {useNavigation} from '@react-navigation/native';
 
-const Item = ({date}) => (
-  <View style={style.item}>
-    <Image
-      source={require('./../../assets/images/tabs/PARASITEICON.png')}
-      resizeMode="contain"
-      style={style.image}
-    />
-    <Text style={style.dateTitle}>{date}</Text>
-  </View>
-);
+const Item = ({data}) => {
+  const {date, id, id_deworming} = data;
+  const navigation = useNavigation();
+  return (
+    <View
+      style={[
+        style.item,
+        {
+          flexDirection: 'row',
+        },
+      ]}>
+      <View style={{flex: 1}}>
+        <Image
+          source={require('./../../assets/images/tabs/PARASITEICON.png')}
+          resizeMode="contain"
+          style={style.image}
+        />
+      </View>
+      <View style={{flex: 3}}>
+        <Text style={style.dateTitle}>{date}</Text>
+      </View>
+      <View style={{flex: 1}}>
+        <TouchableHighlight
+          style={{alignItems: 'center'}}
+          onPress={() =>
+            navigation.navigate('DetailsGeneral', {
+              idDetails: id_deworming,
+              type: 'desparacitacion',
+            })
+          }
+          underlayColor="transparent">
+          <View
+            style={{
+              paddingHorizontal: 14,
+              paddingVertical: 0,
+              backgroundColor: 'rgba(51,0,102,0.56)',
+              margin: 4,
+              borderRadius: 4,
+            }}>
+            <Image
+              source={require('../../assets/images/detailsicon.png')}
+              resizeMode="contain"
+              style={style.iconActions}
+            />
+          </View>
+        </TouchableHighlight>
+      </View>
+    </View>
+  );
+};
 
 const DewormingFilters = () => {
   const [txtValue, setTxtValue] = useState('');
@@ -36,7 +78,7 @@ const DewormingFilters = () => {
     CONSULT_SEARCH_FILTER_DEWORMING,
   );
 
-  const renderItem = ({item}) => <Item date={item.date} />;
+  const renderItem = ({item}) => <Item data={item} />;
 
   useEffect(() => {
     if (value && isConnected) {
@@ -44,6 +86,7 @@ const DewormingFilters = () => {
       value.desparacitacions.map(item => {
         result.push({
           id: item.id,
+          id_deworming: item.id_deworming,
           date: item.last_deworming,
         });
       });

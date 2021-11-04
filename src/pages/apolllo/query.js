@@ -61,7 +61,6 @@ export const CONSULT_MASCOT_APP_SQLITE = gql`
   }
 `;
 
-
 export const CONSULT_MASCOT_APP_ID = gql`
   query mascot($id: ID!) {
     mascot(id: $id) {
@@ -313,6 +312,7 @@ export const CONSULT_SEARCH_FILTER_DOCTOR = gql`
       }
     ) {
       id
+      id_medic
       last_control
     }
   }
@@ -330,6 +330,7 @@ export const CONSULT_SEARCH_FILTER_DEWORMING = gql`
       }
     ) {
       id
+      id_deworming
       last_deworming
       medicament
     }
