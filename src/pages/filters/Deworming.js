@@ -19,6 +19,7 @@ import {useNavigation} from '@react-navigation/native';
 const Item = ({data}) => {
   const {date, id, id_deworming} = data;
   const navigation = useNavigation();
+  const isConnected = useIsConnected();
   return (
     <View
       style={[
@@ -41,10 +42,15 @@ const Item = ({data}) => {
         <TouchableHighlight
           style={{alignItems: 'center'}}
           onPress={() =>
-            navigation.navigate('DetailsGeneral', {
-              idDetails: id_deworming,
-              type: 'desparacitacion',
-            })
+            isConnected
+              ? navigation.navigate('DetailsGeneral', {
+                  idDetails: id_deworming,
+                  type: 'desparacitacion',
+                })
+              : navigation.navigate('DetailsOfflineGeneral', {
+                  idDetails: id_deworming,
+                  type: 'desparacitacion',
+                })
           }
           underlayColor="transparent">
           <View

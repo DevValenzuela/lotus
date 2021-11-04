@@ -42,7 +42,6 @@ const DeleteVaccinationOffline = data => {
       console.log('Success fully delete vaccination Offline');
     },
   );
-
 };
 
 const DeleteMedicamentOffline = data => {
@@ -85,6 +84,7 @@ const ConsultMedicamentGeneral = setMedicamentFunc => {
           for (let i = 0; i < len; i++) {
             resp.push({
               id: results.rows.item(i).ID,
+              id_medicament: results.rows.item(i).id_medicament,
               date: results.rows.item(i).last_dose,
             });
           }
@@ -112,6 +112,7 @@ const ConsultDewormingGeneral = setDewormingFunc => {
           for (let i = 0; i < len; i++) {
             resp.push({
               id: results.rows.item(i).ID,
+              id_deworming: results.rows.item(i).id_deworming,
               date: results.rows.item(i).last_deworming,
             });
           }
@@ -139,6 +140,7 @@ const ConsultVaccinationGeneral = setVaccinationFunc => {
           for (let i = 0; i < len; i++) {
             resp.push({
               id: results.rows.item(i).ID,
+              id_vaccination: results.rows.item(i).id_vaccination,
               date: results.rows.item(i).last_vaccination,
             });
           }
@@ -166,6 +168,7 @@ const ConsultControllerVetGeneral = setControllerVetFunc => {
           for (let i = 0; i < len; i++) {
             resp.push({
               id: results.rows.item(i).ID,
+              id_medic: results.rows.item(i).id_medic,
               date: results.rows.item(i).last_control,
             });
           }
