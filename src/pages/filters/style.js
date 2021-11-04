@@ -18,7 +18,8 @@ export const style = StyleSheet.create({
     backgroundColor: '#660066',
     marginVertical: 5,
     marginHorizontal: 10,
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 0,
     borderRadius: 10,
   },
   image: {
@@ -47,4 +48,7 @@ export const style = StyleSheet.create({
     color: '#330066',
     fontSize: 14,
   },
+  iconActions:{
+    width: 20
+  }
 });
