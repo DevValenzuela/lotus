@@ -19,6 +19,20 @@ const InsertNotify = values => {
   );
 };
 
+const DeleteNotify = value => {
+  db.transaction(
+    tx => {
+      tx.executeSql('DELETE FROM Notify WHERE ID = ?', [value]);
+    },
+    (tx, error) => {
+      console.log('Error delete mascot Offline');
+    },
+    (tx, success) => {
+      console.log('Success fully delete mascot Offline');
+    },
+  );
+};
+
 const ConsultNotifyCount = setNotify => {
   db.transaction(
     tx => {
@@ -50,9 +64,7 @@ const ConsultNotify = setNotify => {
         let resp = [];
         let len = results.rows.length;
         for (let i = 0; i < len; i++) {
-          if (results.rows.item(i).last_date <= moment(new Date()).format()) {
-            resp.push(results.rows.item(i));
-          }
+          resp.push(results.rows.item(i));
         }
         setNotify(resp);
       });
@@ -71,4 +83,5 @@ export const database3 = {
   InsertNotify,
   ConsultNotify,
   ConsultNotifyCount,
+  DeleteNotify
 };

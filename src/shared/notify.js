@@ -36,6 +36,7 @@ const Notify = () => {
   getNotify?.forEach(item => {
     if (item.id_mascot) {
       let object = {
+        id: item.ID,
         title: item.title,
         last_date: item.last_date,
         id_mascot: item.id_mascot,

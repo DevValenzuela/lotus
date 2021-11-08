@@ -776,6 +776,61 @@ export const ModalAlertDeleteVerify = ({modalVisible, send, action}) => {
   );
 };
 
+export const ModalAlertDeleteNotify = ({modalVisible, send, action}) => {
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        send(false);
+      }}>
+      <View style={style.centeredView}>
+        <View
+          style={{
+            backgroundColor: '#562A8C',
+            paddingHorizontal: 10,
+            height: 135,
+            paddingVertical: 20,
+            borderRadius: 20,
+          }}>
+          <View style={{padding: 10}}>
+            <Text style={{color: '#fff', fontSize: 14, textAlign: 'center'}}>
+              Deseas eliminar esta notificación...
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}>
+            <View style={{flex: 1}}>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => send()}>
+                <View
+                  style={[style.btnModalAdver, {backgroundColor: '#660066'}]}>
+                  <Text style={style.txtModal}>Cancelar</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+            <View style={{flex: 1}}>
+              <TouchableHighlight
+                underlayColor="transparent"
+                onPress={() => action()}>
+                <View
+                  style={[style.btnModalAdver, {backgroundColor: '#660066'}]}>
+                  <Text style={style.txtModal}>Ok, Si!</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
 export const ModalAlertAccountUser = ({modalVisible, action}) => {
   return (
     <Modal
