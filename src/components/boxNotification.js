@@ -2,8 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import {database} from '../conexion/crudSqlite';
 import moment from 'moment';
+
+import {CONSULT_MASCOT_APP_SQLITE} from './../pages/apolllo/query';
+import {useIsConnected} from 'react-native-offline';
+import {useQuery} from '@apollo/client';
+
+import {API_URL} from '@env';
+
 const BoxNotifyCation = ({data_notify}) => {
+  const {fetchMore} = useQuery(CONSULT_MASCOT_APP_SQLITE);
   const [getMascot, setMascot] = useState([]);
+  const [getImageResult, setImageResult] = useState([]);
+  const isConnect = useIsConnected();
 
   let date = moment(new Date()).format();
 
@@ -11,23 +21,56 @@ const BoxNotifyCation = ({data_notify}) => {
   let lastDay = moment(data_notify.last_date);
 
   useEffect(() => {
-    database.consultMascotID(data_notify.id_mascot, setMascot);
+    if (data_notify.id_mascot) {
+      database.consultMascotID(data_notify.id_mascot, setMascot);
+      consultImageId(data_notify.id_mascot);
+    }
   }, [data_notify.id_mascot]);
+
+  if (typeof getMascot === 'undefined') return null;
+
+  const consultImageId = async id => {
+    let resp = await fetchMore({
+      fetchPolicy: 'no-cache',
+      pollInterval: 1000,
+      variables: {
+        id,
+      },
+    });
+    const {data} = resp;
+    setImageResult(data.mascots[0]);
+  };
 
   return (
     <View style={style.container}>
       <View style={{flex: 1, padding: 10}}>
-        <Image
-          style={style.cardImage}
-          source={require('../assets/images/not_image_small.jpg')}
-        />
+        {(() => {
+          if (isConnect && getImageResult.avatar_mascot) {
+            const {
+              avatar_mascot: {url},
+            } = getImageResult;
+            return (
+              <Image
+                style={style.cardImage}
+                source={{uri: `${API_URL}${url}`}}
+              />
+            );
+          } else {
+            return (
+              <Image
+                style={style.cardImage}
+                source={require('../assets/images/not_image_small.jpg')}
+              />
+            );
+          }
+        })()}
       </View>
       <View style={{flex: 2, padding: 10, paddingLeft: 20}}>
         <Text style={{color: '#00FFFF', fontWeight: 'bold'}}>
-          {getMascot.name_mascot}
+          {getMascot?.name_mascot}
         </Text>
         <Text style={{color: '#fff', fontWeight: '200', fontSize: 12}}>
-          {data_notify.title}
+          {data_notify?.title}
         </Text>
       </View>
       <View
@@ -54,7 +97,7 @@ const BoxNotifyCation = ({data_notify}) => {
             Días Restantes
           </Text>
           <Text style={{color: '#ffffff', fontWeight: '300', fontSize: 12}}>
-            { moment(new Date(data_notify.last_date)).format('YYYY-MM-DD')}
+            {moment(new Date(data_notify.last_date)).format('YYYY-MM-DD')}
           </Text>
         </View>
       </View>

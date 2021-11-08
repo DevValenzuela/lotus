@@ -28,8 +28,6 @@ import {CONSULT_MASCOT_APP_SQLITE} from './apolllo/query';
 import {verifyDB} from '../conexion/crudVerify';
 
 const NewDate = ({navigation}) => {
-  //Id Interval Current
-  const intervalRef = useRef();
 
   const {getResultCreate} = InitDB()[0];
   const [getResultMascot, setResultMascot] = useState([]);

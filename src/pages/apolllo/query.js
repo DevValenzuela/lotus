@@ -57,6 +57,10 @@ export const CONSULT_MASCOT_APP_SQLITE = gql`
   query mascot($id: String!) {
     mascots(sort: "id:desc", limit: 1, where: {id_mascot: $id}) {
       id
+      avatar_mascot {
+        id
+        url
+      }
     }
   }
 `;

@@ -26,17 +26,22 @@ const Notify = () => {
     timer.current = setTimeout(() => {
       getStatus(false);
     }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [fadeAnim, setNotify]);
 
   const resp = [];
 
   getNotify?.forEach(item => {
-    let object = {
-      title: item.title,
-      last_date: item.last_date,
-      id_mascot: item.id_mascot,
-    };
-    resp.push(object);
+    if (item.id_mascot) {
+      let object = {
+        title: item.title,
+        last_date: item.last_date,
+        id_mascot: item.id_mascot,
+      };
+      resp.push(object);
+    }
   });
 
   if (status) return <Loading />;

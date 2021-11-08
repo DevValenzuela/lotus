@@ -50,7 +50,6 @@ const ConsultNotify = setNotify => {
         let resp = [];
         let len = results.rows.length;
         for (let i = 0; i < len; i++) {
-          console.log(results.rows.item(i).last_date);
           if (results.rows.item(i).last_date <= moment(new Date()).format()) {
             resp.push(results.rows.item(i));
           }
