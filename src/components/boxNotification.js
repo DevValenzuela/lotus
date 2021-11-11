@@ -26,13 +26,13 @@ const BoxNotifyCation = ({data_notify}) => {
   let lastDay = moment(data_notify.last_date);
 
   useEffect(() => {
-    if (data_notify.id_mascot) {
-      database.consultMascotID(data_notify.id_mascot, setMascot);
-      consultImageId(data_notify.id_mascot);
+    if (data_notify) {
+      const {id_mascot} = data_notify;
+      consultImageId(id_mascot).then(() => {
+        database.consultMascotID(id_mascot, setMascot);
+      });
     }
-  }, [data_notify.id_mascot]);
-
-  if (typeof getMascot === 'undefined') return null;
+  }, [data_notify]);
 
   const consultImageId = async id => {
     let resp = await fetchMore({
