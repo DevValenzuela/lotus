@@ -23,8 +23,9 @@ function LogoTitle() {
         left: 0,
         position: 'absolute',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         zIndex: 99,
+        paddingHorizontal: 12,
       }}>
       <Image
         style={{width: 35, height: 35}}
@@ -96,7 +97,7 @@ function NotifyProfileView() {
   );
 }
 
-function Headerleft() {
+function HeaderLeft() {
   const navigation = useNavigation();
   return (
     <>
@@ -123,7 +124,7 @@ export const options = () => ({
   headerTitleStyle: {
     fontWeight: 'bold',
   },
-  headerLeft: () => <Headerleft />,
+  headerLeft: () => <LogoTitle />,
 
   headerRight: () => (
     <View style={{flexDirection: 'row'}}>
