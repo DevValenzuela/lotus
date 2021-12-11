@@ -71,7 +71,7 @@ export const BtnAction = ({navigation, title, url, action}) => {
           ]}>
           <Image
             source={url}
-            style={{width: 32, height: 32, marginBottom: 5}}
+            style={{width: 34, height: 34, marginBottom: 5}}
             resizeMode="contain"
           />
           <Text
