@@ -164,10 +164,9 @@ const EditProfile = ({navigation}) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(51,0,102,0.95)',
   },
   editContainer: {
-    backgroundColor: 'rgba(86,42,140,0.91)',
+    backgroundColor: 'rgba(86,42,140,0.51)',
     padding: 5,
     width: '90%',
     marginTop: 50,
@@ -175,6 +174,7 @@ const style = StyleSheet.create({
   },
   bgImage: {
     flex: 1,
+    backgroundColor: 'rgba(51,0,102,0.95)',
     justifyContent: 'center',
   },
   inputText: {

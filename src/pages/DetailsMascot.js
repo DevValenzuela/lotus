@@ -597,8 +597,9 @@ const style = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    backgroundColor: 'rgba(86,42,140,0.85)',
+    backgroundColor: 'rgba(86,42,140,0.51)',
     marginVertical: 5,
+    marginHorizontal: 4,
     borderRadius: 10,
   },
   image: {

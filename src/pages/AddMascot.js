@@ -491,7 +491,7 @@ const style = StyleSheet.create({
     flex: 1,
   },
   containerForm: {
-    backgroundColor: '#562A8C',
+    backgroundColor: 'rgba(86,42,140,0.51)',
     padding: 10,
     borderRadius: 10,
     marginVertical: 10,

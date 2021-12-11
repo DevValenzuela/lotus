@@ -417,10 +417,10 @@ const ProfileUser = ({navigation}) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(51,0,102,0.95)',
   },
   bgImage: {
     flex: 1,
+    backgroundColor: 'rgba(51,0,102,0.95)',
     width: '100%',
     height: '100%',
   },
@@ -430,7 +430,7 @@ const style = StyleSheet.create({
     width: 280,
     marginTop: 20,
     marginBottom: 10,
-    backgroundColor: 'rgba(86,42,140,0.84)',
+    backgroundColor: 'rgba(86,42,140,0.51)',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 15,
