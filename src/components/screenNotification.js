@@ -176,10 +176,10 @@ const ScreenNotification = () => {
     <View style={style.container}>
       <Modal
         animationType="slide"
-        transparent={true}
         visible={getYearVisible}
         onRequestClose={() => setYearVisible(false)}>
         <View style={style.centeredView}>
+          <Text>¿Seleccione el año?</Text>
           <FlatList
             data={YEARS}
             renderItem={renderYears}
@@ -189,9 +189,9 @@ const ScreenNotification = () => {
       </Modal>
       <Modal
         animationType="slide"
-        transparent={true}
         visible={getMonthVisible}
         onRequestClose={() => setMonthVisible(false)}>
+        <Text>¿Seleccione el mes?</Text>
         <View style={style.centeredView}>
           <FlatList
             data={MONTHDAY}
@@ -203,10 +203,10 @@ const ScreenNotification = () => {
 
       <Modal
         animationType="slide"
-        transparent={true}
         visible={getDayVisible}
         onRequestClose={() => setDayVisible(false)}>
         <View style={style.centeredView}>
+          <Text>¿Seleccione el día?</Text>
           <FlatList
             data={DAYS}
             renderItem={renderDays}
