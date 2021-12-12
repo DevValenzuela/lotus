@@ -147,8 +147,7 @@ const ScreenNotification = () => {
   };
 
   const renderDays = ({item}) => {
-    const backgroundColor =
-      item.id === Number(getDay) ? '#6e3b6e' : '#ffffff';
+    const backgroundColor = item.id === Number(getDay) ? '#6e3b6e' : '#ffffff';
     const color = item.id === Number(getDay) ? 'white' : 'black';
     return (
       <ItemDays
@@ -178,15 +177,15 @@ const ScreenNotification = () => {
         textColor={{color}}
       />
     );
-  }
+  };
 
   return (
-    <View style={style.container}>
+    <View style={style.containerNotify}>
       <Modal
         animationType="slide"
         visible={getYearVisible}
         onRequestClose={() => setYearVisible(false)}>
-        <View style={style.centeredView}>
+        <View>
           <Text>¿Seleccione el año?</Text>
           <FlatList
             data={YEARS}
@@ -200,7 +199,7 @@ const ScreenNotification = () => {
         visible={getMonthVisible}
         onRequestClose={() => setMonthVisible(false)}>
         <Text>¿Seleccione el mes?</Text>
-        <View style={style.centeredView}>
+        <View>
           <FlatList
             data={MONTHDAY}
             renderItem={renderMonth}
@@ -236,14 +235,11 @@ const ScreenNotification = () => {
           Ingresa la fecha.
         </Text>
         <View
-          style={[
-            style.container,
-            {
-              flexDirection: 'row',
-              maxWidth: 300,
-              marginVertical: 20,
-            },
-          ]}>
+          style={{
+            flexDirection: 'row',
+            maxWidth: 300,
+            marginVertical: 20,
+          }}>
           <View style={{flex: 1}}>
             <Text style={style.txtLabel}>DIA</Text>
             <TextInput
@@ -297,15 +293,8 @@ const ScreenNotification = () => {
 };
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '50%',
-    maxHeight: 300,
+  containerNotify: {
+    width: 250
   },
   bgImage: {
     flex: 1,

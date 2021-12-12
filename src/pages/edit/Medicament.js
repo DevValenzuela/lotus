@@ -25,13 +25,13 @@ import moment from 'moment';
 import {v4 as uuidv4} from 'uuid';
 import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
-import NotifService from '../../hooks/notifyService';
+import NotifyService from '../../hooks/notifyService';
 import {database3} from '../../conexion/crudNotify';
 import {verifyDB} from '../../conexion/crudVerify';
 
 const Medicament = ({route, navigation}) => {
   const isConnected = useIsConnected();
-  const notify = new NotifService();
+  const notify = new NotifyService();
   const {idMascot, edit, medicaments, id_mascot} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setNotify, getDateNotify] = useState('');

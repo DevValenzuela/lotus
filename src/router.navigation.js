@@ -26,9 +26,10 @@ import MedicamentFilters from './pages/filters/Medicament';
 import ControllerVet from './pages/filters/ControllerVet';
 import DewormingFilters from './pages/filters/Deworming';
 import VaccinateFilters from './pages/filters/Vaccinate';
+import Notification from './pages/Notification';
+import Gratulations from './pages/Gratulations';
 
 import MenuContent from './components/menuContent';
-import Gratulations from './pages/Gratulations';
 import Notify from './shared/notify';
 
 import {options, options2} from './shared/header_config';
@@ -271,6 +272,13 @@ export function RouterNavigation() {
         name="Gratulations"
         component={Gratulations}
         options={{headerShown: false}}></Stack.Screen>
+
+      {/**Screen Gratulations**/}
+      <Stack.Screen
+        name="ScreenNotification"
+        component={Notification}
+        options={{headerShown: false}}></Stack.Screen>
+
     </Stack.Navigator>
   );
 }

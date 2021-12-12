@@ -1,7 +1,7 @@
 import PushNotification, {Importance} from 'react-native-push-notification';
 import NotificationHandler from './notifyHandler';
 import moment from 'moment';
-export default class NotifService {
+export default class NotifyService {
   constructor(onRegister, onNotification) {
     this.lastId = 0;
     this.lastChannelCounter = 0;

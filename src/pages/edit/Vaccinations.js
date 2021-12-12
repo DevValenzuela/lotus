@@ -28,12 +28,12 @@ import {database} from '../../conexion/crudSqlite';
 import {Loading} from '../../components/sharedComponent';
 import {useIsConnected} from 'react-native-offline';
 import {database3} from '../../conexion/crudNotify';
-import NotifService from '../../hooks/notifyService';
+import NotifyService from '../../hooks/notifyService';
 import {verifyDB} from '../../conexion/crudVerify';
 
 const Vaccinations = ({route, navigation}) => {
   const isConnected = useIsConnected();
-  const notify = new NotifService();
+  const notify = new NotifyService();
   const {idMascot, edit, vacunacions, id_mascot} = route.params;
 
   const [createVacunacion, {data, error, loading}] = useMutation(

@@ -28,13 +28,12 @@ import {Loading} from '../../components/sharedComponent';
 import {database} from '../../conexion/crudSqlite';
 import {database3} from '../../conexion/crudNotify';
 import {useIsConnected} from 'react-native-offline';
-import NotifService from './../../hooks/notifyService';
+import NotifyService from './../../hooks/notifyService';
 import {verifyDB} from '../../conexion/crudVerify';
-import ScreenNotification from '../../components/screenNotification';
 
 const Deworming = ({route, navigation}) => {
   const isConnected = useIsConnected();
-  const notify = new NotifService();
+  const notify = new NotifyService();
   const {idMascot, edit, desparacitacions, id_mascot} = route.params;
   const [createDesparacitacion, {data, error, loading}] = useMutation(
     CREATE_DESPARACITACION_APP,
@@ -79,9 +78,7 @@ const Deworming = ({route, navigation}) => {
       getDate(desparacitacions[0].last_deworming);
     }
     if (success) {
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Que bien has ingresado nueva desapracitación.',
-      });
+      navigation.navigate('ScreenNotification');
     }
   }, [edit, desparacitacions, success]);
 
@@ -204,7 +201,6 @@ const Deworming = ({route, navigation}) => {
         resizeMode="cover"
         style={style.bgImage}>
         <ScrollView style={{flex: 1}}>
-          <ScreenNotification />
           <Formik
             initialValues={initialState}
             validationSchema={SignupSchema}

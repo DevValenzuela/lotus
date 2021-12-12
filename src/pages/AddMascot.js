@@ -33,14 +33,14 @@ import {
   ModalCalendarError,
 } from '../components/sharedComponent';
 import {verifyDB} from '../conexion/crudVerify';
-import NotifService from '../hooks/notifyService';
+import NotifyService from '../hooks/notifyService';
 
 const AddMascot = ({navigation}) => {
   const {
     dispatchUserEvent,
     user: {user, idPhoto},
   } = useContext(UserContext);
-  const notify = new NotifService();
+  const notify = new NotifyService();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setSterilized, getSterilized] = useState('Si');

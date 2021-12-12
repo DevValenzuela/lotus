@@ -28,7 +28,7 @@ import {UserContext} from '../../context/userContext';
 import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
 import {database3} from '../../conexion/crudNotify';
-import NotifService from '../../hooks/notifyService';
+import NotifyService from '../../hooks/notifyService';
 import {verifyDB} from '../../conexion/crudVerify';
 
 const ControlMedic = ({route, navigation}) => {
@@ -36,7 +36,7 @@ const ControlMedic = ({route, navigation}) => {
     user: {user},
   } = useContext(UserContext);
   const isConnected = useIsConnected();
-  const notify = new NotifService();
+  const notify = new NotifyService();
   const {idMascot, controllerMedics, edit, id_mascot} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
   const [setNotify, getDateNotify] = useState('');
