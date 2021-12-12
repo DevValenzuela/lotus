@@ -37,7 +37,6 @@ const ScreenNotification = ({onAction}) => {
   ).slice(-2)}`;
   new_date = new Date(new_date);
   new_date.setHours(date.getHours() + 2);
-  console.log(new_date)
 
   const YEARS = [];
   const DAYS = [];
@@ -291,8 +290,7 @@ const ScreenNotification = ({onAction}) => {
           </View>
         </View>
         <View style={{marginVertical: 10}}>
-          <TouchableHighlight
-            onPress={() => onAction(new_date)}>
+          <TouchableHighlight onPress={() => onAction(new_date)}>
             <View style={style.btnSubmit}>
               <Text style={style.txtSubmit}>Notificarme</Text>
             </View>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, ImageBackground} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
@@ -6,6 +6,7 @@ import ScreenNotification from '../components/screenNotification';
 
 import NotifyService from '../hooks/notifyService';
 import {database3} from '../conexion/crudNotify';
+import moment from 'moment';
 
 const Notification = () => {
   const navigation = useNavigation();
@@ -18,9 +19,15 @@ const Notification = () => {
   notify.popInitialNotification();
 
   const actionNotifyCation = dateNotify => {
-    getDateNotify(dateNotify);
-    actionConfirmNotifyCation();
+    getDateNotify(moment(dateNotify).format());
+    //actionConfirmNotifyCation();
   };
+
+  useEffect(() => {
+    if (setNotify) {
+      actionConfirmNotifyCation();
+    }
+  }, [setNotify]);
 
   const actionConfirmNotifyCation = () => {
     let type = typeAction;
@@ -31,6 +38,8 @@ const Notification = () => {
       title: '¡Lotus Te Recomienda!',
       msg: `${type} esta para:`,
     };
+
+    console.log(paramsNotify);
 
     notify.scheduleNotif(paramsNotify);
     notify.localNotif({
