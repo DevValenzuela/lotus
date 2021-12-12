@@ -21,7 +21,7 @@ let date = new Date();
 const month = date.getMonth() + 1;
 const year = date.getFullYear();
 
-const ScreenNotification = ({onAction}) => {
+const ScreenNotification = ({onAction, typeAction}) => {
   let YEAR = moment().format('YY');
 
   const DAY = moment().format('DD');
@@ -290,6 +290,15 @@ const ScreenNotification = ({onAction}) => {
           </View>
         </View>
         <View style={{marginVertical: 10}}>
+          <Text
+            style={{
+              color: '#00FFFF',
+              fontSize: 12,
+              marginVertical: 10,
+              textAlign: 'center',
+            }}>
+            {typeAction}
+          </Text>
           <TouchableHighlight onPress={() => onAction(new_date)}>
             <View style={style.btnSubmit}>
               <Text style={style.txtSubmit}>Notificarme</Text>

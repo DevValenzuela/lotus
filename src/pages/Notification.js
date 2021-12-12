@@ -58,6 +58,7 @@ const Notification = () => {
     });
   };
 
+  console.log(typeAction)
   return (
     <View style={style.container}>
       <ImageBackground
@@ -65,7 +66,7 @@ const Notification = () => {
         resizeMode="cover"
         style={style.bgImage}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <ScreenNotification onAction={actionNotifyCation} />
+          <ScreenNotification onAction={actionNotifyCation} typeAction={typeAction} />
         </View>
       </ImageBackground>
     </View>

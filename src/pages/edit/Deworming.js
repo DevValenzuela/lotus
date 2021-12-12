@@ -26,7 +26,7 @@ import {
 } from '../../pages/apolllo/grahpql';
 import {Loading} from '../../components/sharedComponent';
 import {database} from '../../conexion/crudSqlite';
-import {database3} from '../../conexion/crudNotify';
+
 import {useIsConnected} from 'react-native-offline';
 import NotifyService from './../../hooks/notifyService';
 import {verifyDB} from '../../conexion/crudVerify';
