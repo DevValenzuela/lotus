@@ -16,9 +16,10 @@ import moment from 'moment';
 const daysInMonth = (month, year) => {
   return new Date(year, month, 0).getDate();
 };
+let date = new Date();
 
-const month = new Date().getMonth() + 1;
-const year = new Date().getFullYear();
+const month = date.getMonth() + 1;
+const year = date.getFullYear();
 
 const ScreenNotification = ({onAction}) => {
   let YEAR = moment().format('YY');
@@ -31,7 +32,10 @@ const ScreenNotification = ({onAction}) => {
   const [getDay, setDay] = useState(DAY);
   const [getMonth, setMonth] = useState(MONTH);
 
-  const new_date = `${getYearOrigin}-${getMonth}-${getDay} 11:30`;
+  let new_date = `${getYearOrigin}-${(0+getMonth).slice(-2)}-${(0+getDay).slice(-2)}`;
+      new_date = new Date(new_date);
+      new_date.setHours( date.getHours());
+      console.log(new_date);
 
   const YEARS = [];
   const DAYS = [];

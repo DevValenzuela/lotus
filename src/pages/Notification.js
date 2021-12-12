@@ -19,14 +19,11 @@ const Notification = () => {
 
   const actionNotifyCation = dateNotify => {
     getDateNotify(dateNotify);
-    actionConfirmNotifyCation().then(() => {
-      navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha guardado correctamente.',
-      });
-    });
+    actionConfirmNotifyCation();
   };
 
-  const actionConfirmNotifyCation = async () => {
+  const actionConfirmNotifyCation = () => {
+
     let type = typeAction;
 
     let paramsNotify = {
@@ -42,11 +39,16 @@ const Notification = () => {
       title: '!Lotus Nueva Alerta¡',
     });
 
-    await database3.InsertNotify({
+    database3.InsertNotify({
       type: type,
       last_date: setNotify,
       mascot: idMascot,
     });
+
+    navigation.navigate('Gratulations', {
+      txtMsg: 'Se ha guardado correctamente.',
+    });
+
   };
 
   return (
