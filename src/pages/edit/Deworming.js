@@ -55,7 +55,6 @@ const Deworming = ({route, navigation}) => {
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
-  const [setNotify, getDateNotify] = useState('');
   const [erroDate, setErrorDate] = useState(false);
   const [success, setSuccess] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
@@ -83,7 +82,7 @@ const Deworming = ({route, navigation}) => {
       getDate(desparacitacions[0].last_deworming);
     }
     if (success) {
-      navigation.navigate('ScreenNotification', {typeAction});
+      navigation.navigate('ScreenNotification', {typeAction, idMascot});
     }
     if (successUpdate) {
       navigation.navigate('Gratulations', {
@@ -113,11 +112,6 @@ const Deworming = ({route, navigation}) => {
         await createDesparacitacion({
           variables: new_value,
         });
-        await database3.InsertNotify({
-          ...new_value,
-          last_date: setNotify,
-          mascot: id_mascot,
-        });
         await database.InsertDesparacitacion(
           {...new_value, mascot: id_mascot},
           setSuccess,
@@ -127,11 +121,6 @@ const Deworming = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      await database3.InsertNotify({
-        ...new_value,
-        last_date: setNotify,
-        mascot: id_mascot,
-      });
       await verifyDB.InsertCreateVerify(new_value.id_deworming, 'deworming');
       await database.InsertDesparacitacion(new_value, setSuccess);
     }
@@ -174,9 +163,8 @@ const Deworming = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment().add(1, 'month').subtract(7, 'days').format();
+    //let dateNotify = moment().add(1, 'month').subtract(7, 'days').format();
     //let dateNotify = moment().add(11, 'minutes').format();
-    getDateNotify(dateNotify);
     getDate(dateFormat);
     getCalendar(false);
   };

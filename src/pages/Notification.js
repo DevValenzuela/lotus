@@ -5,12 +5,12 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import ScreenNotification from '../components/screenNotification';
 
 import NotifyService from '../hooks/notifyService';
-import moment from 'moment';
+import {database3} from '../conexion/crudNotify';
 
 const Notification = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const {typeAction} = route.params;
+  const {typeAction, idMascot} = route.params;
 
   const [setNotify, getDateNotify] = useState('');
 
@@ -19,10 +19,14 @@ const Notification = () => {
 
   const actionNotifyCation = dateNotify => {
     getDateNotify(dateNotify);
-    actionConfirmNotifyCation();
+    actionConfirmNotifyCation().then(() => {
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha guardado correctamente.',
+      });
+    });
   };
 
-  const actionConfirmNotifyCation = () => {
+  const actionConfirmNotifyCation = async () => {
     let type = typeAction;
 
     let paramsNotify = {
@@ -38,8 +42,10 @@ const Notification = () => {
       title: '!Lotus Nueva Alerta¡',
     });
 
-    navigation.navigate('Gratulations', {
-      txtMsg: 'Se ha guardado correctamente.',
+    await database3.InsertNotify({
+      type: type,
+      last_date: setNotify,
+      mascot: idMascot,
     });
   };
 
