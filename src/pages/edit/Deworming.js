@@ -30,6 +30,7 @@ import {database3} from '../../conexion/crudNotify';
 import {useIsConnected} from 'react-native-offline';
 import NotifService from './../../hooks/notifyService';
 import {verifyDB} from '../../conexion/crudVerify';
+import ScreenNotification from '../../components/screenNotification';
 
 const Deworming = ({route, navigation}) => {
   const isConnected = useIsConnected();
@@ -202,7 +203,8 @@ const Deworming = ({route, navigation}) => {
         source={require('./../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <ScrollView>
+        <ScrollView style={{flex: 1}}>
+          <ScreenNotification />
           <Formik
             initialValues={initialState}
             validationSchema={SignupSchema}
