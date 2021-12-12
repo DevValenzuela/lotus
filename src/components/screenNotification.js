@@ -17,9 +17,19 @@ const daysInMonth = (month, year) => {
   return new Date(year, month, 0).getDate();
 };
 
-const YEAR = moment().format('YY');
-const DAY = moment().add(20, 'days').format('DD');
-const MONTH = moment().format('MM');
+const month = new Date().getMonth() + 1;
+const year = new Date().getFullYear();
+
+let YEAR;
+
+if (Number(month) >= 12) {
+  YEAR = moment().add(1, 'year').format('YY');
+} else {
+  YEAR = moment().format('YY');
+}
+
+const DAY = moment().format('DD');
+const MONTH = moment().add(1, 'month').format('MM');
 
 const YEARS = [];
 const DAYS = [];
@@ -75,8 +85,6 @@ const MONTHDAY = [
 ];
 
 // Count Days
-const month = new Date().getMonth() + 1;
-const year = new Date().getFullYear();
 for (let i = 1; i <= daysInMonth(month, year); i++) {
   DAYS.push({
     id: i,
