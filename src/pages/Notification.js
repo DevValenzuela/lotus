@@ -1,8 +1,48 @@
-import React from 'react';
-import ScreenNotification from '../components/screenNotification';
+import React, {useState} from 'react';
 import {View, StyleSheet, ImageBackground} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+
+import ScreenNotification from '../components/screenNotification';
+
+import NotifyService from '../hooks/notifyService';
+import moment from 'moment';
 
 const Notification = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const {typeAction} = route.params;
+
+  const [setNotify, getDateNotify] = useState('');
+
+  const notify = new NotifyService();
+  notify.popInitialNotification();
+
+  const actionNotifyCation = dateNotify => {
+    getDateNotify(dateNotify);
+    actionConfirmNotifyCation();
+  };
+
+  const actionConfirmNotifyCation = () => {
+    let type = typeAction;
+
+    let paramsNotify = {
+      date: setNotify,
+      type: type,
+      title: '¡Lotus Te Recomienda!',
+      msg: `${type} esta para:`,
+    };
+
+    notify.scheduleNotif(paramsNotify);
+    notify.localNotif({
+      ...paramsNotify,
+      title: '!Lotus Nueva Alerta¡',
+    });
+
+    navigation.navigate('Gratulations', {
+      txtMsg: 'Se ha guardado correctamente.',
+    });
+  };
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -10,7 +50,7 @@ const Notification = () => {
         resizeMode="cover"
         style={style.bgImage}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <ScreenNotification />
+          <ScreenNotification onAction={actionNotifyCation} />
         </View>
       </ImageBackground>
     </View>

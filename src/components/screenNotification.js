@@ -20,17 +20,19 @@ const daysInMonth = (month, year) => {
 const month = new Date().getMonth() + 1;
 const year = new Date().getFullYear();
 
-const ScreenNotification = () => {
-
+const ScreenNotification = ({onAction}) => {
   let YEAR = moment().format('YY');
 
   const DAY = moment().format('DD');
   const MONTH = moment().add(1, 'month').format('MM');
 
   const [getYear, setYear] = useState(YEAR);
+  const [getYearOrigin, setYearOrigin] = useState(year);
   const [getDay, setDay] = useState(DAY);
   const [getMonth, setMonth] = useState(MONTH);
-  
+
+  const new_date = `${getYearOrigin}-${getMonth}-${getDay} 11:30`;
+
   const YEARS = [];
   const DAYS = [];
   const MONTHDAY = [
@@ -126,7 +128,6 @@ const ScreenNotification = () => {
     </TouchableOpacity>
   );
 
-
   const [getMonthVisible, setMonthVisible] = useState(false);
   const [getDayVisible, setDayVisible] = useState(false);
   const [getYearVisible, setYearVisible] = useState(false);
@@ -172,6 +173,7 @@ const ScreenNotification = () => {
       <ItemYears
         onPress={() => {
           setYearVisible(false);
+          setYearOrigin(item.year.toString());
           setYear(item.value.toString());
         }}
         year={item}
@@ -283,7 +285,8 @@ const ScreenNotification = () => {
           </View>
         </View>
         <View style={{marginVertical: 10}}>
-          <TouchableHighlight onPress={() => null}>
+          <TouchableHighlight
+            onPress={() => onAction(moment(new_date).format())}>
             <View style={style.btnSubmit}>
               <Text style={style.txtSubmit}>Notificarme</Text>
             </View>

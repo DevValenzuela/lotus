@@ -32,8 +32,12 @@ import NotifyService from './../../hooks/notifyService';
 import {verifyDB} from '../../conexion/crudVerify';
 
 const Deworming = ({route, navigation}) => {
-  const isConnected = useIsConnected();
+  const typeAction = 'Desparacitación';
+
   const notify = new NotifyService();
+  notify.popInitialNotification();
+
+  const isConnected = useIsConnected();
   const {idMascot, edit, desparacitacions, id_mascot} = route.params;
   const [createDesparacitacion, {data, error, loading}] = useMutation(
     CREATE_DESPARACITACION_APP,
@@ -54,6 +58,7 @@ const Deworming = ({route, navigation}) => {
   const [setNotify, getDateNotify] = useState('');
   const [erroDate, setErrorDate] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [successUpdate, setSuccessUpdate] = useState(false);
   const initialState = new Object();
 
   if (edit) {
@@ -78,17 +83,20 @@ const Deworming = ({route, navigation}) => {
       getDate(desparacitacions[0].last_deworming);
     }
     if (success) {
-      navigation.navigate('ScreenNotification');
+      navigation.navigate('ScreenNotification', {typeAction});
     }
-  }, [edit, desparacitacions, success]);
-
-  notify.popInitialNotification();
+    if (successUpdate) {
+      navigation.navigate('Gratulations', {
+        txtMsg: 'Se ha actualizado correctamente.',
+      });
+    }
+  }, [edit, desparacitacions, success, successUpdate]);
 
   const handlerSubmitDeworming = async values => {
     if (!values) return null;
     let id = uuidv4();
 
-    const {last_deworming, medicament, note, type = 'Desparacitación'} = values;
+    const {last_deworming, medicament, note, type = typeAction} = values;
 
     let new_value = {
       id_deworming: id,
@@ -100,22 +108,10 @@ const Deworming = ({route, navigation}) => {
       user: Number(user.id),
     };
 
-    let paramsNotify = {
-      date: setNotify,
-      type,
-      title: '¡Lotus Te Recomienda!',
-      msg: `${type} esta para:`,
-    };
-
     if (isConnected) {
       try {
         await createDesparacitacion({
           variables: new_value,
-        });
-        notify.scheduleNotif(paramsNotify);
-        notify.localNotif({
-          ...paramsNotify,
-          title: '!Lotus Creada Nueva Alerta¡',
         });
         await database3.InsertNotify({
           ...new_value,
@@ -131,17 +127,11 @@ const Deworming = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      notify.scheduleNotif(paramsNotify);
-      notify.localNotif({
-        ...paramsNotify,
-        title: '!Lotus Creada Nueva Alerta¡',
-      });
       await database3.InsertNotify({
         ...new_value,
         last_date: setNotify,
         mascot: id_mascot,
       });
-
       await verifyDB.InsertCreateVerify(new_value.id_deworming, 'deworming');
       await database.InsertDesparacitacion(new_value, setSuccess);
     }
@@ -161,12 +151,12 @@ const Deworming = ({route, navigation}) => {
             note,
           },
         });
-        await database.UpdateDeworming(id_deworming, values, setSuccess);
+        await database.UpdateDeworming(id_deworming, values, setSuccessUpdate);
       } catch (e) {
         console.log(e);
       }
     } else {
-      await database.UpdateDeworming(id_deworming, values, setSuccess);
+      await database.UpdateDeworming(id_deworming, values, setSuccessUpdate);
     }
   };
 
