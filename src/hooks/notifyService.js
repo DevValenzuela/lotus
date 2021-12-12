@@ -72,7 +72,7 @@ export default class NotifyService {
   }
 
   localNotif(paramsNotify) {
-    let date_origin = moment(new Date()).add(1, 'month').format('YYYY-MM-DD');
+    let date_origin = paramsNotify.date;
     this.lastId++;
     PushNotification.localNotification({
       /* Android Only Properties */
@@ -113,7 +113,7 @@ export default class NotifyService {
   }
 
   scheduleNotif(paramsNotify) {
-    let date_origin = moment(new Date()).add(1, 'month').format('YYYY-MM-DD');
+    let date_origin = paramsNotify.date;
     this.lastId++;
     PushNotification.localNotificationSchedule({
       date: new Date(paramsNotify.date), // in 30 secs

@@ -23,7 +23,6 @@ const Notification = () => {
   };
 
   const actionConfirmNotifyCation = () => {
-
     let type = typeAction;
 
     let paramsNotify = {
@@ -45,10 +44,9 @@ const Notification = () => {
       mascot: idMascot,
     });
 
-    navigation.navigate('Gratulations', {
+    return navigation.navigate('Gratulations', {
       txtMsg: 'Se ha guardado correctamente.',
     });
-
   };
 
   return (

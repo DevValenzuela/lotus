@@ -32,10 +32,12 @@ const ScreenNotification = ({onAction}) => {
   const [getDay, setDay] = useState(DAY);
   const [getMonth, setMonth] = useState(MONTH);
 
-  let new_date = `${getYearOrigin}-${(0+getMonth).slice(-2)}-${(0+getDay).slice(-2)}`;
-      new_date = new Date(new_date);
-      new_date.setHours( date.getHours());
-      console.log(new_date);
+  let new_date = `${getYearOrigin}-${(0 + getMonth).slice(-2)}-${(
+    0 + getDay
+  ).slice(-2)}`;
+  new_date = new Date(new_date);
+  new_date.setHours(date.getHours() + 2);
+  console.log(new_date)
 
   const YEARS = [];
   const DAYS = [];
@@ -253,7 +255,7 @@ const ScreenNotification = ({onAction}) => {
             <TextInput
               placeholderTextColor="#5742A2"
               placeholder="00"
-              value={getDay}
+              value={(0 + getDay).slice(-2)}
               style={style.inputText}
               showSoftInputOnFocus={false}
               onChangeText={() => alert('Change Text')}
@@ -266,7 +268,7 @@ const ScreenNotification = ({onAction}) => {
             <TextInput
               placeholderTextColor="#5742A2"
               placeholder="00"
-              value={getMonth}
+              value={(0 + getMonth).slice(-2)}
               style={style.inputText}
               showSoftInputOnFocus={false}
               onChangeText={() => alert('Change Text')}
@@ -290,7 +292,7 @@ const ScreenNotification = ({onAction}) => {
         </View>
         <View style={{marginVertical: 10}}>
           <TouchableHighlight
-            onPress={() => onAction(moment(new_date).format())}>
+            onPress={() => onAction(new_date)}>
             <View style={style.btnSubmit}>
               <Text style={style.txtSubmit}>Notificarme</Text>
             </View>
