@@ -20,110 +20,112 @@ const daysInMonth = (month, year) => {
 const month = new Date().getMonth() + 1;
 const year = new Date().getFullYear();
 
-let YEAR;
-
-if (Number(month) >= 12) {
-  YEAR = moment().add(1, 'year').format('YY');
-} else {
-  YEAR = moment().format('YY');
-}
-
-const DAY = moment().format('DD');
-const MONTH = moment().add(1, 'month').format('MM');
-
-const YEARS = [];
-const DAYS = [];
-const MONTHDAY = [
-  {
-    id: 1,
-    title: 'Enero',
-  },
-  {
-    id: 2,
-    title: 'Febrero',
-  },
-  {
-    id: 3,
-    title: 'Marzo',
-  },
-  {
-    id: 4,
-    title: 'Abril',
-  },
-  {
-    id: 5,
-    title: 'Mayo',
-  },
-  {
-    id: 6,
-    title: 'Junio',
-  },
-  {
-    id: 7,
-    title: 'Julio',
-  },
-  {
-    id: 8,
-    title: 'Agosto',
-  },
-  {
-    id: 9,
-    title: 'Septiembre',
-  },
-  {
-    id: 10,
-    title: 'Octubre',
-  },
-  {
-    id: 11,
-    title: 'Noviembre',
-  },
-  {
-    id: 12,
-    title: 'Diciembre',
-  },
-];
-
-// Count Days
-for (let i = 1; i <= daysInMonth(month, year); i++) {
-  DAYS.push({
-    id: i,
-    value: i,
-  });
-}
-
-// Count Years
-let yearNumber = parseInt(YEAR);
-for (let y = 0; y < 6; y++) {
-  YEARS.push({
-    id: y,
-    year: year + y,
-    value: yearNumber + y,
-  });
-}
-
-const ItemMonth = ({month, onPress, backgroundColor, textColor}) => (
-  <TouchableOpacity onPress={onPress} style={[style.itemList, backgroundColor]}>
-    <Text style={[style.txtList, textColor]}>{month.title}</Text>
-  </TouchableOpacity>
-);
-
-const ItemDays = ({day, onPress, backgroundColor, textColor}) => (
-  <TouchableOpacity onPress={onPress} style={[style.itemList, backgroundColor]}>
-    <Text style={[style.txtList, textColor]}>{day.id}</Text>
-  </TouchableOpacity>
-);
-
-const ItemYears = ({year, onPress, backgroundColor, textColor}) => (
-  <TouchableOpacity onPress={onPress} style={[style.itemList, backgroundColor]}>
-    <Text style={[style.txtList, textColor]}>{year.year}</Text>
-  </TouchableOpacity>
-);
-
 const ScreenNotification = () => {
+
+  let YEAR = moment().format('YY');
+
+  const DAY = moment().format('DD');
+  const MONTH = moment().add(1, 'month').format('MM');
+
   const [getYear, setYear] = useState(YEAR);
   const [getDay, setDay] = useState(DAY);
   const [getMonth, setMonth] = useState(MONTH);
+  
+  const YEARS = [];
+  const DAYS = [];
+  const MONTHDAY = [
+    {
+      id: 1,
+      title: 'Enero',
+    },
+    {
+      id: 2,
+      title: 'Febrero',
+    },
+    {
+      id: 3,
+      title: 'Marzo',
+    },
+    {
+      id: 4,
+      title: 'Abril',
+    },
+    {
+      id: 5,
+      title: 'Mayo',
+    },
+    {
+      id: 6,
+      title: 'Junio',
+    },
+    {
+      id: 7,
+      title: 'Julio',
+    },
+    {
+      id: 8,
+      title: 'Agosto',
+    },
+    {
+      id: 9,
+      title: 'Septiembre',
+    },
+    {
+      id: 10,
+      title: 'Octubre',
+    },
+    {
+      id: 11,
+      title: 'Noviembre',
+    },
+    {
+      id: 12,
+      title: 'Diciembre',
+    },
+  ];
+
+  // Count Days
+  for (let i = 1; i <= daysInMonth(month, year); i++) {
+    DAYS.push({
+      id: i,
+      value: i,
+    });
+  }
+
+  // Count Years
+  let yearNumber = parseInt(YEAR);
+  for (let y = 0; y < 6; y++) {
+    YEARS.push({
+      id: y,
+      year: year + y,
+      value: yearNumber + y,
+    });
+  }
+
+  const ItemMonth = ({month, onPress, backgroundColor, textColor}) => (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[style.itemList, backgroundColor]}>
+      <Text style={[style.txtList, textColor]}>{month.title}</Text>
+    </TouchableOpacity>
+  );
+
+  const ItemDays = ({day, onPress, backgroundColor, textColor}) => (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[style.itemList, backgroundColor]}>
+      <Text style={[style.txtList, textColor]}>{day.id}</Text>
+    </TouchableOpacity>
+  );
+
+  const ItemYears = ({year, onPress, backgroundColor, textColor}) => (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[style.itemList, backgroundColor]}>
+      <Text style={[style.txtList, textColor]}>{year.year}</Text>
+    </TouchableOpacity>
+  );
+
 
   const [getMonthVisible, setMonthVisible] = useState(false);
   const [getDayVisible, setDayVisible] = useState(false);
@@ -185,8 +187,8 @@ const ScreenNotification = () => {
         animationType="slide"
         visible={getYearVisible}
         onRequestClose={() => setYearVisible(false)}>
-        <View>
-          <Text>¿Seleccione el año?</Text>
+        <View style={style.centeredView}>
+          <Text style={{marginVertical: 5}}>¿Seleccione el año?</Text>
           <FlatList
             data={YEARS}
             renderItem={renderYears}
@@ -198,8 +200,8 @@ const ScreenNotification = () => {
         animationType="slide"
         visible={getMonthVisible}
         onRequestClose={() => setMonthVisible(false)}>
-        <Text>¿Seleccione el mes?</Text>
-        <View>
+        <View style={style.centeredView}>
+          <Text style={{marginVertical: 5}}>¿Seleccione el mes?</Text>
           <FlatList
             data={MONTHDAY}
             renderItem={renderMonth}
@@ -213,7 +215,7 @@ const ScreenNotification = () => {
         visible={getDayVisible}
         onRequestClose={() => setDayVisible(false)}>
         <View style={style.centeredView}>
-          <Text>¿Seleccione el día?</Text>
+          <Text style={{marginVertical: 5}}>¿Seleccione el día?</Text>
           <FlatList
             data={DAYS}
             renderItem={renderDays}
@@ -294,11 +296,18 @@ const ScreenNotification = () => {
 
 const style = StyleSheet.create({
   containerNotify: {
-    width: 250
+    width: '80%',
   },
   bgImage: {
     flex: 1,
     justifyContent: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '50%',
+    maxHeight: 300,
   },
   containerLogo: {
     justifyContent: 'center',
