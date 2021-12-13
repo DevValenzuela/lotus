@@ -82,7 +82,7 @@ export default class NotifyService {
       largeIcon: 'ic_launcher', // (optional) default: "ic_launcher"
       smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher"
       bigText: `${paramsNotify.msg} ${date_origin}`, // (optional) default: "message" prop
-      subText: 'This is a subText', // (optional) default: none
+      subText: '', // (optional) default: none
       color: 'red', // (optional) default: system default
       vibrate: true, // (optional) default: true
       vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000

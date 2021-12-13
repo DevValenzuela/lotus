@@ -11,7 +11,7 @@ import moment from 'moment';
 const Notification = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const {typeAction, idMascot} = route.params;
+  const {typeAction, id_mascot} = route.params;
 
   const [setNotify, getDateNotify] = useState('');
 
@@ -50,7 +50,7 @@ const Notification = () => {
     database3.InsertNotify({
       type: type,
       last_date: setNotify,
-      mascot: idMascot,
+      mascot: id_mascot,
     });
 
     return navigation.navigate('Gratulations', {
@@ -58,7 +58,6 @@ const Notification = () => {
     });
   };
 
-  console.log(typeAction)
   return (
     <View style={style.container}>
       <ImageBackground

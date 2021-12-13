@@ -25,7 +25,7 @@ const ScreenNotification = ({onAction, typeAction}) => {
   let YEAR = moment().format('YY');
 
   const DAY = moment().format('DD');
-  const MONTH = moment().add(1, 'month').format('MM');
+  const MONTH = moment().format('MM');
 
   const [getYear, setYear] = useState(YEAR);
   const [getYearOrigin, setYearOrigin] = useState(year);
@@ -301,7 +301,7 @@ const ScreenNotification = ({onAction, typeAction}) => {
           </Text>
           <TouchableHighlight onPress={() => onAction(new_date)}>
             <View style={style.btnSubmit}>
-              <Text style={style.txtSubmit}>Notificarme</Text>
+              <Text style={style.txtSubmit}>¡Notificarme!</Text>
             </View>
           </TouchableHighlight>
         </View>

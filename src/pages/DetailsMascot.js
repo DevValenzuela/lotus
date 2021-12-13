@@ -111,7 +111,7 @@ const DetailsMascot = ({navigation, route}) => {
     return null;
 
   const {
-    id_mascot,
+    id_mascot = null,
     name_mascot,
     age_mascot,
     race_mascot,

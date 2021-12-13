@@ -134,7 +134,7 @@ const InsertControllerMedic = (values, setSuccess) => {
   );
 };
 
-const consultMascotID = (idMascot, setMacotFunc) => {
+const consultMascotID = (idMascot, setMascotFunc) => {
   db.transaction(
     tx => {
       tx.executeSql(
@@ -142,7 +142,7 @@ const consultMascotID = (idMascot, setMacotFunc) => {
         [idMascot],
         function (tx, results) {
           let resp = results.rows.item(0);
-          setMacotFunc(resp);
+          setMascotFunc(resp);
         },
       );
     },

@@ -82,7 +82,7 @@ const Deworming = ({route, navigation}) => {
       getDate(desparacitacions[0].last_deworming);
     }
     if (success) {
-      navigation.navigate('ScreenNotification', {typeAction, idMascot});
+      navigation.navigate('ScreenNotification', {typeAction,  id_mascot});
     }
     if (successUpdate) {
       navigation.navigate('Gratulations', {

@@ -63,6 +63,8 @@ function NotifyProfileView() {
     database3.ConsultNotifyCount(setNotify);
   }, [dataB, loadingB]);
 
+  database3.ConsultNotifyCount(setNotify);
+
   if (loadingB) return null;
   if (errorB) console.log(errorB);
 

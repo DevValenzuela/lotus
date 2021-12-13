@@ -25,7 +25,7 @@ const Notify = () => {
     database3.ConsultNotify(setNotify);
     timer.current = setTimeout(() => {
       getStatus(false);
-    }, 2000);
+    }, 1500);
     return () => {
       clearTimeout(timer);
     };

@@ -28,9 +28,8 @@ const BoxNotifyCation = ({data_notify}) => {
   useEffect(() => {
     if (data_notify) {
       const {id_mascot} = data_notify;
-      consultImageId(id_mascot).then(() => {
-        database.consultMascotID(id_mascot, setMascot);
-      });
+      consultImageId(id_mascot);
+      database.consultMascotID(id_mascot, setMascot);
     }
   }, [data_notify]);
 
@@ -68,7 +67,7 @@ const BoxNotifyCation = ({data_notify}) => {
           <View style={style.container}>
             <View style={{flex: 1, padding: 10}}>
               {(() => {
-                if (isConnect && getImageResult.avatar_mascot) {
+                if (isConnect && getImageResult?.avatar_mascot) {
                   const {
                     avatar_mascot: {url},
                   } = getImageResult;
