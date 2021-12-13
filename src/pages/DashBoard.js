@@ -27,6 +27,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Carousel from "../components/carousel";
 
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -38,7 +39,6 @@ const DashBoard = ({navigation}) => {
   const {
     dispatchUserEvent,
     user: {user},
-    r,
   } = useContext(UserContext);
 
   const {loading, error, data} = useQuery(BANNER_APP, {
@@ -100,11 +100,12 @@ const DashBoard = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 {getOfert && isConnected ? (
-                  <Image
+                /*  <Image
                     style={style.banner}
                     source={{uri: `${API_URL}${getOfert.url}`}}
                     resizeMode="stretch"
-                  />
+                  />*/
+                  <Carousel urlImage={`${API_URL}${getOfert.url}`} />
                 ) : (
                   <Image
                     style={style.banner}

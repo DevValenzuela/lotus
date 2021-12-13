@@ -20,7 +20,7 @@ import {Loading} from '../components/sharedComponent';
 import {useMutation} from '@apollo/client';
 import {LOGIN_USER_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
-import {verifyDB} from '../conexion/crudVerify';
+
 
 const initialValue = {
   user: '',
