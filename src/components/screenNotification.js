@@ -21,7 +21,7 @@ let date = new Date();
 const month = date.getMonth() + 1;
 const year = date.getFullYear();
 
-const ScreenNotification = ({onAction, typeAction}) => {
+const ScreenNotification = ({onAction, onCancel, typeAction}) => {
   let YEAR = moment().format('YY');
 
   const DAY = moment().format('DD');
@@ -354,12 +354,14 @@ const style = StyleSheet.create({
     padding: Platform.OS == 'ios' ? 15 : 10,
     borderRadius: 10,
     width: '100%',
+    marginVertical: 3,
   },
   btnCancel: {
     backgroundColor: '#330066',
     padding: Platform.OS == 'ios' ? 15 : 10,
     borderRadius: 10,
     width: '100%',
+    marginVertical: 3,
   },
   txtSubmit: {
     color: '#fff',

@@ -58,6 +58,12 @@ const Notification = () => {
     });
   };
 
+  const actionCancel = () => {
+    return navigation.navigate('Gratulations', {
+      txtMsg: 'Se ha guardado correctamente.',
+    });
+  };
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -65,7 +71,11 @@ const Notification = () => {
         resizeMode="cover"
         style={style.bgImage}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <ScreenNotification onAction={actionNotifyCation} typeAction={typeAction} />
+          <ScreenNotification
+            onAction={actionNotifyCation}
+            onCancel={actionCancel}
+            typeAction={typeAction}
+          />
         </View>
       </ImageBackground>
     </View>
