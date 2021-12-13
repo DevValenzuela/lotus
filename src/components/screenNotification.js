@@ -304,6 +304,11 @@ const ScreenNotification = ({onAction, typeAction}) => {
               <Text style={style.txtSubmit}>¡Notificarme!</Text>
             </View>
           </TouchableHighlight>
+          <TouchableHighlight onPress={() => onCancel()}>
+            <View style={style.btnCancel}>
+              <Text style={style.txtSubmit}>¡No deseo!</Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     </View>
@@ -346,6 +351,12 @@ const style = StyleSheet.create({
   },
   btnSubmit: {
     backgroundColor: '#660066',
+    padding: Platform.OS == 'ios' ? 15 : 10,
+    borderRadius: 10,
+    width: '100%',
+  },
+  btnCancel: {
+    backgroundColor: '#330066',
     padding: Platform.OS == 'ios' ? 15 : 10,
     borderRadius: 10,
     width: '100%',

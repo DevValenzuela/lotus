@@ -264,7 +264,7 @@ const ControlMedic = ({route, navigation}) => {
                     />
                   </View>
 
-                  <Text style={style.label}>Presentación y anotaciones:</Text>
+                  <Text style={style.label}>Prescripción y anotaciones:</Text>
 
                   <View style={{marginHorizontal: 5, marginVertical: 2}}>
                     <Textarea

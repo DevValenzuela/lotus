@@ -134,7 +134,7 @@ const DashBoard = ({navigation}) => {
                   />
                   <BtnAction
                     navigation={navigation}
-                    title="Desparacitación"
+                    title="Desparasitación"
                     action="DewormingFilter"
                     url={require('../assets/images/tabs/PARASITEICON.png')}
                   />

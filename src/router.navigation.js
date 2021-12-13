@@ -95,7 +95,7 @@ export function RouterNavigation() {
         name="DewormingFilter"
         component={DewormingFilters}
         options={() => ({
-          title: 'Desparacitaciones',
+          title: 'Desparasitaciones',
           ...options2(),
         })}
       />
@@ -195,7 +195,7 @@ export function RouterNavigation() {
         name="HistoryDeworming"
         component={DewormingHistory}
         options={() => ({
-          title: 'Desparacitaciones',
+          title: 'Desparasitaciones',
           ...options2(),
         })}
       />
@@ -239,7 +239,7 @@ export function RouterNavigation() {
         name="EditDeworming"
         component={Deworming}
         options={() => ({
-          title: 'Desparacitación',
+          title: 'Desparasitación',
           ...options2(),
         })}></Stack.Screen>
 
