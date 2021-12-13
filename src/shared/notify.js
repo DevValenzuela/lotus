@@ -10,8 +10,10 @@ import {
 import BoxNotifyCation from '../components/boxNotification';
 import {database3} from '../conexion/crudNotify';
 import {Loading} from '../components/sharedComponent';
+import { useIsConnected } from 'react-native-offline';
 
 const Notify = () => {
+  const isConnect = useIsConnected();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [getNotify, setNotify] = useState([]);
   const [status, getStatus] = useState(true);
@@ -47,7 +49,7 @@ const Notify = () => {
 
   if (status) return <Loading />;
 
-  if (resp.length <= 0) {
+  if (resp.length <= 0 || !isConnect) {
     return (
       <ImageBackground
         source={require('../assets/images/bg_lotus.png')}
