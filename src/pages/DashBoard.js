@@ -60,7 +60,7 @@ const DashBoard = ({navigation}) => {
 
   if (loading) return <Loading />;
   if (error) console.log(error);
-  console.log(data?.banners)
+  if (!data) return null;
 
   if (getResultCreate.length > 0) {
     if (isConnected) {

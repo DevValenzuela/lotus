@@ -7,6 +7,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 const Carousel = ({offers}) => {
+  if (!offers) return null;
   return (
     <Swiper
       dotColor="#ffffff"
