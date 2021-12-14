@@ -9,18 +9,14 @@ import {
 const Carousel = ({offers}) => {
   return (
     <Swiper
-      showsButtons={true}
       dotColor="#ffffff"
-      activeDotColor="#451D6E"
-      nextButton={<Text style={styles.buttonSlide}>›</Text>}
-      prevButton={<Text style={styles.buttonSlide}>‹</Text>}>
-      {offers.map(item => {
-        const {ofert} = item;
+      activeDotColor="#451D6E">
+      {offers?.map(({ofert}, key) => {
         return (
-          <View>
+          <View key={key} style={styles.slide}>
             <Image
               style={styles.banner}
-              source={{uri: `${API_URL}${ofert[0].url}`}}
+              source={{uri: `${API_URL}${ofert[0]?.url}`}}
               resizeMode="stretch"
             />
           </View>
@@ -34,10 +30,10 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
   },
-  buttonSlide: {
-    fontSize: 50,
-    color: '#451D6E',
-    fontWeight: '600',
+  slide: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9DD6EB',
   },
   banner: {
     width: wp('100%'),

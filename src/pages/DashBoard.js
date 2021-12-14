@@ -1,5 +1,4 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {API_URL} from '@env';
 import {useQuery} from '@apollo/client';
 import {BANNER_APP} from '../pages/apolllo/query';
 import {
@@ -19,6 +18,7 @@ import {
 import {BtnAction, Loading} from '../components/sharedComponent';
 import ListCarousel from '../components/listCarousel';
 import ListCarouselOffline from '../components/listCarouselOffline';
+import Carousel from '../components/carousel';
 import {UserContext} from '../context/userContext';
 import {useIsConnected} from 'react-native-offline';
 import {database} from '../conexion/crudSqlite';
@@ -27,7 +27,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Carousel from "../components/carousel";
+
 
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -45,7 +45,6 @@ const DashBoard = ({navigation}) => {
     pollInterval: 2000,
   });
 
-  const [getOfert, setOfert] = useState({});
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -54,16 +53,14 @@ const DashBoard = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    if (data) {
-      setOfert(data.banners);
-    }
     if (!isConnected) {
       database.consultMascot(dispatchUserEvent);
     }
-  }, [data, loading, refreshing]);
+  }, [loading, refreshing]);
 
   if (loading) return <Loading />;
   if (error) console.log(error);
+  console.log(data?.banners)
 
   if (getResultCreate.length > 0) {
     if (isConnected) {
@@ -71,8 +68,6 @@ const DashBoard = ({navigation}) => {
       return null;
     }
   }
-
-
 
   return (
     <View style={style.container}>
@@ -101,13 +96,8 @@ const DashBoard = ({navigation}) => {
                   height: hp('29%'),
                   alignItems: 'center',
                 }}>
-                {getOfert && isConnected ? (
-                /*  <Image
-                    style={style.banner}
-                    source={{uri: `${API_URL}${getOfert.url}`}}
-                    resizeMode="stretch"
-                  />*/
-                  <Carousel offers={getOfert} />
+                {data?.banners && isConnected ? (
+                  <Carousel offers={data?.banners} />
                 ) : (
                   <Image
                     style={style.banner}
