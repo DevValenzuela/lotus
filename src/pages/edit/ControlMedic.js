@@ -27,24 +27,23 @@ import {ModalCalendarError, Loading} from '../../components/sharedComponent';
 import {UserContext} from '../../context/userContext';
 import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
-import {database3} from '../../conexion/crudNotify';
-import NotifyService from '../../hooks/notifyService';
 import {verifyDB} from '../../conexion/crudVerify';
 
 const ControlMedic = ({route, navigation}) => {
+  const typeAction = 'Control Medico';
   const {
     user: {user},
   } = useContext(UserContext);
   const isConnected = useIsConnected();
-  const notify = new NotifyService();
   const {idMascot, controllerMedics, edit, id_mascot} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
-  const [setNotify, getDateNotify] = useState('');
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [successUpdate, setSuccessUpdate] = useState(false);
+  const initialValue = new Object();
 
   const [createControllerMedic, {data, error, loading}] = useMutation(
     CREATE_CONTROLLER_MEDIC_APP,
@@ -54,8 +53,6 @@ const ControlMedic = ({route, navigation}) => {
     updateControllerMedic,
     {data: updateData, error: errorData, loading: loadingData},
   ] = useMutation(UPDATE_CONTROLLER_MEDIC);
-
-  const initialValue = new Object();
 
   if (edit) {
     initialValue.last_control = '';
@@ -80,15 +77,18 @@ const ControlMedic = ({route, navigation}) => {
       getDate(controllerMedics[0].last_control);
     }
     if (success) {
+      navigation.navigate('ScreenNotification', {typeAction, id_mascot});
+    }
+    if (successUpdate) {
       navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha insertado nuevo control medico.',
+        txtMsg: 'Se ha actualizado correctamente.',
       });
     }
   }, [controllerMedics, edit, success]);
 
   const handleSubmitMedicament = async values => {
     if (!values) return;
-    const {last_control, valoration, note, type = 'Control Medico'} = values;
+    const {last_control, valoration, note, type = typeAction} = values;
     let id = uuidv4();
     let new_value = {
       id_medic: id,
@@ -100,27 +100,10 @@ const ControlMedic = ({route, navigation}) => {
       type,
     };
 
-    let paramsNotify = {
-      date: setNotify,
-      type,
-      title: '¡Lotus Te Recomienda!',
-      msg: `${type} esta para:`,
-    };
-
     if (isConnected) {
       try {
         await createControllerMedic({
           variables: new_value,
-        });
-        notify.scheduleNotif(paramsNotify);
-        notify.localNotif({
-          ...paramsNotify,
-          title: '!Lotus Creada Nueva Alerta¡',
-        });
-        await database3.InsertNotify({
-          ...new_value,
-          last_date: setNotify,
-          mascot: id_mascot,
         });
         await database.InsertControllerMedic(
           {...new_value, mascot: id_mascot},
@@ -131,17 +114,6 @@ const ControlMedic = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      notify.scheduleNotif(paramsNotify);
-      notify.localNotif({
-        ...paramsNotify,
-        title: '!Lotus Creada Nueva Alerta¡',
-      });
-      await database3.InsertNotify({
-        ...new_value,
-        last_date: setNotify,
-        mascot: id_mascot,
-      });
-
       await verifyDB.InsertCreateVerify(new_value.id_medic, 'controller_medic');
       await database.InsertControllerMedic(new_value, setSuccess);
     }
@@ -161,12 +133,16 @@ const ControlMedic = ({route, navigation}) => {
             note,
           },
         });
-        await database.UpdateControllerMedic(id_medic, values, setSuccess);
+        await database.UpdateControllerMedic(
+          id_medic,
+          values,
+          setSuccessUpdate,
+        );
       } catch (error) {
         console.log(error);
       }
     } else {
-      await database.UpdateControllerMedic(id_medic, values, setSuccess);
+      await database.UpdateControllerMedic(id_medic, values, setSuccessUpdate);
     }
   };
 
@@ -184,8 +160,7 @@ const ControlMedic = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment().add(1, 'month').subtract(7, 'days').format();
-    getDateNotify(dateNotify);
+    //let dateNotify = moment().add(1, 'month').subtract(7, 'days').format();
     getDate(dateFormat);
     getCalendar(false);
   };

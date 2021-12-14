@@ -28,14 +28,10 @@ import {Loading} from '../../components/sharedComponent';
 import {database} from '../../conexion/crudSqlite';
 
 import {useIsConnected} from 'react-native-offline';
-import NotifyService from './../../hooks/notifyService';
 import {verifyDB} from '../../conexion/crudVerify';
 
 const Deworming = ({route, navigation}) => {
   const typeAction = 'Desparacitación';
-
-  const notify = new NotifyService();
-  notify.popInitialNotification();
 
   const isConnected = useIsConnected();
   const {idMascot, edit, desparacitacions, id_mascot} = route.params;
