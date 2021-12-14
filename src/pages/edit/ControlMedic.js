@@ -84,7 +84,7 @@ const ControlMedic = ({route, navigation}) => {
         txtMsg: 'Se ha actualizado correctamente.',
       });
     }
-  }, [controllerMedics, edit, success]);
+  }, [controllerMedics, edit, success, successUpdate]);
 
   const handleSubmitMedicament = async values => {
     if (!values) return;

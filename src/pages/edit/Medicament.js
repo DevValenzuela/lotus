@@ -25,21 +25,19 @@ import moment from 'moment';
 import {v4 as uuidv4} from 'uuid';
 import {useIsConnected} from 'react-native-offline';
 import {database} from '../../conexion/crudSqlite';
-import NotifyService from '../../hooks/notifyService';
-import {database3} from '../../conexion/crudNotify';
 import {verifyDB} from '../../conexion/crudVerify';
 
 const Medicament = ({route, navigation}) => {
+  const typeAction = 'Medicamento';
   const isConnected = useIsConnected();
-  const notify = new NotifyService();
   const {idMascot, edit, medicaments, id_mascot} = route.params;
   const [selectedStartDate, getselectedStartDate] = useState(null);
-  const [setNotify, getDateNotify] = useState('');
   const [setCalendar, getCalendar] = useState(false);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
-  const [sucess, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [successUpdate, setSuccessUpdate] = useState(false);
   const [createMedicament, {data, error, loading}] = useMutation(
     CREATE_MEDICAMENT_APP,
   );
@@ -74,12 +72,15 @@ const Medicament = ({route, navigation}) => {
     if (edit && medicaments) {
       getDate(medicaments[0].last_dose);
     }
-    if (sucess) {
+    if (success) {
+      navigation.navigate('ScreenNotification', {typeAction, id_mascot});
+    }
+    if (successUpdate) {
       navigation.navigate('Gratulations', {
-        txtMsg: 'Se ha insertado un nuevo medicamento.',
+        txtMsg: 'Se ha actualizado correctamente.',
       });
     }
-  }, [edit, medicaments, sucess]);
+  }, [edit, medicaments, success, successUpdate]);
 
   const SignupSchema = Yup.object().shape({
     last_dose: Yup.string().required('Ingresa el campo ultima dosis.'),
@@ -103,7 +104,7 @@ const Medicament = ({route, navigation}) => {
       dosis,
       period,
       notation,
-      type = 'Medicamento',
+      type = typeAction,
     } = values;
 
     let new_value = {
@@ -119,27 +120,10 @@ const Medicament = ({route, navigation}) => {
       type,
     };
 
-    let paramsNotify = {
-      date: setNotify,
-      type,
-      title: '¡Lotus Te Recomienda!',
-      msg: `${type} esta para:`,
-    };
-
     if (isConnected) {
       try {
         await createMedicament({
           variables: new_value,
-        });
-        notify.scheduleNotif(paramsNotify);
-        notify.localNotif({
-          ...paramsNotify,
-          title: '!Lotus Creada Nueva Alerta¡',
-        });
-        await database3.InsertNotify({
-          ...new_value,
-          last_date: setNotify,
-          mascot: id_mascot,
         });
         await database.InsertMedicament(
           {...new_value, mascot: id_mascot},
@@ -150,16 +134,6 @@ const Medicament = ({route, navigation}) => {
         console.log(error);
       }
     } else {
-      notify.scheduleNotif(paramsNotify);
-      notify.localNotif({
-        ...paramsNotify,
-        title: '!Lotus Creada Nueva Alerta¡',
-      });
-      await database3.InsertNotify({
-        ...new_value,
-        last_date: setNotify,
-        mascot: id_mascot,
-      });
       await verifyDB.InsertCreateVerify(new_value.id_medicament, 'Medicament');
       await database.InsertMedicament(new_value, setSuccess);
     }
@@ -182,12 +156,16 @@ const Medicament = ({route, navigation}) => {
             notation,
           },
         });
-        await database.UpdateMedicament(id_medicament, values, setSuccess);
+        await database.UpdateMedicament(
+          id_medicament,
+          values,
+          setSuccessUpdate,
+        );
       } catch (error) {
         console.log(error);
       }
     } else {
-      await database.UpdateMedicament(id_medicament, values, setSuccess);
+      await database.UpdateMedicament(id_medicament, values, setSuccessUpdate);
     }
   };
 
@@ -205,8 +183,7 @@ const Medicament = ({route, navigation}) => {
       return null;
     }
     let dateFormat = moment(new Date(date)).format('DD-MM-YYYY');
-    let dateNotify = moment().add(1, 'month').subtract(7, 'days').format();
-    getDateNotify(dateNotify);
+    //let dateNotify = moment().add(1, 'month').subtract(7, 'days').format();
     getDate(dateFormat);
     getCalendar(false);
   };
