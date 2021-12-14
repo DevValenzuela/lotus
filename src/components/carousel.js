@@ -8,21 +8,26 @@ import {
 } from 'react-native-responsive-screen';
 const Carousel = ({offers}) => {
   if (!offers) return null;
+
+  let images = new Array();
+
+  offers?.forEach(({ofert}) => {
+    ofert.forEach((item, key) => {
+      images.push(item.url);
+    });
+  });
+
   return (
-    <Swiper
-      dotColor="#ffffff"
-      activeDotColor="#451D6E">
-      {offers?.map(({ofert}, key) => {
-        return (
-          <View key={key} style={styles.slide}>
-            <Image
-              style={styles.banner}
-              source={{uri: `${API_URL}${ofert[0]?.url}`}}
-              resizeMode="stretch"
-            />
-          </View>
-        );
-      })}
+    <Swiper dotColor="#ffffff" activeDotColor="#451D6E">
+      {images?.map((item, key) => (
+        <View key={key} style={styles.slide}>
+          <Image
+            style={styles.banner}
+            source={{uri: `${API_URL}${item}`}}
+            resizeMode="stretch"
+          />
+        </View>
+      ))}
     </Swiper>
   );
 };
