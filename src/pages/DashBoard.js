@@ -55,8 +55,7 @@ const DashBoard = ({navigation}) => {
 
   useEffect(() => {
     if (data) {
-      const {banners} = data;
-      setOfert(banners[0]?.ofert);
+      setOfert(data.banners);
     }
     if (!isConnected) {
       database.consultMascot(dispatchUserEvent);
@@ -72,6 +71,9 @@ const DashBoard = ({navigation}) => {
       return null;
     }
   }
+
+
+
   return (
     <View style={style.container}>
       <ImageBackground
@@ -105,7 +107,7 @@ const DashBoard = ({navigation}) => {
                     source={{uri: `${API_URL}${getOfert.url}`}}
                     resizeMode="stretch"
                   />*/
-                  <Carousel urlImage={`${API_URL}${getOfert.url}`} />
+                  <Carousel offers={getOfert} />
                 ) : (
                   <Image
                     style={style.banner}

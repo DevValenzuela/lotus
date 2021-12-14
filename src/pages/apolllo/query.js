@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 export const BANNER_APP = gql`
   query banners {
-    banners(limit: 1) {
+    banners(limit: 4) {
       ofert {
         id
         url
