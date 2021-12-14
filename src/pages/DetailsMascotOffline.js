@@ -170,7 +170,7 @@ const DetailsMascotOffline = ({navigation, route}) => {
                       style={{width: 28, height: 28, marginHorizontal: 5}}
                       resizeMode="contain"
                     />
-                    <Text style={style.subtitleTxt}>Desparacitación:</Text>
+                    <Text style={style.subtitleTxt}>Desparasitación:</Text>
                   </View>
                   {deworming.length > 0 ? (
                     <View>
