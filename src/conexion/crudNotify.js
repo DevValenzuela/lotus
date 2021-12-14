@@ -40,7 +40,10 @@ const ConsultNotifyCount = setNotify => {
         let len = results.rows.length;
         let number = 0;
         for (let i = 0; i < len; i++) {
-          if (results.rows.item(i).last_date <= moment(new Date()).format()) {
+          if (
+            results.rows.item(i).last_date <=
+            moment(new Date()).add(7, 'days').format()
+          ) {
             number++;
           }
         }
@@ -64,7 +67,10 @@ const ConsultNotify = setNotify => {
         let resp = [];
         let len = results.rows.length;
         for (let i = 0; i < len; i++) {
-          if (results.rows.item(i).last_date <= moment(new Date()).format()) {
+          if (
+            results.rows.item(i).last_date <=
+            moment(new Date()).add(7, 'days').format()
+          ) {
             resp.push(results.rows.item(i));
           }
         }
