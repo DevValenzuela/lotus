@@ -42,7 +42,7 @@ const ConsultNotifyCount = setNotify => {
         for (let i = 0; i < len; i++) {
           if (
             results.rows.item(i).last_date <=
-            moment(new Date()).add(7, 'days').format()
+            moment(new Date()).add(8, 'days').format()
           ) {
             number++;
           }
@@ -69,7 +69,7 @@ const ConsultNotify = setNotify => {
         for (let i = 0; i < len; i++) {
           if (
             results.rows.item(i).last_date <=
-            moment(new Date()).add(7, 'days').format()
+            moment(new Date()).add(8, 'days').format()
           ) {
             resp.push(results.rows.item(i));
           }

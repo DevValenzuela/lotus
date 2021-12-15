@@ -415,7 +415,7 @@ export const AvatarOption = () => {
             />
           ) : (
             <Image
-              source={require('../assets/images/image_photo.png')}
+              source={require('../assets/images/user-avatar-not-found.png')}
               style={style.imgProfile}
             />
           )}
