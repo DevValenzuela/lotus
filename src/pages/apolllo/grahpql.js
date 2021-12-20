@@ -459,3 +459,32 @@ export const DELETE_USER_ACCOUNT = gql`
     }
   }
 `;
+
+export const CREATE_NOTIFY_APP = gql`
+  mutation createNotify(
+    $id_user: String!
+    $id_notify: String!
+    $id_mascot: String!
+    $date: String!
+    $date_notify: String!
+    $type: String!
+  ) {
+    createNotifyc(
+      input: {
+        data: {
+          id_notify: $id_notify
+          id_mascot: $id_mascot
+          date: $date
+          date_notify: $date_notify
+          id_user: $id_user
+          type: $type
+        }
+      }
+    ) {
+      notifyc {
+        id
+        id_notify
+      }
+    }
+  }
+`;

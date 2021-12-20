@@ -2,7 +2,8 @@ import React from 'react';
 import {Text, View, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useIsConnected} from 'react-native-offline';
-const ListBoxFilters = () => {
+const ListBoxFilters = ({data}) => {
+
   const id_deworming = '';
   const navigation = useNavigation();
   const isConnected = useIsConnected();

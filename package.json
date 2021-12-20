@@ -20,6 +20,7 @@
     "formik": "^2.2.9",
     "graphql": "^15.6.0",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.34",
     "react": "17.0.2",
     "react-native": "0.65.1",
     "react-native-calendar-picker": "^7.1.2",

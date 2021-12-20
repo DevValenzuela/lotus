@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -9,39 +9,64 @@ import {
 } from 'react-native';
 import {style} from './style';
 import {useDebounceValue} from '../../hooks/debounceTime';
-import {CONSULT_SEARCH_FILTER_DEWORMING} from '../apolllo/query';
+import {
+  CONSULT_NOTIFYCS_LIST,
+  CONSULT_SEARCH_FILTER_DEWORMING,
+} from '../apolllo/query';
 import {useIsConnected} from 'react-native-offline';
 import {database2} from '../../conexion/crudSqlite2';
 import ListBoxFilters from '../../components/listBoxFilters';
+import {useQuery} from '@apollo/client';
+import {Loading} from '../../components/sharedComponent';
+import {UserContext} from '../../context/userContext';
 
 const DewormingFilters = () => {
+  const {
+    dispatchUserEvent,
+    user: {
+      user: {id},
+    },
+  } = useContext(UserContext);
+
   const [txtValue, setTxtValue] = useState('');
   const [getSearchResult, setSearchResult] = useState([]);
 
   const isConnected = useIsConnected();
-  const value = useDebounceValue(
-    txtValue,
-    1000,
-    CONSULT_SEARCH_FILTER_DEWORMING,
-  );
+
+  const {
+    data: generalNotify,
+    loading: loadingNotify,
+    error: errorNotify,
+  } = useQuery(CONSULT_NOTIFYCS_LIST, {
+    pollInterval: 2000,
+    variables: {
+      type: 'Desparacitación',
+      id: id,
+    },
+  });
 
   const renderItem = ({item}) => <ListBoxFilters data={item} />;
 
   useEffect(() => {
-    if (value && isConnected) {
+    if (generalNotify && isConnected) {
       const result = [];
-      value.desparacitacions.map(item => {
+      generalNotify.notifycs.map(item => {
+        const {id, date_notify, id_mascot, id_notify, type} = item;
         result.push({
-          id: item.id,
-          id_deworming: item.id_deworming,
-          date: item.last_deworming,
+          id,
+          date_notify,
+          id_mascot,
+          id_notify,
+          type,
         });
       });
       setSearchResult(result);
     } else {
       database2.ConsultDewormingGeneral(setSearchResult);
     }
-  }, [isConnected, value]);
+  }, [isConnected, generalNotify]);
+
+  if (loadingNotify) return <Loading />;
 
   return (
     <SafeAreaView style={style.container}>

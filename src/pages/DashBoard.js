@@ -27,7 +27,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -59,7 +59,12 @@ const DashBoard = ({navigation}) => {
   }, [loading, refreshing]);
 
   if (loading) return <Loading />;
-  if (error) console.log(error);
+
+  if (error) {
+    AsyncStorage.removeItem('token_lotus');
+    return navigation.navigate('Login');
+  }
+
   if (!data) return null;
 
   if (getResultCreate.length > 0) {
