@@ -1,12 +1,44 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {API_URL} from '@env';
 import {Text, View, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useIsConnected} from 'react-native-offline';
+import {useQuery} from '@apollo/client';
+import {CONSULT_MASCOT_APP_SQLITE} from '../pages/apolllo/query';
+import moment from 'moment';
 const ListBoxFilters = ({data}) => {
 
+  const {id_mascot, date, date_notify} = data;
   const id_deworming = '';
   const navigation = useNavigation();
   const isConnected = useIsConnected();
+
+  const [getMascot, setMascot] = useState(null);
+  const {fetchMore} = useQuery(CONSULT_MASCOT_APP_SQLITE);
+  
+  let nowDay = moment(date);
+  let lastDay = moment(date_notify);
+
+  useEffect(() => {
+    consultMascot().then(resp => {
+      const {mascots} = resp.data;
+      setMascot(mascots);
+    });
+  }, []);
+
+  async function consultMascot() {
+    return await fetchMore({
+      fetchPolicy: 'no-cache',
+      pollInterval: 1000,
+      variables: {
+        id: id_mascot,
+      },
+    });
+  }
+  if (!getMascot) return null;
+
+  let image = getMascot[0].avatar_mascot.url;
+
   return (
     <View
       style={[
@@ -21,10 +53,18 @@ const ListBoxFilters = ({data}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image
-          source={require('./../assets/images/cat-list.png')}
-          style={{width: 52, height: 52, borderRadius: 100}}
-        />
+        {image ? (
+          <Image
+            source={{uri: `${API_URL}${image}`}}
+            style={style.avatarMascot}
+          />
+        ) : (
+          <Image
+            source={require('./../assets/images/not_image.jpg')}
+            style={style.avatarMascot}
+          />
+        )}
+
         <View style={style.circle}>
           <Image
             source={require('./../assets/images/tabs/PARASITEICON.png')}
@@ -39,8 +79,12 @@ const ListBoxFilters = ({data}) => {
           justifyContent: 'center',
           paddingLeft: 15,
         }}>
-        <Text style={{fontSize: 20, color: '#ffffff'}}>Michi!</Text>
-        <Text style={{fontSize: 10, color: '#ffffff'}}>Fecha: 09/11/2021</Text>
+        <Text style={{fontSize: 16, color: '#ffffff'}}>
+          {getMascot[0].name_mascot.toUpperCase()}
+        </Text>
+        <Text style={{fontSize: 10, color: '#ffffff'}}>
+          {'Fecha: ' + moment(lastDay).format('DD/MM/YYYY')}
+        </Text>
       </View>
       <View
         style={{
@@ -51,7 +95,9 @@ const ListBoxFilters = ({data}) => {
         }}>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{fontSize: 28, color: '#00FFFF', fontWeight: '700'}}>
-            10
+            {lastDay.diff(nowDay, 'days') <= -1
+              ? 0
+              : 0 + lastDay.diff(nowDay, 'days').toString().slice(-2)}
           </Text>
         </View>
         <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
@@ -102,6 +148,11 @@ const style = StyleSheet.create({
   iconActions: {
     width: 30,
     height: 30,
+  },
+  avatarMascot: {
+    width: 52,
+    height: 52,
+    borderRadius: 100,
   },
   iconImage: {
     width: 15,

@@ -31,7 +31,7 @@ const Notification = () => {
   const notify = new NotifyService();
   notify.popInitialNotification();
 
-  const time_zone =  'America/Bogota';
+  const time_zone = 'America/Bogota';
 
   const actionNotifyCation = dateNotify => {
     getDateNotify(moment(dateNotify).tz(time_zone).format());

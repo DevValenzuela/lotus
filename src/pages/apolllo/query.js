@@ -57,6 +57,7 @@ export const CONSULT_MASCOT_APP_SQLITE = gql`
   query mascot($id: String!) {
     mascots(sort: "id:desc", limit: 1, where: {id_mascot: $id}) {
       id
+      name_mascot
       avatar_mascot {
         id
         url
@@ -347,7 +348,9 @@ export const CONSULT_NOTIFYCS_LIST = gql`
       id
       id_notify
       id_mascot
+      id_user
       date_notify
+      date
       type
     }
   }

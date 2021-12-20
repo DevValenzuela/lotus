@@ -51,10 +51,12 @@ const DewormingFilters = () => {
     if (generalNotify && isConnected) {
       const result = [];
       generalNotify.notifycs.map(item => {
-        const {id, date_notify, id_mascot, id_notify, type} = item;
+        const {id, date_notify, id_mascot, id_notify, type, id_user, date} = item;
         result.push({
           id,
           date_notify,
+          date,
+          id_user,
           id_mascot,
           id_notify,
           type,
