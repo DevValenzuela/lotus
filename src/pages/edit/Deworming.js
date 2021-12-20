@@ -35,7 +35,7 @@ const Deworming = ({route, navigation}) => {
 
   const isConnected = useIsConnected();
   const {idMascot, edit, desparacitacions, id_mascot} = route.params;
-  const [createDesparacitacion, {data, error, loading}] = useMutation(
+  const [createDesparacitacion, {data: dataType, error, loading}] = useMutation(
     CREATE_DESPARACITACION_APP,
   );
   const [
@@ -78,7 +78,11 @@ const Deworming = ({route, navigation}) => {
       getDate(desparacitacions[0].last_deworming);
     }
     if (success) {
-      navigation.navigate('ScreenNotification', {typeAction,  id_mascot});
+      navigation.navigate('ScreenNotification', {
+        typeAction,
+        id_mascot,
+        dataType,
+      });
     }
     if (successUpdate) {
       navigation.navigate('Gratulations', {

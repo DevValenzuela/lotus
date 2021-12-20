@@ -174,6 +174,7 @@ export const CREATE_MEDICAMENT_APP = gql`
     ) {
       medicament {
         id
+        id_medicament
       }
     }
   }
@@ -202,6 +203,7 @@ export const CREATE_CONTROLLER_MEDIC_APP = gql`
     ) {
       controllerMedic {
         id
+        id_medic
       }
     }
   }
@@ -230,6 +232,7 @@ export const CREATE_DESPARACITACION_APP = gql`
     ) {
       desparacitacion {
         id
+        id_deworming
       }
     }
   }
@@ -258,6 +261,7 @@ export const CREATE_VACCINATION_APP = gql`
     ) {
       vacunacion {
         id
+        id_vaccination
       }
     }
   }
@@ -468,6 +472,7 @@ export const CREATE_NOTIFY_APP = gql`
     $date: String!
     $date_notify: String!
     $type: String!
+    $id_type: String!
   ) {
     createNotifyc(
       input: {
@@ -478,6 +483,7 @@ export const CREATE_NOTIFY_APP = gql`
           date_notify: $date_notify
           id_user: $id_user
           type: $type
+          id_type: $id_type
         }
       }
     ) {

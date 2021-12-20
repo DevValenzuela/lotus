@@ -2,20 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {API_URL} from '@env';
 import {Text, View, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useIsConnected} from 'react-native-offline';
 import {useQuery} from '@apollo/client';
 import {CONSULT_MASCOT_APP_SQLITE} from '../pages/apolllo/query';
 import moment from 'moment';
 const ListBoxFilters = ({data}) => {
-
-  const {id_mascot, date, date_notify} = data;
-  const id_deworming = '';
+  const {id_mascot, date, date_notify, id_type, type} = data;
   const navigation = useNavigation();
-  const isConnected = useIsConnected();
-
   const [getMascot, setMascot] = useState(null);
   const {fetchMore} = useQuery(CONSULT_MASCOT_APP_SQLITE);
-  
+
   let nowDay = moment(date);
   let lastDay = moment(date_notify);
 
@@ -38,6 +33,60 @@ const ListBoxFilters = ({data}) => {
   if (!getMascot) return null;
 
   let image = getMascot[0].avatar_mascot.url;
+
+  const imageCategory = () => {
+    switch (type) {
+      case 'Desparacitación':
+        return [
+          <Image
+            source={require('./../assets/images/tabs/PARASITEICON.png')}
+            resizeMode="contain"
+            style={style.iconImage}
+          />,
+          'desparacitacion',
+        ];
+
+      case 'Control Medico':
+        return [
+          <Image
+            source={require('./../assets/images/tabs/DOCTORICON.png')}
+            resizeMode="contain"
+            style={style.iconImage}
+          />,
+          'control medico',
+        ];
+
+      case 'Medicamento':
+        return [
+          <Image
+            source={require('./../assets/images/tabs/MEDICAMENT.png')}
+            resizeMode="contain"
+            style={style.iconImage}
+          />,
+          'medicamento',
+        ];
+
+      case 'Vacunación':
+        return [
+          <Image
+            source={require('./../assets/images/tabs/VACCINEICON.png')}
+            resizeMode="contain"
+            style={style.iconImage}
+          />,
+          'vacunacion',
+        ];
+
+      default:
+        return [
+          <Image
+            source={require('./../assets/images/not_image.jpg')}
+            resizeMode="contain"
+            style={style.iconImage}
+          />,
+          '',
+        ];
+    }
+  };
 
   return (
     <View
@@ -65,13 +114,7 @@ const ListBoxFilters = ({data}) => {
           />
         )}
 
-        <View style={style.circle}>
-          <Image
-            source={require('./../assets/images/tabs/PARASITEICON.png')}
-            resizeMode="contain"
-            style={style.iconImage}
-          />
-        </View>
+        <View style={style.circle}>{imageCategory()[0]}</View>
       </View>
       <View
         style={{
@@ -113,15 +156,10 @@ const ListBoxFilters = ({data}) => {
         <TouchableHighlight
           style={{alignItems: 'center'}}
           onPress={() =>
-            isConnected
-              ? navigation.navigate('DetailsGeneral', {
-                  idDetails: id_deworming,
-                  type: 'desparacitacion',
-                })
-              : navigation.navigate('DetailsOfflineGeneral', {
-                  idDetails: id_deworming,
-                  type: 'desparacitacion',
-                })
+            navigation.navigate('DetailsGeneral', {
+              idDetails: id_type,
+              type: imageCategory()[1],
+            })
           }
           underlayColor="transparent">
           <View

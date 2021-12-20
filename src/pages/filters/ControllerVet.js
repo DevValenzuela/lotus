@@ -1,41 +1,72 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   ImageBackground,
   SafeAreaView,
   FlatList,
   View,
-  Image,
-  TextInput,
+  Text,
 } from 'react-native';
 import {style} from './style';
-import {useDebounceValue} from '../../hooks/debounceTime';
-import {CONSULT_SEARCH_FILTER_DOCTOR} from '../apolllo/query';
+
+import {CONSULT_NOTIFYCS_LIST} from '../apolllo/query';
 import {useIsConnected} from 'react-native-offline';
-import {database2} from '../../conexion/crudSqlite2';
 import ListBoxFilters from '../../components/listBoxFilters';
+import {useQuery} from '@apollo/client';
+import {Loading} from '../../components/sharedComponent';
+import {UserContext} from '../../context/userContext';
 
 const ControllerVet = () => {
-  const [txtValue, setTxtValue] = useState('');
+  const {
+    user: {
+      user: {id},
+    },
+  } = useContext(UserContext);
   const [getSearchResult, setSearchResult] = useState([]);
   const isConnected = useIsConnected();
-  const value = useDebounceValue(txtValue, 1000, CONSULT_SEARCH_FILTER_DOCTOR);
   const renderItem = ({item}) => <ListBoxFilters data={item} />;
 
+  const {
+    data: generalNotify,
+    loading: loadingNotify,
+    error: errorNotify,
+  } = useQuery(CONSULT_NOTIFYCS_LIST, {
+    pollInterval: 2000,
+    variables: {
+      type: 'Control Medico',
+      id: id,
+    },
+  });
+
   useEffect(() => {
-    if (value && isConnected) {
+    if (generalNotify && isConnected) {
       const result = [];
-      value.controllerMedics.map(item => {
+      generalNotify.notifycs.map(item => {
+        const {
+          id,
+          date_notify,
+          id_mascot,
+          id_notify,
+          type,
+          id_user,
+          date,
+          id_type,
+        } = item;
         result.push({
-          id: item.id,
-          id_medic: item.id_medic,
-          date: item.last_control,
+          id,
+          date_notify,
+          date,
+          id_user,
+          id_type,
+          id_mascot,
+          id_notify,
+          type,
         });
       });
       setSearchResult(result);
-    } else {
-      database2.ConsultControllerVetGeneral(setSearchResult);
     }
-  }, [value]);
+  }, [isConnected, generalNotify]);
+
+  if (loadingNotify) return <Loading />;
 
   return (
     <SafeAreaView style={style.container}>
@@ -43,28 +74,22 @@ const ControllerVet = () => {
         source={require('../../assets/images/bg_lotus.png')}
         resizeMode="cover"
         style={style.bgImage}>
-        <View style={{flex: 1}}>
-          {isConnected && (
-            <View style={style.contentSearch}>
-              <Image
-                style={style.searchIcon}
-                source={require('../../assets/images/search.png')}
-              />
-
-              <TextInput
-                placeholderTextColor="#5742A2"
-                style={style.txtSearch}
-                placeholder="Buscar..."
-                onChangeText={setTxtValue}
-              />
-            </View>
-          )}
-          <FlatList
-            data={getSearchResult}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          />
-        </View>
+        {getSearchResult.length <= 0 || !isConnected ? (
+          <View
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{color: '#ffffff', textAlign: 'center'}}>
+              No hay resultados...
+            </Text>
+          </View>
+        ) : (
+          <View style={{flex: 1}}>
+            <FlatList
+              data={getSearchResult}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+            />
+          </View>
+        )}
       </ImageBackground>
     </SafeAreaView>
   );

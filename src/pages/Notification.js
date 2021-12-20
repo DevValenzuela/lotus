@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from 'react';
 import {View, StyleSheet, ImageBackground} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
@@ -10,11 +10,10 @@ import moment from 'moment-timezone';
 
 import {useMutation} from '@apollo/client';
 import {CREATE_NOTIFY_APP} from './apolllo/grahpql';
-import { UserContext } from "../context/userContext";
+import {UserContext} from '../context/userContext';
 
 const Notification = () => {
   const {
-    dispatchUserEvent,
     user: {
       user: {id},
     },
@@ -24,7 +23,8 @@ const Notification = () => {
 
   const navigation = useNavigation();
   const route = useRoute();
-  const {typeAction, id_mascot} = route.params;
+  const {typeAction, id_mascot, dataType} = route.params;
+
 
   const [setNotify, getDateNotify] = useState('');
 
@@ -60,6 +60,38 @@ const Notification = () => {
       title: '!Lotus Nueva Alerta¡',
     });
 
+    let id_general;
+
+    switch (type) {
+      case 'Desparacitación':
+        const {
+          createDesparacitacion: {desparacitacion},
+        } = dataType;
+        id_general = desparacitacion.id_deworming;
+        break;
+      case 'Control Medico':
+        const {
+          createControllerMedic: {controllerMedic},
+        } = dataType;
+        id_general = controllerMedic.id_medic;
+        break;
+      case 'Medicamento':
+        const {
+          createMedicament: {medicament},
+        } = dataType;
+        id_general = medicament.id_medicament;
+        break;
+      case 'Vacunación':
+        const {
+          createVacunacion: {vacunacion},
+        } = dataType;
+        id_general = vacunacion.id_vaccination;
+        break;
+      default:
+        id_general = '';
+        break;
+    }
+
     try {
       createNotify({
         variables: {
@@ -69,6 +101,7 @@ const Notification = () => {
           date: moment().tz(time_zone).format(),
           date_notify: setNotify,
           type: type,
+          id_type: id_general,
         },
       }).then(() => {
         database3.InsertNotify({

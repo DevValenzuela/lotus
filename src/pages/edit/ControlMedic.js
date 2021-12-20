@@ -45,7 +45,7 @@ const ControlMedic = ({route, navigation}) => {
   const [successUpdate, setSuccessUpdate] = useState(false);
   const initialValue = new Object();
 
-  const [createControllerMedic, {data, error, loading}] = useMutation(
+  const [createControllerMedic, {data: dataType, error, loading}] = useMutation(
     CREATE_CONTROLLER_MEDIC_APP,
   );
 
@@ -77,7 +77,11 @@ const ControlMedic = ({route, navigation}) => {
       getDate(controllerMedics[0].last_control);
     }
     if (success) {
-      navigation.navigate('ScreenNotification', {typeAction, id_mascot});
+      navigation.navigate('ScreenNotification', {
+        typeAction,
+        id_mascot,
+        dataType,
+      });
     }
     if (successUpdate) {
       navigation.navigate('Gratulations', {

@@ -344,11 +344,12 @@ export const CONSULT_SEARCH_FILTER_DEWORMING = gql`
 
 export const CONSULT_NOTIFYCS_LIST = gql`
   query Notifycs($type: String!, $id: ID!) {
-    notifycs(sort: "id:desc", where: {id_user: $id, type: $type}) {
+    notifycs(sort: "date_notify:asc", where: {id_user: $id, type: $type}) {
       id
       id_notify
       id_mascot
       id_user
+      id_type
       date_notify
       date
       type

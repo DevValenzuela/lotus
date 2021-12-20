@@ -97,6 +97,7 @@ const DetailsGeneral = ({route}) => {
   const {vacunacions} = type === 'vacunacion' ? vaccination : [];
   const {controllerMedics} = type === 'control medico' ? medic_controller : [];
 
+  console.log(type)
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground
