@@ -35,7 +35,7 @@ const Vaccinations = ({route, navigation}) => {
   const isConnected = useIsConnected();
   const {idMascot, edit, vacunacions, id_mascot} = route.params;
 
-  const [createVacunacion, {data, error, loading}] = useMutation(
+  const [createVacunacion, {data: dataType, error, loading}] = useMutation(
     CREATE_VACCINATION_APP,
   );
 
@@ -82,7 +82,11 @@ const Vaccinations = ({route, navigation}) => {
       getDate(vacunacions[0].last_vaccination);
     }
     if (success) {
-      navigation.navigate('ScreenNotification', {typeAction, id_mascot});
+      navigation.navigate('ScreenNotification', {
+        typeAction,
+        id_mascot,
+        dataType,
+      });
     }
     if (successUpdate) {
       navigation.navigate('Gratulations', {

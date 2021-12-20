@@ -38,7 +38,7 @@ const Medicament = ({route, navigation}) => {
   const [erroDate, setErrorDate] = useState(false);
   const [success, setSuccess] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
-  const [createMedicament, {data, error, loading}] = useMutation(
+  const [createMedicament, {data: dataType, error, loading}] = useMutation(
     CREATE_MEDICAMENT_APP,
   );
   const [
@@ -73,7 +73,11 @@ const Medicament = ({route, navigation}) => {
       getDate(medicaments[0].last_dose);
     }
     if (success) {
-      navigation.navigate('ScreenNotification', {typeAction, id_mascot});
+      navigation.navigate('ScreenNotification', {
+        typeAction,
+        id_mascot,
+        dataType,
+      });
     }
     if (successUpdate) {
       navigation.navigate('Gratulations', {

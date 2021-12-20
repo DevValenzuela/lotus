@@ -88,6 +88,14 @@ const ListBoxFilters = ({data}) => {
     }
   };
 
+  const number = () => {
+    if (lastDay.diff(nowDay, 'days') <= -1) {
+      return 0;
+    } else {
+      return lastDay.diff(nowDay, 'days');
+    }
+  };
+
   return (
     <View
       style={[
@@ -138,9 +146,7 @@ const ListBoxFilters = ({data}) => {
         }}>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{fontSize: 28, color: '#00FFFF', fontWeight: '700'}}>
-            {lastDay.diff(nowDay, 'days') <= -1
-              ? 0
-              : 0 + lastDay.diff(nowDay, 'days').toString().slice(-2)}
+            { number() > 9 ? number() : 0 + number().toString().slice(-2) }
           </Text>
         </View>
         <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
