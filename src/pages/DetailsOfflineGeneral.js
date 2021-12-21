@@ -323,11 +323,6 @@ const DetailsOfflineGeneral = ({route}) => {
                 </TouchableHighlight>
               )}
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Image
-                  source={require('../assets/images/tabs/DOCTORICON.png')}
-                  style={{width: 28, height: 28, marginHorizontal: 5}}
-                  resizeMode="contain"
-                />
                 <Text style={style.subtitleTxt}>Control Médico:</Text>
               </View>
               {controllerMedics.length > 0 ? (
@@ -347,6 +342,10 @@ const DetailsOfflineGeneral = ({route}) => {
                 </View>
               ) : (
                 <View style={{flex: 1}}>
+                  <Image
+                    source={require('./../assets/images/not-result.png')}
+                    style={{width: 80, height: 80}}
+                  />
                   <Text style={style.txtNotfound}>No hay resultados.</Text>
                 </View>
               )}

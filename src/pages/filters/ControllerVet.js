@@ -4,8 +4,8 @@ import {
   SafeAreaView,
   FlatList,
   View,
-  Text,
-} from 'react-native';
+  Text, Image,
+} from "react-native";
 import {style} from './style';
 
 import {CONSULT_NOTIFYCS_LIST} from '../apolllo/query';
@@ -77,8 +77,12 @@ const ControllerVet = () => {
         {getSearchResult.length <= 0 || !isConnected ? (
           <View
             style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Image
+              source={require('../../assets/images/not-result.png')}
+              style={{width: 65, height: 65}}
+            />
             <Text style={{color: '#ffffff', textAlign: 'center'}}>
-              No hay resultados...
+              No hay resultados.
             </Text>
           </View>
         ) : (

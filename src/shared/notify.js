@@ -6,11 +6,12 @@ import {
   StyleSheet,
   View,
   Text,
+  Image,
 } from 'react-native';
 import BoxNotifyCation from '../components/boxNotification';
 import {database3} from '../conexion/crudNotify';
 import {Loading} from '../components/sharedComponent';
-import { useIsConnected } from 'react-native-offline';
+import {useIsConnected} from 'react-native-offline';
 
 const Notify = () => {
   const isConnect = useIsConnected();
@@ -63,6 +64,10 @@ const Notify = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
+          <Image
+            source={require('./../assets/images/not-result.png')}
+            style={{width: 80, height: 80}}
+          />
           <Text style={{color: '#fff'}}>No tienes notificaciones.</Text>
         </View>
       </ImageBackground>
