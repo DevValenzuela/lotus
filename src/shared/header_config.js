@@ -15,6 +15,7 @@ import {CONSULT_APP} from '../pages/apolllo/query';
 import {useIsConnected} from 'react-native-offline';
 import {database3} from '../conexion/crudNotify';
 
+
 function LogoTitle() {
   return (
     <View
@@ -56,10 +57,12 @@ function NotifyProfileView() {
   });
 
   useEffect(() => {
+
     if (dataB && !loadingB) {
       const {user} = dataB;
       setAvatar(user?.avatar);
     }
+
     database3.ConsultNotifyCount(setNotify);
   }, [dataB, loadingB]);
 

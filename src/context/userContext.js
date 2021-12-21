@@ -54,7 +54,7 @@ const UserProvider = props => {
   };
 
   return (
-    <UserContext.Provider value={{user, consult,  dispatchUserEvent}}>
+    <UserContext.Provider value={{user, consult, dispatchUserEvent}}>
       {props.children}
     </UserContext.Provider>
   );

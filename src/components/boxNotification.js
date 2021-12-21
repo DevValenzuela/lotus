@@ -15,7 +15,6 @@ import {database3} from '../conexion/crudNotify';
 const BoxNotifyCation = ({data_notify}) => {
   const {fetchMore} = useQuery(CONSULT_MASCOT_APP_SQLITE);
   const [getMascot, setMascot] = useState([]);
-  const [getImageResult, setImageResult] = useState([]);
   const [getModal, setModal] = useState(false);
   const [getVisible, setVisible] = useState(true);
   const isConnect = useIsConnected();
@@ -25,11 +24,12 @@ const BoxNotifyCation = ({data_notify}) => {
   let nowDay = moment(date);
   let lastDay = moment(data_notify.last_date);
 
+
+
   useEffect(() => {
     if (data_notify) {
       const {id_mascot} = data_notify;
       consultImageId(id_mascot);
-      database.consultMascotID(id_mascot, setMascot);
     }
   }, [data_notify]);
 
@@ -42,7 +42,7 @@ const BoxNotifyCation = ({data_notify}) => {
       },
     });
     const {data} = resp;
-    setImageResult(data.mascots[0]);
+    setMascot(data.mascots[0]);
   };
 
   const sendModal = () => setModal(true);
@@ -67,10 +67,10 @@ const BoxNotifyCation = ({data_notify}) => {
           <View style={style.container}>
             <View style={{flex: 1, padding: 10}}>
               {(() => {
-                if (isConnect && getImageResult?.avatar_mascot) {
+                if (isConnect && getMascot?.avatar_mascot) {
                   const {
                     avatar_mascot: {url},
-                  } = getImageResult;
+                  } = getMascot;
                   return (
                     <Image
                       style={style.cardImage}

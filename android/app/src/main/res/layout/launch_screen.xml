@@ -9,23 +9,19 @@
 >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="217dp"
+        android:layout_height="311dp"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/image_description"
-        android:scaleType="fitXY"
-        android:src="@drawable/launch_screen"
-        tools:srcCompat="@drawable/buddhacat_logolotus" />
+        android:scaleType="center"
+        android:src="@drawable/buddhacat_logolotus" />
+
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="153dp"
-        android:layout_height="49dp"
+        android:layout_width="142dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="false"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="44dp"
-        android:contentDescription="@string/image_description"
-        android:maxWidth="@android:dimen/thumbnail_width"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/wdark_logolotus" />
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="137dp"
+        android:src="@drawable/wdark_logolotus" />
 </RelativeLayout>
