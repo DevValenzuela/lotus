@@ -241,7 +241,7 @@ const ProfileUser = ({navigation}) => {
                         />
                       ) : (
                         <Image
-                          source={require('./../../assets/images/image_photo.png')}
+                          source={require('./../../assets/images/user_avatar_notfound.png')}
                           style={style.imgProfile}
                         />
                       )}
@@ -445,8 +445,8 @@ const style = StyleSheet.create({
     textAlign: 'center',
   },
   imgProfile: {
-    width: 100,
-    height: 100,
+    width: 95,
+    height: 95,
     marginVertical: 10,
     borderRadius: 50,
   },
