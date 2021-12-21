@@ -25,7 +25,6 @@ const Notification = () => {
   const route = useRoute();
   const {typeAction, id_mascot, dataType} = route.params;
 
-
   const [setNotify, getDateNotify] = useState('');
 
   const notify = new NotifyService();
@@ -51,13 +50,14 @@ const Notification = () => {
       date: setNotify,
       type: type,
       title: '¡Lotus Te Recomienda!',
-      msg: `${type} esta para:`,
+      msg: `Alerta ${type} para el día: `,
     };
 
     notify.scheduleNotif(paramsNotify);
     notify.localNotif({
       ...paramsNotify,
-      title: '!Lotus Nueva Alerta¡',
+      title: '!Nueva Alerta Generada¡',
+      msg: `${type}, generado para el: `,
     });
 
     let id_general;
@@ -93,9 +93,10 @@ const Notification = () => {
     }
 
     try {
+      let idNotify = new Date().toISOString().replace(/[-T:.Z]/g, '');
       createNotify({
         variables: {
-          id_notify: new Date().toISOString().replace(/[-T:.Z]/g, ''),
+          id_notify: idNotify,
           id_user: id,
           id_mascot: id_mascot,
           date: moment().tz(time_zone).format(),
@@ -108,6 +109,7 @@ const Notification = () => {
           type: type,
           last_date: setNotify,
           mascot: id_mascot,
+          notify: idNotify,
         });
         return navigation.navigate('Gratulations', {
           txtMsg: 'Se ha guardado correctamente.',

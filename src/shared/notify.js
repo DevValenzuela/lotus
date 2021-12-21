@@ -42,6 +42,7 @@ const Notify = () => {
         title: item.title,
         last_date: item.last_date,
         id_mascot: item.id_mascot,
+        id_notify: item.id_notify,
       };
       resp.push(object);
     }

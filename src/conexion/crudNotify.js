@@ -1,13 +1,13 @@
 import React from 'react';
 import {db} from './sqlite';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 const InsertNotify = values => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'INSERT INTO Notify(id_mascot, last_date, title) VALUES(?,?,?)',
-        [values.mascot, values.last_date, values.type],
+        'INSERT INTO Notify(id_mascot, id_notify, last_date, title) VALUES(?,?,?,?)',
+        [values.mascot, values.notify, values.last_date, values.type],
       );
     },
     (tx, error) => {
@@ -22,7 +22,7 @@ const InsertNotify = values => {
 const DeleteNotify = value => {
   db.transaction(
     tx => {
-      tx.executeSql('DELETE FROM Notify WHERE ID = ?', [value]);
+      tx.executeSql('DELETE FROM Notify WHERE id_notify = ?', [value]);
     },
     (tx, error) => {
       console.log('Error delete mascot Offline');
@@ -42,7 +42,7 @@ const ConsultNotifyCount = setNotify => {
         for (let i = 0; i < len; i++) {
           if (
             results.rows.item(i).last_date <=
-            moment(new Date()).add(8, 'days').format()
+            moment(new Date()).tz('America/Bogota').add(5, 'days').format()
           ) {
             number++;
           }
@@ -72,7 +72,7 @@ const ConsultNotify = setNotify => {
           for (let i = 0; i < len; i++) {
             if (
               results.rows.item(i).last_date <=
-              moment(new Date()).add(8, 'days').format()
+              moment(new Date()).tz('America/Bogota').add(5, 'days').format()
             ) {
               resp.push(results.rows.item(i));
             }

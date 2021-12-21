@@ -14,7 +14,7 @@ export const createTableDB = tx => {
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS ' +
       'Notify ' +
-      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_mascot TEXT, last_date TEXT, title TEXT);',
+      '(ID INTEGER PRIMARY KEY AUTOINCREMENT, id_mascot TEXT, last_date TEXT, title TEXT, id_notify TEXT);',
   );
   //Create Table Mascot
   tx.executeSql(

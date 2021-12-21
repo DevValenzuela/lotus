@@ -32,7 +32,7 @@ const ListBoxFilters = ({data}) => {
   }
   if (!getMascot) return null;
 
-  let image = getMascot[0].avatar_mascot.url;
+  let image = getMascot[0]?.avatar_mascot.url;
 
   const imageCategory = () => {
     switch (type) {
@@ -131,7 +131,7 @@ const ListBoxFilters = ({data}) => {
           paddingLeft: 15,
         }}>
         <Text style={{fontSize: 16, color: '#ffffff'}}>
-          {getMascot[0].name_mascot.toUpperCase()}
+          {getMascot[0]?.name_mascot.toUpperCase()}
         </Text>
         <Text style={{fontSize: 10, color: '#ffffff'}}>
           {'Fecha: ' + moment(lastDay).format('DD/MM/YYYY')}

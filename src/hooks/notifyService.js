@@ -1,6 +1,6 @@
 import PushNotification, {Importance} from 'react-native-push-notification';
 import NotificationHandler from './notifyHandler';
-import moment from 'moment';
+import moment from 'moment-timezone';
 export default class NotifyService {
   constructor(onRegister, onNotification) {
     this.lastId = 0;
@@ -72,7 +72,9 @@ export default class NotifyService {
   }
 
   localNotif(paramsNotify) {
-    let date_origin = moment(paramsNotify.date).format('YYYY-MM-DD');
+    let date_origin = moment(paramsNotify.date)
+      .tz('America/Bogota')
+      .format('YYYY-MM-DD');
     this.lastId++;
     PushNotification.localNotification({
       /* Android Only Properties */
@@ -113,7 +115,9 @@ export default class NotifyService {
   }
 
   scheduleNotif(paramsNotify) {
-    let date_origin = moment(paramsNotify.date).format('YYYY-MM-DD');
+    let date_origin = moment(paramsNotify.date)
+      .tz('America/Bogota')
+      .format('YYYY-MM-DD');
     this.lastId++;
     PushNotification.localNotificationSchedule({
       date: new Date(paramsNotify.date), // in 30 secs

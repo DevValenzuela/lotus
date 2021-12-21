@@ -17,12 +17,11 @@ import {
   CONSULT_MEDICAMENT_DETAILS_APP,
   CONSULT_VACCINATIONS_DETAILS_APP,
   CONSULT_CONTROLLER_MEDICS_DETAILS_APP,
-  CONSULT_NOTIFY_APP,
 } from './apolllo/query';
 import {DELETE_NOTIFY_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
 import {Loading, ModalAlertDeleteNotify} from '../components/sharedComponent';
-
+import {database3} from '../conexion/crudNotify';
 
 const DetailsGeneral = ({route}) => {
   const {
@@ -30,10 +29,11 @@ const DetailsGeneral = ({route}) => {
   } = useContext(UserContext);
 
   const navigation = useNavigation();
-  const {idMascot, id_mascot, type, idDetails} = route.params;
+  const {idMascot, id_mascot, type, idDetails, id_type} = route.params;
   const [getModal, setModal] = useState(false);
   /** Delete medicament **/
-  const [deleteNotify, {loading: loading_1}] = useMutation(DELETE_NOTIFY_APP);
+  const [deleteNotify, {loading: loadingNotify}] =
+    useMutation(DELETE_NOTIFY_APP);
 
   const actionModalCancel = () => setModal(!getModal);
   const actionModalYes = async () => {
@@ -43,6 +43,8 @@ const DetailsGeneral = ({route}) => {
           id: idMascot,
         },
       });
+
+      database3.DeleteNotify(id_type);
       navigation.navigate('Dashboard');
     } catch (error) {
       console.log(error);

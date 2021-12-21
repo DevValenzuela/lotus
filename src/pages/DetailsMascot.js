@@ -32,6 +32,7 @@ const DetailsMascot = ({navigation, route}) => {
   const {
     user: {user},
   } = useContext(UserContext);
+
   const idMascot = route.params.mascotId;
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
@@ -110,8 +111,10 @@ const DetailsMascot = ({navigation, route}) => {
   if (!general || !deworming || !vaccinations || !medics || !medicament)
     return null;
 
+  if (!general?.mascot) return navigation.navigate('Dashboard');
+
   const {
-    id_mascot = null,
+    id_mascot,
     name_mascot,
     age_mascot,
     race_mascot,

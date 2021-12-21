@@ -53,13 +53,12 @@ const BoxNotifyCation = ({data_notify}) => {
     setModal(!getModal);
   };
 
-
   return (
     <SafeAreaView>
       <ModalAlertDeleteNotify
         modalVisible={getModal}
         send={() => actionModalCancel()}
-        action={() => actionModalYes(data_notify?.id)}
+        action={() => actionModalYes(data_notify?.id_notify)}
       />
       {getVisible && (
         <LongPressGestureHandler
