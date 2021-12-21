@@ -36,7 +36,7 @@ const DeleteNotify = value => {
 const ConsultNotifyCount = setNotify => {
   db.transaction(
     tx => {
-      tx.executeSql('SELECT * FROM Notify', [], function (tx, results) {
+      tx.executeSql('SELECT * FROM Notify ', [], function (tx, results) {
         let len = results.rows.length;
         let number = 0;
         for (let i = 0; i < len; i++) {
@@ -63,19 +63,23 @@ const ConsultNotifyCount = setNotify => {
 const ConsultNotify = setNotify => {
   db.transaction(
     tx => {
-      tx.executeSql('SELECT * FROM Notify', [], function (tx, results) {
-        let resp = [];
-        let len = results.rows.length;
-        for (let i = 0; i < len; i++) {
-          if (
-            results.rows.item(i).last_date <=
-            moment(new Date()).add(8, 'days').format()
-          ) {
-            resp.push(results.rows.item(i));
+      tx.executeSql(
+        'SELECT * FROM Notify ORDER BY id DESC',
+        [],
+        function (tx, results) {
+          let resp = [];
+          let len = results.rows.length;
+          for (let i = 0; i < len; i++) {
+            if (
+              results.rows.item(i).last_date <=
+              moment(new Date()).add(8, 'days').format()
+            ) {
+              resp.push(results.rows.item(i));
+            }
           }
-        }
-        setNotify(resp);
-      });
+          setNotify(resp);
+        },
+      );
     },
     (tx, error) => {
       console.log('DB error load not notify');

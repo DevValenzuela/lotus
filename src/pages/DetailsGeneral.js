@@ -45,9 +45,6 @@ const DetailsGeneral = ({route}) => {
         },
       });
 
-      console.log(notifycs);
-      return;
-
       cache.writeQuery({
         query: CONSULT_NOTIFY_APP,
         data: {
