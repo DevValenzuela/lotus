@@ -29,7 +29,7 @@ const DetailsGeneral = ({route}) => {
   } = useContext(UserContext);
 
   const navigation = useNavigation();
-  const {idMascot, id_mascot, type, idDetails, id_type} = route.params;
+  const {idMascot, id_mascot, type, idDetails, id_notify} = route.params;
   const [getModal, setModal] = useState(false);
   /** Delete medicament **/
   const [deleteNotify, {loading: loadingNotify}] =
@@ -44,7 +44,7 @@ const DetailsGeneral = ({route}) => {
         },
       });
 
-      database3.DeleteNotify(id_type);
+      database3.DeleteNotify(id_notify);
       navigation.navigate('Dashboard');
     } catch (error) {
       console.log(error);

@@ -103,7 +103,7 @@ const Item = ({date}) => {
         ]}>
         <View style={{flex: 1}}>
           <Image
-            source={require('./../../assets/images/tabs/MEDICAMENT.png')}
+            source={require('./../../assets/images/tabs/PARASITEICON.png')}
             resizeMode="contain"
             style={style.image}
           />

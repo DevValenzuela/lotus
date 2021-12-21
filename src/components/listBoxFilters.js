@@ -6,7 +6,7 @@ import {useQuery} from '@apollo/client';
 import {CONSULT_MASCOT_APP_SQLITE} from '../pages/apolllo/query';
 import moment from 'moment';
 const ListBoxFilters = ({data}) => {
-  const {id, id_mascot, date, date_notify, id_type, type} = data;
+  const {id, id_mascot, date, date_notify, id_type, type, id_notify} = data;
   const navigation = useNavigation();
   const [getMascot, setMascot] = useState(null);
   const {fetchMore} = useQuery(CONSULT_MASCOT_APP_SQLITE);
@@ -167,7 +167,7 @@ const ListBoxFilters = ({data}) => {
               idMascot: id,
               type: imageCategory()[1],
               id_mascot,
-              id_type,
+              id_notify
             })
           }
           underlayColor="transparent">
