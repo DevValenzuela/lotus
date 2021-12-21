@@ -464,6 +464,17 @@ export const DELETE_USER_ACCOUNT = gql`
   }
 `;
 
+export const DELETE_NOTIFY_APP = gql`
+  mutation deleteNotifyc($id: ID!) {
+    deleteNotifyc(input: {where: {id: $id}}) {
+      notifyc {
+        id
+        id_notify
+      }
+    }
+  }
+`;
+
 export const CREATE_NOTIFY_APP = gql`
   mutation createNotify(
     $id_user: String!

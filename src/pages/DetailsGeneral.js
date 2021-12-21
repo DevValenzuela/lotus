@@ -9,15 +9,17 @@ import {
   Image,
   Platform,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+
 import {useNavigation} from '@react-navigation/native';
-import {useQuery} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import {
   CONSULT_DEWORMING_DETAILS_APP,
   CONSULT_MEDICAMENT_DETAILS_APP,
   CONSULT_VACCINATIONS_DETAILS_APP,
   CONSULT_CONTROLLER_MEDICS_DETAILS_APP,
+  CONSULT_NOTIFY_APP,
 } from './apolllo/query';
+import {DELETE_NOTIFY_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
 import {Loading} from '../components/sharedComponent';
 
@@ -28,6 +30,98 @@ const DetailsGeneral = ({route}) => {
 
   const navigation = useNavigation();
   const {idMascot, id_mascot, type, idDetails} = route.params;
+
+  /** Delete medicament **/
+  const [deleteNotify, {loading: loading_1}] = useMutation(DELETE_NOTIFY_APP, {
+    update(cache, {data: {deleteNotifyc}}) {
+      const {
+        notifyc: {id},
+      } = deleteNotifyc;
+
+      const {notifycs} = cache.readQuery({
+        query: CONSULT_NOTIFY_APP,
+        variables: {
+          id: user.id,
+        },
+      });
+
+      console.log(notifycs);
+      return;
+
+      cache.writeQuery({
+        query: CONSULT_NOTIFY_APP,
+        data: {
+          notifycs: notifycs.filter(notify => notify.id !== id),
+        },
+      });
+    },
+  });
+
+  const deleteItem = async () => {
+    try {
+      await deleteNotify({
+        variables: {
+          id: idMascot,
+        },
+      });
+      navigation.navigate('Dashboard');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const buttomGroup = result => {
+    return (
+      <View style={{flexDirection: 'row'}}>
+        <View style={{flex: 1}}>
+          <TouchableHighlight
+            underlayColor="transparent"
+            onPress={() => navigation.goBack()}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+                backgroundColor: '#80006A',
+                margin: 2,
+              }}>
+              <Text
+                style={{
+                  padding: Platform.OS == 'ios' ? 20 : 10,
+                  color: '#fff',
+                  textTransform: 'uppercase',
+                }}>
+                Volver
+              </Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+        <View style={{flex: 1}}>
+          <TouchableHighlight
+            underlayColor="transparent"
+            onPress={() => deleteItem(result)}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+                backgroundColor: '#920716',
+                margin: 2,
+              }}>
+              <Text
+                style={{
+                  padding: Platform.OS == 'ios' ? 20 : 10,
+                  color: '#fff',
+                  textTransform: 'uppercase',
+                }}>
+                Eliminar
+              </Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      </View>
+    );
+  };
 
   const {
     data: medicament,
@@ -97,7 +191,6 @@ const DetailsGeneral = ({route}) => {
   const {vacunacions} = type === 'vacunacion' ? vaccination : [];
   const {controllerMedics} = type === 'control medico' ? medic_controller : [];
 
-  console.log(type)
   return (
     <SafeAreaView style={style.container}>
       <ImageBackground
@@ -162,29 +255,7 @@ const DetailsGeneral = ({route}) => {
                 </View>
               )}
             </View>
-            <View style={{alignItems: 'center', marginVertical: 10}}>
-              <TouchableHighlight
-                underlayColor="transparent"
-                onPress={() => navigation.goBack()}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 10,
-                    backgroundColor: '#80006A',
-                    width: wp('90%'),
-                  }}>
-                  <Text
-                    style={{
-                      padding: Platform.OS == 'ios' ? 20 : 10,
-                      color: '#fff',
-                      textTransform: 'uppercase',
-                    }}>
-                    Volver
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            </View>
+            {buttomGroup(desparacitacions)}
           </View>
         )}
         {type === 'medicamento' && (
@@ -260,29 +331,7 @@ const DetailsGeneral = ({route}) => {
                 </View>
               )}
             </View>
-            <View style={{alignItems: 'center', marginVertical: 10}}>
-              <TouchableHighlight
-                underlayColor="transparent"
-                onPress={() => navigation.goBack()}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 10,
-                    backgroundColor: '#80006A',
-                    width: wp('90%'),
-                  }}>
-                  <Text
-                    style={{
-                      padding: Platform.OS == 'ios' ? 20 : 10,
-                      color: '#fff',
-                      textTransform: 'uppercase',
-                    }}>
-                    Volver
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            </View>
+            {buttomGroup(medicaments)}
           </View>
         )}
         {type === 'vacunacion' && (
@@ -341,30 +390,7 @@ const DetailsGeneral = ({route}) => {
                 </View>
               )}
             </View>
-            <View style={{alignItems: 'center', marginVertical: 10}}>
-              {}
-              <TouchableHighlight
-                underlayColor="transparent"
-                onPress={() => navigation.goBack()}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 10,
-                    backgroundColor: '#80006A',
-                    width: wp('90%'),
-                  }}>
-                  <Text
-                    style={{
-                      padding: Platform.OS == 'ios' ? 20 : 10,
-                      color: '#fff',
-                      textTransform: 'uppercase',
-                    }}>
-                    Volver
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            </View>
+            {buttomGroup(vacunacions)}
           </View>
         )}
         {type === 'control medico' && (
@@ -418,31 +444,7 @@ const DetailsGeneral = ({route}) => {
                 </View>
               )}
             </View>
-            <View style={{alignItems: 'center', marginVertical: 10}}>
-              <TouchableHighlight
-                underlayColor="transparent"
-                onPress={() =>
-                  navigation.goBack()
-                }>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 10,
-                    backgroundColor: '#80006A',
-                    width: wp('90%'),
-                  }}>
-                  <Text
-                    style={{
-                      padding: Platform.OS == 'ios' ? 20 : 10,
-                      color: '#fff',
-                      textTransform: 'uppercase',
-                    }}>
-                    Volver
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            </View>
+            {buttomGroup(controllerMedics)}
           </View>
         )}
       </ImageBackground>

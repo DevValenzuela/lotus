@@ -356,3 +356,26 @@ export const CONSULT_NOTIFYCS_LIST = gql`
     }
   }
 `;
+
+export const CONSULT_NOTIFY_LIST = gql`
+  query notifyc($id: String!) {
+    notifycs(where: {id_notify: $id}) {
+      id
+    }
+  }
+`;
+
+export const CONSULT_NOTIFY_APP = gql`
+  query Notifycs($id: ID!) {
+    notifycs(sort: "date_notify:asc", where: {id_user: $id}) {
+      id
+      id_notify
+      id_mascot
+      id_user
+      id_type
+      date_notify
+      date
+      type
+    }
+  }
+`;
