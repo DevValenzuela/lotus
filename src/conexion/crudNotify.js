@@ -64,7 +64,7 @@ const ConsultNotify = setNotify => {
   db.transaction(
     tx => {
       tx.executeSql(
-        'SELECT * FROM Notify ORDER BY id DESC',
+        'SELECT * FROM Notify ORDER BY last_date ASC',
         [],
         function (tx, results) {
           let resp = [];

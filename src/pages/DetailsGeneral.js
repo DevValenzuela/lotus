@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -21,7 +21,8 @@ import {
 } from './apolllo/query';
 import {DELETE_NOTIFY_APP} from './apolllo/grahpql';
 import {UserContext} from '../context/userContext';
-import {Loading} from '../components/sharedComponent';
+import {Loading, ModalAlertDeleteNotify} from '../components/sharedComponent';
+
 
 const DetailsGeneral = ({route}) => {
   const {
@@ -30,31 +31,12 @@ const DetailsGeneral = ({route}) => {
 
   const navigation = useNavigation();
   const {idMascot, id_mascot, type, idDetails} = route.params;
-
+  const [getModal, setModal] = useState(false);
   /** Delete medicament **/
-  const [deleteNotify, {loading: loading_1}] = useMutation(DELETE_NOTIFY_APP, {
-    update(cache, {data: {deleteNotifyc}}) {
-      const {
-        notifyc: {id},
-      } = deleteNotifyc;
+  const [deleteNotify, {loading: loading_1}] = useMutation(DELETE_NOTIFY_APP);
 
-      const {notifycs} = cache.readQuery({
-        query: CONSULT_NOTIFY_APP,
-        variables: {
-          id: user.id,
-        },
-      });
-
-      cache.writeQuery({
-        query: CONSULT_NOTIFY_APP,
-        data: {
-          notifycs: notifycs.filter(notify => notify.id !== id),
-        },
-      });
-    },
-  });
-
-  const deleteItem = async () => {
+  const actionModalCancel = () => setModal(!getModal);
+  const actionModalYes = async () => {
     try {
       await deleteNotify({
         variables: {
@@ -65,58 +47,71 @@ const DetailsGeneral = ({route}) => {
     } catch (error) {
       console.log(error);
     }
+
+    setModal(!getModal);
+  };
+
+  const deleteItem = async () => {
+    setModal(true);
   };
 
   const buttomGroup = result => {
     return (
-      <View style={{flexDirection: 'row'}}>
-        <View style={{flex: 1}}>
-          <TouchableHighlight
-            underlayColor="transparent"
-            onPress={() => navigation.goBack()}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 5,
-                backgroundColor: '#80006A',
-                margin: 2,
-              }}>
-              <Text
+      <SafeAreaView>
+        <ModalAlertDeleteNotify
+          modalVisible={getModal}
+          send={() => actionModalCancel()}
+          action={() => actionModalYes()}
+        />
+        <View style={{flexDirection: 'row'}}>
+          <View style={{flex: 1}}>
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => navigation.goBack()}>
+              <View
                 style={{
-                  padding: Platform.OS == 'ios' ? 20 : 10,
-                  color: '#fff',
-                  textTransform: 'uppercase',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                  backgroundColor: '#80006A',
+                  margin: 2,
                 }}>
-                Volver
-              </Text>
-            </View>
-          </TouchableHighlight>
-        </View>
-        <View style={{flex: 1}}>
-          <TouchableHighlight
-            underlayColor="transparent"
-            onPress={() => deleteItem(result)}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 5,
-                backgroundColor: '#920716',
-                margin: 2,
-              }}>
-              <Text
+                <Text
+                  style={{
+                    padding: Platform.OS == 'ios' ? 20 : 10,
+                    color: '#fff',
+                    textTransform: 'uppercase',
+                  }}>
+                  Volver
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+          <View style={{flex: 1}}>
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => deleteItem(result)}>
+              <View
                 style={{
-                  padding: Platform.OS == 'ios' ? 20 : 10,
-                  color: '#fff',
-                  textTransform: 'uppercase',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                  backgroundColor: '#920716',
+                  margin: 2,
                 }}>
-                Eliminar
-              </Text>
-            </View>
-          </TouchableHighlight>
+                <Text
+                  style={{
+                    padding: Platform.OS == 'ios' ? 20 : 10,
+                    color: '#fff',
+                    textTransform: 'uppercase',
+                  }}>
+                  Eliminar
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   };
 

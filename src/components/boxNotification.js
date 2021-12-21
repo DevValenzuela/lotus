@@ -52,7 +52,7 @@ const BoxNotifyCation = ({data_notify}) => {
     setVisible(false);
     setModal(!getModal);
   };
-  console.log("Result: " + getMascot)
+
 
   return (
     <SafeAreaView>

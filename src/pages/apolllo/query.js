@@ -358,7 +358,7 @@ export const CONSULT_NOTIFYCS_LIST = gql`
 `;
 
 export const CONSULT_NOTIFY_LIST = gql`
-  query notifyc($id: String!) {
+  query Notifycs($id: String!) {
     notifycs(where: {id_notify: $id}) {
       id
     }
