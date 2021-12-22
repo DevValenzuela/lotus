@@ -6,17 +6,18 @@ export const style = StyleSheet.create({
     backgroundColor: '#330066',
     paddingHorizontal: 15,
     paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bgImage: {
     flex: 1,
   },
   containerForm: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: 'rgba(102,0,102,0.69)',
+    maxWidth: 700
   },
   containerContent: {
-    backgroundColor: 'rgba(102,0,102,0.69)',
-    maxWidth: 500,
+    width: '100%',
     padding: 10,
     borderRadius: 10,
   },
