@@ -11,11 +11,14 @@ export const style = StyleSheet.create({
     flex: 1,
   },
   containerForm: {
-    backgroundColor: 'rgba(102,0,102,0.69)',
-    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    maxWidth: 500
+  },
+  containerContent: {
+    backgroundColor: 'rgba(102,0,102,0.69)',
+    maxWidth: 500,
+    padding: 10,
+    borderRadius: 10,
   },
   label: {
     fontSize: 14,
@@ -100,20 +103,20 @@ export const style = StyleSheet.create({
     color: '#ffffff',
     textTransform: 'uppercase',
   },
-  symbol:{
+  symbol: {
     position: 'absolute',
     right: 3,
     backgroundColor: '#330066',
     padding: 12,
     top: 1,
-    color: '#ffffff'
+    color: '#ffffff',
   },
-  error:{
+  error: {
     backgroundColor: '#3C0065',
     color: '#fff',
     width: '98%',
     padding: 10,
     textAlign: 'center',
-    borderRadius: 10
-  }
+    borderRadius: 10,
+  },
 });

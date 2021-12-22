@@ -219,7 +219,7 @@ const Medicament = ({route, navigation}) => {
               errors,
             }) => (
               <View style={style.containerForm}>
-                <View>
+                <View style={style.containerContent}>
                   <Text style={style.label}>Último Dosis</Text>
                   <View>
                     <TextInput

@@ -196,7 +196,7 @@ const ControlMedic = ({route, navigation}) => {
               errors,
             }) => (
               <View style={style.containerForm}>
-                <View>
+                <View style={style.containerContent}>
                   <Text style={style.label}>Último Control</Text>
                   <TextInput
                     placeholderTextColor="#5742A2"

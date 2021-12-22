@@ -196,7 +196,7 @@ const Deworming = ({route, navigation}) => {
               errors,
             }) => (
               <View style={style.containerForm}>
-                <View>
+                <View style={style.containerContent}>
                   <Text style={style.label}>Última Desparacitación</Text>
                   <TextInput
                     placeholderTextColor="#5742A2"
