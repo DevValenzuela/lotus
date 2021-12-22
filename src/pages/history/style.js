@@ -20,7 +20,9 @@ export const style = StyleSheet.create({
     paddingVertical: 0,
     paddingHorizontal: 10,
     borderRadius: 10,
-    height: 65
+    height: 65,
+    width: 400,
+    maxWidth: 400,
   },
   image: {
     width: 25,
@@ -30,13 +32,15 @@ export const style = StyleSheet.create({
   btnAdd: {
     width: '90%',
     backgroundColor: '#660066',
-    borderRadius: 10
+    borderRadius: 10,
+    maxWidth: 500,
   },
   btnTxtAdd: {
     color: '#ffffff',
     padding: Platform.OS === 'ios' ? 20 : 10,
     textAlign: 'center',
     textTransform: 'uppercase',
+
   },
   iconActions:{
     width: 20

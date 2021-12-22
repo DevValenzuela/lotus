@@ -89,7 +89,7 @@ const VaccinateFilters = () => {
             </Text>
           </View>
         ) : (
-          <View style={{flex: 1}}>
+          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <FlatList
               data={getSearchResult}
               renderItem={renderItem}

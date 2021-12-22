@@ -273,7 +273,7 @@ PODS:
     - React-Core
   - react-native-image-picker (4.1.1):
     - React-Core
-  - react-native-netinfo (6.0.2):
+  - react-native-netinfo (6.0.4):
     - React-Core
   - react-native-safe-area-context (3.3.2):
     - React-Core
@@ -347,9 +347,11 @@ PODS:
     - React-perflogger (= 0.65.1)
   - RNCAsyncStorage (1.15.8):
     - React-Core
+  - RNCPushNotificationIOS (1.10.1):
+    - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNScreens (3.7.1):
+  - RNScreens (3.8.0):
     - React-Core
     - React-RCTImage
   - RNVectorIcons (8.1.0):
@@ -416,6 +418,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -508,6 +511,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
@@ -549,7 +554,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 41e58e5b8e3e0bf061fdf725b03f2144014a8fb0
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
   react-native-image-picker: 7c37cd600a9b7338ced8609cc3ad108ebe6c444f
-  react-native-netinfo: 8917788f12f8c422d16a56f840a1b06faa56e2b6
+  react-native-netinfo: 78bb0c4bf96177a14ea1bba951de9ad27419965b
   react-native-safe-area-context: 5cf05f49df9d17261e40e518481f2e334c6cd4b5
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-sqlite-storage: 6df009b8b67fe34c57c5fd06ee8fff7669fece6d
@@ -566,12 +571,13 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 85187f19dd9c47a7c102f9994f9d14e4dc2110de
   ReactCommon: eafed38eec7b591c31751bfa7494801618460459
   RNCAsyncStorage: 0f655864a81214d1c5a9bf0faf79d86dc25c383e
+  RNCPushNotificationIOS: 089da3b657e1e3d464f38195fd2e3069608ef5af
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNScreens: e5139736fcf67f4ddaa849d13a8adccbb0cedf81
+  RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: 7fab0e350783c893636aaba51bfe682a5a3fb644
 
-COCOAPODS: 1.11.0
+COCOAPODS: 1.10.1

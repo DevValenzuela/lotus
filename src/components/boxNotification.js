@@ -58,7 +58,7 @@ const BoxNotifyCation = ({data_notify}) => {
       return lastDay.diff(nowDay, 'days');
     }
   };
-  
+
   return (
     <SafeAreaView>
       <ModalAlertDeleteNotify

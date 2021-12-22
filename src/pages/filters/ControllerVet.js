@@ -4,8 +4,9 @@ import {
   SafeAreaView,
   FlatList,
   View,
-  Text, Image,
-} from "react-native";
+  Text,
+  Image,
+} from 'react-native';
 import {style} from './style';
 
 import {CONSULT_NOTIFYCS_LIST} from '../apolllo/query';
@@ -86,7 +87,8 @@ const ControllerVet = () => {
             </Text>
           </View>
         ) : (
-          <View style={{flex: 1}}>
+          <View
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <FlatList
               data={getSearchResult}
               renderItem={renderItem}

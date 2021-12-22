@@ -46,6 +46,7 @@ const style = StyleSheet.create({
     borderRadius: 10,
     width: '90%',
     padding: Platform.OS == 'ios' ? 8 : 5,
+    maxWidth: 400
   },
   btnTxtDelete: {
     padding: 10,

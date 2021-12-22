@@ -102,7 +102,7 @@ const EditProfile = ({navigation}) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <View style={{flex: 1, alignItems: 'center'}}>
+                  <View style={{flex: 1, alignItems: 'center', maxWidth: 430}}>
                     <View style={style.editContainer}>
                       <AvatarOption />
                       <TextInput

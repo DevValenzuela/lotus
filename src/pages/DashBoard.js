@@ -94,12 +94,14 @@ const DashBoard = ({navigation}) => {
                 {
                   flex: 1,
                   flexDirection: 'column',
+                  alignItems: 'center'
                 },
               ]}>
               <View
                 style={{
                   height: hp('29%'),
                   alignItems: 'center',
+                  maxWidth: 500
                 }}>
                 {data?.banners && isConnected ? (
                   <Carousel offers={data?.banners} />
@@ -116,6 +118,7 @@ const DashBoard = ({navigation}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: hp('32%'),
+
                 }}>
                 <View
                   style={{
@@ -123,6 +126,7 @@ const DashBoard = ({navigation}) => {
                     width: wp('69%'),
                     flexWrap: 'wrap',
                     marginLeft: 10,
+                    maxWidth: 550,
                   }}>
                   <BtnAction
                     navigation={navigation}

@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   banner: {
     width: wp('100%'),
     height: hp('26%'),
+    maxWidth: 500,
   },
 });
 export default Carousel;

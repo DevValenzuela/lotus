@@ -206,15 +206,15 @@ const style = StyleSheet.create({
     height: 15,
   },
   itemContent: {
-    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: '#660066',
     marginVertical: 3,
     marginHorizontal: 10,
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 10,
+    width: 400,
+    maxWidth: 400,
   },
   circle: {
     backgroundColor: '#452070',

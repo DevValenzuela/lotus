@@ -238,7 +238,7 @@ const MedicHistory = ({navigation, route}) => {
             <Text style={style.btnTxtAdd}>Nueva Entrada</Text>
           </View>
         </TouchableHighlight>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, alignItems: 'center'}}>
           <FlatList
             data={results}
             renderItem={renderItem}
