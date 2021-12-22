@@ -19,6 +19,8 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
+import SelectPicker from 'react-native-form-select-picker';
+
 import moment from 'moment';
 import {database} from '../conexion/crudSqlite';
 import {useMutation} from '@apollo/client';
@@ -35,6 +37,8 @@ import {
 import {verifyDB} from '../conexion/crudVerify';
 import NotifyService from '../hooks/notifyService';
 
+const options = ['Perro', 'Gato', 'Hamster'];
+
 const AddMascot = ({navigation}) => {
   const {
     dispatchUserEvent,
@@ -49,6 +53,7 @@ const AddMascot = ({navigation}) => {
   const [setDate, getDate] = useState('');
   const [erroDate, setErrorDate] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [setTypeMascot, getTypeMascot] = useState();
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const [createMascot, {loading: loadingA}] = useMutation(ADD_MASCOT_APP);
   const isConnected = useIsConnected();
@@ -71,7 +76,6 @@ const AddMascot = ({navigation}) => {
     age_mascot: Yup.number()
       .integer('No se aceptan puntos(.) ni comas(,)')
       .required('Ingresa la edad mascota.'),
-    type_mascot: Yup.string().required('Ingresa el tipo de mascota.'),
     race_mascot: Yup.string().required('Ingresa la raza de la mascota.'),
   });
 
@@ -126,6 +130,7 @@ const AddMascot = ({navigation}) => {
       id_mascot: id,
       age_mascot: Number(values.age_mascot),
       sterilized: setSterilized,
+      type_mascot: setTypeMascot,
       date_sterilized: setDate,
       microchip: setMicrochip,
       user: user ? Number(user.id) : null,
@@ -234,8 +239,9 @@ const AddMascot = ({navigation}) => {
                   </View>
                   <View>
                     <Text style={style.label}>Tipo de mascota</Text>
-                    <TextInput
-                      placeholderTextColor="#5742A2"
+                    <SelectPicker
+                      placeholder="Seleccione tipo mascota"
+                      placeholderStyle={{color: '#5742A2'}}
                       style={[
                         style.inputText,
                         {
@@ -244,21 +250,18 @@ const AddMascot = ({navigation}) => {
                           color: '#330066',
                         },
                       ]}
-                      placeholder="Ej: Pitbull"
-                      onChangeText={handleChange('type_mascot')}
-                      onBlur={handleBlur('type_mascot')}
-                      value={values.type_mascot}
-                      maxLength={12}
-                    />
-                    {errors.type_mascot && touched.type_mascot ? (
-                      <View
-                        style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <Text style={style.error}>{errors.type_mascot}</Text>
-                      </View>
-                    ) : null}
+                      onValueChange={value => {
+                        getTypeMascot(value);
+                      }}
+                      selected={setTypeMascot}>
+                      {Object.values(options).map((val, index) => (
+                        <SelectPicker.Item
+                          label={val}
+                          value={val}
+                          key={index}
+                        />
+                      ))}
+                    </SelectPicker>
                     <Text style={style.label}>Raza</Text>
                     <TextInput
                       placeholderTextColor="#5742A2"
