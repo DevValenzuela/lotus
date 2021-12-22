@@ -70,63 +70,69 @@ const BoxNotifyCation = ({data_notify}) => {
         <LongPressGestureHandler
           onHandlerStateChange={() => sendModal()}
           minDurationMs={800}>
-          <View style={style.container}>
-            <View style={{flex: 1, padding: 10}}>
-              {(() => {
-                if (isConnect && getMascot?.avatar_mascot) {
-                  const {
-                    avatar_mascot: {url},
-                  } = getMascot;
-                  return (
-                    <Image
-                      style={style.cardImage}
-                      source={{uri: `${API_URL}${url}`}}
-                    />
-                  );
-                } else {
-                  return (
-                    <Image
-                      style={style.cardImage}
-                      source={require('../assets/images/not_image_small.jpg')}
-                    />
-                  );
-                }
-              })()}
-            </View>
-            <View style={{flex: 2, padding: 10, paddingLeft: 20}}>
-              <Text style={{color: '#00FFFF', fontWeight: 'bold'}}>
-                {getMascot?.name_mascot}
-              </Text>
-              <Text style={{color: '#fff', fontWeight: '200', fontSize: 12}}>
-                {data_notify?.title}
-              </Text>
-            </View>
-            <View
-              style={{
-                flex: 3,
-                padding: 10,
-                flexDirection: 'row',
-              }}>
-              <View>
-                <Text
-                  style={{
-                    color: '#00FFFF',
-                    fontWeight: 'bold',
-                    fontSize: 25,
-                    paddingHorizontal: 10,
-                  }}>
-                  { number() > 9 ? number() : '0' + number().toString().slice(-2)  }
+          <View style={{alignItems: 'center'}}>
+            <View style={style.container}>
+              <View style={{flex: 1, padding: 10}}>
+                {(() => {
+                  if (isConnect && getMascot?.avatar_mascot) {
+                    const {
+                      avatar_mascot: {url},
+                    } = getMascot;
+                    return (
+                      <Image
+                        style={style.cardImage}
+                        source={{uri: `${API_URL}${url}`}}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Image
+                        style={style.cardImage}
+                        source={require('../assets/images/not_image_small.jpg')}
+                      />
+                    );
+                  }
+                })()}
+              </View>
+              <View style={{flex: 2, padding: 10, paddingLeft: 20}}>
+                <Text style={{color: '#00FFFF', fontWeight: 'bold'}}>
+                  {getMascot?.name_mascot}
+                </Text>
+                <Text style={{color: '#fff', fontWeight: '200', fontSize: 12}}>
+                  {data_notify?.title}
                 </Text>
               </View>
-              <View>
-                <Text
-                  style={{color: '#00FFFF', fontWeight: '300', fontSize: 12}}>
-                  Días Restantes
-                </Text>
-                <Text
-                  style={{color: '#ffffff', fontWeight: '300', fontSize: 12}}>
-                  {moment(new Date(data_notify.last_date)).format('YYYY-MM-DD')}
-                </Text>
+              <View
+                style={{
+                  flex: 3,
+                  padding: 10,
+                  flexDirection: 'row',
+                }}>
+                <View>
+                  <Text
+                    style={{
+                      color: '#00FFFF',
+                      fontWeight: 'bold',
+                      fontSize: 25,
+                      paddingHorizontal: 10,
+                    }}>
+                    {number() > 9
+                      ? number()
+                      : '0' + number().toString().slice(-2)}
+                  </Text>
+                </View>
+                <View>
+                  <Text
+                    style={{color: '#00FFFF', fontWeight: '300', fontSize: 12}}>
+                    Días Restantes
+                  </Text>
+                  <Text
+                    style={{color: '#ffffff', fontWeight: '300', fontSize: 12}}>
+                    {moment(new Date(data_notify.last_date)).format(
+                      'YYYY-MM-DD',
+                    )}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -147,6 +153,7 @@ const style = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 5,
     borderRadius: 10,
+    maxWidth: 400,
   },
   cardImage: {
     width: 60,
