@@ -24,8 +24,6 @@ const BoxNotifyCation = ({data_notify}) => {
   let nowDay = moment(date);
   let lastDay = moment(data_notify.last_date);
 
-
-
   useEffect(() => {
     if (data_notify) {
       const {id_mascot} = data_notify;
@@ -53,6 +51,14 @@ const BoxNotifyCation = ({data_notify}) => {
     setModal(!getModal);
   };
 
+  const number = () => {
+    if (lastDay.diff(nowDay, 'days') <= -1) {
+      return 0;
+    } else {
+      return lastDay.diff(nowDay, 'days');
+    }
+  };
+  
   return (
     <SafeAreaView>
       <ModalAlertDeleteNotify
@@ -109,9 +115,7 @@ const BoxNotifyCation = ({data_notify}) => {
                     fontSize: 25,
                     paddingHorizontal: 10,
                   }}>
-                  {lastDay.diff(nowDay, 'days') <= -1
-                    ? 0
-                    : lastDay.diff(nowDay, 'days')}
+                  { number() > 9 ? number() : '0' + number().toString().slice(-2)  }
                 </Text>
               </View>
               <View>
