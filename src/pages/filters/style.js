@@ -48,7 +48,7 @@ export const style = StyleSheet.create({
     color: '#330066',
     fontSize: 14,
   },
-  iconActions:{
-    width: 20
-  }
+  iconActions: {
+    width: 20,
+  },
 });

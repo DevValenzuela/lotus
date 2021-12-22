@@ -97,95 +97,99 @@ const ListBoxFilters = ({data}) => {
   };
 
   return (
-    <View
-      style={[
-        style.itemContent,
-        {
-          flexDirection: 'row',
-        },
-      ]}>
+    <View style={{alignItems: 'center'}}>
       <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        {image ? (
-          <Image
-            source={{uri: `${API_URL}${image}`}}
-            style={style.avatarMascot}
-          />
-        ) : (
-          <Image
-            source={require('./../assets/images/not_image.jpg')}
-            style={style.avatarMascot}
-          />
-        )}
+        style={[
+          style.itemContent,
+          {
+            flexDirection: 'row',
+          },
+        ]}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {image ? (
+            <Image
+              source={{uri: `${API_URL}${image}`}}
+              style={style.avatarMascot}
+            />
+          ) : (
+            <Image
+              source={require('./../assets/images/not_image.jpg')}
+              style={style.avatarMascot}
+            />
+          )}
 
-        <View style={style.circle}>{imageCategory()[0]}</View>
-      </View>
-      <View
-        style={{
-          flex: 2,
-          justifyContent: 'center',
-          paddingLeft: 15,
-        }}>
-        <Text style={{fontSize: 16, color: '#ffffff'}}>
-          {getMascot[0]?.name_mascot.toUpperCase()}
-        </Text>
-        <Text style={{fontSize: 10, color: '#ffffff'}}>
-          {'Fecha: ' + moment(lastDay).format('DD/MM/YYYY')}
-        </Text>
-      </View>
-      <View
-        style={{
-          flex: 2,
-          justifyContent: 'center',
-          paddingHorizontal: 3,
-          flexDirection: 'row',
-        }}>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 28, color: '#00FFFF', fontWeight: '700'}}>
-            { number() > 9 ? number() : 0 + number().toString().slice(-2) }
+          <View style={style.circle}>{imageCategory()[0]}</View>
+        </View>
+        <View
+          style={{
+            flex: 2,
+            justifyContent: 'center',
+            paddingLeft: 15,
+          }}>
+          <Text style={{fontSize: 16, color: '#ffffff'}}>
+            {getMascot[0]?.name_mascot.toUpperCase()}
+          </Text>
+          <Text style={{fontSize: 10, color: '#ffffff'}}>
+            {'Fecha: ' + moment(lastDay).format('DD/MM/YYYY')}
           </Text>
         </View>
-        <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 12, color: '#00FFFF'}}>Días restantes</Text>
-        </View>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <TouchableHighlight
-          style={{alignItems: 'center'}}
-          onPress={() =>
-            navigation.navigate('DetailsGeneral', {
-              idDetails: id_type,
-              idMascot: id,
-              type: imageCategory()[1],
-              id_mascot,
-              id_notify
-            })
-          }
-          underlayColor="transparent">
+        <View
+          style={{
+            flex: 2,
+            justifyContent: 'center',
+            paddingHorizontal: 3,
+            flexDirection: 'row',
+          }}>
           <View
-            style={{
-              paddingHorizontal: 6,
-              paddingVertical: 6,
-              backgroundColor: 'rgba(51,0,102,0.56)',
-              margin: 4,
-              borderRadius: 4,
-            }}>
-            <Image
-              source={require('./../assets/images/detailsicon.png')}
-              resizeMode="contain"
-              style={style.iconActions}
-            />
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 28, color: '#00FFFF', fontWeight: '700'}}>
+              {number() > 9 ? number() : 0 + number().toString().slice(-2)}
+            </Text>
           </View>
-        </TouchableHighlight>
+          <View
+            style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 12, color: '#00FFFF'}}>Días restantes</Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TouchableHighlight
+            style={{alignItems: 'center'}}
+            onPress={() =>
+              navigation.navigate('DetailsGeneral', {
+                idDetails: id_type,
+                idMascot: id,
+                type: imageCategory()[1],
+                id_mascot,
+                id_notify,
+              })
+            }
+            underlayColor="transparent">
+            <View
+              style={{
+                paddingHorizontal: 6,
+                paddingVertical: 6,
+                backgroundColor: 'rgba(51,0,102,0.56)',
+                margin: 4,
+                borderRadius: 4,
+              }}>
+              <Image
+                source={require('./../assets/images/detailsicon.png')}
+                resizeMode="contain"
+                style={style.iconActions}
+              />
+            </View>
+          </TouchableHighlight>
+        </View>
       </View>
     </View>
   );
@@ -213,8 +217,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 10,
-    width: 400,
-    maxWidth: 400,
+    maxWidth: 450
   },
   circle: {
     backgroundColor: '#452070',

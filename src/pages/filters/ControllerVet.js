@@ -88,7 +88,7 @@ const ControllerVet = () => {
           </View>
         ) : (
           <View
-            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            style={{flex: 1}}>
             <FlatList
               data={getSearchResult}
               renderItem={renderItem}

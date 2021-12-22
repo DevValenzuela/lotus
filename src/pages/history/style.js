@@ -12,8 +12,8 @@ export const style = StyleSheet.create({
     color: '#fff',
   },
   item: {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
     backgroundColor: '#562A8C',
     marginVertical: 5,
     marginHorizontal: 10,
@@ -21,8 +21,6 @@ export const style = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 10,
     height: 65,
-    width: 400,
-    maxWidth: 400,
   },
   image: {
     width: 25,

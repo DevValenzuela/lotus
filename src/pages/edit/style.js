@@ -9,14 +9,13 @@ export const style = StyleSheet.create({
   },
   bgImage: {
     flex: 1,
-    alignItems: 'center',
   },
   containerForm: {
     backgroundColor: 'rgba(102,0,102,0.69)',
-    padding: 5,
     borderRadius: 10,
-    width: 390,
-    maxWidth: 390,
+    justifyContent: 'center',
+    alignItems: 'center',
+    maxWidth: 500
   },
   label: {
     fontSize: 14,
