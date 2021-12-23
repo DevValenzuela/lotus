@@ -153,7 +153,7 @@ const style = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 5,
     borderRadius: 10,
-    maxWidth: 400,
+    maxWidth: 450,
   },
   cardImage: {
     width: 60,
