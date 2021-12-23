@@ -254,13 +254,16 @@ const AddMascot = ({navigation}) => {
                         getTypeMascot(value);
                       }}
                       selected={setTypeMascot}>
-                      {Object.values(options).map((val, index) => (
-                        <SelectPicker.Item
-                          label={val}
-                          value={val}
-                          key={index}
-                        />
-                      ))}
+                      {Object.values(options).map((val, index) => {
+                        let number = index + 1;
+                        return (
+                          <SelectPicker.Item
+                            label={val}
+                            value={val}
+                            key={number}
+                          />
+                        );
+                      })}
                     </SelectPicker>
                     <Text style={style.label}>Raza</Text>
                     <TextInput
