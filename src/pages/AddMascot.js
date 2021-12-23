@@ -319,7 +319,7 @@ const AddMascot = ({navigation}) => {
                         </TouchableHighlight>
                       </View>
                     </View>
-                    <Text style={style.label}>Fecha de especialización</Text>
+                    <Text style={style.label}>Fecha de esterilización</Text>
                     <TextInput
                       placeholderTextColor="#5742A2"
                       style={[
@@ -390,7 +390,7 @@ const AddMascot = ({navigation}) => {
                     )}
 
                     <Text style={style.label}>
-                      Enfermedades o cuidados Especiales
+                      Enfermedades o cuidados especiales
                     </Text>
 
                     <View style={{marginHorizontal: 5, marginVertical: 2}}>

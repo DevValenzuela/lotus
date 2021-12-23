@@ -196,7 +196,13 @@ const Medicament = ({route, navigation}) => {
   if (error || UpdateError) console.log(error);
 
   return (
-    <SafeAreaView style={style.container}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#330066',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+      }}>
       <ImageBackground
         source={require('./../../assets/images/bg_lotus.png')}
         resizeMode="cover"
@@ -218,8 +224,15 @@ const Medicament = ({route, navigation}) => {
               values,
               errors,
             }) => (
-              <View style={style.containerForm}>
-                <View style={style.containerContent}>
+              <View style={{alignItems: 'center'}}>
+                <View
+                  style={[
+                    style.containerContent,
+                    {
+                      backgroundColor: 'rgba(102,0,102,0.69)',
+                      maxWidth: 500,
+                    },
+                  ]}>
                   <Text style={style.label}>Último Dosis</Text>
                   <View>
                     <TextInput
